@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Earth Vienna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .discord-banner {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            background: #4752C4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+        }
+
+        .discord-btn i {
+            font-size: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .authors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .author-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .author-name {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .author-role {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .author-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .link:hover {
+            color: #764ba2;
+            transform: translateX(5px);
+        }
+
+        .link i {
+            font-size: 1.2rem;
+        }
+
+        .files {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .file-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-card a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 2.5rem;
+        }
+
+        .file-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .file-size {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .server-ip-box {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .server-ip-box p:first-child {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .server-ip-box p:last-child {
+            font-size: 1.3rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .buildplates-info {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-header h3 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .requirements {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .requirement-item .number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .requirement-item .text {
+            color: #333;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .info-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info-note i {
+            color: #ffc107;
+            font-size: 1.3rem;
+        }
+
+        .info-note span {
+            color: #856404;
+            font-weight: 500;
+        }
+
+        .copy-ip-btn {
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-ip-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .copy-ip-btn:active {
+            transform: translateY(0);
+        }
+
+        .ip-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ip-container p {
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .authors {
+                grid-template-columns: 1fr;
+            }
+
+            .ip-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .discord-btn {
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Заголовок -->
+        <h1>🎮 Minecraft Earth Vienna</h1>
+        <p class="subtitle">Проект от команды разработчиков</p>
+
+        <!-- Discord Banner -->
+        <div class="discord-banner">
+            <a href="https://discord.gg/tWb8RFEMC" target="_blank" class="discord-btn">
+                <i class="fab fa-discord"></i>
+                Присоединяйся к нашему Discord!
+            </a>
+        </div>
+
+        <!-- Авторы -->
+        <div class="section">
+            <h2 class="section-title">👥 Создатели</h2>
+            <div class="authors">
+                <!-- Автор 1 -->
+                <div class="author-card">
+                    <div class="author-name">SuperDima8050</div>
+                    <div class="author-role">Помощник | Разработчик | Создатель сайта</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@superdima8050</span>
+                        </a>
+                        <a href="https://github.com/SuperDima8050" class="link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>github.com/SuperDima8050</span>
+                        </a>
+                        <a href="https://mcearthproject.qzz.io" class="link" target="_blank">
+                            <i class="fas fa-globe"></i>
+                            <span>mcearthproject.qzz.io</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Автор 2 -->
+                <div class="author-card">
+                    <div class="author-name">Kostyaniche</div>
+                    <div class="author-role">Гл. Разработчик проекта</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@kostyaniche</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Автор 3 -->
+                <div class="author-card">
+                    <div class="author-name">Micheal65536</div>
+                    <div class="author-role">Основатель</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/864232575853658183" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@micheal65536</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Файлы для скачивания через CDN -->
+        <div class="section">
+            <h2 class="section-title">📦 Скачать Файлы</h2>
+            <div class="files">
+                <!-- Файл 1 -->
+                <div class="file-card">
+                    <a href="https://mcearthproject.qzz.io/files/plugin.jar" download>
+                        <div class="file-icon">📄</div>
+                        <div class="file-name">Plugin.jar</div>
+                        <div class="file-size">2.5 MB</div>
+                    </a>
+                </div>
+
+                <!-- Файл 2 -->
+                <div class="file-card">
+                    <a href="https://mcearthproject.qzz.io/files/config.yml" download>
+                        <div class="file-icon">⚙️</div>
+                        <div class="file-name">Config.yml</div>
+                        <div class="file-size">15 KB</div>
+                    </a>
+                </div>
+
+                <!-- Файл 3 -->
+                <div class="file-card">
+                    <a href="https://mcearthproject.qzz.io/files/map.zip" download>
+                        <div class="file-icon">🗺️</div>
+                        <div class="file-name">Map.zip</div>
+                        <div class="file-size">150 MB</div>
+                    </a>
+                </div>
+
+                <!-- Файл 4 -->
+                <div class="file-card">
+                    <a href="https://mcearthproject.qzz.io/files/readme.pdf" download>
+                        <div class="file-icon">📋</div>
+                        <div class="file-name">ReadMe.pdf</div>
+                        <div class="file-size">500 KB</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Инструкция для Buildplates -->
+        <div class="section">
+            <h2 class="section-title">🏗️ Как начать строить Buildplates</h2>
+            <div class="buildplates-info">
+                <div class="info-header">
+                    <h3>Необходимое для подключения:</h3>
+                </div>
+                
+                <div class="requirements">
+                    <div class="requirement-item">
+                        <span class="number">1</span>
+                        <span class="text">FABRIC API 1.20.4</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">2</span>
+                        <span class="text">FABRIC 1.20.4</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">3</span>
+                        <span class="text">+ ПЛАГИНЫ ВЫШЕ</span>
+                    </div>
+                </div>
+
+                <div class="server-ip-box" style="margin-top: 20px;">
+                    <p>IP Сервера:</p>
+                    <div class="ip-container">
+                        <p>washable-decision.gl.joinmc.link</p>
+                        <button class="copy-ip-btn" onclick="copyIP()">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>WORLDEDIT не обязательно, но рекомендовано!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyIP() {
+            const ip = 'washable-decision.gl.joinmc.link';
+            
+            // Копируем в буфер обмена
+            navigator.clipboard.writeText(ip).then(() => {
+                // Меняем текст кнопки на "Скопировано!"
+                const btn = document.querySelector('.copy-ip-btn');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+                btn.style.background = '#28a745';
+                
+                // Через 2 секунды возвращаем обратно
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                // Fallback для старых браузеров
+                const tempInput = document.createElement('input');
+                tempInput.value = ip;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                const btn = document.querySelector('.copy-ip-btn');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+                btn.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
