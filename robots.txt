@@ -25,7 +25,7 @@ Allow: /
 
 # Baidu (китайская поисковая система)
 User-agent: Baiduspider
-Allow: /
+Disallow: /
 
 # DuckDuckGo
 User-agent: DuckDuckBot
@@ -36,15 +36,15 @@ Allow: /
 
 # Facebook
 User-agent: facebookexternalhit
-Allow: /
+Disallow: /
 
 # Twitter
 User-agent: Twitterbot
-Allow: /
+Disallow: /
 
 # LinkedIn
 User-agent: LinkedInBot
-Allow: /
+Disallow: /
 
 # Telegram
 User-agent: TelegramBot
@@ -59,7 +59,7 @@ Allow: /
 
 # Common Crawl (используется для обучения AI)
 User-agent: CCBot
-Allow: /
+Disallow: /
 
 # Google Bard/Gemini
 User-agent: Google-Extended
@@ -71,11 +71,11 @@ Allow: /
 
 # Cohere AI
 User-agent: cohere-ai
-Allow: /
+Disallow: /
 
 # Perplexity AI
 User-agent: PerplexityBot
-Allow: /
+Disallow: /
 
 
 # ===== АГРЕГАТОРЫ И АРХИВЫ =====
@@ -116,6 +116,3 @@ Allow: /
 
 # Задержка между запросами (в секундах, не все боты поддерживают)
 # Crawl-delay: 10
-
-# Укажите URL вашей карты сайта
-# Sitemap: https://example.com/sitemap.xml
