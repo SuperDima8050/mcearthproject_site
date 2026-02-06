@@ -1,7 +1,0 @@
-# robots.txt для одностраничного сайта
-
-User-agent: *
-Allow: /
-
-# Sitemap (укажите URL вашего сайта)
-# Sitemap: https://example.com/sitemap.xml
