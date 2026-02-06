@@ -1,0 +1,121 @@
+# robots.txt для одностраничного сайта
+# Отредактируйте правила для нужных ботов
+
+# ===== ОСНОВНЫЕ ПОИСКОВЫЕ СИСТЕМЫ =====
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Google для изображений
+User-agent: Googlebot-Image
+Allow: /
+
+# Google для мобильных устройств
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Yandex
+User-agent: Yandex
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Baidu (китайская поисковая система)
+User-agent: Baiduspider
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+
+# ===== СОЦИАЛЬНЫЕ СЕТИ (для превью ссылок) =====
+
+# Facebook
+User-agent: facebookexternalhit
+Allow: /
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+
+# LinkedIn
+User-agent: LinkedInBot
+Allow: /
+
+# Telegram
+User-agent: TelegramBot
+Allow: /
+
+
+# ===== AI БОТЫ (для обучения моделей) =====
+
+# OpenAI GPT
+User-agent: GPTBot
+Allow: /
+
+# Common Crawl (используется для обучения AI)
+User-agent: CCBot
+Allow: /
+
+# Google Bard/Gemini
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic Claude
+User-agent: anthropic-ai
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+
+# ===== АГРЕГАТОРЫ И АРХИВЫ =====
+
+# Internet Archive Wayback Machine
+User-agent: ia_archiver
+Allow: /
+
+# Amazon Alexa
+User-agent: Amazonbot
+Allow: /
+
+
+# ===== НЕЖЕЛАТЕЛЬНЫЕ БОТЫ (примеры для блокировки) =====
+
+# Блокировка плохих ботов (раскомментируйте при необходимости)
+# User-agent: AhrefsBot
+# Disallow: /
+
+# User-agent: SemrushBot
+# Disallow: /
+
+# User-agent: MJ12bot
+# Disallow: /
+
+# User-agent: DotBot
+# Disallow: /
+
+
+# ===== ВСЕ ОСТАЛЬНЫЕ БОТЫ =====
+
+# Правило по умолчанию для всех остальных ботов
+User-agent: *
+Allow: /
+
+
+# ===== ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ =====
+
+# Задержка между запросами (в секундах, не все боты поддерживают)
+# Crawl-delay: 10
+
+# Укажите URL вашей карты сайта
+# Sitemap: https://example.com/sitemap.xml
