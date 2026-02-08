@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Earth Vienna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .discord-banner {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            background: #4752C4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+        }
+
+        .discord-btn i {
+            font-size: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .authors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .author-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .author-name {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .author-role {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .author-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .link:hover {
+            color: #764ba2;
+            transform: translateX(5px);
+        }
+
+        .link i {
+            font-size: 1.2rem;
+        }
+
+        .files {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .file-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-card a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 2.5rem;
+        }
+
+        .file-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .file-size {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .server-ip-box {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .server-ip-box p:first-child {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .server-ip-box p:last-child {
+            font-size: 1.3rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .buildplates-info {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .play-info {
+            background: #e8f5e9;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .info-header h3 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .play-info .info-header h3 {
+            color: #2e7d32;
+        }
+
+        .requirements {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .requirement-item .number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .play-info .requirement-item .number {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+        }
+
+        .requirement-item .text {
+            color: #333;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .zerotier-code {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .zerotier-code p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .code-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .code-text {
+            font-size: 1.3rem;
+            color: #4caf50;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+        }
+
+        .info-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info-note i {
+            color: #ffc107;
+            font-size: 1.3rem;
+        }
+
+        .info-note span {
+            color: #856404;
+            font-weight: 500;
+        }
+
+        .success-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #d4edda;
+            border-left: 4px solid #4caf50;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .success-note i {
+            color: #4caf50;
+            font-size: 1.3rem;
+        }
+
+        .success-note span {
+            color: #155724;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-zerotier-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+        }
+
+        .copy-zerotier-btn:hover {
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .ip-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ip-container p {
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .authors {
+                grid-template-columns: 1fr;
+            }
+
+            .ip-container,
+            .code-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .discord-btn {
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Заголовок -->
+        <h1>🎮 Minecraft Earth Vienna</h1>
+        <p class="subtitle">Проект от команды разработчиков</p>
+
+        <!-- Discord Banner -->
+        <div class="discord-banner">
+            <a href="https://discord.gg/tWb8RFEMC" target="_blank" class="discord-btn">
+                <i class="fab fa-discord"></i>
+                Присоединяйся к нашему Discord!
+            </a>
+        </div>
+
+        <!-- Инструкция как поиграть в Minecraft Earth -->
+        <div class="section">
+            <h2 class="section-title">🌍 Как поиграть в Minecraft Earth</h2>
+            <div class="play-info">
+                <div class="info-header">
+                    <h3>Привет! Следуй этим шагам:</h3>
+                </div>
+                
+                <div class="requirements">
+                    <div class="requirement-item">
+                        <span class="number">1</span>
+                        <span class="text">Установи ZeroTier One</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">2</span>
+                        <span class="text">Введи этот код в ZeroTier One</span>
+                    </div>
+                </div>
+
+                <div class="zerotier-code">
+                    <p>ZeroTier Network ID:</p>
+                    <div class="code-container">
+                        <p class="code-text">3b19b3a716030d76</p>
+                        <button class="copy-btn copy-zerotier-btn" onclick="copyZeroTier()">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                    </div>
+                </div>
+
+                <div class="requirements">
+                    <div class="requirement-item">
+                        <span class="number">3</span>
+                        <span class="text">Подожди, пока я авторизую тебя 🙂</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">4</span>
+                        <span class="text">Скачай файл ниже (4-й файл в секции "Скачать Файлы")</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">5</span>
+                        <span class="text">Включи ZeroTier One и наслаждайся игрой! 😊</span>
+                    </div>
+                </div>
+
+                <div class="success-note">
+                    <i class="fas fa-check-circle"></i>
+                    <span>После выполнения всех шагов ты сможешь играть в Minecraft Earth!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Авторы -->
+        <div class="section">
+            <h2 class="section-title">👥 Создатели</h2>
+            <div class="authors">
+                <!-- Автор 1 -->
+                <div class="author-card">
+                    <div class="author-name">SuperDima8050</div>
+                    <div class="author-role">Помощник | Разработчик | Создатель сайта</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@superdima8050</span>
+                        </a>
+                        <a href="https://github.com/SuperDima8050" class="link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>github.com/SuperDima8050</span>
+                        </a>
+                        <a href="https://mcearthproject.qzz.io" class="link" target="_blank">
+                            <i class="fas fa-globe"></i>
+                            <span>mcearthproject.qzz.io</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Автор 2 -->
+                <div class="author-card">
+                    <div class="author-name">Kostyaniche</div>
+                    <div class="author-role">Гл. Разработчик проекта | Хост</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@kostyaniche</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Автор 3 -->
+                <div class="author-card">
+                    <div class="author-name">Micheal65536</div>
+                    <div class="author-role">Основатель</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/864232575853658183" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@micheal65536</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Файлы для скачивания через CDN -->
+        <div class="section">
+            <h2 class="section-title">📦 Скачать Файлы</h2>
+            <div class="files">
+                <!-- Файл 1 -->
+                <div class="file-card">
+                    <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/fountain-0.0.1.jar" download>
+                        <div class="file-icon">📄</div>
+                        <div class="file-name">fountain-0.0.1.jar</div>
+                        <div class="file-size">2.00 MB</div>
+                    </a>
+                </div>
+
+                <!-- Файл -->
+                <div class="file-card">
+                    <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/fabric-api-0.94.1+1.20.4.jar" download>
+                        <div class="file-icon">⚙️</div>
+                        <div class="file-name">fabric-api-0.94.1+1.20.4.jar</div>
+                        <div class="file-size">127.96 KB</div>
+                    </a>
+                </div>
+
+                <!-- Файл 3 -->
+                <div class="file-card">
+                    <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/worldedit-mod-7.3.0-1.20.4-fabric-forge.jar" download>
+                        <div class="file-icon">🪓</div>
+                        <div class="file-name">worldedit-mod-7.3.0-1.20.4-fabric-forge.jar</div>
+                        <div class="file-size">5.84 MB</div>
+                    </a>
+                </div>
+
+                <!-- Файл 4 - Minecraft Earth -->
+                <div class="file-card">
+                    <a href="https://discord.gg/Ts4hJNxB9">
+                        <div class="file-icon">🌍</div>
+                        <div class="file-name">dev.projectearth.prod.apk</div>
+                        <div class="file-size">64 MB</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Инструкция для Buildplates -->
+        <div class="section">
+            <h2 class="section-title">🏗️ Как начать строить Buildplates с нами?</h2>
+            <div class="buildplates-info">
+                <div class="info-header">
+                    <h3>Необходимое для подключения к серверу:</h3>
+                </div>
+                
+                <div class="requirements">
+                    <div class="requirement-item">
+                        <span class="number">1</span>
+                        <span class="text">FABRIC API 1.20.4</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">2</span>
+                        <span class="text">FABRIC 1.20.4</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">3</span>
+                        <span class="text">WORLDEDIT 1.20.4</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">4</span>
+                        <span class="text">FOUNTAIN 1.20.4</span>
+                </div>
+                  </div>
+
+                <div class="server-ip-box" style="margin-top: 20px;">
+                    <p>IP Сервера:</p>
+                    <div class="ip-container">
+                        <p>washable-decision.gl.joinmc.link</p>
+                        <button class="copy-btn" onclick="copyIP()">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>WORLDEDIT не обязательно, но рекомендовано!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyIP() {
+            const ip = 'washable-decision.gl.joinmc.link';
+            copyToClipboard(ip, '.copy-btn:not(.copy-zerotier-btn)');
+        }
+
+        function copyZeroTier() {
+            const code = '3b19b3a716030d76';
+            copyToClipboard(code, '.copy-zerotier-btn');
+        }
+
+        function copyToClipboard(text, buttonSelector) {
+            // Копируем в буфер обмена
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess(buttonSelector);
+            }).catch(err => {
+                // Fallback для старых браузеров
+                const tempInput = document.createElement('input');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showSuccess(buttonSelector);
+            });
+        }
+
+        function showSuccess(buttonSelector) {
+            const btn = document.querySelector(buttonSelector);
+            const originalHTML = btn.innerHTML;
+            const originalBg = btn.style.background;
+            
+            btn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+            btn.style.background = '#28a745';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = originalBg;
+            }, 2000);
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Earth Vienna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .discord-banner {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            background: #4752C4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+        }
+
+        .discord-btn i {
+            font-size: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .authors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .author-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .author-name {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .author-role {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .author-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .link:hover {
+            color: #764ba2;
+            transform: translateX(5px);
+        }
+
+        .link i {
+            font-size: 1.2rem;
+        }
+
+        .files {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .file-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-card a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 2.5rem;
+        }
+
+        .file-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .file-size {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .server-ip-box {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .server-ip-box p:first-child {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .server-ip-box p:last-child {
+            font-size: 1.3rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .buildplates-info {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .play-info {
+            background: #e8f5e9;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .info-header h3 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .play-info .info-header h3 {
+            color: #2e7d32;
+        }
+
+        .requirements {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .requirement-item .number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .play-info .requirement-item .number {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+        }
+
+        .requirement-item .text {
+            color: #333;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .zerotier-code {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .zerotier-code p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .code-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .code-text {
+            font-size: 1.3rem;
+            color: #4caf50;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+        }
+
+        .info-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info-note i {
+            color: #ffc107;
+            font-size: 1.3rem;
+        }
+
+        .info-note span {
+            color: #856404;
+            font-weight: 500;
+        }
+
+        .success-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #d4edda;
+            border-left: 4px solid #4caf50;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .success-note i {
+            color: #4caf50;
+            font-size: 1.3rem;
+        }
+
+        .success-note span {
+            color: #155724;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-zerotier-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+        }
+
+        .copy-zerotier-btn:hover {
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .ip-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ip-container p {
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .authors {
+                grid-template-columns: 1fr;
+            }
+
+            .ip-container,
+            .code-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .discord-btn {
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Заголовок -->
+        <h1>🎮 Minecraft Earth Vienna</h1>
+        <p class="subtitle">Проект от команды разработчиков</p>
+
+        <!-- Discord Banner -->
+        <div class="discord-banner">
+            <a href="https://discord.gg/tWb8RFEMC" target="_blank" class="discord-btn">
+                <i class="fab fa-discord"></i>
+                Присоединяйся к нашему Discord!
+            </a>
+        </div>
+
+        <!-- Инструкция как поиграть в Minecraft Earth -->
+        <div class="section">
+            <h2 class="section-title">🌍 Как поиграть в Minecraft Earth</h2>
+            <div class="play-info">
+                <div class="info-header">
+                    <h3>Привет! Следуй этим шагам:</h3>
+                </div>
+                
+                <div class="requirements">
+                    <div class="requirement-item">
+                        <span class="number">1</span>
+                        <span class="text">Установи ZeroTier One</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">2</span>
+                        <span class="text">Введи этот код в ZeroTier One</span>
+                    </div>
+                </div>
+
+                <div class="zerotier-code">
+                    <p>ZeroTier Network ID:</p>
+                    <div class="code-container">
+                        <p class="code-text">3b19b3a716030d76</p>
+                        <button class="copy-btn copy-zerotier-btn" onclick="copyZeroTier()">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                    </div>
+                </div>
+
+                <div class="requirements">
+                    <div class="requirement-item">
+                        <span class="number">3</span>
+                        <span class="text">Подожди, пока я авторизую тебя 🙂</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">4</span>
+                        <span class="text">Скачай файл ниже (4-й файл в секции "Скачать Файлы")</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">5</span>
+                        <span class="text">Включи ZeroTier One и наслаждайся игрой! 😊</span>
+                    </div>
+                </div>
+
+                <div class="success-note">
+                    <i class="fas fa-check-circle"></i>
+                    <span>После выполнения всех шагов ты сможешь играть в Minecraft Earth!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Авторы -->
+        <div class="section">
+            <h2 class="section-title">👥 Создатели</h2>
+            <div class="authors">
+                <!-- Автор 1 -->
+                <div class="author-card">
+                    <div class="author-name">SuperDima8050</div>
+                    <div class="author-role">Помощник | Разработчик | Создатель сайта</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@superdima8050</span>
+                        </a>
+                        <a href="https://github.com/SuperDima8050" class="link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>github.com/SuperDima8050</span>
+                        </a>
+                        <a href="https://mcearthproject.qzz.io" class="link" target="_blank">
+                            <i class="fas fa-globe"></i>
+                            <span>mcearthproject.qzz.io</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Автор 2 -->
+                <div class="author-card">
+                    <div class="author-name">Kostyaniche</div>
+                    <div class="author-role">Гл. Разработчик проекта | Хост</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@kostyaniche</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Автор 3 -->
+                <div class="author-card">
+                    <div class="author-name">Micheal65536</div>
+                    <div class="author-role">Основатель</div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/864232575853658183" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@micheal65536</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Файлы для скачивания через CDN -->
+        <div class="section">
+            <h2 class="section-title">📦 Скачать Файлы</h2>
+            <div class="files">
+                <!-- Файл 1 -->
+                <div class="file-card">
+                    <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/fountain-0.0.1.jar" download>
+                        <div class="file-icon">📄</div>
+                        <div class="file-name">fountain-0.0.1.jar</div>
+                        <div class="file-size">2.00 MB</div>
+                    </a>
+                </div>
+
+                <!-- Файл -->
+                <div class="file-card">
+                    <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/fabric-api-0.94.1+1.20.4.jar" download>
+                        <div class="file-icon">⚙️</div>
+                        <div class="file-name">fabric-api-0.94.1+1.20.4.jar</div>
+                        <div class="file-size">127.96 KB</div>
+                    </a>
+                </div>
+
+                <!-- Файл 3 -->
+                <div class="file-card">
+                    <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/worldedit-mod-7.3.0-1.20.4-fabric-forge.jar" download>
+                        <div class="file-icon">🪓</div>
+                        <div class="file-name">worldedit-mod-7.3.0-1.20.4-fabric-forge.jar</div>
+                        <div class="file-size">5.84 MB</div>
+                    </a>
+                </div>
+
+                <!-- Файл 4 - Minecraft Earth -->
+                <div class="file-card">
+                    <a href="https://discord.gg/Ts4hJNxB9">
+                        <div class="file-icon">🌍</div>
+                        <div class="file-name">dev.projectearth.prod.apk</div>
+                        <div class="file-size">64 MB</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Инструкция для Buildplates -->
+        <div class="section">
+            <h2 class="section-title">🏗️ Как начать строить Buildplates с нами?</h2>
+            <div class="buildplates-info">
+                <div class="info-header">
+                    <h3>Необходимое для подключения к серверу:</h3>
+                </div>
+                
+                <div class="requirements">
+                    <div class="requirement-item">
+                        <span class="number">1</span>
+                        <span class="text">FABRIC API 1.20.4</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">2</span>
+                        <span class="text">FABRIC 1.20.4</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">3</span>
+                        <span class="text">WORLDEDIT 1.20.4</span>
+                    </div>
+                    <div class="requirement-item">
+                        <span class="number">4</span>
+                        <span class="text">FOUNTAIN 1.20.4</span>
+                </div>
+                  </div>
+
+                <div class="server-ip-box" style="margin-top: 20px;">
+                    <p>IP Сервера:</p>
+                    <div class="ip-container">
+                        <p>washable-decision.gl.joinmc.link</p>
+                        <button class="copy-btn" onclick="copyIP()">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>WORLDEDIT не обязательно, но рекомендовано!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyIP() {
+            const ip = 'washable-decision.gl.joinmc.link';
+            copyToClipboard(ip, '.copy-btn:not(.copy-zerotier-btn)');
+        }
+
+        function copyZeroTier() {
+            const code = '3b19b3a716030d76';
+            copyToClipboard(code, '.copy-zerotier-btn');
+        }
+
+        function copyToClipboard(text, buttonSelector) {
+            // Копируем в буфер обмена
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess(buttonSelector);
+            }).catch(err => {
+                // Fallback для старых браузеров
+                const tempInput = document.createElement('input');
+                tempInput.value = text;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showSuccess(buttonSelector);
+            });
+        }
+
+        function showSuccess(buttonSelector) {
+            const btn = document.querySelector(buttonSelector);
+            const originalHTML = btn.innerHTML;
+            const originalBg = btn.style.background;
+            
+            btn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+            btn.style.background = '#28a745';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = originalBg;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
