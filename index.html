@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Earth Vienna</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --bg-light: #ffffff;
+            --bg-dark: #1a1a2e;
+            --text-light: #333;
+            --text-dark: #e0e0e0;
+            --card-light: #f8f9fa;
+            --card-dark: #252541;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Анимированный градиентный фон */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Частицы на фоне */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Тёмная тема */
+        body.dark-theme {
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .container {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .author-card,
+        body.dark-theme .buildplates-info,
+        body.dark-theme .zerotier-code,
+        body.dark-theme .requirement-item {
+            background: var(--card-dark);
+        }
+
+        body.dark-theme .server-ip-box {
+            background: var(--card-dark);
+        }
+
+        body.dark-theme .subtitle,
+        body.dark-theme .author-role {
+            color: #b0b0b0;
+        }
+
+        body.dark-theme .requirement-item .text {
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .code-text {
+            background: var(--card-dark);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        body.dark-theme .faq-question {
+            background: var(--card-dark);
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .faq-answer {
+            background: var(--card-dark);
+            color: #b0b0b0;
+        }
+
+        .page-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--bg-light);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        /* Переключатели в шапке */
+        .header-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        /* Переключатель языков */
+        .language-switcher {
+            display: flex;
+            background: var(--card-light);
+            border-radius: 25px;
+            padding: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        body.dark-theme .language-switcher {
+            background: var(--card-dark);
+        }
+
+        .lang-btn {
+            padding: 8px 20px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        body.dark-theme .lang-btn {
+            color: #b0b0b0;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .lang-btn:hover:not(.active) {
+            color: var(--primary-color);
+        }
+
+        /* Переключатель темы */
+        .theme-switcher {
+            background: var(--card-light);
+            border-radius: 25px;
+            padding: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        body.dark-theme .theme-switcher {
+            background: var(--card-dark);
+        }
+
+        .theme-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        body.dark-theme .theme-btn {
+            color: #b0b0b0;
+        }
+
+        .theme-btn.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .theme-btn:hover:not(.active) {
+            color: var(--primary-color);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            margin-top: 30px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .discord-banner {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 5px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            background: #4752C4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+        }
+
+        .discord-btn i {
+            font-size: 1.5rem;
+        }
+
+        /* Анимации появления элементов */
+        .section {
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+        .section:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .authors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .author-card {
+            background: var(--card-light);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .author-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .author-name {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        body.dark-theme .author-name {
+            color: var(--text-dark);
+        }
+
+        .author-role {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .author-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .link:hover {
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .link i {
+            font-size: 1.2rem;
+        }
+
+        .files {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .file-card {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-card a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 2.5rem;
+        }
+
+        .file-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .file-size {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .server-ip-box {
+            text-align: center;
+            padding: 20px;
+            background: var(--card-light);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .server-ip-box p:first-child {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        body.dark-theme .server-ip-box p:first-child {
+            color: #b0b0b0;
+        }
+
+        .buildplates-info {
+            background: var(--card-light);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .play-info {
+            background: #e8f5e9;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #4caf50;
+            transition: var(--transition);
+        }
+
+        body.dark-theme .play-info {
+            background: #1a3a1a;
+        }
+
+        .info-header h3 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .play-info .info-header h3 {
+            color: #2e7d32;
+        }
+
+        body.dark-theme .play-info .info-header h3 {
+            color: #4caf50;
+        }
+
+        .requirements {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .requirement-item:hover {
+            transform: translateX(5px);
+        }
+
+        body.dark-theme .requirement-item {
+            background: var(--card-dark);
+        }
+
+        .requirement-item .number {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .requirement-item .text {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .zerotier-code {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .zerotier-code p:first-child {
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        body.dark-theme .zerotier-code p:first-child {
+            color: #b0b0b0;
+        }
+
+        .code-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .code-text {
+            font-family: 'Courier New', monospace;
+            background: var(--card-light);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .copy-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .info-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        body.dark-theme .info-note {
+            background: #3a3520;
+        }
+
+        .info-note i {
+            color: #ff9800;
+            font-size: 1.2rem;
+        }
+
+        .info-note span {
+            color: #856404;
+            font-weight: 500;
+        }
+
+        body.dark-theme .info-note span {
+            color: #ffc107;
+        }
+
+        .success-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        body.dark-theme .success-note {
+            background: #1a3a1a;
+        }
+
+        .success-note i {
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .success-note span {
+            color: #155724;
+            font-weight: 500;
+        }
+
+        body.dark-theme .success-note span {
+            color: #4caf50;
+        }
+
+        .ip-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Галерея скриншотов */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 16/9;
+            background: var(--card-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--primary-color);
+            transition: var(--transition);
+        }
+
+        body.dark-theme .gallery-item {
+            background: var(--card-dark);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-placeholder {
+            color: var(--primary-color);
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .gallery-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 15px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-text {
+            opacity: 1;
+        }
+
+        /* FAQ секция */
+        .faq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .faq-item {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            background: var(--card-light);
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+        }
+
+        .faq-question:hover {
+            background: var(--primary-color);
+            color: white;
+            border-left-color: var(--secondary-color);
+        }
+
+        .faq-question.active {
+            background: var(--primary-color);
+            color: white;
+            border-left-color: var(--secondary-color);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            background: white;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 20px;
+            color: #666;
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+            padding: 20px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Кнопка "Наверх" */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-top: 80px;
+            }
+
+            .header-controls {
+                position: static;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+
+            .authors {
+                grid-template-columns: 1fr;
+            }
+
+            .files {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .code-container, .ip-container {
+                flex-direction: column;
+            }
+
+            .code-text {
+                width: 100%;
+            }
+
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Частицы на фоне -->
+    <div class="particles" id="particles"></div>
+
+    <div class="page-wrapper">
+        <div class="container">
+            <!-- Переключатели в шапке -->
+            <div class="header-controls">
+                <div class="language-switcher">
+                    <button class="lang-btn active" onclick="switchLanguage('ru')">🇷🇺 RU</button>
+                    <button class="lang-btn" onclick="switchLanguage('en')">🇬🇧 EN</button>
+                </div>
+                <div class="theme-switcher">
+                    <button class="theme-btn active" onclick="switchTheme('light')">
+                        <i class="fas fa-sun"></i> <span data-ru="Светлая" data-en="Light">Светлая</span>
+                    </button>
+                    <button class="theme-btn" onclick="switchTheme('dark')">
+                        <i class="fas fa-moon"></i> <span data-ru="Тёмная" data-en="Dark">Тёмная</span>
+                    </button>
+                </div>
+            </div>
+
+            <h1>Minecraft Earth Vienna</h1>
+            <p class="subtitle" data-ru="Добро пожаловать на сервер Minecraft Earth!" data-en="Welcome to Minecraft Earth server!">
+                Добро пожаловать на сервер Minecraft Earth!
+            </p>
+
+            <div class="discord-banner">
+                <a href="https://discord.gg/tWb8RFEMC" target="_blank" class="discord-btn">
+                    <i class="fab fa-discord"></i>
+                    <span data-ru="Присоединяйся к нашему Discord!" data-en="Join our Discord!">
+                        Присоединяйся к нашему Discord!
+                    </span>
+                </a>
+            </div>
+
+            <!-- Галерея скриншотов -->
+            <div class="section">
+                <h2 class="section-title" data-ru="📸 Галерея" data-en="📸 Gallery">
+                    📸 Галерея
+                </h2>
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">🖼️</div>
+                        <div class="gallery-text" data-ru="Добавьте ваш скриншот" data-en="Add your screenshot">
+                            Добавьте ваш скриншот
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">🖼️</div>
+                        <div class="gallery-text" data-ru="Добавьте ваш скриншот" data-en="Add your screenshot">
+                            Добавьте ваш скриншот
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">🖼️</div>
+                        <div class="gallery-text" data-ru="Добавьте ваш скриншот" data-en="Add your screenshot">
+                            Добавьте ваш скриншот
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">🖼️</div>
+                        <div class="gallery-text" data-ru="Добавьте ваш скриншот" data-en="Add your screenshot">
+                            Добавьте ваш скриншот
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Инструкция как поиграть в Minecraft Earth -->
+            <div class="section">
+                <h2 class="section-title" data-ru="🌍 Как поиграть в Minecraft Earth" data-en="🌍 How to Play Minecraft Earth">
+                    🌍 Как поиграть в Minecraft Earth
+                </h2>
+                <div class="play-info">
+                    <div class="info-header">
+                        <h3 data-ru="Привет! Следуй этим шагам:" data-en="Hello! Follow these steps:">
+                            Привет! Следуй этим шагам:
+                        </h3>
+                    </div>
+                    
+                    <div class="requirements">
+                        <div class="requirement-item">
+                            <span class="number">1</span>
+                            <span class="text" data-ru="Установи ZeroTier One" data-en="Install ZeroTier One">
+                                Установи ZeroTier One
+                            </span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="number">2</span>
+                            <span class="text" data-ru="Введи этот код в ZeroTier One" data-en="Enter this code in ZeroTier One">
+                                Введи этот код в ZeroTier One
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="zerotier-code">
+                        <p data-ru="ZeroTier Network ID:" data-en="ZeroTier Network ID:">ZeroTier Network ID:</p>
+                        <div class="code-container">
+                            <p class="code-text">3b19b3a716030d76</p>
+                            <button class="copy-btn copy-zerotier-btn" onclick="copyZeroTier()">
+                                <i class="fas fa-copy"></i> 
+                                <span data-ru="Копировать" data-en="Copy">Копировать</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="requirements">
+                        <div class="requirement-item">
+                            <span class="number">3</span>
+                            <span class="text" data-ru="Подожди, пока я авторизую тебя 🙂" data-en="Wait until I authorize you 🙂">
+                                Подожди, пока я авторизую тебя 🙂
+                            </span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="number">4</span>
+                            <span class="text" data-ru='Скачай файл ниже (4-й файл в секции "Скачать Файлы")' data-en='Download the file below (4th file in "Download Files" section)'>
+                                Скачай файл ниже (4-й файл в секции "Скачать Файлы")
+                            </span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="number">5</span>
+                            <span class="text" data-ru="Включи ZeroTier One и наслаждайся игрой! 😊" data-en="Enable ZeroTier One and enjoy the game! 😊">
+                                Включи ZeroTier One и наслаждайся игрой! 😊
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="success-note">
+                        <i class="fas fa-check-circle"></i>
+                        <span data-ru="После выполнения всех шагов ты сможешь играть в Minecraft Earth!" data-en="After completing all steps, you'll be able to play Minecraft Earth!">
+                            После выполнения всех шагов ты сможешь играть в Minecraft Earth!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Авторы -->
+            <div class="section">
+                <h2 class="section-title" data-ru="👥 Создатели" data-en="👥 Creators">
+                    👥 Создатели
+                </h2>
+                <div class="authors">
+                    <!-- Автор 1 -->
+                    <div class="author-card">
+                        <div class="author-name">SuperDima8050</div>
+                        <div class="author-role" data-ru="Помощник | Разработчик | Создатель сайта" data-en="Assistant | Developer | Website Creator">
+                            Помощник | Разработчик | Создатель сайта
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@superdima8050</span>
+                            </a>
+                            <a href="https://github.com/SuperDima8050" class="link" target="_blank">
+                                <i class="fab fa-github"></i>
+                                <span>github.com/SuperDima8050</span>
+                            </a>
+                            <a href="https://mcearthproject.qzz.io" class="link" target="_blank">
+                                <i class="fas fa-globe"></i>
+                                <span>mcearthproject.qzz.io</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Автор 2 -->
+                    <div class="author-card">
+                        <div class="author-name">Kostyaniche</div>
+                        <div class="author-role" data-ru="Гл. Разработчик проекта | Хост" data-en="Lead Developer | Host">
+                            Гл. Разработчик проекта | Хост
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@kostyaniche</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Автор 3 -->
+                    <div class="author-card">
+                        <div class="author-name">Micheal65536</div>
+                        <div class="author-role" data-ru="Основатель" data-en="Founder">
+                            Основатель
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/864232575853658183" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@micheal65536</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Файлы для скачивания -->
+            <div class="section">
+                <h2 class="section-title" data-ru="📦 Скачать Файлы" data-en="📦 Download Files">
+                    📦 Скачать Файлы
+                </h2>
+                <div class="files">
+                    <!-- Файл 1 -->
+                    <div class="file-card">
+                        <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/fountain-0.0.1.jar" download>
+                            <div class="file-icon">📄</div>
+                            <div class="file-name">fountain-0.0.1.jar</div>
+                            <div class="file-size">2.00 MB</div>
+                        </a>
+                    </div>
+
+                    <!-- Файл 2 -->
+                    <div class="file-card">
+                        <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/fabric-api-0.94.1+1.20.4.jar" download>
+                            <div class="file-icon">⚙️</div>
+                            <div class="file-name">fabric-api-0.94.1+1.20.4.jar</div>
+                            <div class="file-size">127.96 KB</div>
+                        </a>
+                    </div>
+
+                    <!-- Файл 3 -->
+                    <div class="file-card">
+                        <a href="https://github.com/SuperDima8050/mcearthproject_site/releases/download/v.1.0/worldedit-mod-7.3.0-1.20.4-fabric-forge.jar" download>
+                            <div class="file-icon">🪓</div>
+                            <div class="file-name">worldedit-mod-7.3.0-1.20.4-fabric-forge.jar</div>
+                            <div class="file-size">5.84 MB</div>
+                        </a>
+                    </div>
+
+                    <!-- Файл 4 - Minecraft Earth -->
+                    <div class="file-card">
+                        <a href="https://discord.gg/Ts4hJNxB9">
+                            <div class="file-icon">🌍</div>
+                            <div class="file-name">dev.projectearth.prod.apk</div>
+                            <div class="file-size">64 MB</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Инструкция для Buildplates -->
+            <div class="section">
+                <h2 class="section-title" data-ru="🏗️ Как начать строить Buildplates с нами?" data-en="🏗️ How to Start Building Buildplates with Us?">
+                    🏗️ Как начать строить Buildplates с нами?
+                </h2>
+                <div class="buildplates-info">
+                    <div class="info-header">
+                        <h3 data-ru="Необходимое для подключения к серверу:" data-en="Requirements to connect to the server:">
+                            Необходимое для подключения к серверу:
+                        </h3>
+                    </div>
+                    
+                    <div class="requirements">
+                        <div class="requirement-item">
+                            <span class="number">1</span>
+                            <span class="text">FABRIC API 1.20.4</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="number">2</span>
+                            <span class="text">FABRIC 1.20.4</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="number">3</span>
+                            <span class="text">WORLDEDIT 1.20.4</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="number">4</span>
+                            <span class="text">FOUNTAIN 1.20.4</span>
+                        </div>
+                    </div>
+
+                    <div class="server-ip-box" style="margin-top: 20px;">
+                        <p data-ru="IP Сервера:" data-en="Server IP:">IP Сервера:</p>
+                        <div class="ip-container">
+                            <p>washable-decision.gl.joinmc.link</p>
+                            <button class="copy-btn copy-ip-btn" onclick="copyIP()">
+                                <i class="fas fa-copy"></i> 
+                                <span data-ru="Копировать" data-en="Copy">Копировать</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="info-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span data-ru="WORLDEDIT не обязательно, но рекомендовано!" data-en="WORLDEDIT is not required, but recommended!">
+                            WORLDEDIT не обязательно, но рекомендовано!
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ секция -->
+            <div class="section">
+                <h2 class="section-title" data-ru="❓ Часто задаваемые вопросы (FAQ)" data-en="❓ Frequently Asked Questions (FAQ)">
+                    ❓ Часто задаваемые вопросы (FAQ)
+                </h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span data-ru="Что такое Minecraft Earth?" data-en="What is Minecraft Earth?">
+                                Что такое Minecraft Earth?
+                            </span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-ru="Minecraft Earth — это игра дополненной реальности от Mojang, которая позволяет строить и исследовать мир Minecraft в реальном мире. Наш сервер продолжает поддержку этой игры после её официального закрытия." 
+                               data-en="Minecraft Earth is an augmented reality game from Mojang that allows you to build and explore the Minecraft world in the real world. Our server continues to support this game after its official closure.">
+                                Minecraft Earth — это игра дополненной реальности от Mojang, которая позволяет строить и исследовать мир Minecraft в реальном мире. Наш сервер продолжает поддержку этой игры после её официального закрытия.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span data-ru="Как мне начать играть?" data-en="How do I start playing?">
+                                Как мне начать играть?
+                            </span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-ru="Следуйте инструкциям в секции '🌍 Как поиграть в Minecraft Earth'. Вам нужно установить ZeroTier One, ввести наш сетевой ID, дождаться авторизации и скачать APK файл игры." 
+                               data-en="Follow the instructions in the '🌍 How to Play Minecraft Earth' section. You need to install ZeroTier One, enter our network ID, wait for authorization, and download the game APK file.">
+                                Следуйте инструкциям в секции "🌍 Как поиграть в Minecraft Earth". Вам нужно установить ZeroTier One, ввести наш сетевой ID, дождаться авторизации и скачать APK файл игры.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span data-ru="Бесплатно ли это?" data-en="Is this free?">
+                                Бесплатно ли это?
+                            </span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-ru="Да! Наш сервер и все файлы абсолютно бесплатны. Мы поддерживаем проект исключительно из любви к Minecraft Earth." 
+                               data-en="Yes! Our server and all files are completely free. We maintain the project solely out of love for Minecraft Earth.">
+                                Да! Наш сервер и все файлы абсолютно бесплатны. Мы поддерживаем проект исключительно из любви к Minecraft Earth.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span data-ru="На каких устройствах можно играть?" data-en="What devices can I play on?">
+                                На каких устройствах можно играть?
+                            </span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-ru="Minecraft Earth доступна на Android устройствах. Для строительства Buildplates нужна Java Edition Minecraft 1.20.4 на компьютере с модами FABRIC, FABRIC API, FOUNTAIN и опционально WORLDEDIT." 
+                               data-en="Minecraft Earth is available on Android devices. For building Buildplates, you need Java Edition Minecraft 1.20.4 on a computer with FABRIC, FABRIC API, FOUNTAIN mods, and optionally WORLDEDIT.">
+                                Minecraft Earth доступна на Android устройствах. Для строительства Buildplates нужна Java Edition Minecraft 1.20.4 на компьютере с модами FABRIC, FABRIC API, FOUNTAIN и опционально WORLDEDIT.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span data-ru="Как долго я жду авторизации в ZeroTier?" data-en="How long do I wait for ZeroTier authorization?">
+                                Как долго я жду авторизации в ZeroTier?
+                            </span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-ru="Обычно авторизация занимает от нескольких минут до нескольких часов. Если ждёте долго — напишите в наш Discord сервер!" 
+                               data-en="Authorization usually takes from a few minutes to a few hours. If you're waiting too long, contact us on our Discord server!">
+                                Обычно авторизация занимает от нескольких минут до нескольких часов. Если ждёте долго — напишите в наш Discord сервер!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span data-ru="Где получить помощь?" data-en="Where can I get help?">
+                                Где получить помощь?
+                            </span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-ru="Присоединяйтесь к нашему Discord серверу! Там вы найдёте активное сообщество и администраторов, готовых помочь с любыми вопросами." 
+                               data-en="Join our Discord server! There you'll find an active community and administrators ready to help with any questions.">
+                                Присоединяйтесь к нашему Discord серверу! Там вы найдёте активное сообщество и администраторов, готовых помочь с любыми вопросами.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка "Наверх" -->
+    <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Создание частиц на фоне
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Система переключения языков
+        let currentLang = 'ru';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Обновляем активную кнопку
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Обновляем язык на странице
+            document.documentElement.lang = lang;
+            
+            // Переключаем весь контент
+            document.querySelectorAll('[data-ru][data-en]').forEach(element => {
+                if (lang === 'ru') {
+                    element.textContent = element.getAttribute('data-ru');
+                } else {
+                    element.textContent = element.getAttribute('data-en');
+                }
+            });
+            
+            // Сохраняем выбор в localStorage
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Система переключения темы
+        let currentTheme = 'light';
+
+        function switchTheme(theme) {
+            currentTheme = theme;
+            
+            // Обновляем активную кнопку
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Переключаем тему
+            if (theme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+            
+            // Сохраняем выбор в localStorage
+            localStorage.setItem('preferred-theme', theme);
+        }
+
+        // FAQ toggle
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const isActive = element.classList.contains('active');
+            
+            // Закрываем все открытые FAQ
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+                q.nextElementSibling.classList.remove('active');
+            });
+            
+            // Открываем текущий, если он был закрыт
+            if (!isActive) {
+                element.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+
+        // Кнопка "Наверх"
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Копирование в буфер обмена
+        function copyIP() {
+            const ip = 'washable-decision.gl.joinmc.link';
+            copyToClipboard(ip, '.copy-ip-btn');
+        }
+
+        function copyZeroTier() {
+            const code = '3b19b3a716030d76';
+            copyToClipboard(code, '.copy-zerotier-btn');
+        }
+
+        function copyToClipboard(text, buttonSelector) {
+            console.log('Trying to copy:', text);
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    console.log('Copied successfully!');
+                    showSuccess(buttonSelector);
+                }).catch(err => {
+                    console.error('Clipboard API failed, using fallback:', err);
+                    fallbackCopy(text, buttonSelector);
+                });
+            } else {
+                console.log('Using fallback copy method');
+                fallbackCopy(text, buttonSelector);
+            }
+        }
+
+        function fallbackCopy(text, buttonSelector) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            tempInput.style.position = 'fixed';
+            tempInput.style.top = '0';
+            tempInput.style.left = '0';
+            tempInput.style.opacity = '0';
+            document.body.appendChild(tempInput);
+            tempInput.focus();
+            tempInput.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                console.log('Fallback copy ' + (successful ? 'successful' : 'failed'));
+                if (successful) {
+                    showSuccess(buttonSelector);
+                }
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        function showSuccess(buttonSelector) {
+            const btn = document.querySelector(buttonSelector);
+            const originalHTML = btn.innerHTML;
+            const originalBg = btn.style.background;
+            
+            const copiedText = currentLang === 'ru' ? 
+                '<i class="fas fa-check"></i> Скопировано!' : 
+                '<i class="fas fa-check"></i> Copied!';
+            
+            btn.innerHTML = copiedText;
+            btn.style.background = '#28a745';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = originalBg;
+            }, 2000);
+        }
+
+        // Загрузка сохраненных настроек при загрузке страницы
+        window.addEventListener('DOMContentLoaded', () => {
+            // Создаем частицы
+            createParticles();
+
+            // Загружаем сохраненный язык
+            const savedLang = localStorage.getItem('preferred-language');
+            if (savedLang && savedLang !== 'ru') {
+                const enBtn = document.querySelectorAll('.lang-btn')[1];
+                enBtn.click();
+            }
+
+            // Загружаем сохраненную тему
+            const savedTheme = localStorage.getItem('preferred-theme');
+            if (savedTheme === 'dark') {
+                const darkBtn = document.querySelectorAll('.theme-btn')[1];
+                darkBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
