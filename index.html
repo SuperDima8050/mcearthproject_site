@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Earth - Sustaining Minecraft Earth</title>
+    <link rel="icon" type="image/png" href="https://github.com/Project-Earth-Team.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                radial-gradient(circle at 90% 40%, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 200px 200px, 300px 300px, 250px 250px, 350px 350px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1000px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            background: #f8f9fa;
+            border-radius: 25px;
+            padding: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .lang-btn, .theme-btn {
+            padding: 8px 20px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .lang-btn.active, .theme-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .lang-btn:hover:not(.active), .theme-btn:hover:not(.active) {
+            color: #667eea;
+        }
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.dark-theme .container {
+            background: #0f3460;
+            color: #e4e4e4;
+        }
+
+        body.dark-theme h1 {
+            color: #88a4f5;
+            text-shadow: 0 4px 15px rgba(136, 164, 245, 0.4);
+        }
+
+        body.dark-theme .subtitle {
+            color: #b8b8b8;
+        }
+
+        body.dark-theme .section-title {
+            color: #a78bfa;
+        }
+
+        body.dark-theme .language-switcher {
+            background: #1a2332;
+        }
+
+        body.dark-theme .lang-btn, body.dark-theme .theme-btn {
+            color: #b8b8b8;
+        }
+
+        body.dark-theme .lang-btn.active, body.dark-theme .theme-btn.active {
+            background: linear-gradient(135deg, #88a4f5 0%, #a78bfa 100%);
+        }
+
+        body.dark-theme .author-card,
+        body.dark-theme .info-card,
+        body.dark-theme .step,
+        body.dark-theme .faq-item {
+            background: #1a2332;
+            color: #e4e4e4;
+        }
+
+        body.dark-theme .author-name {
+            color: #e4e4e4;
+        }
+
+        body.dark-theme .author-role {
+            color: #a78bfa;
+        }
+
+        body.dark-theme .link {
+            color: #88a4f5;
+        }
+
+        body.dark-theme .link:hover {
+            color: #a78bfa;
+        }
+
+        body.dark-theme .zerotier-code,
+        body.dark-theme .code-text {
+            background: #1a2332;
+            color: #88a4f5;
+        }
+
+        body.dark-theme .copy-btn {
+            background: #88a4f5;
+        }
+
+        body.dark-theme .copy-btn:hover {
+            background: #a78bfa;
+        }
+
+        body.dark-theme .info-note {
+            background: #1a2332;
+            border-left-color: #a78bfa;
+        }
+
+        body.dark-theme .info-note i {
+            color: #a78bfa;
+        }
+
+        body.dark-theme .info-note span {
+            color: #b8b8b8;
+        }
+
+        body.dark-theme .info-card p {
+            color: #e4e4e4;
+        }
+
+        body.dark-theme .step-content h3 {
+            color: #e4e4e4;
+        }
+
+        body.dark-theme .step-content p {
+            color: #b8b8b8;
+        }
+
+        body.dark-theme .zerotier-code p:first-child {
+            color: #b8b8b8;
+        }
+
+        body.dark-theme .faq-question {
+            color: #88a4f5;
+        }
+
+        body.dark-theme .faq-answer {
+            color: #b8b8b8;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            margin-top: 60px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 4px 15px rgba(102, 126, 234, 0.4),
+                             0 0 20px rgba(102, 126, 234, 0.2);
+            }
+            to {
+                text-shadow: 0 4px 25px rgba(102, 126, 234, 0.8),
+                             0 0 40px rgba(102, 126, 234, 0.4);
+            }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .discord-banner {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: #5865F2;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-card p {
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .authors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .author-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .author-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .author-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .author-role {
+            font-size: 0.9rem;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .author-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .link:hover {
+            color: #764ba2;
+            transform: translateX(3px);
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .step {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .step-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .zerotier-code {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .zerotier-code p:first-child {
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .code-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .code-text {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .copy-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-answer {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .info-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info-note i {
+            color: #ff9800;
+            font-size: 1.2rem;
+        }
+
+        .info-note span {
+            color: #856404;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-top: 0;
+            }
+
+            .language-switcher {
+                position: static;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            .authors {
+                grid-template-columns: 1fr;
+            }
+
+            .code-container {
+                flex-direction: column;
+            }
+
+            .code-text {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-switcher">
+            <button class="lang-btn active" onclick="switchLanguage('ru')">🇷🇺 RU</button>
+            <button class="lang-btn" onclick="switchLanguage('en')">🇬🇧 EN</button>
+            <button class="theme-btn" onclick="toggleTheme()">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+
+        <h1>PROJECT EARTH</h1>
+        <p class="subtitle" data-ru="Sustaining Minecraft Earth, beyond the Sunset" 
+           data-en="Sustaining Minecraft Earth, beyond the Sunset">
+            Sustaining Minecraft Earth, beyond the Sunset
+        </p>
+
+        <div class="discord-banner">
+            <a href="https://discord.gg/tWb8RFEMC" target="_blank" class="discord-btn">
+                <i class="fab fa-discord"></i>
+                <span data-ru="Присоединяйся к нашему Discord!" data-en="Join our Discord!">
+                    Присоединяйся к нашему Discord!
+                </span>
+            </a>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title" data-ru="🌍 Что такое Project Earth?" 
+                data-en="🌍 What is Project Earth?">
+                🌍 Что такое Project Earth?
+            </h2>
+            <div class="info-card">
+                <p data-ru="Мы создали сервер для Minecraft Earth на базе готового Project Genoa API и модифицируем клиент, чтобы позволить вам подключаться к нашим серверам. Это позволяет всем желающим продолжить играть в игру после закрытия официальных серверов. Начни свою новую игру в Minecraft Earth с нами!"
+                   data-en="We've created a Minecraft Earth server based on the ready-made Project Genoa API and modify the client to allow you to connect to our servers. This allows anyone who wants to continue playing the game after the official servers closed. Start your new Minecraft Earth adventure with us!">
+                    Мы создали сервер для Minecraft Earth на базе готового Project Genoa API и модифицируем клиент, чтобы позволить вам подключаться к нашим серверам. Это позволяет всем желающим продолжить играть в игру после закрытия официальных серверов. Начни свою новую игру в Minecraft Earth с нами!
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title" data-ru="⚙️ Как это работает?" 
+                data-en="⚙️ How Does It Work?">
+                ⚙️ Как это работает?
+            </h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 data-ru="Используем Project Genoa" data-en="Using Project Genoa">
+                            Используем Project Genoa
+                        </h3>
+                        <p data-ru="Мы запускаем сервер на базе готового Project Genoa API - открытого проекта для восстановления Minecraft Earth"
+                           data-en="We run a server based on the ready-made Project Genoa API - an open-source project to restore Minecraft Earth">
+                            Мы запускаем сервер на базе готового Project Genoa API - открытого проекта для восстановления Minecraft Earth
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 data-ru="Патчим клиент" data-en="Patch the Client">
+                            Патчим клиент
+                        </h3>
+                        <p data-ru="Модифицируем приложение Minecraft Earth, чтобы оно подключалось к нашему серверу вместо официального"
+                           data-en="We modify the Minecraft Earth app to connect to our server instead of the official one">
+                            Модифицируем приложение Minecraft Earth, чтобы оно подключалось к нашему серверу вместо официального
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 data-ru="Играйте!" data-en="Play!">
+                            Играйте!
+                        </h3>
+                        <p data-ru="Начни новую игру и наслаждайся Minecraft Earth!"
+                           data-en="Start a new game and enjoy Minecraft Earth!">
+                            Начни новую игру и наслаждайся Minecraft Earth!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title" data-ru="🎮 Как начать играть?" 
+                data-en="🎮 How to Start Playing?">
+                🎮 Как начать играть?
+            </h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 data-ru="Установи ZeroTier One" data-en="Install ZeroTier One">
+                            Установи ZeroTier One
+                        </h3>
+                        <p data-ru="Скачай и установи приложение ZeroTier One для своего устройства"
+                           data-en="Download and install ZeroTier One app for your device">
+                            Скачай и установи приложение ZeroTier One для своего устройства
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 data-ru="Введи код сети" data-en="Enter Network Code">
+                            Введи код сети
+                        </h3>
+                        <p data-ru="Введи следующий код в ZeroTier One:"
+                           data-en="Enter this code in ZeroTier One:">
+                            Введи следующий код в ZeroTier One:
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zerotier-code">
+                <p data-ru="ZeroTier Network ID:" data-en="ZeroTier Network ID:">
+                    ZeroTier Network ID:
+                </p>
+                <div class="code-container">
+                    <p class="code-text">3b19b3a716030d76</p>
+                    <button class="copy-btn" onclick="copyZeroTier()">
+                        <i class="fas fa-copy"></i>
+                        <span data-ru="Копировать" data-en="Copy">Копировать</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 data-ru="Ожидай авторизацию" data-en="Wait for Authorization">
+                            Ожидай авторизацию
+                        </h3>
+                        <p data-ru="Подожди, пока мы авторизуем тебя в сети 🙂"
+                           data-en="Wait until we authorize you in the network 🙂">
+                            Подожди, пока мы авторизуем тебя в сети 🙂
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3 data-ru="Скачай APK" data-en="Download APK">
+                            Скачай APK
+                        </h3>
+                        <p data-ru="Скачай модифицированное приложение Minecraft Earth из нашего Discord сервера"
+                           data-en="Download the modified Minecraft Earth app from our Discord server">
+                            Скачай модифицированное приложение Minecraft Earth из нашего Discord сервера
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3 data-ru="Наслаждайся игрой!" data-en="Enjoy the Game!">
+                            Наслаждайся игрой!
+                        </h3>
+                        <p data-ru="Включи ZeroTier One и запусти игру. Добро пожаловать обратно в Minecraft Earth! 😊"
+                           data-en="Enable ZeroTier One and launch the game. Welcome back to Minecraft Earth! 😊">
+                            Включи ZeroTier One и запусти игру. Добро пожаловать обратно в Minecraft Earth! 😊
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title" data-ru="👥 Создатели" data-en="👥 Creators">
+                👥 Создатели
+            </h2>
+            <div class="authors">
+                <div class="author-card">
+                    <div class="author-name">SuperDima8050</div>
+                    <div class="author-role" data-ru="Помощник | Разработчик | Создатель сайта" 
+                         data-en="Assistant | Developer | Website Creator">
+                        Помощник | Разработчик | Создатель сайта
+                    </div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@superdima8050</span>
+                        </a>
+                        <a href="https://github.com/SuperDima8050" class="link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>github.com/SuperDima8050</span>
+                        </a>
+                        <a href="https://mcearthproject.qzz.io" class="link" target="_blank">
+                            <i class="fas fa-globe"></i>
+                            <span>mcearthproject.qzz.io</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="author-card">
+                    <div class="author-name">Kostyaniche</div>
+                    <div class="author-role" data-ru="Гл. Разработчик проекта | Хост" 
+                         data-en="Lead Developer | Host">
+                        Гл. Разработчик проекта | Хост
+                    </div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@kostyaniche</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="author-card">
+                    <div class="author-name">Micheal65536</div>
+                    <div class="author-role" data-ru="Основатель" data-en="Founder">
+                        Основатель
+                    </div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/864232575853658183" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@micheal65536</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="author-card">
+                    <div class="author-name">Halolamemes</div>
+                    <div class="author-role" data-ru="Помощник" data-en="Assistant">
+                        Помощник
+                    </div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/1122063385811496970" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@halolamemes</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title" data-ru="❓ Часто задаваемые вопросы" 
+                data-en="❓ FAQ">
+                ❓ Часто задаваемые вопросы
+            </h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span data-ru="Это бесплатно?" data-en="Is it free?">
+                        Это бесплатно?
+                    </span>
+                </div>
+                <div class="faq-answer" data-ru="Да! Project Earth полностью бесплатен для всех игроков." 
+                     data-en="Yes! Project Earth is completely free for all players.">
+                    Да! Project Earth полностью бесплатен для всех игроков.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span data-ru="Что такое Project Genoa?" data-en="What is Project Genoa?">
+                        Что такое Project Genoa?
+                    </span>
+                </div>
+                <div class="faq-answer" data-ru="Project Genoa - это открытый проект для воссоздания серверной части Minecraft Earth. Мы используем их готовое API для работы нашего сервера." 
+                     data-en="Project Genoa is an open-source project to recreate the server-side of Minecraft Earth. We use their ready-made API to run our server.">
+                    Project Genoa - это открытый проект для воссоздания серверной части Minecraft Earth. Мы используем их готовое API для работы нашего сервера.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span data-ru="Где скачать APK?" data-en="Where to download APK?">
+                        Где скачать APK?
+                    </span>
+                </div>
+                <div class="faq-answer" data-ru="Модифицированный APK доступен на нашем Discord сервере. Присоединяйтесь и следуйте инструкциям!" 
+                     data-en="The modified APK is available on our Discord server. Join and follow the instructions!">
+                    Модифицированный APK доступен на нашем Discord сервере. Присоединяйтесь и следуйте инструкциям!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span data-ru="Нужен ли мне ZeroTier?" data-en="Do I need ZeroTier?">
+                        Нужен ли мне ZeroTier?
+                    </span>
+                </div>
+                <div class="faq-answer" data-ru="Да, ZeroTier необходим для подключения к нашему серверу. Это создаёт безопасную виртуальную сеть для игры." 
+                     data-en="Yes, ZeroTier is required to connect to our server. It creates a secure virtual network for the game.">
+                    Да, ZeroTier необходим для подключения к нашему серверу. Это создаёт безопасную виртуальную сеть для игры.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title" data-ru="🔗 Полезные ссылки" 
+                data-en="🔗 Useful Links">
+                🔗 Полезные ссылки
+            </h2>
+            <div class="info-card">
+                <p style="margin-bottom: 15px;">
+                    <strong>Project Genoa (API):</strong><br>
+                    <a href="https://github.com/Project-Genoa" target="_blank" style="color: #667eea;">
+                        <i class="fab fa-github"></i> github.com/Project-Genoa
+                    </a>
+                </p>
+                <p style="margin-bottom: 15px;">
+                    <strong data-ru="Наш Discord:" data-en="Our Discord:">Наш Discord:</strong><br>
+                    <a href="https://discord.gg/tWb8RFEMC" target="_blank" style="color: #5865F2;">
+                        <i class="fab fa-discord"></i> discord.gg/tWb8RFEMC
+                    </a>
+                </p>
+                <p>
+                    <strong data-ru="Reddit сообщество:" data-en="Reddit Community:">Reddit сообщество:</strong><br>
+                    <a href="https://reddit.com/r/ProjectEarth" target="_blank" style="color: #FF4500;">
+                        <i class="fab fa-reddit-alien"></i> r/ProjectEarth
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="info-note">
+            <i class="fas fa-info-circle"></i>
+            <span data-ru="Этот проект создан фанатами и не связан с Mojang или Microsoft" 
+                  data-en="This project is created by fans and is not affiliated with Mojang or Microsoft">
+                Этот проект создан фанатами и не связан с Mojang или Microsoft
+            </span>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'ru';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.documentElement.lang = lang;
+            
+            document.querySelectorAll('[data-ru][data-en]').forEach(element => {
+                if (lang === 'ru') {
+                    element.textContent = element.getAttribute('data-ru');
+                } else {
+                    element.textContent = element.getAttribute('data-en');
+                }
+            });
+            
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.querySelector('.theme-btn');
+            const themeIcon = themeBtn.querySelector('.theme-icon');
+            
+            body.classList.toggle('dark-theme');
+            
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function copyZeroTier() {
+            const code = '3b19b3a716030d76';
+            copyToClipboard(code);
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showSuccess();
+                }).catch(err => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            tempInput.style.position = 'fixed';
+            tempInput.style.top = '0';
+            tempInput.style.left = '0';
+            tempInput.style.opacity = '0';
+            document.body.appendChild(tempInput);
+            tempInput.focus();
+            tempInput.select();
+            
+            try {
+                document.execCommand('copy');
+                showSuccess();
+            } catch (err) {
+                console.error('Copy failed:', err);
+            }
+            
+            document.body.removeChild(tempInput);
+        }
+
+        function showSuccess() {
+            const btn = document.querySelector('.copy-btn');
+            const originalHTML = btn.innerHTML;
+            
+            const copiedText = currentLang === 'ru' ? 
+                '<i class="fas fa-check"></i> <span>Скопировано!</span>' : 
+                '<i class="fas fa-check"></i> <span>Copied!</span>';
+            
+            btn.innerHTML = copiedText;
+            btn.style.background = '#28a745';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = '';
+            }, 2000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferred-language');
+            if (savedLang && savedLang !== 'ru') {
+                const enBtn = document.querySelector('.lang-btn:nth-child(2)');
+                enBtn.click();
+            }
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                const themeIcon = document.querySelector('.theme-icon');
+                themeIcon.textContent = '☀️';
+            }
+        });
+    </script>
+</body>
+</html>
