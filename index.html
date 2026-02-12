@@ -1314,7 +1314,7 @@
         const firebaseConfig = {
             apiKey: "AIzaSyArebbUsO3x87NmopeLD29eIDLV3CuLnWY",
             authDomain: "my-project-9699-1685876782260.firebaseapp.com",
-            databaseURL: "https://my-project-9699-1685876782260-default-rtdb.europe-west1.firebasedatabase.app",
+            databaseURL: "https://my-project-9699-1685876782260-default-rtdb.europe-west1.firebasedatabase.app/news/",
             projectId: "my-project-9699-1685876782260",
             storageBucket: "my-project-9699-1685876782260.firebasestorage.app",
             messagingSenderId: "891021239148",
@@ -1324,19 +1324,6 @@
         const app = initializeApp(firebaseConfig);
         // Auth removed
         const db = getDatabase(app);
-        
-
-        // Auth removed
-
-        
-
-        
-
-        
-
-        
-
-        
 
         function loadNews() {
             const newsRef = ref(db, 'news');
