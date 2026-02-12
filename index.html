@@ -1091,20 +1091,20 @@
 
         // ВАЖНО: Замените эту конфигурацию на ВАШУ из Firebase Console
         // Перейдите в: Firebase Console -> Project Settings -> Your apps -> Firebase SDK snippet
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY_HERE",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+        
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-
+        const firebaseConfig = {
+  apiKey: "AIzaSyArebbUsO3x87NmopeLD29eIDLV3CuLnWY",
+  authDomain: "my-project-9699-1685876782260.firebaseapp.com",
+  databaseURL: "https://my-project-9699-1685876782260-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "my-project-9699-1685876782260",
+  storageBucket: "my-project-9699-1685876782260.firebasestorage.app",
+  messagingSenderId: "891021239148",
+  appId: "1:891021239148:web:fac2d40526dd27b3ad8949"
+};
         // Загрузка новостей
         function loadNews() {
             const newsContainer = document.getElementById('news-container');
