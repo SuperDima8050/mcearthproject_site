@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revival Minecraft Earth</title>
+    <link rel="icon" type="image/png" href="https://mcearthproject.qzz.io/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                radial-gradient(circle at 90% 40%, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 200px 200px, 300px 300px, 250px 250px, 350px 350px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1000px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .container::-webkit-scrollbar { width: 8px; }
+        .container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .container::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; }
+
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            background: #f8f9fa;
+            border-radius: 25px;
+            padding: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .lang-btn, .theme-btn {
+            padding: 8px 20px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .lang-btn.active, .theme-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .lang-btn:hover:not(.active), .theme-btn:hover:not(.active) {
+            color: #667eea;
+        }
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.dark-theme .container {
+            background: #0f3460;
+            color: #e4e4e4;
+        }
+
+        body.dark-theme h1 {
+            color: #88a4f5;
+            text-shadow: 0 4px 15px rgba(136, 164, 245, 0.4);
+        }
+
+        body.dark-theme .subtitle { color: #b8b8b8; }
+        body.dark-theme .section-title { color: #a78bfa; }
+        body.dark-theme .language-switcher { background: #1a2332; }
+        body.dark-theme .lang-btn, body.dark-theme .theme-btn { color: #b8b8b8; }
+        body.dark-theme .lang-btn.active, body.dark-theme .theme-btn.active { background: linear-gradient(135deg, #88a4f5 0%, #a78bfa 100%); }
+        body.dark-theme .author-card,
+        body.dark-theme .info-card,
+        body.dark-theme .step,
+        body.dark-theme .faq-item { background: #1a2332; color: #e4e4e4; }
+        body.dark-theme .author-name { color: #e4e4e4; }
+        body.dark-theme .author-role { color: #a78bfa; }
+        body.dark-theme .link { color: #88a4f5; }
+        body.dark-theme .link:hover { color: #a78bfa; }
+        body.dark-theme .zerotier-code, body.dark-theme .code-text { background: #1a2332; color: #88a4f5; }
+        body.dark-theme .copy-btn { background: #88a4f5; }
+        body.dark-theme .copy-btn:hover { background: #a78bfa; }
+        body.dark-theme .info-note { background: #1a2332; border-left-color: #a78bfa; }
+        body.dark-theme .info-note i { color: #a78bfa; }
+        body.dark-theme .info-note span { color: #b8b8b8; }
+        body.dark-theme .info-card p { color: #e4e4e4; }
+        body.dark-theme .step-content h3 { color: #e4e4e4; }
+        body.dark-theme .step-content p { color: #b8b8b8; }
+        body.dark-theme .zerotier-code p:first-child { color: #b8b8b8; }
+        body.dark-theme .faq-question { color: #88a4f5; }
+        body.dark-theme .faq-answer { color: #b8b8b8; }
+        body.dark-theme .discord-btn { box-shadow: 0 4px 15px rgba(88, 101, 242, 0.5); }
+        body.dark-theme .discord-btn:hover { box-shadow: 0 6px 25px rgba(88, 101, 242, 0.7); }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .discord-banner {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.5);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        body.dark-theme .info-card {
+            background: #1a2332;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .step {
+            display: flex;
+            gap: 20px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .step:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+        }
+
+        body.dark-theme .step {
+            background: #1a2332;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        body.dark-theme .step-content h3 {
+            color: #88a4f5;
+        }
+
+        .step-content p {
+            color: #666;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .authors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .author-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .author-card:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        body.dark-theme .author-card {
+            background: #1a2332;
+        }
+
+        .author-name {
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .author-role {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .author-links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .link:hover {
+            background: #f0f0ff;
+            color: #764ba2;
+        }
+
+        body.dark-theme .link:hover {
+            background: #1a2332;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+        }
+
+        body.dark-theme .faq-item {
+            background: #1a2332;
+        }
+
+        .faq-question {
+            color: #667eea;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .faq-answer {
+            color: #666;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .zerotier-code {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        body.dark-theme .zerotier-code {
+            background: #1a2332;
+        }
+
+        .zerotier-code p {
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .code-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .code-text {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #667eea;
+            flex: 1;
+            word-break: break-all;
+        }
+
+        body.dark-theme .code-text {
+            background: #0f3460;
+            border-color: #88a4f5;
+        }
+
+        .copy-btn {
+            padding: 10px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .info-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .info-note i {
+            color: #856404;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .info-note span {
+            color: #856404;
+            font-weight: 500;
+        }
+
+        /* ===== TABS ===== */
+        .tabs-navigation {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 0;
+            flex-wrap: wrap;
+        }
+
+        body.dark-theme .tabs-navigation {
+            border-bottom-color: #1a2332;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1rem;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        body.dark-theme .tab-btn {
+            color: #b8b8b8;
+        }
+
+        body.dark-theme .tab-btn:hover {
+            color: #88a4f5;
+        }
+
+        body.dark-theme .tab-btn.active {
+            color: #88a4f5;
+            border-bottom-color: #88a4f5;
+        }
+
+        .tab-content {
+            animation: fadeIn 0.3s ease-in;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== GALLERY ===== */
+        .screenshots-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .screenshot-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            background: white;
+        }
+
+        body.dark-theme .screenshot-item {
+            background: #1a2332;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .screenshot-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .screenshot-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+
+        .screenshot-info {
+            padding: 15px;
+            background: white;
+        }
+
+        body.dark-theme .screenshot-info {
+            background: #1a2332;
+        }
+
+        .screenshot-author {
+            font-size: 0.9rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        body.dark-theme .screenshot-author {
+            color: #88a4f5;
+        }
+
+        .screenshot-description {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        body.dark-theme .screenshot-description {
+            color: #b8b8b8;
+        }
+
+        .screenshot-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            flex: 1;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-small:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        body.dark-theme .btn-small {
+            background: #0f3460;
+            border-color: #1a2332;
+            color: #e4e4e4;
+        }
+
+        .btn-like.active {
+            color: #e74c3c;
+        }
+
+        .comments-section {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        body.dark-theme .comments-section {
+            border-top-color: #1a2332;
+        }
+
+        .comment-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        body.dark-theme .comment-item {
+            background: #0f3460;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 3px;
+        }
+
+        body.dark-theme .comment-author {
+            color: #88a4f5;
+        }
+
+        .comment-text {
+            color: #666;
+        }
+
+        body.dark-theme .comment-text {
+            color: #b8b8b8;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .comment-form input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body.dark-theme .comment-form input {
+            background: #0f3460;
+            border-color: #1a2332;
+            color: #e4e4e4;
+        }
+
+        .comment-form button {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .comment-form button:hover {
+            background: #764ba2;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #667eea;
+            grid-column: 1 / -1;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ===== NEWS STYLES ===== */
+        .news-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        body.dark-theme .news-form {
+            background: #1a2332;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        body.dark-theme .form-group input,
+        body.dark-theme .form-group textarea {
+            background: #0f3460 !important;
+            border-color: #1a2332 !important;
+            color: #e4e4e4 !important;
+        }
+
+        body.dark-theme .form-group input::placeholder,
+        body.dark-theme .form-group textarea::placeholder {
+            color: #888;
+        }
+
+        body.dark-theme .form-group label {
+            color: #e4e4e4 !important;
+        }
+
+        body.dark-theme #dropZone {
+            background: #0f3460 !important;
+            border-color: #88a4f5 !important;
+            color: #88a4f5 !important;
+        }
+
+        body.dark-theme #dropZone i {
+            color: #88a4f5 !important;
+        }
+
+        body.dark-theme #dropZone p {
+            color: #88a4f5 !important;
+        }
+
+        .news-item {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .news-item:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        body.dark-theme .news-item {
+            background: #1a2332;
+            border-left-color: #88a4f5;
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .news-item h3 {
+            color: #667eea;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        body.dark-theme .news-item h3 {
+            color: #88a4f5;
+        }
+
+        .news-author {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        body.dark-theme .news-author {
+            color: #888;
+        }
+
+        .news-date {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        body.dark-theme .news-date {
+            background: #88a4f5;
+        }
+
+        .news-content {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        body.dark-theme .news-content {
+            color: #b8b8b8;
+        }
+
+        .news-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-like {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .btn-like:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        body.dark-theme .btn-like {
+            background: #0f3460;
+            border-color: #1a2332;
+            color: #e4e4e4;
+        }
+
+        .btn-like.active {
+            color: #e74c3c;
+        }
+
+        .btn-comment {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .btn-comment:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        body.dark-theme .btn-comment {
+            background: #0f3460;
+            border-color: #1a2332;
+            color: #e4e4e4;
+        }
+
+        .news-comments {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        body.dark-theme .news-comments {
+            border-top-color: #1a2332;
+        }
+
+        .comment-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        body.dark-theme .comment-item {
+            background: #0f3460;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 3px;
+        }
+
+        body.dark-theme .comment-author {
+            color: #88a4f5;
+        }
+
+        .comment-text {
+            color: #666;
+        }
+
+        body.dark-theme .comment-text {
+            color: #b8b8b8;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .comment-form input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body.dark-theme .comment-form input {
+            background: #0f3460;
+            border-color: #1a2332;
+            color: #e4e4e4;
+        }
+
+        .comment-form button {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .comment-form button:hover {
+            background: #764ba2;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; margin-top: 0; }
+            .language-switcher { position: static; margin-bottom: 20px; justify-content: center; }
+            .container { padding: 30px 20px; }
+            .authors { grid-template-columns: 1fr; }
+            .code-container { flex-direction: column; }
+            .code-text { width: 100%; }
+            .tabs-navigation { gap: 5px; }
+            .tab-btn { padding: 10px 15px; font-size: 0.9rem; }
+            .screenshots-gallery { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .screenshot-image { height: 150px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-switcher">
+            <button class="lang-btn active" onclick="switchLanguage('ru')">🇷🇺 RU</button>
+            <button class="lang-btn" onclick="switchLanguage('en')">🇬🇧 EN</button>
+            <button class="theme-btn" onclick="toggleTheme()">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+
+        <h1>PROJECT EARTH</h1>
+        <p class="subtitle" data-ru="Сохраним Minecraft Earth после закрытия" 
+           data-en="Sustaining Minecraft Earth, beyond the closing">
+            Сохраним Minecraft Earth после закрытия
+        </p>
+
+        <div class="discord-banner">
+            <a href="https://discord.gg/tWb8RFEMC" target="_blank" class="discord-btn">
+                <i class="fab fa-discord"></i>
+                <span data-ru="Присоединяйся к нашему Discord!" data-en="Join our Discord!">
+                    Присоединяйся к нашему Discord!
+                </span>
+            </a>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs-navigation">
+            <button class="tab-btn active" onclick="switchTab('home')" data-ru="Главная" data-en="Home">Главная</button>
+            <button class="tab-btn" onclick="switchTab('news')" data-ru="Новости" data-en="News">Новости</button>
+            <button class="tab-btn" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery">Галерея</button>
+        </div>
+
+        <!-- HOME TAB -->
+        <div id="home" class="tab-content active">
+            <div class="section">
+                <h2 class="section-title" data-ru="🌍 Что такое Project Earth?" 
+                    data-en="🌍 What is Project Earth?">
+                    🌍 Что такое Project Earth?
+                </h2>
+                <div class="info-card">
+                    <p data-ru="Мы создали сервер для Minecraft Earth на базе готового Vienna API и модифицируем клиент, чтобы позволить вам подключаться к нашим серверам. Это позволяет всем желающим продолжить играть в игру после закрытия официальных серверов. Начни свою новую игру в Minecraft Earth с нами!"
+                       data-en="We've created a Minecraft Earth server based on the ready-made Vienna API and modify the client to allow you to connect to our servers. This allows anyone who wants to continue playing the game after the official servers closed. Start your new Minecraft Earth adventure with us!">
+                        Мы создали сервер для Minecraft Earth на базе готового Vienna API и модифицируем клиент, чтобы позволить вам подключаться к нашим серверам. Это позволяет всем желающим продолжить играть в игру после закрытия официальных серверов. Начни свою новую игру в Minecraft Earth с нами!
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title" data-ru="⚙️ Как это работает?" 
+                    data-en="⚙️ How Does It Work?">
+                    ⚙️ Как это работает?
+                </h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3 data-ru="Используем Vienna API" data-en="Using Vienna API">
+                                Используем Vienna API
+                            </h3>    
+                            <p data-ru="Мы запускаем сервер на базе готового Vienna API - открытого сервера, сделанного на Docker для восстановления Minecraft Earth"
+                               data-en="We run a server based on the ready-made Vienna API - an open source Docker server, for restoring Minecraft Earth">
+                                Мы запускаем сервер на базе готового Vienna API - открытого сервера, сделанного на Docker для восстановления Minecraft Earth
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3 data-ru="Патчим клиент" data-en="Patch the Client">
+                                Патчим клиент
+                            </h3>
+                            <p data-ru="Модифицируем приложение Minecraft Earth, чтобы оно подключалось к нашему серверу вместо официального"
+                               data-en="We modify the Minecraft Earth app to connect to our server instead of the official one">
+                                Модифицируем приложение Minecraft Earth, чтобы оно подключалось к нашему серверу вместо официального
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3 data-ru="Ожидай авторизацию" data-en="Wait for Authorization">
+                                Ожидай авторизацию
+                            </h3>
+                            <p data-ru="Подожди, пока мы авторизуем тебя в сети 🙂"
+                               data-en="Wait until we authorize you in the network 🙂">
+                                Подожди, пока мы авторизуем тебя в сети 🙂
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3 data-ru="Скачай APK" data-en="Download APK">
+                                Скачай APK
+                            </h3>
+                            <p data-ru="Скачай модифицированное приложение Minecraft Earth из нашего Discord сервера"
+                               data-en="Download the modified Minecraft Earth app from our Discord server">
+                                Скачай модифицированное приложение Minecraft Earth из нашего Discord сервера
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3 data-ru="Наслаждайся игрой!" data-en="Enjoy the Game!">
+                                Наслаждайся игрой!
+                            </h3>
+                            <p data-ru="Включи ZeroTier One и запусти игру. Добро пожаловать обратно в Minecraft Earth! 😊"
+                               data-en="Enable ZeroTier One and launch the game. Welcome back to Minecraft Earth! 😊">
+                                Включи ZeroTier One и запусти игру. Добро пожаловать обратно в Minecraft Earth! 😊
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title" data-ru="🔗 Соединение ZeroTier" 
+                    data-en="🔗 ZeroTier Connection">
+                    🔗 Соединение ZeroTier
+                </h2>
+                <div class="zerotier-code">
+                    <p data-ru="Используйте этот ID для подключения ZeroTier:" data-en="Use this ID to connect ZeroTier:">Используйте этот ID для подключения ZeroTier:</p>
+                    <div class="code-container">
+                        <code class="code-text">3b19b3a716030d76</code>
+                        <button class="copy-btn" onclick="copyZeroTier()">
+                            <i class="fas fa-copy"></i>
+                            <span data-ru="Копировать" data-en="Copy">Копировать</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title" data-ru="👥 Авторы проекта" 
+                    data-en="👥 Project Authors">
+                    👥 Авторы проекта
+                </h2>
+                <div class="authors">
+                    <div class="author-card">
+                        <div class="author-name">micheal65536</div>
+                        <div class="author-role" data-ru="Основатель" data-en="Founder">
+                            Основатель
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/352392612105158656" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@micheal65536</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="author-card">
+                        <div class="author-name">Halolamemes</div>
+                        <div class="author-role" data-ru="Помощник" data-en="Assistant">
+                            Помощник
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/1122063385811496970" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@halolamemes</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title" data-ru="❓ Часто задаваемые вопросы" 
+                    data-en="❓ FAQ">
+                    ❓ Часто задаваемые вопросы
+                </h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span data-ru="Это бесплатно?" data-en="Is it free?">
+                            Это бесплатно?
+                        </span>
+                    </div>
+                    <div class="faq-answer" data-ru="Да! Project Earth полностью бесплатен для всех игроков." 
+                         data-en="Yes! Project Earth is completely free for all players.">
+                        Да! Project Earth полностью бесплатен для всех игроков.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span data-ru="Что такое Project Genoa?" data-en="What is Project Genoa?">
+                            Что такое Project Genoa?
+                        </span>
+                    </div>
+                    <div class="faq-answer" data-ru="Project Genoa - это открытый проект для воссоздания серверной части Minecraft Earth. Мы используем их готовое API для работы нашего сервера." 
+                         data-en="Project Genoa is an open-source project to recreate the server-side of Minecraft Earth. We use their ready-made API to run our server.">
+                        Project Genoa - это открытый проект для воссоздания серверной части Minecraft Earth. Мы используем их готовое API для работы нашего сервера.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span data-ru="Где скачать APK?" data-en="Where to download APK?">
+                            Где скачать APK?
+                        </span>
+                    </div>
+                    <div class="faq-answer" data-ru="Модифицированный APK доступен на нашем Discord сервере. Присоединяйтесь и следуйте инструкциям!" 
+                         data-en="The modified APK is available on our Discord server. Join and follow the instructions!">
+                        Модифицированный APK доступен на нашем Discord сервере. Присоединяйтесь и следуйте инструкциям!
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-question-circle"></i>
+                        <span data-ru="Нужен ли мне ZeroTier?" data-en="Do I need ZeroTier?">
+                            Нужен ли мне ZeroTier?
+                        </span>
+                    </div>
+                    <div class="faq-answer" data-ru="Да, ZeroTier необходим для подключения к нашему серверу. Это создаёт безопасную виртуальную сеть для игры." 
+                         data-en="Yes, ZeroTier is required to connect to our server. It creates a secure virtual network for the game.">
+                        Да, ZeroTier необходим для подключения к нашему серверу. Это создаёт безопасную виртуальную сеть для игры.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title" data-ru="🔗 Полезные ссылки" 
+                    data-en="🔗 Useful Links">
+                    🔗 Полезные ссылки
+                </h2>
+                <div class="info-card">
+                    <p style="margin-bottom: 15px;">
+                        <strong>Project Genoa (API):</strong><br>
+                        <a href="https://github.com/Project-Genoa" target="_blank" style="color: #667eea;">
+                            <i class="fab fa-github"></i> github.com/Project-Genoa
+                        </a>
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        <strong data-ru="Наш Discord:" data-en="Our Discord:">Наш Discord:</strong><br>
+                        <a href="https://discord.gg/tWb8RFEMC" target="_blank" style="color: #5865F2;">
+                            <i class="fab fa-discord"></i> discord.gg/tWb8RFEMC
+                        </a>
+                    </p>
+                    <p>
+                        <strong data-ru="Reddit сообщество:" data-en="Reddit Community:">Reddit сообщество:</strong><br>
+                        <a href="https://reddit.com/r/ProjectEarth" target="_blank" style="color: #FF4500;">
+                            <i class="fab fa-reddit-alien"></i> r/ProjectEarth
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-note">
+                <i class="fas fa-info-circle"></i>
+                <span data-ru="Этот проект создан фанатами и не связан с Mojang или Microsoft" 
+                      data-en="This project is created by fans and is not affiliated with Mojang or Microsoft">
+                    Этот проект создан фанатами и не связан с Mojang или Microsoft
+                </span>
+            </div>
+        </div>
+
+        <!-- NEWS TAB -->
+        <div id="news" class="tab-content">
+            <div class="section">
+                <h2 class="section-title" data-ru="📰 Все новости" data-en="📰 All News">📰 Все новости</h2>
+                <div id="newsContainer" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p data-ru="Загрузка новостей..." data-en="Loading news...">Загрузка новостей...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GALLERY TAB -->
+        <div id="gallery" class="tab-content">
+            <div class="section">
+                <h2 class="section-title" data-ru="📸 Загрузить скриншот" data-en="📸 Upload Screenshot">📸 Загрузить скриншот</h2>
+                <div class="news-form">
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #333;">Выберите изображение</label>
+                        <div style="border: 2px dashed #667eea; padding: 30px; border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s; background: white;" id="dropZone">
+                            <i class="fas fa-image" style="font-size: 2rem; color: #667eea; margin-bottom: 10px; display: block;"></i>
+                            <p style="color: #667eea; font-weight: 600; margin: 0;">Нажмите или перетащите изображение</p>
+                            <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="photoAuthor" placeholder="Ваше имя..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; font-family: 'Poppins', sans-serif; font-size: 1rem;">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="photoDescription" placeholder="Описание скриншота (опционально)..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; font-family: 'Poppins', sans-serif; font-size: 1rem; min-height: 80px; resize: vertical;"></textarea>
+                    </div>
+                    <button onclick="uploadPhoto()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s;">
+                        <i class="fas fa-upload"></i> <span data-ru="Загрузить" data-en="Upload">Загрузить</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title" data-ru="🖼️ Галерея скриншотов" data-en="🖼️ Screenshots Gallery">🖼️ Галерея скриншотов</h2>
+                <div id="screenshotsContainer" class="screenshots-gallery">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p data-ru="Загрузка скриншотов..." data-en="Loading screenshots...">Загрузка скриншотов...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js"></script>
+    <script>
+        let currentLang = 'ru';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-ru][data-en]').forEach(element => {
+                element.textContent = lang === 'ru' ? element.getAttribute('data-ru') : element.getAttribute('data-en');
+            });
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.querySelector('.theme-btn');
+            const themeIcon = themeBtn.querySelector('.theme-icon');
+            body.classList.toggle('dark-theme');
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function copyZeroTier() {
+            copyToClipboard('3b19b3a716030d76');
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => showSuccess()).catch(err => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            tempInput.style.position = 'fixed';
+            tempInput.style.opacity = '0';
+            document.body.appendChild(tempInput);
+            tempInput.focus();
+            tempInput.select();
+            try { document.execCommand('copy'); showSuccess(); } catch (err) { console.error('Copy failed:', err); }
+            document.body.removeChild(tempInput);
+        }
+
+        function showSuccess() {
+            const btn = document.querySelector('.copy-btn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = currentLang === 'ru' ? '<i class="fas fa-check"></i> <span>Скопировано!</span>' : '<i class="fas fa-check"></i> <span>Copied!</span>';
+            btn.style.background = '#28a745';
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = '';
+            }, 2000);
+        }
+
+        // ===== FIREBASE =====
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        let firebaseInitialized = false;
+        let db, storage;
+
+        function initFirebase() {
+            if (firebaseInitialized) return;
+            const app = firebase.initializeApp(firebaseConfig);
+            db = firebase.database(app);
+            storage = firebase.storage(app);
+            firebaseInitialized = true;
+        }
+
+        async function uploadPhoto() {
+            initFirebase();
+            
+            const fileInput = document.getElementById('photoInput');
+            const author = document.getElementById('photoAuthor').value.trim();
+            const description = document.getElementById('photoDescription').value.trim();
+            
+            if (!fileInput.files.length) {
+                alert('Пожалуйста, выберите изображение');
+                return;
+            }
+
+            if (!author) {
+                alert('Пожалуйста, введите ваше имя');
+                return;
+            }
+
+            const file = fileInput.files[0];
+
+            // Проверка размера
+            if (file.size > 5 * 1024 * 1024) {
+                alert('❌ Файл слишком большой (максимум 5MB)');
+                return;
+            }
+
+            try {
+                const timestamp = Date.now();
+                const filename = `${timestamp}_${file.name}`;
+                const storageRef = storage.ref(`screenshots/${filename}`);
+                
+                const snapshot = await storageRef.put(file);
+                const downloadURL = await snapshot.ref.getDownloadURL();
+
+                // Сохраняем в БД
+                await db.ref(`screenshots/${timestamp}`).set({
+                    url: downloadURL,
+                    description: description,
+                    author: author,
+                    timestamp: timestamp,
+                    approved: false,
+                    likes: 0,
+                    comments: {}
+                });
+
+                // Очищаем форму
+                fileInput.value = '';
+                document.getElementById('photoAuthor').value = '';
+                document.getElementById('photoDescription').value = '';
+                
+                alert('✅ Скриншот загружен! Ожидает модерации');
+                loadScreenshots();
+
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                alert('❌ Ошибка при загрузке: ' + error.message);
+            }
+        }
+
+        async function loadScreenshots() {
+            try {
+                initFirebase();
+                const container = document.getElementById('screenshotsContainer');
+                if (!container) return;
+
+                const snapshot = await db.ref('screenshots').once('value');
+                const screenshots = snapshot.val();
+
+                container.innerHTML = '';
+
+                if (!screenshots) {
+                    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;"><i class="fas fa-images" style="font-size: 3rem; opacity: 0.3;"></i><p style="margin-top: 10px;">Скриншотов пока нет</p></div>';
+                    return;
+                }
+
+                Object.entries(screenshots).reverse().forEach(([key, photo]) => {
+                    if (!photo.approved) return;
+
+                    const photoCard = document.createElement('div');
+                    photoCard.className = 'screenshot-item';
+                    photoCard.innerHTML = `
+                        <img src="${photo.url}" alt="Screenshot" class="screenshot-image" onclick="window.open('${photo.url}', '_blank')">
+                        <div class="screenshot-info">
+                            <div class="screenshot-author">${photo.author}</div>
+                            ${photo.description ? `<div class="screenshot-description">${photo.description}</div>` : ''}
+                            <div class="screenshot-actions">
+                                <button class="btn-small btn-like" onclick="likePhoto('${key}')">
+                                    <i class="fas fa-heart"></i> ${photo.likes || 0}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(photoCard);
+                });
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+            }
+        }
+
+        function likePhoto(photoId) {
+            initFirebase();
+            db.ref(`screenshots/${photoId}/likes`).transaction(current => (current || 0) + 1).then(() => loadScreenshots());
+        }
+
+        // ===== NEWS FUNCTIONS =====
+        async function loadNews() {
+            try {
+                initFirebase();
+                const container = document.getElementById('newsContainer');
+                if (!container) return;
+
+                const snapshot = await db.ref('news').once('value');
+                const newsList = snapshot.val();
+
+                container.innerHTML = '';
+
+                if (!newsList) {
+                    container.innerHTML = '<div style="text-align: center; color: #999; padding: 40px;"><i class="fas fa-newspaper" style="font-size: 3rem; opacity: 0.3;"></i><p style="margin-top: 10px;">Новостей пока нет</p></div>';
+                    return;
+                }
+
+                Object.entries(newsList).reverse().forEach(([key, news]) => {
+                    const newsCard = document.createElement('div');
+                    newsCard.className = 'news-item';
+                    newsCard.innerHTML = `
+                        <div class="news-header">
+                            <div>
+                                <h3>${news.title}</h3>
+                                <div class="news-author">${news.author}</div>
+                            </div>
+                            <span class="news-date">${new Date(news.timestamp).toLocaleDateString('ru-RU')}</span>
+                        </div>
+                        <div class="news-content">${news.content}</div>
+                        <div class="news-actions">
+                            <button class="btn-like" onclick="likeNews('${key}')">
+                                <i class="fas fa-heart"></i> ${news.likes || 0}
+                            </button>
+                            <button class="btn-comment" onclick="toggleNewsComments('${key}')">
+                                <i class="fas fa-comment"></i> ${Object.keys(news.comments || {}).length}
+                            </button>
+                        </div>
+                        <div class="news-comments" id="newsComments-${key}" style="display: none;">
+                            <div id="newsCommentsList-${key}"></div>
+                            <div class="comment-form">
+                                <input type="text" placeholder="Напишите комментарий..." id="newsCommentInput-${key}">
+                                <button onclick="addNewsComment('${key}')">OK</button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(newsCard);
+                    loadNewsComments(key, news.comments || {});
+                });
+            } catch (error) {
+                console.error('Ошибка загрузки новостей:', error);
+            }
+        }
+
+        function publishNews() {
+            const title = document.getElementById('newsTitle').value.trim();
+            const content = document.getElementById('newsContent').value.trim();
+            const author = document.getElementById('newsAuthor').value.trim();
+
+            if (!title || !content || !author) {
+                alert('Пожалуйста, заполните все поля');
+                return;
+            }
+
+            initFirebase();
+            const timestamp = Date.now();
+            db.ref(`news/${timestamp}`).set({
+                title: title,
+                content: content,
+                author: author,
+                timestamp: timestamp,
+                likes: 0,
+                comments: {}
+            }).then(() => {
+                document.getElementById('newsTitle').value = '';
+                document.getElementById('newsContent').value = '';
+                document.getElementById('newsAuthor').value = '';
+                alert('✅ Новость опубликована!');
+                loadNews();
+            }).catch(error => {
+                alert('❌ Ошибка: ' + error.message);
+            });
+        }
+
+        function likeNews(newsId) {
+            initFirebase();
+            db.ref(`news/${newsId}/likes`).transaction(current => (current || 0) + 1).then(() => loadNews());
+        }
+
+        function toggleNewsComments(newsId) {
+            const commentsDiv = document.getElementById(`newsComments-${newsId}`);
+            if (commentsDiv) commentsDiv.style.display = commentsDiv.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function loadNewsComments(newsId, comments) {
+            const commentsList = document.getElementById(`newsCommentsList-${newsId}`);
+            if (!commentsList) return;
+            commentsList.innerHTML = '';
+            Object.entries(comments).forEach(([key, comment]) => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment-item';
+                commentDiv.innerHTML = `<div class="comment-author"><strong>${comment.author}</strong></div><div class="comment-text">${comment.text}</div>`;
+                commentsList.appendChild(commentDiv);
+            });
+        }
+
+        function addNewsComment(newsId) {
+            const input = document.getElementById(`newsCommentInput-${newsId}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            initFirebase();
+            const userName = prompt('Ваше имя для комментария:') || 'Аноним';
+            db.ref(`news/${newsId}/comments/${Date.now()}`).set({
+                author: userName,
+                text: text,
+                timestamp: Date.now()
+            }).then(() => {
+                input.value = '';
+                loadNews();
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferred-language');
+            if (savedLang && savedLang !== 'ru') {
+                document.querySelector('.lang-btn:nth-child(2)').click();
+            }
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.querySelector('.theme-icon').textContent = '☀️';
+            }
+
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.addEventListener('click', () => item.classList.toggle('active'));
+            });
+
+            // Обработчик для файлового ввода
+            const photoInput = document.getElementById('photoInput');
+            const dropZone = document.getElementById('dropZone');
+
+            if (dropZone && photoInput) {
+                dropZone.addEventListener('click', () => photoInput.click());
+
+                // Перетаскивание файлов
+                dropZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    dropZone.style.background = '#e8f0ff';
+                });
+
+                dropZone.addEventListener('dragleave', () => {
+                    dropZone.style.background = 'white';
+                });
+
+                dropZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    dropZone.style.background = 'white';
+                    photoInput.files = e.dataTransfer.files;
+                });
+            }
+
+            loadNews();
+            loadScreenshots();
+        });
+    </script>
+</body>
+</html>
