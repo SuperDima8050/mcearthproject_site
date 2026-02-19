@@ -3166,12 +3166,12 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // ⚠️ ЗАМЕНИТЕ НА ВАШИ ДАННЫЕ ИЗ SUPABASE DASHBOARD -> Settings -> API
-        const SUPABASE_URL = 'https://jlpguzbvzqcvnvrvcktu.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_JLxtTT0Ou6HU9yNJ-5JGqg_wiwJ80dD';
+        const SUPABASE_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_nhY94pR0kxA70QI__Zy_Hw_OD5nUm7F';
 
         let sbClient = null;
         try {
-            if (SUPABASE_ANON_KEY === 'YOUR_ANON_KEY') {
+            if (SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxbHlseGNub3FlaG9ybGdtenRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE0OTUwMDgsImV4cCI6MjA4NzA3MTAwOH0.stZw4M4I3W0fbVD1X-rP8eDWYWyye2MTswqSTR_UC3Y') {
                 console.warn('Supabase: вставь ANON KEY!');
             } else {
                 sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
