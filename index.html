@@ -3509,6 +3509,9 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                         <option value="oldest" data-ru="Сначала старые" data-en="Oldest first">Сначала старые</option>
                         <option value="liked" data-ru="По лайкам" data-en="By likes">По лайкам</option>
                     </select>
+                    <button class="bp-filter-mine-btn" id="gallery-filter-mine"
+                            data-ru="Мои" data-en="Mine"
+                            onclick="toggleGalleryFilterMine()"><img class="mce-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;"><span data-ru="Мои" data-en="Mine">Мои</span></button>
                     <span class="bp-results-count" id="gallery-count"></span>
                 </div>
 
@@ -4303,6 +4306,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin);
             if (typeof renderRefXPBar === 'function') renderRefXPBar(_lastRefCount);
             if (typeof _bpAllData !== 'undefined' && _bpAllData && _bpAllData.length > 0) applyBpFilters();
+            if (typeof _galleryCache !== 'undefined' && _galleryCache && _galleryCache.length > 0) filterGallery();
 
             if (typeof updateDailyLimitUI === 'function') updateDailyLimitUI();
 
@@ -6376,6 +6380,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
         let _galleryCache = null;
         let _galleryAvatarMap = {};
         let _galleryVerifiedMap = {};
+        let _galleryFilterMine = false;
 
         // Update gallery auth state based on buildplates login
         function updateGalleryAuthState() {
@@ -6390,6 +6395,13 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 notLogged.style.display = 'block';
                 form.style.display = 'none';
             }
+        }
+
+        function toggleGalleryFilterMine() {
+            _galleryFilterMine = !_galleryFilterMine;
+            const btn = document.getElementById('gallery-filter-mine');
+            if (btn) btn.classList.toggle('active', _galleryFilterMine);
+            filterGallery();
         }
 
         // Shared daily limit — reads same key as buildplates
@@ -6573,10 +6585,15 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             if (!_galleryCache) return;
             const query = (document.getElementById('gallery-search')?.value || '').toLowerCase().trim();
             const sort = document.getElementById('gallery-sort')?.value || 'newest';
+            const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
 
-            let filtered = _galleryCache.filter(p =>
-                !query || (p.title||'').toLowerCase().includes(query) || (p.author||'').toLowerCase().includes(query)
-            );
+            let filtered = _galleryCache.filter(p => {
+                if (_galleryFilterMine) {
+                    const isMine = myNick && (p.author||'').toLowerCase() === myNick;
+                    if (!isMine) return false;
+                }
+                return !query || (p.title||'').toLowerCase().includes(query) || (p.author||'').toLowerCase().includes(query);
+            });
 
             if (sort === 'oldest') filtered = [...filtered].sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
             else if (sort === 'liked') filtered = [...filtered].sort((a,b) => (b.likes||0) - (a.likes||0));
