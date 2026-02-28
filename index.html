@@ -3467,6 +3467,22 @@
                         </div>
                     </div>
 
+                    <div id="bp-upload-captcha-wrap" style="margin-bottom:10px;"></div>
+                    <script>
+                    (function() {
+                        var wrap = document.getElementById('bp-upload-captcha-wrap');
+                        var isCompact = window.innerWidth <= 480;
+                        var savedTheme = localStorage.getItem('theme');
+                        var isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                        var div = document.createElement('div');
+                        div.className = 'cf-turnstile';
+                        div.id = 'bp-upload-turnstile';
+                        div.setAttribute('data-sitekey', '0x4AAAAAACZyA1UOix1SiYwF');
+                        div.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                        div.setAttribute('data-size', isCompact ? 'compact' : 'normal');
+                        wrap.appendChild(div);
+                    })();
+                    </script>
                     <button class="bp-submit-btn" id="bp-submit-btn" onclick="uploadBuildplate()">
                         <i class="fas fa-upload"></i>
                         <span data-ru="Загрузить Buildplate" data-en="Upload Buildplate">Загрузить Buildplate</span>
@@ -3579,6 +3595,22 @@
                         </div>
 
                         <div id="gallery-status" style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;"></div>
+                        <div id="gallery-upload-captcha-wrap" style="margin-bottom:10px;"></div>
+                        <script>
+                        (function() {
+                            var wrap = document.getElementById('gallery-upload-captcha-wrap');
+                            var isCompact = window.innerWidth <= 480;
+                            var savedTheme = localStorage.getItem('theme');
+                            var isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                            var div = document.createElement('div');
+                            div.className = 'cf-turnstile';
+                            div.id = 'gallery-upload-turnstile';
+                            div.setAttribute('data-sitekey', '0x4AAAAAACZyA1UOix1SiYwF');
+                            div.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                            div.setAttribute('data-size', isCompact ? 'compact' : 'normal');
+                            wrap.appendChild(div);
+                        })();
+                        </script>
                         <button class="bp-submit-btn" id="gallery-submit-btn" onclick="uploadGalleryPhoto()">
                             <i class="fas fa-upload"></i>
                             <span data-ru="Опубликовать фото" data-en="Publish photo">Опубликовать фото</span>
@@ -5741,6 +5773,13 @@
 
             if (!currentAccount) { showBpStatus('error', ru ? '❌ Войди в аккаунт перед загрузкой!' : '❌ Login before uploading!'); return; }
 
+            const bpCaptchaToken = document.querySelector('#bp-upload-turnstile [name="cf-turnstile-response"]')?.value
+                || document.querySelector('#bp-upload-captcha-wrap [name="cf-turnstile-response"]')?.value;
+            if (!bpCaptchaToken) {
+                showBpStatus('error', ru ? '❌ Пройди капчу!' : '❌ Complete the captcha!');
+                return;
+            }
+
             if (getDailyPostsLeft() <= 0) {
                 showBpStatus('error', ru ? '❌ Достигнут дневной лимит (3 поста в день). Попробуй завтра!' : '❌ Daily limit reached (3 posts/day). Try tomorrow!');
                 return;
@@ -5846,13 +5885,14 @@
                 document.getElementById('bp-world-input').value = '';
                 document.getElementById('bp-image-name').textContent = '';
                 document.getElementById('bp-world-name').textContent = '';
+                if (window.turnstile) window.turnstile.reset('#bp-upload-turnstile');
 
                 loadBuildplates();
 
             } catch (err) {
                 console.error(err);
                 showBpStatus('error', '❌ ' + err.message);
-
+                if (window.turnstile) window.turnstile.reset('#bp-upload-turnstile');
                 if (imagePath) await sbClient.storage.from('buildplates').remove([imagePath]).catch(() => {});
                 if (worldPath) await sbClient.storage.from('buildplates').remove([worldPath]).catch(() => {});
             } finally {
@@ -6598,6 +6638,13 @@
 
             if (!sbClient) { showStatus('error', ru ? '❌ Supabase не подключён!' : '❌ Supabase not connected!'); return; }
             if (!currentAccount) { showStatus('error', ru ? '❌ Войди в аккаунт!' : '❌ Log in first!'); return; }
+
+            const galleryCaptchaToken = document.querySelector('#gallery-upload-turnstile [name="cf-turnstile-response"]')?.value
+                || document.querySelector('#gallery-upload-captcha-wrap [name="cf-turnstile-response"]')?.value;
+            if (!galleryCaptchaToken) {
+                showStatus('error', ru ? '❌ Пройди капчу!' : '❌ Complete the captcha!');
+                return;
+            }
             if (getDailyPostsLeft() <= 0) {
                 showStatus('error', ru ? '❌ Достигнут дневной лимит (3 поста в день).' : '❌ Daily limit reached (3 posts/day).');
                 return;
@@ -6655,10 +6702,12 @@
                 document.getElementById('gallery-image-input').value = '';
                 document.getElementById('gallery-image-label').innerHTML =
                     `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
+                if (window.turnstile) window.turnstile.reset('#gallery-upload-turnstile');
                 _galleryCache = null;
                 loadGallery();
             } catch(e) {
                 showStatus('error', '❌ ' + (e.message || e));
+                if (window.turnstile) window.turnstile.reset('#gallery-upload-turnstile');
             } finally {
                 submitBtn.disabled = getDailyPostsLeft() <= 0;
             }
