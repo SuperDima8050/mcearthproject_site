@@ -3301,6 +3301,28 @@
                         <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
                     </button>
                 </div>
+
+                <!-- Notification banner -->
+                <div id="notif-banner" style="display:none;align-items:center;gap:12px;padding:14px 16px;margin-bottom:16px;border-radius:4px;border:3px solid #4a5d23;background:linear-gradient(135deg,#2a3a10,#1a2508);box-shadow:0 4px 0 #1a2010;">
+                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_open_icon.png" alt="" style="width:32px;height:32px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:700;color:#a5d652;text-transform:uppercase;letter-spacing:1px;" data-ru="🔔 Уведомления о новостях" data-en="🔔 News Notifications">🔔 Уведомления о новостях</div>
+                        <div style="font-family:'Minecraft',sans-serif;font-size:0.74rem;color:#8ab04a;margin-top:3px;line-height:1.4;" data-ru="Узнавай первым о новых новостях проекта" data-en="Be the first to know about new project news">Узнавай первым о новых новостях проекта</div>
+                    </div>
+                    <div style="display:flex;gap:8px;flex-shrink:0;">
+                        <button id="notif-enable-btn" onclick="enableNotifications()" style="padding:8px 14px;background:linear-gradient(180deg,#6b8e23,#4a6318);color:#fff;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #2e3d10;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">
+                            <i class="fas fa-bell"></i> <span data-ru="Включить" data-en="Enable">Включить</span>
+                        </button>
+                        <button onclick="dismissNotifBanner()" style="padding:8px 10px;background:transparent;color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.75rem;cursor:pointer;" title="Закрыть">✕</button>
+                    </div>
+                </div>
+                <!-- Already subscribed indicator -->
+                <div id="notif-active-bar" style="display:none;align-items:center;gap:10px;padding:10px 14px;margin-bottom:16px;border-radius:4px;border:2px solid #4a5d23;background:#1a2508;">
+                    <i class="fas fa-bell" style="color:#6b8e23;font-size:1rem;"></i>
+                    <span style="font-family:'Minecraft',sans-serif;font-size:0.76rem;color:#8ab04a;font-weight:700;flex:1;" data-ru="Уведомления включены" data-en="Notifications enabled">Уведомления включены</span>
+                    <button onclick="disableNotifications()" style="padding:5px 10px;background:transparent;color:#c62828;border:2px solid #8b1a1a;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.7rem;cursor:pointer;font-weight:700;" data-ru="Выключить" data-en="Disable">Выключить</button>
+                </div>
+
                 <div id="news-container" class="news-container">
                     <div class="news-empty">
                         <i class="fas fa-newspaper"></i>
@@ -3989,6 +4011,8 @@
 
             statusEl.textContent = ru ? '✅ Новость опубликована!' : '✅ News published!';
             statusEl.style.color = '#2e7d32';
+            // Отправляем push уведомление всем подписчикам
+            sendNewsNotification(title, content.slice(0, 100) + (content.length > 100 ? '...' : ''));
             setTimeout(() => { document.getElementById('news-admin-modal')?.remove(); loadNews(); }, 1200);
         }
 
@@ -7085,6 +7109,154 @@
 
         applyMceIcons();
 
+    </script>
+
+    <!-- ===== WEB PUSH NOTIFICATIONS ===== -->
+    <script>
+    // ⚠️ ЗАМЕНИ НА СВОЙ VAPID PUBLIC KEY (сгенерируй: npx web-push generate-vapid-keys)
+    const VAPID_PUBLIC_KEY = 'YOUR_VAPID_PUBLIC_KEY_HERE';
+
+    // URL твоей Supabase Edge Function для отправки пушей
+    const PUSH_SEND_URL = 'https://YOUR_PROJECT.supabase.co/functions/v1/send-push';
+
+    let _swRegistration = null;
+
+    // Конвертирует VAPID ключ в нужный формат
+    function urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+        const rawData = atob(base64);
+        return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+    }
+
+    // Регистрируем SW и проверяем статус при загрузке
+    async function initPushNotifications() {
+        if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+        if (VAPID_PUBLIC_KEY === 'YOUR_VAPID_PUBLIC_KEY_HERE') return; // не настроено
+
+        try {
+            _swRegistration = await navigator.serviceWorker.register('/sw.js');
+            await checkNotificationStatus();
+        } catch(e) {
+            console.warn('SW registration failed:', e);
+        }
+    }
+
+    async function checkNotificationStatus() {
+        const banner = document.getElementById('notif-banner');
+        const activeBar = document.getElementById('notif-active-bar');
+        if (!banner || !activeBar) return;
+
+        const permission = Notification.permission;
+        const dismissed = localStorage.getItem('notif_banner_dismissed');
+
+        if (permission === 'granted' && _swRegistration) {
+            const sub = await _swRegistration.pushManager.getSubscription();
+            if (sub) {
+                banner.style.display = 'none';
+                activeBar.style.display = 'flex';
+                return;
+            }
+        }
+
+        activeBar.style.display = 'none';
+        if (permission !== 'denied' && !dismissed) {
+            banner.style.display = 'flex';
+        }
+    }
+
+    async function enableNotifications() {
+        if (!_swRegistration) {
+            showInfoBanner('❌ Сервис воркер не зарегистрирован', 'error');
+            return;
+        }
+
+        const btn = document.getElementById('notif-enable-btn');
+        if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; }
+
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission !== 'granted') {
+                showInfoBanner(currentLang === 'ru' ? '⚠️ Разрешение на уведомления отклонено' : '⚠️ Notification permission denied', 'error');
+                if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
+                return;
+            }
+
+            const subscription = await _swRegistration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+            });
+
+            // Сохраняем подписку в Supabase
+            if (sbClient) {
+                await sbClient.from('push_subscriptions').upsert([{
+                    subscription: subscription.toJSON(),
+                    created_at: new Date().toISOString()
+                }]);
+            }
+
+            localStorage.removeItem('notif_banner_dismissed');
+            document.getElementById('notif-banner').style.display = 'none';
+            document.getElementById('notif-active-bar').style.display = 'flex';
+            showInfoBanner(currentLang === 'ru' ? '🔔 Уведомления включены!' : '🔔 Notifications enabled!', 'success');
+        } catch(e) {
+            console.error('Push subscribe error:', e);
+            showInfoBanner('❌ ' + e.message, 'error');
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
+        }
+    }
+
+    async function disableNotifications() {
+        if (!_swRegistration) return;
+        try {
+            const sub = await _swRegistration.pushManager.getSubscription();
+            if (sub) {
+                // Удаляем из Supabase
+                if (sbClient) {
+                    await sbClient.from('push_subscriptions').delete().eq('subscription->>endpoint', sub.endpoint);
+                }
+                await sub.unsubscribe();
+            }
+            document.getElementById('notif-active-bar').style.display = 'none';
+            document.getElementById('notif-banner').style.display = 'flex';
+            showInfoBanner(currentLang === 'ru' ? '🔕 Уведомления выключены' : '🔕 Notifications disabled', 'success');
+        } catch(e) {
+            console.error('Unsubscribe error:', e);
+        }
+    }
+
+    function dismissNotifBanner() {
+        document.getElementById('notif-banner').style.display = 'none';
+        localStorage.setItem('notif_banner_dismissed', '1');
+    }
+
+    // Вызывается после публикации новости (отправляет пуш всем подписчикам)
+    async function sendNewsNotification(title, body) {
+        if (PUSH_SEND_URL.includes('YOUR_PROJECT')) return; // не настроено
+        try {
+            await fetch(PUSH_SEND_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (window._sbAnonKey || '') },
+                body: JSON.stringify({ title: '📰 ' + title, body, url: '/?tab=news' })
+            });
+        } catch(e) {
+            console.warn('Push send failed:', e);
+        }
+    }
+
+    // Инициализируем при загрузке страницы
+    document.addEventListener('DOMContentLoaded', initPushNotifications);
+
+    // Показываем баннер когда открывают вкладку Новости
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                if (tab.dataset.tab === 'news') {
+                    setTimeout(checkNotificationStatus, 100);
+                }
+            });
+        });
+    });
     </script>    </script>
 </body>
 </html>
