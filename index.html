@@ -3404,7 +3404,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                     </select>
                     <button class="bp-filter-mine-btn" id="bp-filter-mine"
                             data-ru="Мои" data-en="Mine"
-                            onclick="toggleFilterMine()"><img class="mce-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;"><span data-ru="Мои" data-en="Mine">Мои</span></button>
+                            onclick="toggleFilterMine()"><img id="mine-btn-icon" class="mce-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;"><span data-ru="Мои" data-en="Mine">Мои</span></button>
                     <span class="bp-results-count" id="bp-results-count"></span>
                 </div>
 
@@ -3499,19 +3499,20 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                     <div class="bp-search-wrap">
                         <i class="fas fa-search"></i>
                         <input type="text" id="gallery-search"
-                               placeholder="Поиск..."
-                               data-placeholder-ru="Поиск..."
-                               data-placeholder-en="Search..."
+                               placeholder="Поиск по названию или автору..."
+                               data-placeholder-ru="Поиск по названию или автору..."
+                               data-placeholder-en="Search by name or author..."
                                oninput="filterGallery()" />
                     </div>
                     <select class="bp-sort-select" id="gallery-sort" onchange="filterGallery()">
-                        <option value="newest" data-ru="Сначала новые" data-en="Newest first">Сначала новые</option>
-                        <option value="oldest" data-ru="Сначала старые" data-en="Oldest first">Сначала старые</option>
-                        <option value="liked" data-ru="По лайкам" data-en="By likes">По лайкам</option>
+                        <option value="newest" data-ru="🕐 Сначала новые" data-en="🕐 Newest first">🕐 Сначала новые</option>
+                        <option value="oldest" data-ru="🕰️ Сначала старые" data-en="🕰️ Oldest first">🕰️ Сначала старые</option>
+                        <option value="liked" data-ru="👍 По лайкам" data-en="👍 Most liked">👍 По лайкам</option>
+                        <option value="rating" data-ru="⭐ По рейтингу" data-en="⭐ By rating">⭐ По рейтингу</option>
                     </select>
                     <button class="bp-filter-mine-btn" id="gallery-filter-mine"
                             data-ru="Мои" data-en="Mine"
-                            onclick="toggleGalleryFilterMine()"><img class="mce-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;"><span data-ru="Мои" data-en="Mine">Мои</span></button>
+                            onclick="toggleGalleryFilterMine()"><img id="gallery-mine-btn-icon" class="mce-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;"><span data-ru="Мои" data-en="Mine">Мои</span></button>
                     <span class="bp-results-count" id="gallery-count"></span>
                 </div>
 
@@ -4514,6 +4515,9 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
 
             const mineBtnIcon = document.getElementById('mine-btn-icon');
             if (mineBtnIcon) mineBtnIcon.src = iconUrl('mob_of_me_icon.png');
+
+            const galleryMineBtnIcon = document.getElementById('gallery-mine-btn-icon');
+            if (galleryMineBtnIcon) galleryMineBtnIcon.src = iconUrl('mob_of_me_icon.png');
 
             const cookieUrl = iconUrl('cookie_item.png');
             const cookieBannerIcon = document.getElementById('cookie-icon-banner');
@@ -6620,6 +6624,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
 
             if (sort === 'oldest') filtered = [...filtered].sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
             else if (sort === 'liked') filtered = [...filtered].sort((a,b) => (b.likes||0) - (a.likes||0));
+            else if (sort === 'rating') filtered = [...filtered].sort((a,b) => ((b.likes||0)-(b.dislikes||0)) - ((a.likes||0)-(a.dislikes||0)));
             else filtered = [...filtered].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
 
             const countEl = document.getElementById('gallery-count');
