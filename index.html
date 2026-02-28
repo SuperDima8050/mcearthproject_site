@@ -2712,241 +2712,11 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
         }
         .auth-locked:hover::after { opacity: 1; }
 
-        /* === GALLERY GRID === */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 16px;
-            margin-top: 14px;
-        }
-
-        .gallery-card {
-            background: #fffbf0;
-            border: 3px solid #8b7355;
-            border-radius: 4px;
-            box-shadow: 0 5px 0 #5a4a3a, 0 7px 15px rgba(0,0,0,0.15);
-            overflow: hidden;
-            transition: all 0.15s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .gallery-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 9px 0 #5a4a3a, 0 12px 25px rgba(0,0,0,0.25);
-        }
-
-        .gallery-card-img {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            display: block;
-            image-rendering: auto;
-            cursor: pointer;
-            transition: filter 0.15s;
-        }
-
-        .gallery-card-img:hover {
-            filter: brightness(1.08);
-        }
-
-        .gallery-card-img-placeholder {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: linear-gradient(135deg, #e8dfc0, #d4c5a0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: #8b7355;
-        }
-
-        .gallery-card-body {
-            padding: 10px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 1;
-        }
-
-        .gallery-card-name {
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #3e2723;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .gallery-card-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .gallery-card-author {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #5a4a3a;
-        }
-
-        .gallery-card-avatar {
-            width: 20px;
-            height: 20px;
-            border-radius: 2px;
-            object-fit: cover;
-            border: 1px solid #8b7355;
-            flex-shrink: 0;
-        }
-
-        .gallery-card-avatar-placeholder {
-            width: 20px;
-            height: 20px;
-            border-radius: 2px;
-            background: linear-gradient(135deg, #6b8e23, #4a5d23);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.65rem;
-            flex-shrink: 0;
-        }
-
-        .gallery-card-date {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.72rem;
-            color: #8b7355;
-            font-weight: 600;
-        }
-
-        .gallery-card-actions {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-            margin-top: 4px;
-            flex-wrap: wrap;
-        }
-
-        .gallery-like-btn, .gallery-dislike-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 7px 10px;
-            border: 2px solid #8b7355;
-            background: #f5eed9;
-            color: #5a4a3a;
-            border-radius: 2px;
-            cursor: pointer;
-            font-size: 0.78rem;
-            font-weight: 700;
-            font-family: 'Minecraft', sans-serif;
-            transition: all 0.15s;
-            box-shadow: 0 3px 0 #5a4a3a;
-        }
-
-        .gallery-like-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #5a4a3a; }
-        .gallery-like-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #5a4a3a; }
-
-        .gallery-like-btn.liked {
-            background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%);
-            color: white;
-            border-color: #4a5d23;
-            box-shadow: 0 3px 0 #3d4f1c;
-        }
-
-        .gallery-dislike-btn.disliked {
-            background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            border-color: #922b21;
-            box-shadow: 0 3px 0 #641e16;
-        }
-
-        .gallery-dots-wrap { position: relative; margin-left: auto; }
-        .gallery-dots-btn {
-            padding: 7px 10px;
-            border: 2px solid #8b7355;
-            background: #f5eed9;
-            color: #5a4a3a;
-            border-radius: 2px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 700;
-            box-shadow: 0 3px 0 #5a4a3a;
-            transition: all 0.15s;
-        }
-        .gallery-dots-btn:hover { transform: translateY(-2px); }
-
-        .gallery-dots-dropdown {
-            position: absolute;
-            right: 0;
-            top: calc(100% + 4px);
-            background: #fffbf0;
-            border: 2px solid #8b7355;
-            border-radius: 2px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            z-index: 50;
-            min-width: 160px;
-            display: none;
-            flex-direction: column;
-        }
-        .gallery-dots-dropdown.open { display: flex; }
-
-        .gallery-dots-item {
-            padding: 10px 14px;
-            background: none;
-            border: none;
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: #3e2723;
-            cursor: pointer;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.1s;
-        }
-        .gallery-dots-item:hover { background: #f0ede0; }
-        .gallery-dots-item.danger { color: #c0392b; }
-        .gallery-dots-item.danger:hover { background: #fdecea; }
-
-        .gallery-delete-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            width: 100%;
-            padding: 7px 12px;
-            background: linear-gradient(180deg, #c0392b 0%, #922b21 100%);
-            color: white;
-            border: 2px solid #7b241c;
-            border-radius: 2px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.78rem;
-            font-family: 'Minecraft', sans-serif;
-            box-shadow: 0 3px 0 #641e16;
-            justify-content: center;
-            transition: all 0.15s;
-            margin-top: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .gallery-delete-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #641e16; }
-        .gallery-delete-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #641e16; }
-
-        /* Lightbox */
+        /* === GALLERY — lightbox only, cards reuse bp-* classes === */
         .gallery-lightbox {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.88);
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -2954,48 +2724,30 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             animation: fadeIn 0.2s;
         }
         .gallery-lightbox img {
-            max-width: 90vw;
-            max-height: 90vh;
+            max-width: 92vw;
+            max-height: 92vh;
             object-fit: contain;
             border: 4px solid #5a4a3a;
             border-radius: 4px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            cursor: pointer;
         }
         .gallery-lightbox-close {
             position: absolute;
-            top: 20px;
-            right: 24px;
+            top: 18px;
+            right: 22px;
             background: none;
             border: 3px solid #fff;
             color: #fff;
-            font-size: 1.4rem;
-            padding: 6px 14px;
+            font-size: 1.3rem;
+            padding: 5px 14px;
             cursor: pointer;
             border-radius: 2px;
             font-family: 'Minecraft', sans-serif;
             font-weight: 700;
         }
-
-        /* Dark theme gallery */
-        body.dark-theme .gallery-card {
-            background: #1a1a1a;
-            border-color: #3a3a3a;
-            box-shadow: 0 5px 0 #0a0a0a, 0 7px 15px rgba(0,0,0,0.3);
-        }
-        body.dark-theme .gallery-card-name { color: #e0e0e0; }
-        body.dark-theme .gallery-card-author { color: #b0b0b0; }
-        body.dark-theme .gallery-card-date { color: #666; }
-        body.dark-theme .gallery-like-btn,
-        body.dark-theme .gallery-dislike-btn,
-        body.dark-theme .gallery-dots-btn {
-            background: #2a2a2a;
-            color: #b0b0b0;
-            border-color: #3a3a3a;
-            box-shadow: 0 3px 0 #0a0a0a;
-        }
-        body.dark-theme .gallery-dots-dropdown { background: #1a1a1a; border-color: #3a3a3a; }
-        body.dark-theme .gallery-dots-item { color: #e0e0e0; }
-        body.dark-theme .gallery-dots-item:hover { background: #2a2a2a; }
+        /* bp-card-img clickable cursor for gallery */
+        .gallery-tab-img { cursor: zoom-in; }
         body.dark-theme #gallery-daily-limit { background: #1a1a1a; border-color: #3a3a3a; }
         body.dark-theme #gallery-limit-title,
         body.dark-theme #gallery-limit-text { color: #b0b0b0; }
@@ -6792,20 +6544,22 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
 
                 _galleryCache = data || [];
 
-                // Load avatars from accounts (reuse buildplates map if available)
-                if (Object.keys(_galleryAvatarMap).length === 0 && _galleryCache.length > 0) {
-                    const authors = [...new Set(_galleryCache.map(p => (p.author||'').toLowerCase()).filter(Boolean))];
-                    if (authors.length > 0) {
+                // Load avatars — use original author names to match DB nick column
+                const authors = [...new Set(_galleryCache.map(p => p.author).filter(Boolean))];
+                _galleryAvatarMap = {};
+                _galleryVerifiedMap = {};
+                if (authors.length > 0) {
+                    try {
                         const { data: accs } = await sbClient.from('accounts')
                             .select('nick, avatar_url, verified')
-                            .in('nick', authors.map(a => a))
+                            .in('nick', authors)
                             .limit(100);
                         (accs || []).forEach(acc => {
                             const k = (acc.nick||'').toLowerCase();
                             if (acc.avatar_url) _galleryAvatarMap[k] = acc.avatar_url;
                             if (acc.verified) _galleryVerifiedMap[k] = true;
                         });
-                    }
+                    } catch(e) { console.warn('Gallery avatars:', e); }
                 }
 
                 if (filtersEl) filtersEl.style.display = _galleryCache.length > 0 ? 'flex' : 'none';
@@ -6838,8 +6592,8 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-image"></i><p>${currentLang === 'ru' ? 'Ничего не найдено' : 'Nothing found'}</p></div>`;
                 return;
             }
-            gallery.innerHTML = '<div class="gallery-grid"></div>';
-            renderGalleryCards(filtered, gallery.querySelector('.gallery-grid'));
+            gallery.innerHTML = '<div class="bp-grid"></div>';
+            renderGalleryCards(filtered, gallery.querySelector('.bp-grid'));
         }
 
         function renderGalleryGrid(data) {
@@ -6866,8 +6620,8 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 ? `${filtered.length} фото`
                 : `${filtered.length} photo${filtered.length !== 1 ? 's' : ''}`;
 
-            gallery.innerHTML = '<div class="gallery-grid"></div>';
-            renderGalleryCards(filtered, gallery.querySelector('.gallery-grid'));
+            gallery.innerHTML = '<div class="bp-grid"></div>';
+            renderGalleryCards(filtered, gallery.querySelector('.bp-grid'));
         }
 
         function renderGalleryCards(data, grid) {
@@ -6884,56 +6638,65 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 const isVerified = _galleryVerifiedMap[authorLower];
                 const ru = currentLang === 'ru';
 
+                // Same avatar html as buildplates
                 const avatarHtml = authorAvatar
-                    ? `<img class="gallery-card-avatar" src="${authorAvatar}" alt="" loading="lazy">`
-                    : `<span class="gallery-card-avatar-placeholder"><i class="fas fa-user"></i></span>`;
+                    ? `<img class="bp-card-avatar" src="${authorAvatar}" alt="" loading="lazy">`
+                    : `<span class="bp-card-avatar-placeholder"><i class="fas fa-user"></i></span>`;
 
                 const dateStr = photo.created_at
-                    ? new Date(photo.created_at).toLocaleDateString(ru ? 'ru-RU' : 'en-US', {day:'2-digit',month:'short',year:'numeric'})
-                    : '';
+                    ? new Date(photo.created_at).toLocaleDateString(ru ? 'ru-RU' : 'en-US', { day: '2-digit', month: 'long', year: 'numeric' }) + ', ' + new Date(photo.created_at).toLocaleTimeString(ru ? 'ru-RU' : 'en-US', { hour: '2-digit', minute: '2-digit' })
+                    : (ru ? 'Дата неизвестна' : 'Unknown date');
 
                 const card = document.createElement('div');
-                card.className = 'gallery-card';
+                card.className = 'bp-card'; // ← same class as buildplates
                 card.id = 'gallery-card-' + photo.id;
+
                 card.innerHTML = `
                     ${photo.image_url
-                        ? `<img class="gallery-card-img" src="${photo.image_url}" alt="${escapeHtml(photo.title||'')}" loading="lazy">`
-                        : `<div class="gallery-card-img-placeholder">🖼️</div>`}
-                    <div class="gallery-card-body">
-                        <div class="gallery-card-name">${escapeHtml(photo.title || (ru ? 'Без названия' : 'Untitled'))}</div>
-                        <div class="gallery-card-meta">
-                            <div class="gallery-card-author">
+                        ? `<img class="bp-card-img gallery-tab-img" src="${photo.image_url}" alt="${escapeHtml(photo.title||'')}" loading="lazy">`
+                        : `<div class="bp-card-img-placeholder">🖼️</div>`}
+                    <div class="bp-card-body">
+                        <div class="bp-card-name">${escapeHtml(photo.title || (ru ? 'Без названия' : 'Untitled'))}</div>
+                        <div class="bp-card-meta">
+                            <div class="bp-card-author">
                                 ${avatarHtml}
-                                <span>${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? '<span class="verified-badge" style="margin-left:3px;"><i class="fas fa-check"></i></span>' : ''}</span>
+                                <span>${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? `<span class="verified-badge" title="${ru ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
                             </div>
-                            ${dateStr ? `<div class="gallery-card-date"><i class="fas fa-calendar-alt"></i><span>${dateStr}</span></div>` : ''}
+                            <div class="bp-card-date">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>${dateStr}</span>
+                            </div>
                         </div>
-                        <div class="gallery-card-actions">
-                            <button class="gallery-like-btn ${isLiked ? 'liked' : ''}" data-gl-like="${photo.id}">
+                        <div class="bp-card-actions">
+                            <button class="bp-like-btn ${isLiked ? 'liked' : ''}" data-gl-like="${photo.id}">
                                 <i class="fas fa-thumbs-up"></i>
                                 <span class="gl-like-count">${photo.likes||0}</span>
                             </button>
-                            <button class="gallery-dislike-btn ${isDisliked ? 'disliked' : ''}" data-gl-dislike="${photo.id}">
+                            <button class="bp-dislike-btn ${isDisliked ? 'disliked' : ''}" data-gl-dislike="${photo.id}">
                                 <i class="fas fa-thumbs-down"></i>
                                 <span class="gl-dislike-count">${photo.dislikes||0}</span>
                             </button>
-                            <div class="gallery-dots-wrap">
-                                <button class="gallery-dots-btn" data-gl-dots="${photo.id}">&#8943;</button>
-                                <div class="gallery-dots-dropdown" id="gl-dd-${photo.id}">
-                                    <button class="gallery-dots-item" data-gl-share="${photo.id}">
+                            <div class="bp-dots-wrap">
+                                <button class="bp-dots-btn" data-gl-dots="${photo.id}">&#8943;</button>
+                                <div class="bp-dots-dropdown" id="gl-dd-${photo.id}">
+                                    <button class="bp-dots-item" data-gl-share="${photo.id}">
                                         <i class="fas fa-share-alt"></i> ${ru ? 'Поделиться' : 'Share'}
                                     </button>
-                                    ${!isMine ? `<button class="gallery-dots-item danger" data-gl-report="${photo.id}">
+                                    ${!isMine ? `<button class="bp-dots-item danger" data-gl-report="${photo.id}">
                                         <i class="fas fa-flag"></i> ${ru ? 'Пожаловаться' : 'Report'}
                                     </button>` : ''}
                                 </div>
                             </div>
                         </div>
-                        ${isMine ? `<button class="gallery-delete-btn" data-gl-delete="${photo.id}"><i class="fas fa-trash"></i> ${ru ? 'Удалить' : 'Delete'}</button>` : ''}
+                        ${isMine ? `
+                        <button class="bp-delete-btn" id="gl-del-${photo.id}">
+                            <i class="fas fa-trash"></i>
+                            <span>${ru ? 'Удалить' : 'Delete'}</span>
+                        </button>` : ''}
                     </div>`;
 
                 // Events
-                const imgEl = card.querySelector('.gallery-card-img');
+                const imgEl = card.querySelector('.gallery-tab-img');
                 if (imgEl) imgEl.addEventListener('click', () => openGalleryLightbox(photo.image_url));
 
                 const likeBtn = card.querySelector(`[data-gl-like="${photo.id}"]`);
@@ -6941,13 +6704,13 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 const dotsBtn = card.querySelector(`[data-gl-dots="${photo.id}"]`);
                 const shareBtn = card.querySelector(`[data-gl-share="${photo.id}"]`);
                 const reportBtn = card.querySelector(`[data-gl-report="${photo.id}"]`);
-                const deleteBtn = card.querySelector(`[data-gl-delete="${photo.id}"]`);
+                const deleteBtn = card.querySelector(`#gl-del-${photo.id}`);
 
                 if (likeBtn) likeBtn.addEventListener('click', () => handleGalleryLike(photo.id, likeBtn, dislikeBtn));
                 if (dislikeBtn) dislikeBtn.addEventListener('click', () => handleGalleryDislike(photo.id, dislikeBtn, likeBtn));
                 if (dotsBtn) dotsBtn.addEventListener('click', e => {
                     e.stopPropagation();
-                    document.querySelectorAll('.gallery-dots-dropdown.open, .dots-dropdown.open, .bp-dots-dropdown.open').forEach(d => d.classList.remove('open'));
+                    document.querySelectorAll('.bp-dots-dropdown.open, .dots-dropdown.open').forEach(d => d.classList.remove('open'));
                     document.getElementById(`gl-dd-${photo.id}`)?.classList.toggle('open');
                 });
                 if (shareBtn) shareBtn.addEventListener('click', () => {
@@ -6957,21 +6720,21 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                         navigator.share({ title: photo.title, url: shareUrl }).catch(() => {});
                     } else {
                         navigator.clipboard.writeText(shareUrl).then(() =>
-                            showInfoBanner(currentLang === 'ru' ? '✅ Ссылка скопирована!' : '✅ Link copied!', 'success')
+                            showInfoBanner(ru ? '✅ Ссылка скопирована!' : '✅ Link copied!', 'success')
                         ).catch(() => {});
                     }
                 });
                 if (reportBtn) reportBtn.addEventListener('click', () => {
                     document.getElementById(`gl-dd-${photo.id}`)?.classList.remove('open');
                     if (!currentAccount) {
-                        showInfoBanner(currentLang === 'ru' ? '⚠️ Войди в аккаунт, чтобы пожаловаться!' : '⚠️ Log in to report!', 'error');
+                        showInfoBanner(ru ? '⚠️ Войди в аккаунт, чтобы пожаловаться!' : '⚠️ Log in to report!', 'error');
                         return;
                     }
                     if (typeof showReportModal === 'function') {
                         showReportModal('gallery', photo.id, photo.title, photo.author, photo.image_url || null);
                     }
                 });
-                if (deleteBtn) deleteBtn.addEventListener('click', () => deleteGalleryPhoto(photo.id, photo.image_path, card));
+                if (deleteBtn) deleteBtn.addEventListener('click', () => deleteGalleryPhoto(photo.id, photo.image_path, deleteBtn));
 
                 grid.appendChild(card);
             });
@@ -6979,10 +6742,15 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
 
         async function handleGalleryLike(id, likeBtn, dislikeBtn) {
             if (!sbClient) return;
+            if (!currentAccount) {
+                showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like!', 'error');
+                return;
+            }
             const glLikes = JSON.parse(localStorage.getItem('gallery_likes') || '{}');
             const glDislikes = JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
             const wasLiked = glLikes[id] === true;
             const wasDisliked = glDislikes[id] === true;
+            likeBtn.disabled = true; dislikeBtn.disabled = true;
 
             const countEl = likeBtn.querySelector('.gl-like-count');
             let count = parseInt(countEl?.textContent || '0');
@@ -7005,14 +6773,20 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             if (dislikeCountEl) dislikeCountEl.textContent = dCount;
             localStorage.setItem('gallery_likes', JSON.stringify(glLikes));
             localStorage.setItem('gallery_dislikes', JSON.stringify(glDislikes));
+            likeBtn.disabled = false; dislikeBtn.disabled = false;
         }
 
         async function handleGalleryDislike(id, dislikeBtn, likeBtn) {
             if (!sbClient) return;
+            if (!currentAccount) {
+                showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like!', 'error');
+                return;
+            }
             const glLikes = JSON.parse(localStorage.getItem('gallery_likes') || '{}');
             const glDislikes = JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
             const wasDisliked = glDislikes[id] === true;
             const wasLiked = glLikes[id] === true;
+            dislikeBtn.disabled = true; likeBtn.disabled = true;
 
             const countEl = dislikeBtn.querySelector('.gl-dislike-count');
             let count = parseInt(countEl?.textContent || '0');
@@ -7035,25 +6809,44 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             if (likeCountEl) likeCountEl.textContent = lCount;
             localStorage.setItem('gallery_likes', JSON.stringify(glLikes));
             localStorage.setItem('gallery_dislikes', JSON.stringify(glDislikes));
+            dislikeBtn.disabled = false; likeBtn.disabled = false;
         }
 
-        async function deleteGalleryPhoto(id, imagePath, cardEl) {
+        async function deleteGalleryPhoto(id, imagePath, btn) {
             const ru = currentLang === 'ru';
-            if (!confirm(ru ? 'Удалить это фото?' : 'Delete this photo?')) return;
+            if (!window.confirm(ru ? 'Удалить это фото?' : 'Delete this photo?')) return;
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${ru ? 'Удаление...' : 'Deleting...'}</span>`;
+
             try {
+                // Delete from DB and check result (like deleteBuildplate)
+                const { data: deleted, error: dbErr } = await sbClient.from('gallery').delete().eq('id', id).select();
+                if (dbErr) throw new Error((ru ? 'Ошибка БД: ' : 'DB error: ') + dbErr.message);
+                if (!deleted || deleted.length === 0) throw new Error(ru ? 'Нет прав на удаление или запись не найдена' : 'No permission or record not found');
+
+                // Delete from storage
                 if (imagePath) {
-                    await sbClient.storage.from('buildplates').remove([imagePath]).catch(() => {});
+                    await sbClient.storage.from('buildplates').remove([imagePath]).catch(e => console.warn('Storage:', e));
                 }
-                const { error } = await sbClient.from('gallery').delete().eq('id', id);
-                if (error) throw error;
+
+                // Update cache
                 _galleryCache = _galleryCache ? _galleryCache.filter(p => String(p.id) !== String(id)) : null;
-                cardEl.style.transition = 'opacity 0.3s, transform 0.3s, max-height 0.4s';
-                cardEl.style.opacity = '0';
-                cardEl.style.transform = 'scale(0.9)';
-                setTimeout(() => { cardEl.remove(); }, 350);
+
+                // Animate card removal
+                const card = document.getElementById('gallery-card-' + id);
+                if (card) {
+                    card.style.transition = 'all 0.3s ease';
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.8)';
+                    setTimeout(() => { card.remove(); }, 300);
+                }
                 showInfoBanner(ru ? '🗑️ Фото удалено.' : '🗑️ Photo deleted.', 'success');
-            } catch(e) {
-                showInfoBanner('❌ ' + (e.message || e), 'error');
+            } catch(err) {
+                console.error(err);
+                alert('❌ ' + err.message);
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fas fa-trash"></i> <span>${currentLang === 'ru' ? 'Удалить' : 'Delete'}</span>`;
             }
         }
 
