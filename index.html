@@ -463,6 +463,9 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
         .step {
@@ -474,6 +477,7 @@
             border-radius: 4px;
             border: 3px solid #8b7355;
             box-shadow: 0 5px 0 #5a4a3a, 0 7px 15px rgba(0,0,0,0.15);
+            list-style: none;
         }
 
         .step-number {
@@ -3073,9 +3077,9 @@
             <h2 class="section-title" data-icon="scan_code_icon.png">
                 <span data-ru="Как это работает?" data-en="How Does It Work?">Как это работает?</span>
             </h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
+            <ol class="steps">
+                <li class="step">
+                    <div class="step-number" aria-hidden="true">1</div>
                     <div class="step-content">
                         <h3 data-ru="Используем Vienna Docker" data-en="Using Vienna Docker">
                             Используем Vienna Docker
@@ -3085,10 +3089,10 @@
                             Запускаем открытый сервер Vienna — он воссоздаёт всю серверную часть игры.
                         </p>
                     </div>
-                </div>
+                </li>
 
-                <div class="step">
-                    <div class="step-number">2</div>
+                <li class="step">
+                    <div class="step-number" aria-hidden="true">2</div>
                     <div class="step-content">
                         <h3 data-ru="Патчим клиент" data-en="Patch the Client">
                             Патчим клиент
@@ -3098,10 +3102,10 @@
                             Патчим APK — игра подключается к нашему серверу вместо закрытого официального.
                         </p>
                     </div>
-                </div>
+                </li>
 
-                <div class="step">
-                    <div class="step-number">3</div>
+                <li class="step">
+                    <div class="step-number" aria-hidden="true">3</div>
                     <div class="step-content">
                         <h3 data-ru="Играйте!" data-en="Play!">
                             Играйте!
@@ -3111,17 +3115,17 @@
                             Всё готово. Заходи и играй.
                         </p>
                     </div>
-                </div>
-            </div>
+                </li>
+            </ol>
         </div>
 
         <div class="section">
             <h2 class="section-title" data-icon="friend_icon.png">
                 <span data-ru="Как начать играть?" data-en="How to Start Playing?">Как начать играть?</span>
             </h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
+            <ol class="steps">
+                <li class="step">
+                    <div class="step-number" aria-hidden="true">1</div>
                     <div class="step-content">
                         <h3 data-ru="Установи ZeroTier One" data-en="Install ZeroTier One">
                             Установи ZeroTier One
@@ -3131,10 +3135,10 @@
                             Скачай и установи ZeroTier One на своё устройство.
                         </p>
                     </div>
-                </div>
+                </li>
 
-                <div class="step">
-                    <div class="step-number">2</div>
+                <li class="step">
+                    <div class="step-number" aria-hidden="true">2</div>
                     <div class="step-content">
                         <h3 data-ru="Введи код сети" data-en="Enter Network Code">
                             Введи код сети
@@ -3144,20 +3148,20 @@
                             Открой ZeroTier One и введи наш код сети:
                         </p>
                         <div class="zerotier-code">
-                            <p>Network ID:</p>
+                            <p><strong>Network ID:</strong> <code>3b19b3a716030d76</code></p>
                             <div class="code-container">
-                                <span class="code-text">3b19b3a716030d76</span>
+                                <span class="code-text" aria-label="Network ID">3b19b3a716030d76</span>
                                 <button class="copy-btn" onclick="copyZeroTier()">
-                                    <i class="fas fa-copy"></i>
+                                    <i class="fas fa-copy" aria-hidden="true"></i>
                                     <span data-ru="Копировать" data-en="Copy">Копировать</span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </li>
 
-                <div class="step">
-                    <div class="step-number">3</div>
+                <li class="step">
+                    <div class="step-number" aria-hidden="true">3</div>
                     <div class="step-content">
                         <h3 data-ru="Подожди авторизации" data-en="Wait for Authorization">
                             Подожди авторизации
@@ -3167,10 +3171,10 @@
                             После входа в сеть подожди несколько минут — тебя авторизуют.
                         </p>
                     </div>
-                </div>
+                </li>
 
-                <div class="step">
-                    <div class="step-number">4</div>
+                <li class="step">
+                    <div class="step-number" aria-hidden="true">4</div>
                     <div class="step-content">
                         <h3 data-ru="Скачай APK" data-en="Download APK">
                             Скачай APK
@@ -3180,10 +3184,10 @@
                             Скачай наш патченый APK с Discord сервера.
                         </p>
                     </div>
-                </div>
+                </li>
 
-                <div class="step">
-                    <div class="step-number">5</div>
+                <li class="step">
+                    <div class="step-number" aria-hidden="true">5</div>
                     <div class="step-content">
                         <h3 data-ru="Запусти игру!" data-en="Launch the Game!">
                             Запусти игру!
@@ -3193,8 +3197,8 @@
                             Установи APK и запускай. Добро пожаловать обратно! 😊
                         </p>
                     </div>
-                </div>
-            </div>
+                </li>
+            </ol>
         </div>
 
         <div class="section">
