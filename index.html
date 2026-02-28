@@ -7114,10 +7114,10 @@
     <!-- ===== WEB PUSH NOTIFICATIONS ===== -->
     <script>
     // ⚠️ ЗАМЕНИ НА СВОЙ VAPID PUBLIC KEY (сгенерируй: npx web-push generate-vapid-keys)
-    const VAPID_PUBLIC_KEY = 'BBISX3PqA_GG4mKb8xm__ihpNVejy5FItCUI3YYWTtIRIqz08uOAYXeAf8Jx8f2RSd95RhHl7ED3h7JA34VJydw';
+    const VAPID_PUBLIC_KEY = 'YOUR_VAPID_PUBLIC_KEY_HERE';
 
     // URL твоей Supabase Edge Function для отправки пушей
-    const PUSH_SEND_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/functions/v1/send-push';
+    const PUSH_SEND_URL = 'https://YOUR_PROJECT.supabase.co/functions/v1/send-push';
 
     let _swRegistration = null;
 
@@ -7160,7 +7160,7 @@
         }
 
         activeBar.style.display = 'none';
-        if (permission !== 'denied' && !dismissed) {
+        if (permission !== 'denied') {
             banner.style.display = 'flex';
         }
     }
@@ -7227,7 +7227,6 @@
 
     function dismissNotifBanner() {
         document.getElementById('notif-banner').style.display = 'none';
-        localStorage.setItem('notif_banner_dismissed', '1');
     }
 
     // Вызывается после публикации новости (отправляет пуш всем подписчикам)
