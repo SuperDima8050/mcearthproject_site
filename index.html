@@ -6056,7 +6056,8 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                     const mineBtn = document.getElementById('bp-filter-mine');
                     if (mineBtn) {
                         const label = mineBtn.getAttribute(currentLang === 'ru' ? 'data-ru' : 'data-en');
-                        if (label) mineBtn.textContent = label;
+                        const mineSpan = mineBtn.querySelector('span[data-ru]');
+                        if (label && mineSpan) mineSpan.textContent = label;
                     }
                 }
 
