@@ -2691,7 +2691,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             opacity: 0.55 !important;
         }
         .auth-locked::after {
-            content: '🔒 Login required';
+            content: attr(data-locked-tip, var(--locked-tip, "🔒 Требуется вход"));
             position: absolute;
             bottom: calc(100% + 8px);
             left: 50%;
@@ -3532,7 +3532,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
     
     <div class="cookie-banner" id="cookie-banner">
         <div class="cookie-banner-text">
-            <div class="cookie-banner-title"><img id="cookie-icon-banner" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/cookie_item.png" alt="cookie" style="width:24px;height:24px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> Cookie Notice</div>
+            <div class="cookie-banner-title" id="cookie-banner-title-el"><img id="cookie-icon-banner" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/cookie_item.png" alt="cookie" style="width:24px;height:24px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"><span data-ru="🍪 Уведомление о Cookie" data-en="🍪 Cookie Notice">🍪 Уведомление о Cookie</span></div>
             <div class="cookie-banner-desc" data-ru="Мы используем cookies для сохранения сессии, лайков и настроек. Без них сайт не будет работать правильно." data-en="We use cookies to save your session, likes and preferences. Without them the site won't work correctly.">
                 We use cookies to save your session, likes and preferences. Without them the site won't work correctly.
             </div>
@@ -4315,12 +4315,24 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 span.textContent = lang === 'ru' ? 'Скачать' : 'Download';
             });
 
+            // Обновляем тултип для заблокированных кнопок
+            const lockedTip = lang === 'ru' ? '🔒 Требуется вход' : '🔒 Login required';
+            document.querySelectorAll('.auth-locked').forEach(el => {
+                el.setAttribute('data-locked-tip', lockedTip);
+            });
+            // Задаём дефолт через CSS переменную
+            document.documentElement.style.setProperty('--locked-tip', `"${lockedTip}"`);
+
             if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin);
             if (typeof renderRefXPBar === 'function') renderRefXPBar(_lastRefCount);
             if (typeof _bpAllData !== 'undefined' && _bpAllData && _bpAllData.length > 0) applyBpFilters();
-            if (typeof _galleryCache !== 'undefined' && _galleryCache && _galleryCache.length > 0) filterGallery();
+            if (typeof _galleryCache !== 'undefined' && _galleryCache !== null) {
+                if (_galleryCache.length > 0) filterGallery();
+                else renderGalleryGrid(_galleryCache);
+            }
 
             if (typeof updateDailyLimitUI === 'function') updateDailyLimitUI();
+            if (typeof updateGalleryDailyLimitUI === 'function') updateGalleryDailyLimitUI();
 
             const refCountText = document.getElementById('ref-count-text');
             if (refCountText) {
