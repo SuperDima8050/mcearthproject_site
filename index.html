@@ -6340,7 +6340,12 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
         const origSwitchTab = window.switchTab;
         window.switchTab = function(tabName) {
             origSwitchTab && origSwitchTab.call(this, tabName);
-            if (tabName === 'buildplates') { loadBuildplates(); updateDailyLimitUI(); }
+            if (tabName === 'buildplates') {
+                loadBuildplates();
+                const limitPanel = document.getElementById('bp-daily-limit');
+                if (limitPanel && currentAccount) { limitPanel.style.display = 'flex'; startLimitTimer(); }
+                updateDailyLimitUI();
+            }
             if (tabName === 'news') { if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin); else loadNews(); }
             if (tabName === 'reports') { if (typeof window.loadReports === 'function') window.loadReports(); }
             if (tabName === 'gallery') { loadGallery(); updateGalleryDailyLimitUI(); }
