@@ -2712,6 +2712,294 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
         }
         .auth-locked:hover::after { opacity: 1; }
 
+        /* === GALLERY GRID === */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .gallery-card {
+            background: #fffbf0;
+            border: 3px solid #8b7355;
+            border-radius: 4px;
+            box-shadow: 0 5px 0 #5a4a3a, 0 7px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: all 0.15s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 9px 0 #5a4a3a, 0 12px 25px rgba(0,0,0,0.25);
+        }
+
+        .gallery-card-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            image-rendering: auto;
+            cursor: pointer;
+            transition: filter 0.15s;
+        }
+
+        .gallery-card-img:hover {
+            filter: brightness(1.08);
+        }
+
+        .gallery-card-img-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(135deg, #e8dfc0, #d4c5a0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #8b7355;
+        }
+
+        .gallery-card-body {
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .gallery-card-name {
+            font-family: 'Minecraft', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #3e2723;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .gallery-card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .gallery-card-author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Minecraft', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #5a4a3a;
+        }
+
+        .gallery-card-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 2px;
+            object-fit: cover;
+            border: 1px solid #8b7355;
+            flex-shrink: 0;
+        }
+
+        .gallery-card-avatar-placeholder {
+            width: 20px;
+            height: 20px;
+            border-radius: 2px;
+            background: linear-gradient(135deg, #6b8e23, #4a5d23);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.65rem;
+            flex-shrink: 0;
+        }
+
+        .gallery-card-date {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'Minecraft', sans-serif;
+            font-size: 0.72rem;
+            color: #8b7355;
+            font-weight: 600;
+        }
+
+        .gallery-card-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-like-btn, .gallery-dislike-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 10px;
+            border: 2px solid #8b7355;
+            background: #f5eed9;
+            color: #5a4a3a;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 700;
+            font-family: 'Minecraft', sans-serif;
+            transition: all 0.15s;
+            box-shadow: 0 3px 0 #5a4a3a;
+        }
+
+        .gallery-like-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #5a4a3a; }
+        .gallery-like-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #5a4a3a; }
+
+        .gallery-like-btn.liked {
+            background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%);
+            color: white;
+            border-color: #4a5d23;
+            box-shadow: 0 3px 0 #3d4f1c;
+        }
+
+        .gallery-dislike-btn.disliked {
+            background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border-color: #922b21;
+            box-shadow: 0 3px 0 #641e16;
+        }
+
+        .gallery-dots-wrap { position: relative; margin-left: auto; }
+        .gallery-dots-btn {
+            padding: 7px 10px;
+            border: 2px solid #8b7355;
+            background: #f5eed9;
+            color: #5a4a3a;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 3px 0 #5a4a3a;
+            transition: all 0.15s;
+        }
+        .gallery-dots-btn:hover { transform: translateY(-2px); }
+
+        .gallery-dots-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 4px);
+            background: #fffbf0;
+            border: 2px solid #8b7355;
+            border-radius: 2px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            z-index: 50;
+            min-width: 160px;
+            display: none;
+            flex-direction: column;
+        }
+        .gallery-dots-dropdown.open { display: flex; }
+
+        .gallery-dots-item {
+            padding: 10px 14px;
+            background: none;
+            border: none;
+            font-family: 'Minecraft', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #3e2723;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.1s;
+        }
+        .gallery-dots-item:hover { background: #f0ede0; }
+        .gallery-dots-item.danger { color: #c0392b; }
+        .gallery-dots-item.danger:hover { background: #fdecea; }
+
+        .gallery-delete-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+            padding: 7px 12px;
+            background: linear-gradient(180deg, #c0392b 0%, #922b21 100%);
+            color: white;
+            border: 2px solid #7b241c;
+            border-radius: 2px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.78rem;
+            font-family: 'Minecraft', sans-serif;
+            box-shadow: 0 3px 0 #641e16;
+            justify-content: center;
+            transition: all 0.15s;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .gallery-delete-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #641e16; }
+        .gallery-delete-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #641e16; }
+
+        /* Lightbox */
+        .gallery-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s;
+        }
+        .gallery-lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 4px solid #5a4a3a;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+        }
+        .gallery-lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: 3px solid #fff;
+            color: #fff;
+            font-size: 1.4rem;
+            padding: 6px 14px;
+            cursor: pointer;
+            border-radius: 2px;
+            font-family: 'Minecraft', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Dark theme gallery */
+        body.dark-theme .gallery-card {
+            background: #1a1a1a;
+            border-color: #3a3a3a;
+            box-shadow: 0 5px 0 #0a0a0a, 0 7px 15px rgba(0,0,0,0.3);
+        }
+        body.dark-theme .gallery-card-name { color: #e0e0e0; }
+        body.dark-theme .gallery-card-author { color: #b0b0b0; }
+        body.dark-theme .gallery-card-date { color: #666; }
+        body.dark-theme .gallery-like-btn,
+        body.dark-theme .gallery-dislike-btn,
+        body.dark-theme .gallery-dots-btn {
+            background: #2a2a2a;
+            color: #b0b0b0;
+            border-color: #3a3a3a;
+            box-shadow: 0 3px 0 #0a0a0a;
+        }
+        body.dark-theme .gallery-dots-dropdown { background: #1a1a1a; border-color: #3a3a3a; }
+        body.dark-theme .gallery-dots-item { color: #e0e0e0; }
+        body.dark-theme .gallery-dots-item:hover { background: #2a2a2a; }
+        body.dark-theme #gallery-daily-limit { background: #1a1a1a; border-color: #3a3a3a; }
+        body.dark-theme #gallery-limit-title,
+        body.dark-theme #gallery-limit-text { color: #b0b0b0; }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -2827,6 +3115,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             <button class="nav-tab active" onclick="switchTab('home')" data-ru="Главная" data-en="Home"><span class="nav-icon"><img src="shop_icon.png" alt="Home"></span><span data-ru="Главная" data-en="Home">Главная</span></button>
             <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
             <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
+            <button class="nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
             <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
 
@@ -3397,6 +3686,84 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             </div>
         </div>
         
+
+        <!-- GALLERY TAB -->
+        <div id="gallery-tab" class="tab-content">
+            <div class="section">
+                <h2 class="section-title" data-icon="paint_item.png">
+                    <span data-ru="Галерея" data-en="Gallery">Галерея</span>
+                </h2>
+
+                <!-- Upload card -->
+                <div class="bp-upload-card" id="gallery-upload-section">
+                    <!-- Not logged in message -->
+                    <div id="gallery-not-logged" style="text-align:center;padding:20px 10px;">
+                        <i class="fas fa-lock" style="font-size:2rem;color:#8b7355;margin-bottom:12px;display:block;"></i>
+                        <p style="font-family:Minecraft,sans-serif;font-size:0.85rem;color:#5a4a3a;font-weight:700;line-height:1.6;"
+                           data-ru="Чтобы загружать фото, войди в аккаунт во вкладке &laquo;Buildplates&raquo;"
+                           data-en="To upload photos, please log in from the &laquo;Buildplates&raquo; tab">
+                            Чтобы загружать фото, войди в аккаунт во вкладке «Buildplates»
+                        </p>
+                    </div>
+
+                    <!-- Upload form (shown when logged in) -->
+                    <div id="gallery-upload-form" style="display:none;">
+                        <div class="bp-form-row">
+                            <label data-ru="Название" data-en="Title">Название</label>
+                            <input type="text" id="gallery-title" maxlength="60"
+                                   data-placeholder-ru="Мой крутой скриншот"
+                                   data-placeholder-en="My cool screenshot"
+                                   placeholder="Мой крутой скриншот" />
+                        </div>
+                        <div class="bp-form-row">
+                            <label data-ru="Фото (PNG / JPG / WEBP)" data-en="Photo (PNG / JPG / WEBP)">Фото (PNG / JPG / WEBP)</label>
+                            <label class="bp-file-label" id="gallery-image-label" for="gallery-image-input">
+                                <i class="fas fa-image"></i>
+                                <span data-ru="Нажми, чтобы выбрать изображение" data-en="Click to choose image">Нажми, чтобы выбрать изображение</span>
+                            </label>
+                            <input type="file" id="gallery-image-input" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
+                        </div>
+
+                        <!-- Daily limit shared with buildplates -->
+                        <div id="gallery-daily-limit" style="margin:12px 0;background:#f0ede0;border:2px solid #8b7355;border-radius:2px;padding:12px;display:flex;align-items:center;gap:12px;">
+                            <img src="" id="gallery-limit-icon" style="width:22px;height:22px;image-rendering:pixelated;object-fit:contain;flex-shrink:0;">
+                            <div style="flex:1;">
+                                <div id="gallery-limit-title" style="font-family:Minecraft,sans-serif;font-size:0.82rem;font-weight:700;color:#5a4a3a;margin-bottom:4px;"></div>
+                                <div id="gallery-limit-dots" style="display:flex;gap:4px;margin-bottom:5px;"></div>
+                                <div id="gallery-limit-text" style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:#5a4a3a;font-weight:600;"></div>
+                            </div>
+                        </div>
+
+                        <div id="gallery-status" style="margin:8px 0;font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;min-height:20px;"></div>
+                        <button class="bp-submit-btn" id="gallery-submit-btn" onclick="uploadGalleryPhoto()">
+                            <i class="fas fa-upload"></i>
+                            <span data-ru="Опубликовать фото" data-en="Publish photo">Опубликовать фото</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="bp-filters" id="gallery-filters" style="display:none;">
+                    <div class="bp-search-wrap">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="gallery-search"
+                               placeholder="Поиск..."
+                               data-placeholder-ru="Поиск..."
+                               data-placeholder-en="Search..."
+                               oninput="filterGallery()" />
+                    </div>
+                    <select class="bp-sort-select" id="gallery-sort" onchange="filterGallery()">
+                        <option value="newest" data-ru="Сначала новые" data-en="Newest first">Сначала новые</option>
+                        <option value="oldest" data-ru="Сначала старые" data-en="Oldest first">Сначала старые</option>
+                        <option value="liked" data-ru="По лайкам" data-en="By likes">По лайкам</option>
+                    </select>
+                    <span class="bp-results-count" id="gallery-count"></span>
+                </div>
+
+                <!-- Photo grid -->
+                <div id="gallery-gallery"></div>
+            </div>
+        </div>
 
         <div class="info-note" style="margin-bottom:0;">
             <i class="fas fa-info-circle"></i>
@@ -4342,6 +4709,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 'news':       'journal_icon.png',
                 'buildplates':'buildplate_icon.png',
                 'reports':    'settings_icon.png',
+                'gallery':    'paint_item.png',
             };
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 const onclick = tab.getAttribute('onclick') || '';
@@ -6135,6 +6503,7 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             if (tabName === 'buildplates') { loadBuildplates(); updateDailyLimitUI(); }
             if (tabName === 'news') { if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin); else loadNews(); }
             if (tabName === 'reports') { if (typeof window.loadReports === 'function') window.loadReports(); }
+            if (tabName === 'gallery') { loadGallery(); updateGalleryDailyLimitUI(); }
         };
 
         const COOKIE_KEY = 'pe_cookie_consent';
@@ -6240,6 +6609,481 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             const consent = getCookieConsent();
             if (!consent) showCookieBanner();
         })();
+
+        // ============================================================
+        //  GALLERY TAB  
+        // ============================================================
+
+        let _galleryCache = null;
+        let _galleryAvatarMap = {};
+        let _galleryVerifiedMap = {};
+
+        // Update gallery auth state based on buildplates login
+        function updateGalleryAuthState() {
+            const notLogged = document.getElementById('gallery-not-logged');
+            const form = document.getElementById('gallery-upload-form');
+            if (!notLogged || !form) return;
+            if (currentAccount) {
+                notLogged.style.display = 'none';
+                form.style.display = 'block';
+                updateGalleryDailyLimitUI();
+            } else {
+                notLogged.style.display = 'block';
+                form.style.display = 'none';
+            }
+        }
+
+        // Shared daily limit — reads same key as buildplates
+        function updateGalleryDailyLimitUI() {
+            const panel = document.getElementById('gallery-daily-limit');
+            if (!panel) return;
+            const ru = currentLang === 'ru';
+            const left = getDailyPostsLeft();
+            const used = DAILY_LIMIT - left;
+
+            const titleEl = document.getElementById('gallery-limit-title');
+            if (titleEl) titleEl.textContent = ru ? 'Лимит постов сегодня' : 'Daily post limit';
+
+            const dotsEl = document.getElementById('gallery-limit-dots');
+            if (dotsEl) {
+                dotsEl.innerHTML = '';
+                for (let i = 0; i < DAILY_LIMIT; i++) {
+                    const dot = document.createElement('div');
+                    dot.style.cssText = `width:14px;height:14px;border-radius:2px;border:2px solid #8b7355;background:${i < used ? '#c0392b' : '#6b8e23'};box-shadow:0 2px 0 ${i < used ? '#922b21' : '#4a5d23'};image-rendering:pixelated;`;
+                    dotsEl.appendChild(dot);
+                }
+            }
+
+            const textEl = document.getElementById('gallery-limit-text');
+            if (textEl) textEl.textContent = ru
+                ? `Осталось: ${left} из ${DAILY_LIMIT} (общий с Buildplates)`
+                : `Remaining: ${left} of ${DAILY_LIMIT} (shared with Buildplates)`;
+
+            const iconEl = document.getElementById('gallery-limit-icon');
+            if (iconEl && !iconEl.src.includes('timer')) iconEl.src = iconUrl('timer_icon.png');
+
+            const submitBtn = document.getElementById('gallery-submit-btn');
+            if (submitBtn) {
+                submitBtn.disabled = left <= 0;
+                submitBtn.title = left <= 0
+                    ? (ru ? 'Достигнут дневной лимит постов' : 'Daily post limit reached')
+                    : '';
+            }
+        }
+
+        // Lightbox
+        function openGalleryLightbox(imgSrc) {
+            const lb = document.createElement('div');
+            lb.className = 'gallery-lightbox';
+            lb.innerHTML = `
+                <button class="gallery-lightbox-close" onclick="this.parentElement.remove()">✕</button>
+                <img src="${imgSrc}" alt="">`;
+            lb.addEventListener('click', e => { if (e.target === lb) lb.remove(); });
+            document.body.appendChild(lb);
+        }
+
+        async function uploadGalleryPhoto() {
+            const ru = currentLang === 'ru';
+            const title = document.getElementById('gallery-title').value.trim();
+            const imageFile = document.getElementById('gallery-image-input').files[0];
+            const statusEl = document.getElementById('gallery-status');
+            const submitBtn = document.getElementById('gallery-submit-btn');
+
+            const showStatus = (type, msg) => {
+                statusEl.textContent = msg;
+                statusEl.style.color = type === 'error' ? '#c62828' : '#2e7d32';
+            };
+
+            if (!sbClient) { showStatus('error', ru ? '❌ Supabase не подключён!' : '❌ Supabase not connected!'); return; }
+            if (!currentAccount) { showStatus('error', ru ? '❌ Войди в аккаунт!' : '❌ Log in first!'); return; }
+            if (getDailyPostsLeft() <= 0) {
+                showStatus('error', ru ? '❌ Достигнут дневной лимит (3 поста в день).' : '❌ Daily limit reached (3 posts/day).');
+                return;
+            }
+            if (!title) { showStatus('error', ru ? '❌ Введи название!' : '❌ Enter a title!'); return; }
+            if (typeof containsProfanity === 'function' && containsProfanity(title)) {
+                showStatus('error', typeof profanityError === 'function' ? profanityError(ru) : (ru ? '❌ Недопустимое слово!' : '❌ Inappropriate word!'));
+                return;
+            }
+            if (!imageFile) { showStatus('error', ru ? '❌ Выбери фото!' : '❌ Choose a photo!'); return; }
+
+            const ext = imageFile.name.split('.').pop().toLowerCase();
+            if (!['png','jpg','jpeg','webp'].includes(ext)) {
+                showStatus('error', ru ? '❌ Формат: PNG, JPG или WEBP' : '❌ Format: PNG, JPG or WEBP');
+                return;
+            }
+
+            // Check magic bytes
+            if (typeof checkImageMagicBytes === 'function') {
+                const check = await checkImageMagicBytes(imageFile);
+                if (!check.valid) { showStatus('error', ru ? '❌ Файл повреждён или не является изображением!' : '❌ File corrupted or not a valid image!'); return; }
+            }
+
+            submitBtn.disabled = true;
+            showStatus('', ru ? '⏳ Загружаем фото...' : '⏳ Uploading photo...');
+
+            try {
+                const ts = Date.now();
+                const safeName = (currentAccount.nick || 'user').replace(/[^a-zA-Z0-9_]/g, '_');
+                const imagePath = `gallery/${safeName}_${ts}.${ext}`;
+
+                const { error: uploadErr } = await sbClient.storage
+                    .from('buildplates')
+                    .upload(imagePath, imageFile, { contentType: imageFile.type, upsert: false });
+                if (uploadErr) throw uploadErr;
+
+                const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
+                const imageUrl = urlData?.publicUrl || '';
+
+                const { error: insertErr } = await sbClient.from('gallery').insert([{
+                    title,
+                    author: currentAccount.nick,
+                    image_url: imageUrl,
+                    image_path: imagePath,
+                    likes: 0,
+                    dislikes: 0,
+                }]);
+                if (insertErr) throw insertErr;
+
+                incrementDailyPost();
+                updateGalleryDailyLimitUI();
+                updateDailyLimitUI();
+                showStatus('success', ru ? '✅ Фото опубликовано!' : '✅ Photo published!');
+                document.getElementById('gallery-title').value = '';
+                document.getElementById('gallery-image-input').value = '';
+                document.getElementById('gallery-image-label').innerHTML =
+                    `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
+                _galleryCache = null;
+                loadGallery();
+            } catch(e) {
+                showStatus('error', '❌ ' + (e.message || e));
+            } finally {
+                submitBtn.disabled = getDailyPostsLeft() <= 0;
+            }
+        }
+
+        async function loadGallery() {
+            const gallery = document.getElementById('gallery-gallery');
+            const filtersEl = document.getElementById('gallery-filters');
+            updateGalleryAuthState();
+
+            if (!sbClient) {
+                gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-exclamation-triangle"></i><p>${currentLang === 'ru' ? 'Supabase не подключён' : 'Supabase not connected'}</p></div>`;
+                return;
+            }
+
+            if (_galleryCache) { renderGalleryGrid(_galleryCache); return; }
+
+            gallery.innerHTML = '<div class="bp-loading"><i class="fas fa-spinner"></i><p>' + (currentLang === 'ru' ? 'Загрузка...' : 'Loading...') + '</p></div>';
+
+            try {
+                const { data, error } = await sbClient.from('gallery')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(200);
+                if (error) throw error;
+
+                _galleryCache = data || [];
+
+                // Load avatars from accounts (reuse buildplates map if available)
+                if (Object.keys(_galleryAvatarMap).length === 0 && _galleryCache.length > 0) {
+                    const authors = [...new Set(_galleryCache.map(p => (p.author||'').toLowerCase()).filter(Boolean))];
+                    if (authors.length > 0) {
+                        const { data: accs } = await sbClient.from('accounts')
+                            .select('nick, avatar_url, verified')
+                            .in('nick', authors.map(a => a))
+                            .limit(100);
+                        (accs || []).forEach(acc => {
+                            const k = (acc.nick||'').toLowerCase();
+                            if (acc.avatar_url) _galleryAvatarMap[k] = acc.avatar_url;
+                            if (acc.verified) _galleryVerifiedMap[k] = true;
+                        });
+                    }
+                }
+
+                if (filtersEl) filtersEl.style.display = _galleryCache.length > 0 ? 'flex' : 'none';
+                renderGalleryGrid(_galleryCache);
+            } catch(e) {
+                gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-exclamation-triangle"></i><p>${currentLang === 'ru' ? 'Ошибка загрузки: ' : 'Load error: '}${e.message||e}</p></div>`;
+            }
+        }
+
+        function filterGallery() {
+            if (!_galleryCache) return;
+            const query = (document.getElementById('gallery-search')?.value || '').toLowerCase().trim();
+            const sort = document.getElementById('gallery-sort')?.value || 'newest';
+
+            let filtered = _galleryCache.filter(p =>
+                !query || (p.title||'').toLowerCase().includes(query) || (p.author||'').toLowerCase().includes(query)
+            );
+
+            if (sort === 'oldest') filtered = [...filtered].sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
+            else if (sort === 'liked') filtered = [...filtered].sort((a,b) => (b.likes||0) - (a.likes||0));
+            else filtered = [...filtered].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+            const countEl = document.getElementById('gallery-count');
+            if (countEl) countEl.textContent = currentLang === 'ru'
+                ? `${filtered.length} фото`
+                : `${filtered.length} photo${filtered.length !== 1 ? 's' : ''}`;
+
+            const gallery = document.getElementById('gallery-gallery');
+            if (filtered.length === 0) {
+                gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-image"></i><p>${currentLang === 'ru' ? 'Ничего не найдено' : 'Nothing found'}</p></div>`;
+                return;
+            }
+            gallery.innerHTML = '<div class="gallery-grid"></div>';
+            renderGalleryCards(filtered, gallery.querySelector('.gallery-grid'));
+        }
+
+        function renderGalleryGrid(data) {
+            const gallery = document.getElementById('gallery-gallery');
+            const countEl = document.getElementById('gallery-count');
+
+            if (!data || data.length === 0) {
+                gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-image"></i><p>${currentLang === 'ru' ? 'Пока нет фото. Будь первым!' : 'No photos yet. Be the first!'}</p></div>`;
+                if (countEl) countEl.textContent = '';
+                return;
+            }
+
+            // Apply current filter/sort
+            const search = (document.getElementById('gallery-search')?.value || '').toLowerCase().trim();
+            const sort = document.getElementById('gallery-sort')?.value || 'newest';
+            let filtered = search
+                ? data.filter(p => (p.title||'').toLowerCase().includes(search) || (p.author||'').toLowerCase().includes(search))
+                : [...data];
+            if (sort === 'oldest') filtered.sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
+            else if (sort === 'liked') filtered.sort((a,b) => (b.likes||0) - (a.likes||0));
+            else filtered.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+            if (countEl) countEl.textContent = currentLang === 'ru'
+                ? `${filtered.length} фото`
+                : `${filtered.length} photo${filtered.length !== 1 ? 's' : ''}`;
+
+            gallery.innerHTML = '<div class="gallery-grid"></div>';
+            renderGalleryCards(filtered, gallery.querySelector('.gallery-grid'));
+        }
+
+        function renderGalleryCards(data, grid) {
+            const glLikes = JSON.parse(localStorage.getItem('gallery_likes') || '{}');
+            const glDislikes = JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
+            const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
+
+            data.forEach(photo => {
+                const isMine = myNick && (photo.author||'').toLowerCase() === myNick;
+                const isLiked = glLikes[photo.id] === true;
+                const isDisliked = glDislikes[photo.id] === true;
+                const authorLower = (photo.author||'').toLowerCase();
+                const authorAvatar = _galleryAvatarMap[authorLower];
+                const isVerified = _galleryVerifiedMap[authorLower];
+                const ru = currentLang === 'ru';
+
+                const avatarHtml = authorAvatar
+                    ? `<img class="gallery-card-avatar" src="${authorAvatar}" alt="" loading="lazy">`
+                    : `<span class="gallery-card-avatar-placeholder"><i class="fas fa-user"></i></span>`;
+
+                const dateStr = photo.created_at
+                    ? new Date(photo.created_at).toLocaleDateString(ru ? 'ru-RU' : 'en-US', {day:'2-digit',month:'short',year:'numeric'})
+                    : '';
+
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.id = 'gallery-card-' + photo.id;
+                card.innerHTML = `
+                    ${photo.image_url
+                        ? `<img class="gallery-card-img" src="${photo.image_url}" alt="${escapeHtml(photo.title||'')}" loading="lazy">`
+                        : `<div class="gallery-card-img-placeholder">🖼️</div>`}
+                    <div class="gallery-card-body">
+                        <div class="gallery-card-name">${escapeHtml(photo.title || (ru ? 'Без названия' : 'Untitled'))}</div>
+                        <div class="gallery-card-meta">
+                            <div class="gallery-card-author">
+                                ${avatarHtml}
+                                <span>${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? '<span class="verified-badge" style="margin-left:3px;"><i class="fas fa-check"></i></span>' : ''}</span>
+                            </div>
+                            ${dateStr ? `<div class="gallery-card-date"><i class="fas fa-calendar-alt"></i><span>${dateStr}</span></div>` : ''}
+                        </div>
+                        <div class="gallery-card-actions">
+                            <button class="gallery-like-btn ${isLiked ? 'liked' : ''}" data-gl-like="${photo.id}">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span class="gl-like-count">${photo.likes||0}</span>
+                            </button>
+                            <button class="gallery-dislike-btn ${isDisliked ? 'disliked' : ''}" data-gl-dislike="${photo.id}">
+                                <i class="fas fa-thumbs-down"></i>
+                                <span class="gl-dislike-count">${photo.dislikes||0}</span>
+                            </button>
+                            <div class="gallery-dots-wrap">
+                                <button class="gallery-dots-btn" data-gl-dots="${photo.id}">&#8943;</button>
+                                <div class="gallery-dots-dropdown" id="gl-dd-${photo.id}">
+                                    <button class="gallery-dots-item" data-gl-share="${photo.id}">
+                                        <i class="fas fa-share-alt"></i> ${ru ? 'Поделиться' : 'Share'}
+                                    </button>
+                                    ${!isMine ? `<button class="gallery-dots-item danger" data-gl-report="${photo.id}">
+                                        <i class="fas fa-flag"></i> ${ru ? 'Пожаловаться' : 'Report'}
+                                    </button>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        ${isMine ? `<button class="gallery-delete-btn" data-gl-delete="${photo.id}"><i class="fas fa-trash"></i> ${ru ? 'Удалить' : 'Delete'}</button>` : ''}
+                    </div>`;
+
+                // Events
+                const imgEl = card.querySelector('.gallery-card-img');
+                if (imgEl) imgEl.addEventListener('click', () => openGalleryLightbox(photo.image_url));
+
+                const likeBtn = card.querySelector(`[data-gl-like="${photo.id}"]`);
+                const dislikeBtn = card.querySelector(`[data-gl-dislike="${photo.id}"]`);
+                const dotsBtn = card.querySelector(`[data-gl-dots="${photo.id}"]`);
+                const shareBtn = card.querySelector(`[data-gl-share="${photo.id}"]`);
+                const reportBtn = card.querySelector(`[data-gl-report="${photo.id}"]`);
+                const deleteBtn = card.querySelector(`[data-gl-delete="${photo.id}"]`);
+
+                if (likeBtn) likeBtn.addEventListener('click', () => handleGalleryLike(photo.id, likeBtn, dislikeBtn));
+                if (dislikeBtn) dislikeBtn.addEventListener('click', () => handleGalleryDislike(photo.id, dislikeBtn, likeBtn));
+                if (dotsBtn) dotsBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    document.querySelectorAll('.gallery-dots-dropdown.open, .dots-dropdown.open, .bp-dots-dropdown.open').forEach(d => d.classList.remove('open'));
+                    document.getElementById(`gl-dd-${photo.id}`)?.classList.toggle('open');
+                });
+                if (shareBtn) shareBtn.addEventListener('click', () => {
+                    document.getElementById(`gl-dd-${photo.id}`)?.classList.remove('open');
+                    const shareUrl = photo.image_url || window.location.href;
+                    if (navigator.share) {
+                        navigator.share({ title: photo.title, url: shareUrl }).catch(() => {});
+                    } else {
+                        navigator.clipboard.writeText(shareUrl).then(() =>
+                            showInfoBanner(currentLang === 'ru' ? '✅ Ссылка скопирована!' : '✅ Link copied!', 'success')
+                        ).catch(() => {});
+                    }
+                });
+                if (reportBtn) reportBtn.addEventListener('click', () => {
+                    document.getElementById(`gl-dd-${photo.id}`)?.classList.remove('open');
+                    if (!currentAccount) {
+                        showInfoBanner(currentLang === 'ru' ? '⚠️ Войди в аккаунт, чтобы пожаловаться!' : '⚠️ Log in to report!', 'error');
+                        return;
+                    }
+                    if (typeof showReportModal === 'function') {
+                        showReportModal('gallery', photo.id, photo.title, photo.author, photo.image_url || null);
+                    }
+                });
+                if (deleteBtn) deleteBtn.addEventListener('click', () => deleteGalleryPhoto(photo.id, photo.image_path, card));
+
+                grid.appendChild(card);
+            });
+        }
+
+        async function handleGalleryLike(id, likeBtn, dislikeBtn) {
+            if (!sbClient) return;
+            const glLikes = JSON.parse(localStorage.getItem('gallery_likes') || '{}');
+            const glDislikes = JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
+            const wasLiked = glLikes[id] === true;
+            const wasDisliked = glDislikes[id] === true;
+
+            const countEl = likeBtn.querySelector('.gl-like-count');
+            let count = parseInt(countEl?.textContent || '0');
+            const dislikeCountEl = dislikeBtn?.querySelector('.gl-dislike-count');
+            let dCount = parseInt(dislikeCountEl?.textContent || '0');
+
+            if (wasLiked) {
+                delete glLikes[id]; likeBtn.classList.remove('liked'); count = Math.max(0, count - 1);
+                await sbClient.from('gallery').update({ likes: count }).eq('id', id);
+            } else {
+                glLikes[id] = true; likeBtn.classList.add('liked'); count++;
+                if (wasDisliked) {
+                    delete glDislikes[id]; dislikeBtn?.classList.remove('disliked'); dCount = Math.max(0, dCount - 1);
+                    await sbClient.from('gallery').update({ likes: count, dislikes: dCount }).eq('id', id);
+                } else {
+                    await sbClient.from('gallery').update({ likes: count }).eq('id', id);
+                }
+            }
+            if (countEl) countEl.textContent = count;
+            if (dislikeCountEl) dislikeCountEl.textContent = dCount;
+            localStorage.setItem('gallery_likes', JSON.stringify(glLikes));
+            localStorage.setItem('gallery_dislikes', JSON.stringify(glDislikes));
+        }
+
+        async function handleGalleryDislike(id, dislikeBtn, likeBtn) {
+            if (!sbClient) return;
+            const glLikes = JSON.parse(localStorage.getItem('gallery_likes') || '{}');
+            const glDislikes = JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
+            const wasDisliked = glDislikes[id] === true;
+            const wasLiked = glLikes[id] === true;
+
+            const countEl = dislikeBtn.querySelector('.gl-dislike-count');
+            let count = parseInt(countEl?.textContent || '0');
+            const likeCountEl = likeBtn?.querySelector('.gl-like-count');
+            let lCount = parseInt(likeCountEl?.textContent || '0');
+
+            if (wasDisliked) {
+                delete glDislikes[id]; dislikeBtn.classList.remove('disliked'); count = Math.max(0, count - 1);
+                await sbClient.from('gallery').update({ dislikes: count }).eq('id', id);
+            } else {
+                glDislikes[id] = true; dislikeBtn.classList.add('disliked'); count++;
+                if (wasLiked) {
+                    delete glLikes[id]; likeBtn?.classList.remove('liked'); lCount = Math.max(0, lCount - 1);
+                    await sbClient.from('gallery').update({ dislikes: count, likes: lCount }).eq('id', id);
+                } else {
+                    await sbClient.from('gallery').update({ dislikes: count }).eq('id', id);
+                }
+            }
+            if (countEl) countEl.textContent = count;
+            if (likeCountEl) likeCountEl.textContent = lCount;
+            localStorage.setItem('gallery_likes', JSON.stringify(glLikes));
+            localStorage.setItem('gallery_dislikes', JSON.stringify(glDislikes));
+        }
+
+        async function deleteGalleryPhoto(id, imagePath, cardEl) {
+            const ru = currentLang === 'ru';
+            if (!confirm(ru ? 'Удалить это фото?' : 'Delete this photo?')) return;
+            try {
+                if (imagePath) {
+                    await sbClient.storage.from('buildplates').remove([imagePath]).catch(() => {});
+                }
+                const { error } = await sbClient.from('gallery').delete().eq('id', id);
+                if (error) throw error;
+                _galleryCache = _galleryCache ? _galleryCache.filter(p => String(p.id) !== String(id)) : null;
+                cardEl.style.transition = 'opacity 0.3s, transform 0.3s, max-height 0.4s';
+                cardEl.style.opacity = '0';
+                cardEl.style.transform = 'scale(0.9)';
+                setTimeout(() => { cardEl.remove(); }, 350);
+                showInfoBanner(ru ? '🗑️ Фото удалено.' : '🗑️ Photo deleted.', 'success');
+            } catch(e) {
+                showInfoBanner('❌ ' + (e.message || e), 'error');
+            }
+        }
+
+        // Wire up file input label for gallery
+        document.addEventListener('DOMContentLoaded', () => {
+            const galleryInput = document.getElementById('gallery-image-input');
+            if (galleryInput) {
+                galleryInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    const label = document.getElementById('gallery-image-label');
+                    if (label) {
+                        if (file) {
+                            label.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
+                        } else {
+                            const ru = currentLang === 'ru';
+                            label.innerHTML = `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Hook into setLoggedIn/doLogout to update gallery auth state
+        const _origSetLoggedIn = window.setLoggedIn;
+        if (typeof _origSetLoggedIn === 'function') {
+            window.setLoggedIn = function(...args) {
+                _origSetLoggedIn.apply(this, args);
+                updateGalleryAuthState();
+            };
+        }
+        const _origDoLogout = window.doLogout;
+        if (typeof _origDoLogout === 'function') {
+            window.doLogout = function(...args) {
+                _origDoLogout.apply(this, args);
+                updateGalleryAuthState();
+            };
+        }
 
         applyMceIcons();
 
