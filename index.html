@@ -3300,6 +3300,9 @@
                     <button class="copy-btn" onclick="showNewsAdminPanel()" style="font-size:0.8rem;padding:8px 14px;">
                         <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
                     </button>
+                    <button id="notif-toggle-btn" onclick="toggleNotifBanner()" style="font-size:0.8rem;padding:8px 14px;background:linear-gradient(180deg,#2a3a10,#1a2508);color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #1a2010;" title="Уведомления">
+                        <i class="fas fa-bell"></i>
+                    </button>
                 </div>
 
                 <!-- Notification banner -->
@@ -7227,6 +7230,17 @@
 
     function dismissNotifBanner() {
         document.getElementById('notif-banner').style.display = 'none';
+    }
+
+    function toggleNotifBanner() {
+        const banner = document.getElementById('notif-banner');
+        const activeBar = document.getElementById('notif-active-bar');
+        if (activeBar && activeBar.style.display === 'flex') {
+            // уже подписан — показываем бар отписки
+            return;
+        }
+        if (!banner) return;
+        banner.style.display = banner.style.display === 'flex' ? 'none' : 'flex';
     }
 
     // Вызывается после публикации новости (отправляет пуш всем подписчикам)
