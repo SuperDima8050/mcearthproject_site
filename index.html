@@ -4258,7 +4258,15 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             currentLang = lang;
 
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            if (ev && ev.target) ev.target.classList.add('active');
+            if (ev && ev.target) {
+                ev.target.classList.add('active');
+            } else {
+                // При вызове без события — активируем нужную кнопку
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    const onclick = btn.getAttribute('onclick') || '';
+                    if (onclick.includes("'" + lang + "'")) btn.classList.add('active');
+                });
+            }
 
             document.documentElement.lang = lang;
 
@@ -4266,21 +4274,25 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 const text = el.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
                 if (!text) return;
 
+                // Пропускаем только если ВСЕ дочерние узлы — это переводимые элементы
+                // (не пропускаем если у элемента есть свои текстовые узлы)
+                const ownTextNodes = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== '');
                 const hasTranslatableChild = el.querySelector('[data-ru][data-en]');
-                if (hasTranslatableChild) return;
 
-                const textNodes = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
-                if (textNodes.length > 0) {
-                    textNodes[0].textContent = text;
-                    for (let i = 1; i < textNodes.length; i++) textNodes[i].textContent = '';
+                if (hasTranslatableChild && ownTextNodes.length === 0) return;
+
+                if (ownTextNodes.length > 0) {
+                    ownTextNodes[0].textContent = text;
+                    for (let i = 1; i < ownTextNodes.length; i++) ownTextNodes[i].textContent = '';
                 } else if (el.children.length === 0) {
                     el.textContent = text;
                 } else {
+                    // Элемент с дочерними элементами но без текстовых узлов — ставим текст
                     let lastText = Array.from(el.childNodes).reverse().find(n => n.nodeType === Node.TEXT_NODE);
                     if (lastText) {
                         lastText.textContent = text;
                     } else {
-                        el.appendChild(document.createTextNode(text));
+                        el.insertBefore(document.createTextNode(text), el.firstChild);
                     }
                 }
             });
@@ -4289,13 +4301,13 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
                 input.placeholder = input.getAttribute(lang === 'ru' ? 'data-placeholder-ru' : 'data-placeholder-en');
             });
 
-            const sortSelect = document.getElementById('bp-sort');
-            if (sortSelect) {
-                sortSelect.querySelectorAll('option').forEach(opt => {
+            // Переводим все select с опциями
+            document.querySelectorAll('select').forEach(select => {
+                select.querySelectorAll('option').forEach(opt => {
                     const label = opt.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
                     if (label) opt.textContent = label;
                 });
-            }
+            });
 
             localStorage.setItem('preferred-language', lang);
 
@@ -4411,10 +4423,9 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
 
         window.addEventListener('DOMContentLoaded', () => {
             let savedLang; try { savedLang = localStorage.getItem('preferred-language'); } catch(e) { savedLang = null; }
-            if (savedLang && savedLang !== 'ru') {
-                const enBtn = document.querySelector('.lang-btn:nth-child(2)');
-                enBtn.click();
-            }
+            const initLang = (savedLang === 'en') ? 'en' : 'ru';
+            // Всегда вызываем switchLanguage чтобы перевести все элементы
+            switchLanguage(initLang);
 
             const savedTheme = localStorage.getItem('theme');
             const themeIcon = document.querySelector('.theme-icon');
