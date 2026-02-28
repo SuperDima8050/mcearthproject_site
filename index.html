@@ -628,11 +628,44 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
         .nav-tabs {
             display: flex;
             gap: 0;
-            margin-bottom: 30px;
+            margin-bottom: 0;
             border-bottom: 4px solid #8b7355;
             padding-bottom: 0px;
             justify-content: stretch;
             width: 100%;
+        }
+
+        .nav-tabs-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .nav-tabs-reports-row {
+            border: 3px solid #8b7355;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            overflow: hidden;
+            margin-top: -1px;
+        }
+
+        .nav-tab-reports-mobile {
+            width: 100%;
+            border: none !important;
+            border-radius: 0 !important;
+            border-right: none !important;
+        }
+
+        /* На десктопе — мобильная строка скрыта, Reports в основном ряду */
+        @media (min-width: 769px) {
+            .nav-tabs-reports-row {
+                display: none !important;
+            }
+        }
+
+        /* На мобильном — Reports из основного ряда скрыт, показываем отдельную строку */
+        @media (max-width: 768px) {
+            #reports-nav-tab {
+                display: none !important;
+            }
         }
 
         .nav-tab {
@@ -2863,12 +2896,17 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
         </p>
 
         
+        <div class="nav-tabs-wrapper">
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="switchTab('home')" data-ru="Главная" data-en="Home"><span class="nav-icon"><img src="shop_icon.png" alt="Home"></span><span data-ru="Главная" data-en="Home">Главная</span></button>
             <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
             <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
             <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery" style="border-right:3px solid #8b7355;border-radius:0 4px 0 0;"><span class="nav-icon"><img src="paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
             <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+        </div>
+        <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
+            <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+        </div>
         </div>
 
         
@@ -5204,7 +5242,11 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             checkNewsAdmin().then(isAdm => {
                 const rTab = document.getElementById('reports-nav-tab');
                 const gTab = document.getElementById('gallery-nav-tab');
+                const mobileRow = document.getElementById('nav-reports-row');
+                const mobileRTab = document.getElementById('reports-nav-tab-mobile');
                 if (rTab) rTab.style.display = isAdm ? '' : 'none';
+                if (mobileRow) mobileRow.style.display = isAdm ? 'block' : 'none';
+                if (mobileRTab) mobileRTab.style.display = isAdm ? '' : 'none';
                 if (gTab) {
                     gTab.style.borderRight = isAdm ? 'none' : '3px solid #8b7355';
                     gTab.style.borderRadius = isAdm ? '0' : '0 4px 0 0';
@@ -5258,6 +5300,8 @@ survival game, building game, crafting game,ar, minecraft texture, block game">
             localStorage.removeItem('bp_session');
             const rTab = document.getElementById('reports-nav-tab');
             if (rTab) rTab.style.display = 'none';
+            const mobileRow = document.getElementById('nav-reports-row');
+            if (mobileRow) mobileRow.style.display = 'none';
             const gTab = document.getElementById('gallery-nav-tab');
             if (gTab) { gTab.style.borderRight = '3px solid #8b7355'; gTab.style.borderRadius = '0 4px 0 0'; }
             const refBlock = document.getElementById('ref-profile-block');
