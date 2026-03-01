@@ -1278,17 +1278,17 @@
         body.dark-theme #bp-limit-reset { color: #666; }
 
         body.dark-theme .nav-tabs {
-            border-bottom-color: #0a0a0a;
+            border-bottom-color: #1a1a1a;
         }
 
         body.dark-theme .nav-tabs-reports-row {
-            border-color: #0a0a0a;
+            border-color: #1a1a1a;
         }
 
         body.dark-theme .nav-tab {
             color: #e0e0e0;
             background: #1a1a1a;
-            border-color: #0a0a0a;
+            border-color: #1a1a1a;
         }
 
         body.dark-theme .nav-tab:hover {
@@ -2027,6 +2027,7 @@
         }
 
         .bp-card-img {
+            cursor: pointer;
             width: 100%;
             height: 160px;
             object-fit: cover;
@@ -6253,6 +6254,8 @@
 
                 if (likeBtn) likeBtn.addEventListener('click', () => handleBpLike(bp.id, likeBtn, dislikeBtn));
                 if (dislikeBtn) dislikeBtn.addEventListener('click', () => handleBpDislike(bp.id, dislikeBtn, likeBtn));
+                const bpImgEl = card.querySelector('.bp-card-img');
+                if (bpImgEl && bp.image_url) bpImgEl.addEventListener('click', () => openGalleryLightbox(bp.image_url));
                 const LOCK_ICON_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png';
                 if (!currentAccount && dlBtn) {
                     dlBtn.classList.add('dl-locked');
