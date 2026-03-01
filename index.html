@@ -497,74 +497,66 @@
             transform: translateX(3px);
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .authors {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
+                grid-template-columns: 1fr;
+                gap: 8px;
             }
             .author-card {
-                padding: 12px 10px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+                padding: 12px 14px;
+                gap: 14px;
+                box-shadow: 0 4px 0 #5a4a3a, 0 5px 12px rgba(0,0,0,0.15);
+            }
+            .author-card-avatar {
+                width: 42px;
+                height: 42px;
+                background: linear-gradient(135deg, #6b8e23, #4a5d23);
+                border-radius: 2px;
+                border: 2px solid #4a5d23;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-family: 'MinecraftSeven', sans-serif;
+                font-size: 0.7rem;
+                font-weight: 700;
+                color: #fff;
+                text-transform: uppercase;
+            }
+            .author-card-body {
+                flex: 1;
+                min-width: 0;
             }
             .author-name {
-                font-size: 0.62rem;
-                margin-bottom: 3px;
+                font-size: 0.78rem;
+                margin-bottom: 2px;
             }
             .author-role {
-                font-size: 0.58rem;
-                margin-bottom: 8px;
+                font-size: 0.63rem;
+                margin-bottom: 7px;
                 letter-spacing: 0;
                 line-height: 1.3;
             }
             .author-links {
-                gap: 5px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 6px 10px;
             }
             .link {
-                font-size: 0.6rem;
-                gap: 5px;
+                font-size: 0.65rem;
+                gap: 4px;
                 justify-content: flex-start;
             }
-            .link i {
-                font-size: 0.75rem;
-                flex-shrink: 0;
-            }
+            .link i { font-size: 0.8rem; flex-shrink: 0; }
             .link span {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .authors {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 10px;
-            }
-            .author-card {
-                padding: 12px 10px;
-                box-shadow: 0 4px 0 #5a4a3a, 0 5px 12px rgba(0,0,0,0.15);
-            }
-            .author-name {
-                font-size: 0.62rem;
-                margin-bottom: 4px;
-            }
-            .author-role {
-                font-size: 0.58rem;
-                margin-bottom: 10px;
-                letter-spacing: 0;
-                line-height: 1.4;
-            }
-            .author-links { gap: 5px; }
-            .link {
-                font-size: 0.6rem;
-                gap: 5px;
-                justify-content: flex-start;
-            }
-            .link i { font-size: 0.75rem; flex-shrink: 0; }
-            .link span {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                max-width: 100%;
+                max-width: 160px;
             }
         }
 
@@ -3238,81 +3230,96 @@
             </h2>
             <div class="authors">
                 <div class="author-card">
-                    <div class="author-name">SuperDima8050</div>
-                    <div class="author-role" data-ru="Помощник | Разработчик | Создатель сайта" 
-                         data-en="Assistant | Developer | Website Creator">
-                        Помощник | Разработчик | Создатель сайта
-                    </div>
-                    <div class="author-links">
-                        <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@superdima8050</span>
-                        </a>
-                        <a href="https://github.com/SuperDima8050" class="link" target="_blank">
-                            <i class="fab fa-github"></i>
-                            <span>github.com/SuperDima8050</span>
-                        </a>
-                        <a href="https://mcearthproject.qzz.io" class="link" target="_blank">
-                            <i class="fas fa-globe"></i>
-                            <span>mcearthproject.qzz.io</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="author-card">
-                    <div class="author-name">Kostyaniche</div>
-                    <div class="author-role" data-ru="Гл. Разработчик проекта | Хост" 
-                         data-en="Lead Developer | Host">
-                        Гл. Разработчик проекта | Хост
-                    </div>
-                    <div class="author-links">
-                        <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@kostyaniche</span>
-                        </a>
+                    <div class="author-card-avatar">SD</div>
+                    <div class="author-card-body">
+                        <div class="author-name">SuperDima8050</div>
+                        <div class="author-role" data-ru="Помощник | Разработчик | Создатель сайта" 
+                             data-en="Assistant | Developer | Website Creator">
+                            Помощник | Разработчик | Создатель сайта
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@superdima8050</span>
+                            </a>
+                            <a href="https://github.com/SuperDima8050" class="link" target="_blank">
+                                <i class="fab fa-github"></i>
+                                <span>github.com/SuperDima8050</span>
+                            </a>
+                            <a href="https://mcearthproject.qzz.io" class="link" target="_blank">
+                                <i class="fas fa-globe"></i>
+                                <span>mcearthproject.qzz.io</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <div class="author-card">
-                    <div class="author-name">Micheal65536</div>
-                    <div class="author-role" data-ru="Основатель" data-en="Founder">
-                        Основатель
-                    </div>
-                    <div class="author-links">
-                        <a href="https://discord.com/users/864232575853658183" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@micheal65536</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="author-card">
-                    <div class="author-name">Halolamemes</div>
-                    <div class="author-role" data-ru="Помощник" data-en="Assistant">
-                        Помощник
-                    </div>
-                    <div class="author-links">
-                        <a href="https://discord.com/users/1122063385811496970" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@halolamemes</span>
-                        </a>
+                    <div class="author-card-avatar">KN</div>
+                    <div class="author-card-body">
+                        <div class="author-name">Kostyaniche</div>
+                        <div class="author-role" data-ru="Гл. Разработчик проекта | Хост" 
+                             data-en="Lead Developer | Host">
+                            Гл. Разработчик проекта | Хост
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@kostyaniche</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <div class="author-card">
-                    <div class="author-name">Prostofanatdeltaruna</div>
-                    <div class="author-role" data-ru="Помощник" data-en="Assistant">
-                        Помощник
+                    <div class="author-card-avatar">M6</div>
+                    <div class="author-card-body">
+                        <div class="author-name">Micheal65536</div>
+                        <div class="author-role" data-ru="Основатель" data-en="Founder">
+                            Основатель
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/864232575853658183" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@micheal65536</span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="author-links">
-                        <a href="https://discord.com/users/1438966243276099664" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@prostofanatdeltaruna</span>
-                             </a>
-                        <a href="https://projectreviver.qzz.io" class="link" target="_blank">
-                            <i class="fas fa-globe"></i>
-                            <span>projectreviver.qzz.io</span>
-                        </a>
+                </div>
+
+                <div class="author-card">
+                    <div class="author-card-avatar">HL</div>
+                    <div class="author-card-body">
+                        <div class="author-name">Halolamemes</div>
+                        <div class="author-role" data-ru="Помощник" data-en="Assistant">
+                            Помощник
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/1122063385811496970" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@halolamemes</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="author-card">
+                    <div class="author-card-avatar">PF</div>
+                    <div class="author-card-body">
+                        <div class="author-name">Prostofanatdeltaruna</div>
+                        <div class="author-role" data-ru="Помощник" data-en="Assistant">
+                            Помощник
+                        </div>
+                        <div class="author-links">
+                            <a href="https://discord.com/users/1438966243276099664" class="link" target="_blank">
+                                <i class="fab fa-discord"></i>
+                                <span>@prostofanatdeltaruna</span>
+                            </a>
+                            <a href="https://projectreviver.qzz.io" class="link" target="_blank">
+                                <i class="fas fa-globe"></i>
+                                <span>projectreviver.qzz.io</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
