@@ -697,14 +697,17 @@
         /* На десктопе — мобильная строка скрыта, Reports в основном ряду */
         @media (min-width: 769px) {
             .nav-tabs-reports-row {
-                display: none !important;
+                display: none;
+            }
+            .nav-tabs-reports-row.admin-visible {
+                display: none; /* на десктопе всегда скрыта */
             }
         }
 
-        /* На мобильном — Reports из основного ряда скрыт, показываем отдельную строку */
+        /* На мобильном — Reports из основного ряда скрыт */
         @media (max-width: 768px) {
             #reports-nav-tab {
-                display: none !important;
+                display: none;
             }
         }
 
@@ -5412,12 +5415,27 @@
                 const gTab = document.getElementById('gallery-nav-tab');
                 const mobileRow = document.getElementById('nav-reports-row');
                 const mobileRTab = document.getElementById('reports-nav-tab-mobile');
-                if (rTab) rTab.style.display = isAdm ? '' : 'none';
-                if (mobileRow) mobileRow.style.display = isAdm ? 'block' : 'none';
-                if (mobileRTab) mobileRTab.style.display = isAdm ? '' : 'none';
+                const isMobile = window.innerWidth <= 768;
+
+                if (isAdm) {
+                    // На мобильном — показываем нижнюю строку
+                    if (isMobile) {
+                        if (mobileRow) mobileRow.style.display = 'block';
+                        if (mobileRTab) mobileRTab.style.display = '';
+                        if (rTab) rTab.style.display = 'none';
+                    } else {
+                        // На десктопе — показываем в основном ряду
+                        if (rTab) rTab.style.display = '';
+                        if (mobileRow) mobileRow.style.display = 'none';
+                    }
+                } else {
+                    if (rTab) rTab.style.display = 'none';
+                    if (mobileRow) mobileRow.style.display = 'none';
+                }
+
                 if (gTab) {
-                    gTab.style.borderRight = isAdm ? 'none' : '3px solid #8b7355';
-                    gTab.style.borderRadius = isAdm ? '0' : '0 4px 0 0';
+                    gTab.style.borderRight = isAdm && !isMobile ? 'none' : '3px solid #8b7355';
+                    gTab.style.borderRadius = isAdm && !isMobile ? '0' : '0 4px 0 0';
                 }
             });
 
