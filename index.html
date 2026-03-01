@@ -4679,6 +4679,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co';
+        window.SUPABASE_URL = SUPABASE_URL;
 
         function iconUrl(filename) {
             return `${SUPABASE_URL}/storage/v1/object/public/icons/icon/${filename}`;
@@ -4732,6 +4733,7 @@
             cookieObserver.observe(document.body, { childList: true, subtree: false });
         }
         const SUPABASE_ANON_KEY = 'sb_publishable_nhY94pR0kxA70QI__Zy_Hw_OD5nUm7F';
+        window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
 
         let sbClient = null;
         try {
@@ -7282,9 +7284,10 @@
             // Сохраняем подписку в Supabase
             if (sbClient) {
                 await sbClient.from('push_subscriptions').upsert([{
+                    endpoint: subscription.endpoint,
                     subscription: subscription.toJSON(),
                     created_at: new Date().toISOString()
-                }]);
+                }], { onConflict: 'endpoint' });
             }
 
             localStorage.removeItem('notif_banner_dismissed');
@@ -7334,13 +7337,15 @@
 
     // Вызывается после публикации новости (отправляет пуш всем подписчикам)
     async function sendNewsNotification(title, body) {
-        if (PUSH_SEND_URL.includes('YOUR_PROJECT')) return; // не настроено
+        if (PUSH_SEND_URL.includes('YOUR_PROJECT')) return;
         try {
-            await fetch(PUSH_SEND_URL, {
+            const res = await fetch(PUSH_SEND_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (window.SUPABASE_ANON_KEY || SUPABASE_ANON_KEY || '') },
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (window.SUPABASE_ANON_KEY || '') },
                 body: JSON.stringify({ title: '📰 ' + title, body, url: '/?tab=news' })
             });
+            const text = await res.text();
+            console.log('[Push] status:', res.status, 'response:', text);
         } catch(e) {
             console.warn('Push send failed:', e);
         }
