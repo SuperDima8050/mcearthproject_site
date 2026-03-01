@@ -6,6 +6,7 @@
     <title>Revival Minecraft Earth</title>
     <link rel="icon" type="image/png" href="https://mcearthproject.qzz.io/favicon.ico">
     <style>
+        /* Minecraft Five — основной шрифт */
         @font-face {
             font-family: 'Minecraft';
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftfive-regular.ttf') format('truetype');
@@ -16,6 +17,34 @@
             font-family: 'Minecraft';
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftfive-bold.ttf') format('truetype');
             font-weight: 700;
+            font-style: normal;
+        }
+        /* MinecraftTen — крупные заголовки (h1) */
+        @font-face {
+            font-family: 'MinecraftTen';
+            src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftten.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        /* MinecraftSeven — секционные заголовки */
+        @font-face {
+            font-family: 'MinecraftSeven';
+            src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftseven.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        /* NotoSans — читаемый фолбэк для текста */
+        @font-face {
+            font-family: 'NotoSans';
+            src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/notosans-regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        /* NotoSansCJK — поддержка CJK символов */
+        @font-face {
+            font-family: 'NotoSansCJK';
+            src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/notosanscjk-regular.ttc') format('truetype');
+            font-weight: 400;
             font-style: normal;
         }
     </style>
@@ -71,7 +100,7 @@
         }
 
         body {
-            font-family: 'Minecraft', sans-serif);
+            font-family: 'Minecraft', 'NotoSans', 'NotoSansCJK', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -312,7 +341,7 @@
             margin-bottom: 10px;
             font-size: 2.5rem;
             margin-top: 60px;
-            font-family: 'Minecraft', sans-serif;
+            font-family: 'MinecraftTen', 'Minecraft', sans-serif;
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 4px;
@@ -330,7 +359,7 @@
             color: #5a4a3a;
             margin-bottom: 20px;
             font-size: 1.1rem;
-            font-family: 'Minecraft', sans-serif;
+            font-family: 'MinecraftSeven', 'Minecraft', sans-serif;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
@@ -383,7 +412,7 @@
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 4px solid #6b8e23;
-            font-family: 'Minecraft', sans-serif;
+            font-family: 'MinecraftSeven', 'Minecraft', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
