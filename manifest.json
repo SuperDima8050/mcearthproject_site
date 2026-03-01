@@ -18,8 +18,19 @@
       "purpose": "any maskable"
     }
   ],
-  "screenshots": [],
   "shortcuts": [
+    {
+      "name": "Главная",
+      "short_name": "Home",
+      "url": "/?tab=home",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Новости",
+      "short_name": "News",
+      "url": "/?tab=news",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
     {
       "name": "Buildplates",
       "short_name": "Buildplates",
@@ -30,12 +41,6 @@
       "name": "Галерея",
       "short_name": "Gallery",
       "url": "/?tab=gallery",
-      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Новости",
-      "short_name": "News",
-      "url": "/?tab=news",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }
   ]
