@@ -2563,6 +2563,9 @@
             letter-spacing: 0.5px;
             width: 100%;
             box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+            min-width: 0;
         }
         .bp-profile-btn:hover { background: rgba(76,175,80,0.1); transform: translateY(-1px); }
         .bp-profile-btn.danger { border-color: #c62828; color: #c62828; }
@@ -2572,6 +2575,18 @@
         .bp-profile-file-input { display: none; }
         .bp-email-text { color: #2e7d32; }
         body.dark-theme .bp-email-text { color: #ffffff; }
+        @media (max-width: 480px) {
+            .bp-profile-btn {
+                font-size: 0.6rem;
+                letter-spacing: 0;
+                gap: 4px;
+                padding: 9px 2px;
+            }
+            .bp-profile-btn i {
+                font-size: 0.75rem;
+                flex-shrink: 0;
+            }
+        }
         .bp-profile-actions-delete {
             margin-top: 6px;
         }
@@ -4335,10 +4350,13 @@
                 return;
             }
             container.innerHTML = '';
+            const lastSeenRep = parseInt(localStorage.getItem('reports_last_seen') || '0', 10);
             data.forEach(rep => {
                 const card = document.createElement('div');
                 const isDarkMode = document.body.classList.contains('dark-theme');
                 card.id = 'report-card-' + rep.id;
+                card.style.position = 'relative';
+                const isRepNew = new Date(rep.created_at).getTime() > lastSeenRep;
                 card.style.cssText = `background:${isDarkMode ? '#1e2a1e' : '#f0fff0'};border:2px solid ${isDarkMode ? '#3a5c3a' : '#6b8e23'};border-radius:6px;padding:14px;margin-bottom:12px;box-shadow:0 4px 0 ${isDarkMode ? '#0a1a0a' : '#4a5d23'};transition:opacity 0.5s ease,transform 0.5s ease,max-height 0.5s ease,padding 0.5s ease,margin 0.5s ease;overflow:hidden;`;
                 const reasonLabels = { spam: ru ? 'Спам' : 'Spam', inappropriate: ru ? 'Неприемлемый контент' : 'Inappropriate', misinformation: ru ? 'Ложная информация' : 'Misinformation', copyright: ru ? 'Авторские права' : 'Copyright', other: ru ? 'Другое' : 'Other' };
                 const statusColors = { pending: '#c62828', approved: '#2e7d32', rejected: '#757575' };
@@ -4369,6 +4387,7 @@
                 const subColor  = isDarkMode ? '#8ab08a' : '#5a4a3a';
                 const dateColor = isDarkMode ? '#6a8a6a' : '#8b7355';
                 card.innerHTML = `
+                    ${isRepNew ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png" class="news-new-badge" style="position:absolute;top:8px;right:8px;z-index:10;width:24px;height:24px;image-rendering:pixelated;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));" title=\"Новое\" alt=\"new\">' : ''}
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
                         <div>
                             <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:${isDarkMode ? '#8bc34a' : '#4a5d23'};">${reasonLabels[rep.reason] || rep.reason}</span>
@@ -6111,11 +6130,14 @@
             const bpLikes = window._sbVotes?.bp_likes || JSON.parse(localStorage.getItem('bp_likes') || '{}');
             const bpDislikes = window._sbVotes?.bp_dislikes || JSON.parse(localStorage.getItem('bp_dislikes') || '{}');
 
+            const lastSeenBp = parseInt(localStorage.getItem('bp_last_seen') || '0', 10);
             data.forEach(bp => {
                 const isMine = myIds.includes(String(bp.id)) || (bp.author && myNicks.includes(bp.author.toLowerCase()));
                 const card = document.createElement('div');
                 card.className = 'bp-card';
                 card.id = 'bp-card-' + bp.id;
+                card.style.position = 'relative';
+                const isBpNew = new Date(bp.created_at).getTime() > lastSeenBp;
                 const isLiked = bpLikes[bp.id] === true;
                 const likeCount = bp.likes || 0;
                 const isDisliked = bpDislikes[bp.id] === true;
@@ -6128,6 +6150,7 @@
                     : `<span class="bp-card-avatar-placeholder"><i class="fas fa-user"></i></span>`;
 
                 card.innerHTML = `
+                    ${isBpNew ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png" class="news-new-badge" style="position:absolute;top:8px;right:8px;z-index:10;width:28px;height:28px;image-rendering:pixelated;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));" title=\"Новое\" alt=\"new\">' : ''}
                     ${bp.image_url
                         ? `<img class="bp-card-img" src="${bp.image_url}" alt="${escapeHtml(bp.name)}" loading="lazy">`
                         : `<div class="bp-card-img-placeholder">🏗️</div>`
@@ -6573,6 +6596,15 @@
         function stopLimitTimer() { if (_limitTimerInterval) { clearInterval(_limitTimerInterval); _limitTimerInterval = null; } }
 
 
+        // Save last_seen when opening each tab
+        const _origTabSwitch = window.switchTab;
+        window.switchTab = function(tabName) {
+            if (tabName === 'buildplates') localStorage.setItem('bp_last_seen', Date.now().toString());
+            if (tabName === 'gallery') localStorage.setItem('gallery_last_seen', Date.now().toString());
+            if (tabName === 'reports') localStorage.setItem('reports_last_seen', Date.now().toString());
+            _origTabSwitch(tabName);
+        };
+
         const origSwitchTab = window.switchTab;
         window.switchTab = function(tabName) {
             origSwitchTab && origSwitchTab.call(this, tabName);
@@ -7000,6 +7032,7 @@
             const glDislikes = window._sbVotes?.gallery_dislikes || JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
             const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
 
+            const lastSeenGl = parseInt(localStorage.getItem('gallery_last_seen') || '0', 10);
             data.forEach(photo => {
                 const isMine = myNick && (photo.author||'').toLowerCase() === myNick;
                 const isLiked = glLikes[photo.id] === true;
@@ -7008,6 +7041,7 @@
                 const authorAvatar = _galleryAvatarMap[authorLower];
                 const isVerified = _galleryVerifiedMap[authorLower];
                 const ru = currentLang === 'ru';
+                const isGlNew = new Date(photo.created_at).getTime() > lastSeenGl;
 
                 // Same avatar html as buildplates
                 const avatarHtml = authorAvatar
@@ -7021,8 +7055,10 @@
                 const card = document.createElement('div');
                 card.className = 'bp-card'; // ← same class as buildplates
                 card.id = 'gallery-card-' + photo.id;
+                card.style.position = 'relative';
 
                 card.innerHTML = `
+                    ${isGlNew ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png" class="news-new-badge" style="position:absolute;top:8px;right:8px;z-index:10;width:28px;height:28px;image-rendering:pixelated;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));" title=\"Новое\" alt=\"new\">' : ''}
                     ${photo.image_url
                         ? `<img class="bp-card-img gallery-tab-img" src="${photo.image_url}" alt="${escapeHtml(photo.title||'')}" loading="lazy">`
                         : `<div class="bp-card-img-placeholder">🖼️</div>`}
