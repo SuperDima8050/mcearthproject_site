@@ -3295,14 +3295,16 @@
         
         <div id="news-tab" class="tab-content">
             <div class="section">
-                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
-                    <h2 class="section-title" data-icon="journal_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;"><span data-ru="Новости проекта" data-en="Project News">Новости проекта</span></h2>
-                    <button class="copy-btn" onclick="showNewsAdminPanel()" style="font-size:0.8rem;padding:8px 14px;">
-                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
-                    </button>
-                    <button id="notif-toggle-btn" onclick="toggleNotifBanner()" style="font-size:0.8rem;padding:8px 14px;background:linear-gradient(180deg,#2a3a10,#1a2508);color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #1a2010;" title="Уведомления">
-                        <i class="fas fa-bell"></i>
-                    </button>
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:10px;margin-bottom:15px;">
+                    <h2 class="section-title" data-icon="journal_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;flex:1;min-width:0;"><span data-ru="Новости проекта" data-en="Project News">Новости проекта</span></h2>
+                    <div style="display:flex;gap:6px;flex-shrink:0;align-items:center;">
+                        <button class="copy-btn" onclick="showNewsAdminPanel()" style="font-size:0.8rem;padding:8px 14px;white-space:nowrap;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
+                        </button>
+                        <button id="notif-toggle-btn" onclick="toggleNotifBanner()" style="font-size:0.8rem;padding:8px 12px;background:linear-gradient(180deg,#2a3a10,#1a2508);color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #1a2010;flex-shrink:0;" title="Уведомления">
+                            <img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;">
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Notification banner -->
@@ -3314,14 +3316,14 @@
                     </div>
                     <div style="display:flex;gap:8px;flex-shrink:0;">
                         <button id="notif-enable-btn" onclick="enableNotifications()" style="padding:8px 14px;background:linear-gradient(180deg,#6b8e23,#4a6318);color:#fff;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #2e3d10;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">
-                            <i class="fas fa-bell"></i> <span data-ru="Включить" data-en="Enable">Включить</span>
+                            <img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Включить" data-en="Enable">Включить</span>
                         </button>
                         <button onclick="dismissNotifBanner()" style="padding:8px 10px;background:transparent;color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.75rem;cursor:pointer;" title="Закрыть">✕</button>
                     </div>
                 </div>
                 <!-- Already subscribed indicator -->
                 <div id="notif-active-bar" style="display:none;align-items:center;gap:10px;padding:10px 14px;margin-bottom:16px;border-radius:4px;border:2px solid #4a5d23;background:#1a2508;flex-wrap:wrap;box-sizing:border-box;width:100%;">
-                    <i class="fas fa-bell" style="color:#6b8e23;font-size:1rem;flex-shrink:0;"></i>
+                    <img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
                     <span style="font-family:'Minecraft',sans-serif;font-size:0.76rem;color:#8ab04a;font-weight:700;flex:1;min-width:0;" data-ru="Уведомления включены" data-en="Notifications enabled">Уведомления включены</span>
                     <button onclick="disableNotifications()" style="padding:5px 10px;background:transparent;color:#c62828;border:2px solid #8b1a1a;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.7rem;cursor:pointer;font-weight:700;flex-shrink:0;" data-ru="Выключить" data-en="Disable">Выключить</button>
                 </div>
@@ -7181,7 +7183,7 @@
             const permission = await Notification.requestPermission();
             if (permission !== 'granted') {
                 showInfoBanner(currentLang === 'ru' ? '⚠️ Разрешение на уведомления отклонено' : '⚠️ Notification permission denied', 'error');
-                if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
+                if (btn) { btn.disabled = false; btn.innerHTML = '<img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
                 return;
             }
 
@@ -7205,7 +7207,7 @@
         } catch(e) {
             console.error('Push subscribe error:', e);
             showInfoBanner('❌ ' + e.message, 'error');
-            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-bell"></i> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
+            if (btn) { btn.disabled = false; btn.innerHTML = '<img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
         }
     }
 
