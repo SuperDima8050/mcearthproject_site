@@ -3302,28 +3302,28 @@
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
                         </button>
                         <button id="notif-toggle-btn" onclick="toggleNotifBanner()" style="font-size:0.8rem;padding:8px 12px;background:linear-gradient(180deg,#2a3a10,#1a2508);color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #1a2010;flex-shrink:0;" title="Уведомления">
-                            <img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;">
                         </button>
                     </div>
                 </div>
 
                 <!-- Notification banner -->
                 <div id="notif-banner" style="display:none;align-items:center;gap:12px;padding:14px 16px;margin-bottom:16px;border-radius:4px;border:3px solid #4a5d23;background:linear-gradient(135deg,#2a3a10,#1a2508);box-shadow:0 4px 0 #1a2010;">
-                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_open_icon.png" alt="" style="width:32px;height:32px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
+                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" alt="" style="width:32px;height:32px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
                     <div style="flex:1;min-width:0;">
-                        <div style="font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:700;color:#a5d652;text-transform:uppercase;letter-spacing:1px;" data-ru="🔔 Уведомления о новостях" data-en="🔔 News Notifications">🔔 Уведомления о новостях</div>
+                        <div style="font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:700;color:#a5d652;text-transform:uppercase;letter-spacing:1px;" data-ru="Уведомления о новостях" data-en="News Notifications"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;">Уведомления о новостях</div>
                         <div style="font-family:'Minecraft',sans-serif;font-size:0.74rem;color:#8ab04a;margin-top:3px;line-height:1.4;" data-ru="Узнавай первым о новых новостях проекта" data-en="Be the first to know about new project news">Узнавай первым о новых новостях проекта</div>
                     </div>
                     <div style="display:flex;gap:8px;flex-shrink:0;">
                         <button id="notif-enable-btn" onclick="enableNotifications()" style="padding:8px 14px;background:linear-gradient(180deg,#6b8e23,#4a6318);color:#fff;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #2e3d10;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">
-                            <img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Включить" data-en="Enable">Включить</span>
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Включить" data-en="Enable">Включить</span>
                         </button>
                         <button onclick="dismissNotifBanner()" style="padding:8px 10px;background:transparent;color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.75rem;cursor:pointer;" title="Закрыть">✕</button>
                     </div>
                 </div>
                 <!-- Already subscribed indicator -->
                 <div id="notif-active-bar" style="display:none;align-items:center;gap:10px;padding:10px 14px;margin-bottom:16px;border-radius:4px;border:2px solid #4a5d23;background:#1a2508;flex-wrap:wrap;box-sizing:border-box;width:100%;">
-                    <img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
+                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
                     <span style="font-family:'Minecraft',sans-serif;font-size:0.76rem;color:#8ab04a;font-weight:700;flex:1;min-width:0;" data-ru="Уведомления включены" data-en="Notifications enabled">Уведомления включены</span>
                     <button onclick="disableNotifications()" style="padding:5px 10px;background:transparent;color:#c62828;border:2px solid #8b1a1a;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.7rem;cursor:pointer;font-weight:700;flex-shrink:0;" data-ru="Выключить" data-en="Disable">Выключить</button>
                 </div>
@@ -7183,7 +7183,7 @@
             const permission = await Notification.requestPermission();
             if (permission !== 'granted') {
                 showInfoBanner(currentLang === 'ru' ? '⚠️ Разрешение на уведомления отклонено' : '⚠️ Notification permission denied', 'error');
-                if (btn) { btn.disabled = false; btn.innerHTML = '<img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
+                if (btn) { btn.disabled = false; btn.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
                 return;
             }
 
@@ -7203,11 +7203,11 @@
             localStorage.removeItem('notif_banner_dismissed');
             document.getElementById('notif-banner').style.display = 'none';
             document.getElementById('notif-active-bar').style.display = 'flex';
-            showInfoBanner(currentLang === 'ru' ? '🔔 Уведомления включены!' : '🔔 Notifications enabled!', 'success');
+            showInfoBanner(currentLang === 'ru' ? '✅ Уведомления включены!' : '✅ Notifications enabled!', 'success');
         } catch(e) {
             console.error('Push subscribe error:', e);
             showInfoBanner('❌ ' + e.message, 'error');
-            if (btn) { btn.disabled = false; btn.innerHTML = '<img src="bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
+            if (btn) { btn.disabled = false; btn.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
         }
     }
 
