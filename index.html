@@ -7338,7 +7338,7 @@
         try {
             await fetch(PUSH_SEND_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (window._sbAnonKey || '') },
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (window.SUPABASE_ANON_KEY || SUPABASE_ANON_KEY || '') },
                 body: JSON.stringify({ title: '📰 ' + title, body, url: '/?tab=news' })
             });
         } catch(e) {
