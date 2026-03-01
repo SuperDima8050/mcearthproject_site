@@ -5808,14 +5808,13 @@
             } catch(e) { alert('❌ '+(e.message||e)); }
         }
 
-        (function restoreSession() {
+        window.addEventListener('DOMContentLoaded', () => {
+            // Восстанавливаем сессию после инициализации sbClient
             try {
                 const s = JSON.parse(localStorage.getItem('bp_session') || 'null');
                 if (s && s.nick) setLoggedIn(s.nick, s.verified, s.avatar_url || null, s.email || null, s.email_verified || false, s.join_date || null);
             } catch(e) {}
-        })();
 
-        window.addEventListener('DOMContentLoaded', () => {
             if (sbClient) {
                 checkUrlTokens();
             }
