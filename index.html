@@ -3302,28 +3302,28 @@
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
                         </button>
                         <button id="notif-toggle-btn" onclick="toggleNotifBanner()" style="font-size:0.8rem;padding:8px 12px;background:linear-gradient(180deg,#2a3a10,#1a2508);color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #1a2010;flex-shrink:0;" title="Уведомления">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;">
+                            🔔
                         </button>
                     </div>
                 </div>
 
                 <!-- Notification banner -->
                 <div id="notif-banner" style="display:none;align-items:center;gap:12px;padding:14px 16px;margin-bottom:16px;border-radius:4px;border:3px solid #4a5d23;background:linear-gradient(135deg,#2a3a10,#1a2508);box-shadow:0 4px 0 #1a2010;">
-                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" alt="" style="width:32px;height:32px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
+                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_open_icon.png" alt="" style="width:32px;height:32px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
                     <div style="flex:1;min-width:0;">
-                        <div style="font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:700;color:#a5d652;text-transform:uppercase;letter-spacing:1px;" data-ru="Уведомления о новостях" data-en="News Notifications"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;">Уведомления о новостях</div>
+                        <div style="font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:700;color:#a5d652;text-transform:uppercase;letter-spacing:1px;" data-ru="🔔 Уведомления о новостях" data-en="🔔 News Notifications">🔔 Уведомления о новостях</div>
                         <div style="font-family:'Minecraft',sans-serif;font-size:0.74rem;color:#8ab04a;margin-top:3px;line-height:1.4;" data-ru="Узнавай первым о новых новостях проекта" data-en="Be the first to know about new project news">Узнавай первым о новых новостях проекта</div>
                     </div>
                     <div style="display:flex;gap:8px;flex-shrink:0;">
                         <button id="notif-enable-btn" onclick="enableNotifications()" style="padding:8px 14px;background:linear-gradient(180deg,#6b8e23,#4a6318);color:#fff;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 #2e3d10;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Включить" data-en="Enable">Включить</span>
+                            🔔 <span data-ru="Включить" data-en="Enable">Включить</span>
                         </button>
                         <button onclick="dismissNotifBanner()" style="padding:8px 10px;background:transparent;color:#8ab04a;border:2px solid #4a5d23;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.75rem;cursor:pointer;" title="Закрыть">✕</button>
                     </div>
                 </div>
                 <!-- Already subscribed indicator -->
                 <div id="notif-active-bar" style="display:none;align-items:center;gap:10px;padding:10px 14px;margin-bottom:16px;border-radius:4px;border:2px solid #4a5d23;background:#1a2508;flex-wrap:wrap;box-sizing:border-box;width:100%;">
-                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
+                    🔔
                     <span style="font-family:'Minecraft',sans-serif;font-size:0.76rem;color:#8ab04a;font-weight:700;flex:1;min-width:0;" data-ru="Уведомления включены" data-en="Notifications enabled">Уведомления включены</span>
                     <button onclick="disableNotifications()" style="padding:5px 10px;background:transparent;color:#c62828;border:2px solid #8b1a1a;border-radius:2px;font-family:'Minecraft',sans-serif;font-size:0.7rem;cursor:pointer;font-weight:700;flex-shrink:0;" data-ru="Выключить" data-en="Disable">Выключить</button>
                 </div>
@@ -5310,6 +5310,7 @@
 
         function setLoggedIn(nick, verified, avatarUrl, email, emailVerified, joinDate) {
             currentAccount = { nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null };
+            loadUserVotes(nick);
             document.getElementById('bp-author').value = nick;
             document.getElementById('bp-auth-form').style.display = 'none';
             const box = document.getElementById('bp-logged-in-box');
@@ -6001,8 +6002,8 @@
         }
 
         function renderBpCards(data, grid, myIds, myNicks) {
-            const bpLikes = JSON.parse(localStorage.getItem('bp_likes') || '{}');
-            const bpDislikes = JSON.parse(localStorage.getItem('bp_dislikes') || '{}');
+            const bpLikes = window._sbVotes?.bp_likes || JSON.parse(localStorage.getItem('bp_likes') || '{}');
+            const bpDislikes = window._sbVotes?.bp_dislikes || JSON.parse(localStorage.getItem('bp_dislikes') || '{}');
 
             data.forEach(bp => {
                 const isMine = myIds.includes(String(bp.id)) || (bp.author && myNicks.includes(bp.author.toLowerCase()));
@@ -6269,15 +6270,14 @@
                 showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like buildplates!', 'error');
                 return;
             }
-            if (bpProcessing[id]) return; // уже обрабатывается — игнорируем
+            if (bpProcessing[id]) return;
             bpProcessing[id] = true;
             likeBtn.disabled = true;
             dislikeBtn.disabled = true;
 
-            const bpLikes = JSON.parse(localStorage.getItem('bp_likes') || '{}');
-            const bpDislikes = JSON.parse(localStorage.getItem('bp_dislikes') || '{}');
-            const isLiked = bpLikes[id] === true;
-            const isDisliked = bpDislikes[id] === true;
+            const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+            const isLiked = votes.bp_likes[id] === true;
+            const isDisliked = votes.bp_dislikes[id] === true;
 
             try {
                 const { data, error } = await sbClient.from('buildplates').select('likes, dislikes').eq('id', id).single();
@@ -6288,23 +6288,27 @@
 
                 if (isLiked) {
                     newLikes = Math.max(0, newLikes - 1);
-                    delete bpLikes[id];
+                    delete votes.bp_likes[id];
                     likeBtn.classList.remove('liked');
+                    await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'like');
                 } else {
                     newLikes += 1;
-                    bpLikes[id] = true;
+                    votes.bp_likes[id] = true;
                     likeBtn.classList.add('liked');
                     if (isDisliked) {
                         newDislikes = Math.max(0, newDislikes - 1);
-                        delete bpDislikes[id];
+                        delete votes.bp_dislikes[id];
                         dislikeBtn.classList.remove('disliked');
                         dislikeBtn.querySelector('.bp-dislike-count').textContent = newDislikes;
+                        await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'dislike');
                     }
+                    await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id), vote: 'like' }], { onConflict: 'nick,item_type,item_id' });
                 }
 
                 await sbClient.from('buildplates').update({ likes: newLikes, dislikes: newDislikes }).eq('id', id);
-                localStorage.setItem('bp_likes', JSON.stringify(bpLikes));
-                localStorage.setItem('bp_dislikes', JSON.stringify(bpDislikes));
+                window._sbVotes = votes;
+                localStorage.setItem('bp_likes', JSON.stringify(votes.bp_likes));
+                localStorage.setItem('bp_dislikes', JSON.stringify(votes.bp_dislikes));
                 likeBtn.querySelector('.bp-like-count').textContent = newLikes;
             } catch (err) {
                 console.error('Like error:', err);
@@ -6320,15 +6324,14 @@
                 showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like buildplates!', 'error');
                 return;
             }
-            if (bpProcessing[id]) return; // уже обрабатывается — игнорируем
+            if (bpProcessing[id]) return;
             bpProcessing[id] = true;
             likeBtn.disabled = true;
             dislikeBtn.disabled = true;
 
-            const bpLikes = JSON.parse(localStorage.getItem('bp_likes') || '{}');
-            const bpDislikes = JSON.parse(localStorage.getItem('bp_dislikes') || '{}');
-            const isLiked = bpLikes[id] === true;
-            const isDisliked = bpDislikes[id] === true;
+            const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+            const isLiked = votes.bp_likes[id] === true;
+            const isDisliked = votes.bp_dislikes[id] === true;
 
             try {
                 const { data, error } = await sbClient.from('buildplates').select('likes, dislikes').eq('id', id).single();
@@ -6339,23 +6342,27 @@
 
                 if (isDisliked) {
                     newDislikes = Math.max(0, newDislikes - 1);
-                    delete bpDislikes[id];
+                    delete votes.bp_dislikes[id];
                     dislikeBtn.classList.remove('disliked');
+                    await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'dislike');
                 } else {
                     newDislikes += 1;
-                    bpDislikes[id] = true;
+                    votes.bp_dislikes[id] = true;
                     dislikeBtn.classList.add('disliked');
                     if (isLiked) {
                         newLikes = Math.max(0, newLikes - 1);
-                        delete bpLikes[id];
+                        delete votes.bp_likes[id];
                         likeBtn.classList.remove('liked');
                         likeBtn.querySelector('.bp-like-count').textContent = newLikes;
+                        await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'like');
                     }
+                    await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id), vote: 'dislike' }], { onConflict: 'nick,item_type,item_id' });
                 }
 
                 await sbClient.from('buildplates').update({ likes: newLikes, dislikes: newDislikes }).eq('id', id);
-                localStorage.setItem('bp_likes', JSON.stringify(bpLikes));
-                localStorage.setItem('bp_dislikes', JSON.stringify(bpDislikes));
+                window._sbVotes = votes;
+                localStorage.setItem('bp_likes', JSON.stringify(votes.bp_likes));
+                localStorage.setItem('bp_dislikes', JSON.stringify(votes.bp_dislikes));
                 dislikeBtn.querySelector('.bp-dislike-count').textContent = newDislikes;
             } catch (err) {
                 console.error('Dislike error:', err);
@@ -6852,8 +6859,8 @@
         }
 
         function renderGalleryCards(data, grid) {
-            const glLikes = JSON.parse(localStorage.getItem('gallery_likes') || '{}');
-            const glDislikes = JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
+            const glLikes = window._sbVotes?.gallery_likes || JSON.parse(localStorage.getItem('gallery_likes') || '{}');
+            const glDislikes = window._sbVotes?.gallery_dislikes || JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
             const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
 
             data.forEach(photo => {
@@ -6973,10 +6980,9 @@
                 showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like!', 'error');
                 return;
             }
-            const glLikes = JSON.parse(localStorage.getItem('gallery_likes') || '{}');
-            const glDislikes = JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
-            const wasLiked = glLikes[id] === true;
-            const wasDisliked = glDislikes[id] === true;
+            const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+            const wasLiked = votes.gallery_likes[id] === true;
+            const wasDisliked = votes.gallery_dislikes[id] === true;
             likeBtn.disabled = true; dislikeBtn.disabled = true;
 
             const countEl = likeBtn.querySelector('.gl-like-count');
@@ -6985,21 +6991,25 @@
             let dCount = parseInt(dislikeCountEl?.textContent || '0');
 
             if (wasLiked) {
-                delete glLikes[id]; likeBtn.classList.remove('liked'); count = Math.max(0, count - 1);
+                delete votes.gallery_likes[id]; likeBtn.classList.remove('liked'); count = Math.max(0, count - 1);
                 await sbClient.from('gallery').update({ likes: count }).eq('id', id);
+                await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id)).eq('vote', 'like');
             } else {
-                glLikes[id] = true; likeBtn.classList.add('liked'); count++;
+                votes.gallery_likes[id] = true; likeBtn.classList.add('liked'); count++;
                 if (wasDisliked) {
-                    delete glDislikes[id]; dislikeBtn?.classList.remove('disliked'); dCount = Math.max(0, dCount - 1);
+                    delete votes.gallery_dislikes[id]; dislikeBtn?.classList.remove('disliked'); dCount = Math.max(0, dCount - 1);
                     await sbClient.from('gallery').update({ likes: count, dislikes: dCount }).eq('id', id);
+                    await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id)).eq('vote', 'dislike');
                 } else {
                     await sbClient.from('gallery').update({ likes: count }).eq('id', id);
                 }
+                await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'gallery', item_id: String(id), vote: 'like' }], { onConflict: 'nick,item_type,item_id' });
             }
             if (countEl) countEl.textContent = count;
             if (dislikeCountEl) dislikeCountEl.textContent = dCount;
-            localStorage.setItem('gallery_likes', JSON.stringify(glLikes));
-            localStorage.setItem('gallery_dislikes', JSON.stringify(glDislikes));
+            window._sbVotes = votes;
+            localStorage.setItem('gallery_likes', JSON.stringify(votes.gallery_likes));
+            localStorage.setItem('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
             likeBtn.disabled = false; dislikeBtn.disabled = false;
         }
 
@@ -7009,10 +7019,9 @@
                 showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like!', 'error');
                 return;
             }
-            const glLikes = JSON.parse(localStorage.getItem('gallery_likes') || '{}');
-            const glDislikes = JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
-            const wasDisliked = glDislikes[id] === true;
-            const wasLiked = glLikes[id] === true;
+            const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+            const wasDisliked = votes.gallery_dislikes[id] === true;
+            const wasLiked = votes.gallery_likes[id] === true;
             dislikeBtn.disabled = true; likeBtn.disabled = true;
 
             const countEl = dislikeBtn.querySelector('.gl-dislike-count');
@@ -7021,21 +7030,25 @@
             let lCount = parseInt(likeCountEl?.textContent || '0');
 
             if (wasDisliked) {
-                delete glDislikes[id]; dislikeBtn.classList.remove('disliked'); count = Math.max(0, count - 1);
+                delete votes.gallery_dislikes[id]; dislikeBtn.classList.remove('disliked'); count = Math.max(0, count - 1);
                 await sbClient.from('gallery').update({ dislikes: count }).eq('id', id);
+                await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id)).eq('vote', 'dislike');
             } else {
-                glDislikes[id] = true; dislikeBtn.classList.add('disliked'); count++;
+                votes.gallery_dislikes[id] = true; dislikeBtn.classList.add('disliked'); count++;
                 if (wasLiked) {
-                    delete glLikes[id]; likeBtn?.classList.remove('liked'); lCount = Math.max(0, lCount - 1);
+                    delete votes.gallery_likes[id]; likeBtn?.classList.remove('liked'); lCount = Math.max(0, lCount - 1);
                     await sbClient.from('gallery').update({ dislikes: count, likes: lCount }).eq('id', id);
+                    await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id)).eq('vote', 'like');
                 } else {
                     await sbClient.from('gallery').update({ dislikes: count }).eq('id', id);
                 }
+                await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'gallery', item_id: String(id), vote: 'dislike' }], { onConflict: 'nick,item_type,item_id' });
             }
             if (countEl) countEl.textContent = count;
             if (likeCountEl) likeCountEl.textContent = lCount;
-            localStorage.setItem('gallery_likes', JSON.stringify(glLikes));
-            localStorage.setItem('gallery_dislikes', JSON.stringify(glDislikes));
+            window._sbVotes = votes;
+            localStorage.setItem('gallery_likes', JSON.stringify(votes.gallery_likes));
+            localStorage.setItem('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
             dislikeBtn.disabled = false; likeBtn.disabled = false;
         }
 
@@ -7114,6 +7127,32 @@
 
         applyMceIcons();
 
+        // Загружает голоса пользователя из Supabase и синхронизирует с localStorage
+        async function loadUserVotes(nick) {
+            if (!sbClient || !nick) return;
+            try {
+                const { data, error } = await sbClient.from('user_votes').select('item_type,item_id,vote').eq('nick', nick);
+                if (error) throw error;
+
+                const votes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+                (data || []).forEach(row => {
+                    if (row.item_type === 'bp' && row.vote === 'like') votes.bp_likes[row.item_id] = true;
+                    if (row.item_type === 'bp' && row.vote === 'dislike') votes.bp_dislikes[row.item_id] = true;
+                    if (row.item_type === 'gallery' && row.vote === 'like') votes.gallery_likes[row.item_id] = true;
+                    if (row.item_type === 'gallery' && row.vote === 'dislike') votes.gallery_dislikes[row.item_id] = true;
+                });
+
+                window._sbVotes = votes;
+                // Синхронизируем в localStorage как резервную копию
+                localStorage.setItem('bp_likes', JSON.stringify(votes.bp_likes));
+                localStorage.setItem('bp_dislikes', JSON.stringify(votes.bp_dislikes));
+                localStorage.setItem('gallery_likes', JSON.stringify(votes.gallery_likes));
+                localStorage.setItem('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
+            } catch(e) {
+                console.warn('loadUserVotes error:', e);
+            }
+        }
+
     </script>
 
     <!-- ===== WEB PUSH NOTIFICATIONS ===== -->
@@ -7183,7 +7222,7 @@
             const permission = await Notification.requestPermission();
             if (permission !== 'granted') {
                 showInfoBanner(currentLang === 'ru' ? '⚠️ Разрешение на уведомления отклонено' : '⚠️ Notification permission denied', 'error');
-                if (btn) { btn.disabled = false; btn.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
+                if (btn) { btn.disabled = false; btn.innerHTML = '🔔 <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
                 return;
             }
 
@@ -7203,11 +7242,11 @@
             localStorage.removeItem('notif_banner_dismissed');
             document.getElementById('notif-banner').style.display = 'none';
             document.getElementById('notif-active-bar').style.display = 'flex';
-            showInfoBanner(currentLang === 'ru' ? '✅ Уведомления включены!' : '✅ Notifications enabled!', 'success');
+            showInfoBanner(currentLang === 'ru' ? '🔔 Уведомления включены!' : '🔔 Notifications enabled!', 'success');
         } catch(e) {
             console.error('Push subscribe error:', e);
             showInfoBanner('❌ ' + e.message, 'error');
-            if (btn) { btn.disabled = false; btn.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/bell_item.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
+            if (btn) { btn.disabled = false; btn.innerHTML = '🔔 <span>' + (currentLang === 'ru' ? 'Включить' : 'Enable') + '</span>'; }
         }
     }
 
