@@ -896,6 +896,36 @@
             filter: blur(6px);
         }
 
+        .news-new-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            width: 28px;
+            height: 28px;
+            image-rendering: pixelated;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+            animation: newsBadgePop 0.4s ease;
+        }
+        @keyframes newsBadgePop {
+            0% { transform: scale(0); opacity: 0; }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .bp-download-btn.dl-locked {
+            background: linear-gradient(180deg, #5a4a3a 0%, #3e2f1f 100%);
+            border-color: #2e1f0f;
+            box-shadow: 0 4px 0 #1a0f00;
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        .bp-download-btn.dl-locked:hover {
+            transform: none;
+            background: linear-gradient(180deg, #5a4a3a 0%, #3e2f1f 100%);
+            box-shadow: 0 4px 0 #1a0f00;
+        }
+
         .news-content-wrapper {
             position: relative;
             z-index: 3;
@@ -3641,7 +3671,7 @@
                 <div class="bp-upload-card" id="gallery-upload-section">
                     <!-- Not logged in message -->
                     <div id="gallery-not-logged" style="text-align:center;padding:20px 10px;">
-                        <i class="fas fa-lock" style="font-size:2rem;color:#8b7355;margin-bottom:12px;display:block;"></i>
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:2.2rem;height:2.2rem;image-rendering:pixelated;object-fit:contain;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto;">
                         <p style="font-family:Minecraft,sans-serif;font-size:0.85rem;color:#5a4a3a;font-weight:700;line-height:1.6;"
                            data-ru="Чтобы загружать фото, войди в аккаунт во вкладке &laquo;Buildplates&raquo;"
                            data-en="To upload photos, please log in from the &laquo;Buildplates&raquo; tab">
@@ -3772,10 +3802,13 @@
             }
             newsContainer.innerHTML = '';
             const userLikes = JSON.parse(localStorage.getItem('userLikes') || '{}');
+            const lastSeenNews = parseInt(localStorage.getItem('news_last_seen') || '0', 10);
+            const NEW_ICON_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png';
             newsArray.forEach(news => {
                 const newsItem = document.createElement('div');
                 newsItem.className = 'news-item';
                 if (news.image_url) { newsItem.classList.add('has-image'); newsItem.style.setProperty('--news-image', `url(${news.image_url})`); }
+                const isNew = new Date(news.created_at).getTime() > lastSeenNews;
                 const date = new Date(news.created_at);
                 const formattedDateRu = date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
                 const formattedDateEn = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -3790,6 +3823,7 @@
                     authorHTML = `<div class="news-author"><i class="fas fa-user"></i><span>${news.author}${verifiedBadge}</span></div>`;
                 }
                 newsItem.innerHTML = `
+                    ${isNew ? `<img src="${NEW_ICON_URL}" class="news-new-badge" title="Новое" alt="new">` : ''}
                     <div class="news-content-wrapper">
                         <div class="news-header">
                             <h3 class="news-title">${ru ? (news.title || 'Без названия') : (news.title_en || news.title || 'Untitled')}</h3>
@@ -3845,6 +3879,8 @@
                 newsContainer.appendChild(newsItem);
             });
             setTimeout(attachRefBadges, 100);
+            // Mark all current news as seen
+            localStorage.setItem('news_last_seen', Date.now().toString());
         }
 
         async function loadNews() {
@@ -3896,7 +3932,7 @@
 
         async function handleNewsLike(newsId, action, likeBtn, dislikeBtn) {
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like news!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to like news!', 'error');
                 return;
             }
 
@@ -4284,7 +4320,7 @@
             if (!container) return;
             const isAdm = await checkNewsAdmin();
             if (!isAdm) {
-                container.innerHTML = '<div class="news-empty"><i class="fas fa-lock"></i><p>Access denied</p></div>';
+                container.innerHTML = '<div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:2rem;height:2rem;image-rendering:pixelated;object-fit:contain;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto;"><p>Access denied</p></div>';
                 return;
             }
             container.innerHTML = '<div class="news-loading"><i class="fas fa-spinner fa-spin"></i><p>Загрузка...</p></div>';
@@ -4524,7 +4560,7 @@
             });
 
             // Обновляем тултип для заблокированных кнопок
-            const lockedTip = lang === 'ru' ? '🔒 Требуется вход' : '🔒 Login required';
+            const lockedTip = lang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Требуется вход' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login required';
             document.querySelectorAll('.auth-locked').forEach(el => {
                 el.setAttribute('data-locked-tip', lockedTip);
             });
@@ -5551,7 +5587,7 @@
         function showInfoBanner(msg, type) {
             const banner = document.createElement('div');
             banner.style.cssText = `position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:99999;padding:16px 28px;border-radius:4px;font-weight:700;font-family:Minecraft,sans-serif;font-size:0.95rem;box-shadow:0 8px 24px rgba(0,0,0,0.4);max-width:90vw;text-align:center;border:3px solid ${type==='success'?'#4caf50':'#f44336'};background:${type==='success'?'#c8e6c9':'#ffcdd2'};color:${type==='success'?'#1b5e20':'#b71c1c'};`;
-            banner.textContent = msg;
+            banner.innerHTML = msg;
             document.body.appendChild(banner);
             setTimeout(() => banner.remove(), 6000);
         }
@@ -6154,9 +6190,14 @@
 
                 if (likeBtn) likeBtn.addEventListener('click', () => handleBpLike(bp.id, likeBtn, dislikeBtn));
                 if (dislikeBtn) dislikeBtn.addEventListener('click', () => handleBpDislike(bp.id, dislikeBtn, likeBtn));
+                const LOCK_ICON_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png';
+                if (!currentAccount && dlBtn) {
+                    dlBtn.classList.add('dl-locked');
+                    dlBtn.innerHTML = `<img src="${LOCK_ICON_URL}" style="width:16px;height:16px;image-rendering:pixelated;object-fit:contain;"> <span>${currentLang === 'ru' ? 'Скачать' : 'Download'}</span>`;
+                }
                 if (dlBtn) dlBtn.addEventListener('click', () => {
                     if (!currentAccount) {
-                        showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы скачивать!' : '🔒 Login to download!', 'error');
+                        showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы скачивать!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to download!', 'error');
                         return;
                     }
                     downloadWorld(bp.world_url, bp.name);
@@ -6337,7 +6378,7 @@
 
         async function handleBpLike(id, likeBtn, dislikeBtn) {
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like buildplates!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to like buildplates!', 'error');
                 return;
             }
             if (bpProcessing[id]) return;
@@ -6391,7 +6432,7 @@
 
         async function handleBpDislike(id, dislikeBtn, likeBtn) {
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like buildplates!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to like buildplates!', 'error');
                 return;
             }
             if (bpProcessing[id]) return;
@@ -7073,7 +7114,7 @@
         async function handleGalleryLike(id, likeBtn, dislikeBtn) {
             if (!sbClient) return;
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to like!', 'error');
                 return;
             }
             const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
@@ -7112,7 +7153,7 @@
         async function handleGalleryDislike(id, dislikeBtn, likeBtn) {
             if (!sbClient) return;
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '🔒 Войди в аккаунт чтобы ставить лайки!' : '🔒 Login to like!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to like!', 'error');
                 return;
             }
             const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
