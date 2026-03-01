@@ -4534,6 +4534,29 @@
             });
         }
 
+        // Запрещаем Google Translate трогать элементы с data-ru/data-en.
+        // У нас есть свой переключатель языков, они не должны конфликтовать.
+        function markNoTranslate() {
+            document.querySelectorAll('[data-ru][data-en]').forEach(el => {
+                el.setAttribute('translate', 'no');
+                el.classList.add('notranslate');
+            });
+        }
+        document.addEventListener('DOMContentLoaded', markNoTranslate);
+        // Повторно помечаем после динамического рендера (карточки, новости и т.д.)
+        const _noTranslateObserver = new MutationObserver(() => markNoTranslate());
+        document.addEventListener('DOMContentLoaded', () => {
+            _noTranslateObserver.observe(document.body, { childList: true, subtree: true });
+        });
+
+        // Очищает обёртки Google Translate (<font> теги) перед заменой текста.
+        function stripGoogleTranslate(el) {
+            el.querySelectorAll('font').forEach(font => {
+                while (font.firstChild) font.parentNode.insertBefore(font.firstChild, font);
+                font.remove();
+            });
+        }
+
         function switchLanguage(lang, ev) {
             currentLang = lang;
 
@@ -4554,8 +4577,9 @@
                 const text = el.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
                 if (!text) return;
 
-                // Пропускаем только если ВСЕ дочерние узлы — это переводимые элементы
-                // (не пропускаем если у элемента есть свои текстовые узлы)
+                // Снимаем обёртки Google Translate перед манипуляцией с DOM
+                stripGoogleTranslate(el);
+
                 const ownTextNodes = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== '');
                 const hasTranslatableChild = el.querySelector('[data-ru][data-en]');
 
@@ -4567,7 +4591,6 @@
                 } else if (el.children.length === 0) {
                     el.textContent = text;
                 } else {
-                    // Элемент с дочерними элементами но без текстовых узлов — ставим текст
                     let lastText = Array.from(el.childNodes).reverse().find(n => n.nodeType === Node.TEXT_NODE);
                     if (lastText) {
                         lastText.textContent = text;
