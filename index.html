@@ -3912,7 +3912,7 @@
                 userLikes[newsId] = action;
             }
 
-            localStorage.setItem('userLikes', JSON.stringify(userLikes));
+            window._safeLocalSet('userLikes', JSON.stringify(userLikes));
             likeBtn.querySelector('.like-count').textContent = likes;
             dislikeBtn.querySelector('.like-count').textContent = dislikes;
 
@@ -4065,7 +4065,9 @@
             statusEl.textContent = ru ? '✅ Новость опубликована!' : '✅ News published!';
             statusEl.style.color = '#2e7d32';
             // Отправляем push уведомление всем подписчикам
-            sendNewsNotification(title, content.slice(0, 100) + (content.length > 100 ? '...' : ''));
+            if (typeof window.sendNewsNotification === 'function') {
+                window.sendNewsNotification(title, content.slice(0, 100) + (content.length > 100 ? '...' : ''));
+            }
             setTimeout(() => { document.getElementById('news-admin-modal')?.remove(); loadNews(); }, 1200);
         }
 
@@ -5070,7 +5072,7 @@
             const params = new URLSearchParams(window.location.search);
             const ref = params.get('ref');
             if (ref) {
-                localStorage.setItem('pending_referrer', ref);
+                window._safeLocalSet('pending_referrer', ref);
                 const url = new URL(window.location.href);
                 url.searchParams.delete('ref');
                 window.history.replaceState({}, '', url.toString());
@@ -5403,7 +5405,7 @@
                 avatarImg.style.display = 'none'; avatarPh.style.display = 'flex';
                 avatarPh.innerHTML = '<i class="fas fa-user"></i>';
             }
-            localStorage.setItem('bp_session', JSON.stringify({ nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null }));
+            window._safeLocalSet('bp_session', JSON.stringify({ nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null }));
 
             checkNewsAdmin().then(isAdm => {
                 const rTab = document.getElementById('reports-nav-tab');
@@ -5495,7 +5497,7 @@
                         const s = JSON.parse(localStorage.getItem('bp_session') || 'null');
                         if (s && s.nick && s.nick.toLowerCase() === data[0].nick.toLowerCase()) {
                             s.email_verified = true;
-                            localStorage.setItem('bp_session', JSON.stringify(s));
+                            window._safeLocalSet('bp_session', JSON.stringify(s));
                             if (currentAccount) currentAccount.email_verified = true;
                         }
                     } else {
@@ -5954,7 +5956,7 @@
                     image_path: imagePath,
                     world_path: worldPath
                 });
-                localStorage.setItem('bp_my_posts', JSON.stringify(myPosts));
+                window._safeLocalSet('bp_my_posts', JSON.stringify(myPosts));
                 incrementDailyPost();
                 updateDailyLimitUI();
 
@@ -6294,7 +6296,7 @@
                     }
 
                     const updated = myPosts.filter(p => String(p.id) !== String(id));
-                    localStorage.setItem('bp_my_posts', JSON.stringify(updated));
+                    window._safeLocalSet('bp_my_posts', JSON.stringify(updated));
                 }
 
                 const card = document.getElementById('bp-card-' + id);
@@ -6357,8 +6359,8 @@
 
                 await sbClient.from('buildplates').update({ likes: newLikes, dislikes: newDislikes }).eq('id', id);
                 window._sbVotes = votes;
-                localStorage.setItem('bp_likes', JSON.stringify(votes.bp_likes));
-                localStorage.setItem('bp_dislikes', JSON.stringify(votes.bp_dislikes));
+                window._safeLocalSet('bp_likes', JSON.stringify(votes.bp_likes));
+                window._safeLocalSet('bp_dislikes', JSON.stringify(votes.bp_dislikes));
                 likeBtn.querySelector('.bp-like-count').textContent = newLikes;
             } catch (err) {
                 console.error('Like error:', err);
@@ -6411,8 +6413,8 @@
 
                 await sbClient.from('buildplates').update({ likes: newLikes, dislikes: newDislikes }).eq('id', id);
                 window._sbVotes = votes;
-                localStorage.setItem('bp_likes', JSON.stringify(votes.bp_likes));
-                localStorage.setItem('bp_dislikes', JSON.stringify(votes.bp_dislikes));
+                window._safeLocalSet('bp_likes', JSON.stringify(votes.bp_likes));
+                window._safeLocalSet('bp_dislikes', JSON.stringify(votes.bp_dislikes));
                 dislikeBtn.querySelector('.bp-dislike-count').textContent = newDislikes;
             } catch (err) {
                 console.error('Dislike error:', err);
@@ -6535,6 +6537,32 @@
         function saveCookieConsent(prefs) {
             try { localStorage.setItem(COOKIE_KEY, JSON.stringify({ ...prefs, date: Date.now() })); } catch(e) {}
         }
+
+        // Проверка разрешений перед записью в localStorage
+        function canUseFunctional() {
+            const c = getCookieConsent();
+            return !c || c.functional !== false; // разрешено если не было явного отказа
+        }
+
+        function canUseAnalytics() {
+            const c = getCookieConsent();
+            return !c || c.analytics !== false;
+        }
+
+        // Обёртки для localStorage с проверкой cookie
+        const _lsSet = localStorage.setItem.bind(localStorage);
+        const FUNCTIONAL_KEYS = ['bp_session', 'bp_my_posts', 'pending_referrer'];
+        const ANALYTICS_KEYS = ['bp_likes', 'bp_dislikes', 'gallery_likes', 'gallery_dislikes', 'userLikes'];
+
+        window._safeLocalSet = function(key, value) {
+            if (FUNCTIONAL_KEYS.some(k => key.startsWith(k))) {
+                if (!canUseFunctional()) { console.log('[Cookie] Functional blocked:', key); return; }
+            }
+            if (ANALYTICS_KEYS.some(k => key.startsWith(k))) {
+                if (!canUseAnalytics()) { console.log('[Cookie] Analytics blocked:', key); return; }
+            }
+            _lsSet(key, value);
+        };
 
         function acceptCookies() {
             saveCookieConsent({ essential: true, functional: true, analytics: true });
@@ -7058,8 +7086,8 @@
             if (countEl) countEl.textContent = count;
             if (dislikeCountEl) dislikeCountEl.textContent = dCount;
             window._sbVotes = votes;
-            localStorage.setItem('gallery_likes', JSON.stringify(votes.gallery_likes));
-            localStorage.setItem('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
+            window._safeLocalSet('gallery_likes', JSON.stringify(votes.gallery_likes));
+            window._safeLocalSet('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
             likeBtn.disabled = false; dislikeBtn.disabled = false;
         }
 
@@ -7097,8 +7125,8 @@
             if (countEl) countEl.textContent = count;
             if (likeCountEl) likeCountEl.textContent = lCount;
             window._sbVotes = votes;
-            localStorage.setItem('gallery_likes', JSON.stringify(votes.gallery_likes));
-            localStorage.setItem('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
+            window._safeLocalSet('gallery_likes', JSON.stringify(votes.gallery_likes));
+            window._safeLocalSet('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
             dislikeBtn.disabled = false; likeBtn.disabled = false;
         }
 
@@ -7194,10 +7222,10 @@
 
                 window._sbVotes = votes;
                 // Синхронизируем в localStorage как резервную копию
-                localStorage.setItem('bp_likes', JSON.stringify(votes.bp_likes));
-                localStorage.setItem('bp_dislikes', JSON.stringify(votes.bp_dislikes));
-                localStorage.setItem('gallery_likes', JSON.stringify(votes.gallery_likes));
-                localStorage.setItem('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
+                window._safeLocalSet('bp_likes', JSON.stringify(votes.bp_likes));
+                window._safeLocalSet('bp_dislikes', JSON.stringify(votes.bp_dislikes));
+                window._safeLocalSet('gallery_likes', JSON.stringify(votes.gallery_likes));
+                window._safeLocalSet('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
             } catch(e) {
                 console.warn('loadUserVotes error:', e);
             }
@@ -7306,9 +7334,9 @@
         try {
             const sub = await _swRegistration.pushManager.getSubscription();
             if (sub) {
-                // Удаляем из Supabase
+                // Удаляем из Supabase по колонке endpoint
                 if (sbClient) {
-                    await sbClient.from('push_subscriptions').delete().eq('subscription->>endpoint', sub.endpoint);
+                    await sbClient.from('push_subscriptions').delete().eq('endpoint', sub.endpoint);
                 }
                 await sub.unsubscribe();
             }
@@ -7317,6 +7345,7 @@
             showInfoBanner(currentLang === 'ru' ? '🔕 Уведомления выключены' : '🔕 Notifications disabled', 'success');
         } catch(e) {
             console.error('Unsubscribe error:', e);
+            showInfoBanner('❌ ' + e.message, 'error');
         }
     }
 
@@ -7350,6 +7379,7 @@
             console.warn('Push send failed:', e);
         }
     }
+    window.sendNewsNotification = sendNewsNotification;
 
     // Инициализируем при загрузке страницы
     document.addEventListener('DOMContentLoaded', initPushNotifications);
@@ -7364,6 +7394,6 @@
             });
         });
     });
-    </script>    </script>
+    </script>
 </body>
 </html>
