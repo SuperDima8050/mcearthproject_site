@@ -3880,7 +3880,7 @@
                     const repBtn = newsItem.querySelector('[data-report="true"]');
                     if (repBtn) repBtn.addEventListener('click', () => {
                         newsItem.querySelector('.dots-dropdown')?.classList.remove('open');
-                        if (!currentAccount) { showInfoBanner(currentLang === 'ru' ? '⚠️ Войди в аккаунт, чтобы пожаловаться!' : '⚠️ Please log in to report!', 'error'); return; }
+                        if (!currentAccount) { showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please log in to report!', 'error'); return; }
                         showReportModal('news', news.id, news.title || 'Без названия', news.author, news.image_url || null);
                     });
                 }
@@ -4447,7 +4447,7 @@
                 .eq('post_id', postId);
 
             const bannerMsg = action === 'approve'
-                ? (banUser ? (ru ? '🚫 Пост удалён, пользователь заблокирован!' : '🚫 Post deleted, user banned!') : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пост удалён!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Post deleted!'))
+                ? (banUser ? (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пост удалён, пользователь заблокирован!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Post deleted, user banned!') : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пост удалён!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Post deleted!'))
                 : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Жалоба отклонена.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Report rejected.');
             showInfoBanner(bannerMsg, 'success');
 
@@ -4461,7 +4461,7 @@
                 const isApprove = action === 'approve';
                 const overlayColor = isApprove ? (banUser ? '#7f0000' : '#2e7d32') : '#555';
                 const overlayBorder = isApprove ? (banUser ? '#4a0000' : '#1b5e20') : '#333';
-                const overlayIcon = isApprove ? (banUser ? '🚫' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">') : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">';
+                const overlayIcon = isApprove ? (banUser ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">') : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">';
                 const overlayText = isApprove
                     ? (banUser ? (ru ? 'Удалено + бан' : 'Deleted + banned') : (ru ? 'Жалоба одобрена' : 'Report approved'))
                     : (ru ? 'Жалоба отклонена' : 'Report rejected');
@@ -5289,8 +5289,8 @@
 
         function profanityError(ru) {
             return ru
-                ? '🚫 Текст содержит недопустимые слова!'
-                : '🚫 Text contains inappropriate words!';
+                ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Текст содержит недопустимые слова!'
+                : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Text contains inappropriate words!';
         }
 
         async function doAuth() {
@@ -5399,8 +5399,8 @@
                     }
                     if (acc.banned) {
                         showAuthStatus('err', ru
-                            ? '🚫 Твой аккаунт заблокирован.'
-                            : '🚫 Your account has been banned.');
+                            ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Твой аккаунт заблокирован.'
+                            : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Your account has been banned.');
                         return;
                     }
                     if (!acc.email_verified) {
@@ -6238,7 +6238,7 @@
                 if (reportBtn) reportBtn.addEventListener('click', () => {
                     card.querySelector(`#bp-dots-dd-${bp.id}`)?.classList.remove('open');
                     if (!currentAccount) {
-                        showInfoBanner(currentLang === 'ru' ? '⚠️ Войди в аккаунт, чтобы пожаловаться!' : '⚠️ Please log in to report!', 'error');
+                        showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please log in to report!', 'error');
                         return;
                     }
                     showReportModal('buildplate', bp.id, bp.name, bp.author, bp.image_url || null);
@@ -7134,7 +7134,7 @@
                 if (reportBtn) reportBtn.addEventListener('click', () => {
                     document.getElementById(`gl-dd-${photo.id}`)?.classList.remove('open');
                     if (!currentAccount) {
-                        showInfoBanner(ru ? '⚠️ Войди в аккаунт, чтобы пожаловаться!' : '⚠️ Log in to report!', 'error');
+                        showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Log in to report!', 'error');
                         return;
                     }
                     if (typeof showReportModal === 'function') {
