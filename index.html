@@ -3922,17 +3922,17 @@
             const ru = currentLang === 'ru';
             const isAdmin = await checkNewsAdmin();
             if (!isAdmin) {
-                showInfoBanner(ru ? '❌ У тебя нет прав удалять новости!' : '❌ You have no permission to delete news!', 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> У тебя нет прав удалять новости!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> You have no permission to delete news!', 'error');
                 return;
             }
             const { error } = await sbClient.from('news').delete().eq('id', newsId);
             if (error) {
-                showInfoBanner(ru ? '❌ Ошибка при удалении: ' + error.message : '❌ Delete error: ' + error.message, 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка при удалении: ' + error.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Delete error: ' + error.message, 'error');
                 return;
             }
             const { data: check } = await sbClient.from('news').select('id').eq('id', newsId).limit(1);
             if (check && check.length > 0) {
-                showInfoBanner(ru ? '❌ Не удалось удалить — добавь в Supabase SQL Editor:\nGRANT DELETE ON news TO anon;' : '❌ Delete failed — run in Supabase SQL Editor:\nGRANT DELETE ON news TO anon;', 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Не удалось удалить — добавь в Supabase SQL Editor:\nGRANT DELETE ON news TO anon;' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Delete failed — run in Supabase SQL Editor:\nGRANT DELETE ON news TO anon;', 'error');
                 return;
             }
             if (_newsCache) _newsCache = _newsCache.filter(n => String(n.id) !== String(newsId));
@@ -4007,7 +4007,7 @@
         async function showNewsAdminPanel() {
             const isAdmin = await checkNewsAdmin();
             if (!isAdmin) {
-                showInfoBanner(currentLang === 'ru' ? '❌ У тебя нет прав публиковать новости!' : '❌ You have no permission to post news!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> У тебя нет прав публиковать новости!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> You have no permission to post news!', 'error');
                 return;
             }
             const ru = currentLang === 'ru';
@@ -4072,39 +4072,39 @@
             const statusEl = document.getElementById('nadmin-status');
 
             if (!title || !content) {
-                statusEl.textContent = ru ? '❌ Заголовок и текст обязательны!' : '❌ Title and content are required!';
+                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title and content are required!';
                 statusEl.style.color = '#c62828'; return;
             }
             if (containsProfanity(title) || containsProfanity(titleEn) || containsProfanity(content) || containsProfanity(contentEn)) {
-                statusEl.textContent = profanityError(ru); statusEl.style.color = '#c62828'; return;
+                statusEl.innerHTML = profanityError(ru); statusEl.style.color = '#c62828'; return;
             }
 
             if (imageFile) {
                 const allowed = ['image/png','image/jpeg','image/gif','image/webp'];
                 if (!allowed.includes(imageFile.type)) {
-                    statusEl.textContent = ru ? '❌ Формат не поддерживается. PNG, JPEG, GIF, WebP' : '❌ Unsupported format. Use PNG, JPEG, GIF or WebP';
+                    statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается. PNG, JPEG, GIF, WebP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format. Use PNG, JPEG, GIF or WebP';
                     statusEl.style.color = '#c62828'; return;
                 }
             }
 
-            statusEl.textContent = ru ? '⏳ Публикуем...' : '⏳ Publishing...';
+            statusEl.innerHTML = ru ? '⏳ Публикуем...' : '⏳ Publishing...';
             statusEl.style.color = '#f57f17';
 
             let imageUrl = null;
             if (imageFile) {
-                statusEl.textContent = ru ? '⏳ Загружаем изображение...' : '⏳ Uploading image...';
+                statusEl.innerHTML = ru ? '⏳ Загружаем изображение...' : '⏳ Uploading image...';
                 const ext = imageFile.name.split('.').pop().toLowerCase();
                 const imagePath = 'news/' + Date.now() + '_' + Math.random().toString(36).slice(2,8) + '.' + ext;
                 const { error: imgError } = await sbClient.storage
                     .from('buildplates')
                     .upload(imagePath, imageFile, { cacheControl: '3600', upsert: false });
                 if (imgError) {
-                    statusEl.textContent = '❌ ' + (imgError.message || 'Upload error');
+                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (imgError.message || 'Upload error');
                     statusEl.style.color = '#c62828'; return;
                 }
                 const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 imageUrl = urlData.publicUrl;
-                statusEl.textContent = ru ? '⏳ Сохраняем...' : '⏳ Saving...';
+                statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...';
             }
 
             const { error } = await sbClient.from('news').insert([{
@@ -4117,11 +4117,11 @@
             }]);
 
             if (error) {
-                statusEl.textContent = '❌ ' + (error.message || 'Error');
+                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (error.message || 'Error');
                 statusEl.style.color = '#c62828'; return;
             }
 
-            statusEl.textContent = ru ? '✅ Новость опубликована!' : '✅ News published!';
+            statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость опубликована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News published!';
             statusEl.style.color = '#2e7d32';
             setTimeout(() => { document.getElementById('news-admin-modal')?.remove(); loadNews(); }, 1200);
         }
@@ -4148,7 +4148,7 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(a.href);
             } catch(e) {
-                showInfoBanner(ru ? '❌ Ошибка скачивания: ' + e.message : '❌ Download error: ' + e.message, 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка скачивания: ' + e.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Download error: ' + e.message, 'error');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = origHTML;
@@ -4212,7 +4212,7 @@
                             const labels = {
                                 spam: ru ? '📢 Спам' : '📢 Spam',
                                 inappropriate: ru ? '🔞 Неприемлемый контент' : '🔞 Inappropriate content',
-                                misinformation: ru ? '❌ Ложная информация' : '❌ Misinformation',
+                                misinformation: ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ложная информация' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Misinformation',
                                 copyright: ru ? '©️ Нарушение авторских прав' : '©️ Copyright violation',
                                 other: ru ? '✏️ Другое' : '✏️ Other'
                             };
@@ -4283,7 +4283,7 @@
         async function submitReport(postType, postId, postTitleEnc, postAuthorEnc, imageUrlEnc) {
             const ru = currentLang === 'ru';
             const reasonEl = document.querySelector('input[name="report-reason"]:checked');
-            if (!reasonEl) { showInfoBanner(ru ? '❌ Выбери причину жалобы!' : '❌ Please select a reason!', 'error'); return; }
+            if (!reasonEl) { showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери причину жалобы!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please select a reason!', 'error'); return; }
             const details = document.getElementById('report-details')?.value?.trim() || '';
             const postTitle = decodeURIComponent(postTitleEnc);
             const postAuthor = decodeURIComponent(postAuthorEnc);
@@ -4299,9 +4299,9 @@
                 details: details || null,
                 status: 'pending'
             }]);
-            if (error) { showInfoBanner('❌ ' + error.message, 'error'); return; }
+            if (error) { showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + error.message, 'error'); return; }
             document.getElementById('report-modal')?.remove();
-            showInfoBanner(ru ? '✅ Жалоба отправлена! Спасибо.' : '✅ Report sent! Thank you.', 'success');
+            showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Жалоба отправлена! Спасибо.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Report sent! Thank you.', 'success');
         }
         window.submitReport = submitReport;
 
@@ -4447,8 +4447,8 @@
                 .eq('post_id', postId);
 
             const bannerMsg = action === 'approve'
-                ? (banUser ? (ru ? '🚫 Пост удалён, пользователь заблокирован!' : '🚫 Post deleted, user banned!') : (ru ? '✅ Пост удалён!' : '✅ Post deleted!'))
-                : (ru ? '❌ Жалоба отклонена.' : '❌ Report rejected.');
+                ? (banUser ? (ru ? '🚫 Пост удалён, пользователь заблокирован!' : '🚫 Post deleted, user banned!') : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пост удалён!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Post deleted!'))
+                : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Жалоба отклонена.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Report rejected.');
             showInfoBanner(bannerMsg, 'success');
 
             const affectedCards = document.querySelectorAll('[id^="report-card-"]');
@@ -4461,7 +4461,7 @@
                 const isApprove = action === 'approve';
                 const overlayColor = isApprove ? (banUser ? '#7f0000' : '#2e7d32') : '#555';
                 const overlayBorder = isApprove ? (banUser ? '#4a0000' : '#1b5e20') : '#333';
-                const overlayIcon = isApprove ? (banUser ? '🚫' : '✅') : '❌';
+                const overlayIcon = isApprove ? (banUser ? '🚫' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">') : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">';
                 const overlayText = isApprove
                     ? (banUser ? (ru ? 'Удалено + бан' : 'Deleted + banned') : (ru ? 'Жалоба одобрена' : 'Report approved'))
                     : (ru ? 'Жалоба отклонена' : 'Report rejected');
@@ -4832,12 +4832,12 @@
                 if (!file) return;
                 if (!allowed.includes(file.type)) {
                     nameEl.style.color = '#c62828';
-                    nameEl.textContent = currentLang === 'ru' ? '❌ Формат не поддерживается' : '❌ Unsupported format';
+                    nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format';
                     return;
                 }
                 const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-                labelSpan.textContent = '✓ ' + file.name;
-                nameEl.style.color = ''; nameEl.textContent = '';
+                labelSpan.innerHTML = '✓ ' + file.name;
+                nameEl.style.color = ''; nameEl.innerHTML = '';
             });
         })();
 
@@ -4859,19 +4859,19 @@
             const nameEl = document.getElementById('nadmin-image-name');
             const labelSpan = document.getElementById('nadmin-image-label');
             if (!allowed.includes(file.type)) {
-                if (nameEl) { nameEl.style.color = '#c62828'; nameEl.textContent = currentLang === 'ru' ? '❌ Формат не поддерживается' : '❌ Unsupported format'; }
+                if (nameEl) { nameEl.style.color = '#c62828'; nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format'; }
                 return;
             }
             const input = document.getElementById('nadmin-image-input');
             if (input) { const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files; }
-            if (labelSpan) labelSpan.textContent = '✓ ' + file.name;
-            if (nameEl) { nameEl.style.color = ''; nameEl.textContent = ''; }
+            if (labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
+            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = ''; }
         });
         document.addEventListener('change', e => {
             if (e.target.id !== 'nadmin-image-input') return;
             const file = e.target.files[0];
             const labelSpan = document.getElementById('nadmin-image-label');
-            if (file && labelSpan) labelSpan.textContent = '✓ ' + file.name;
+            if (file && labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
         });
 
         document.getElementById('bp-world-input').addEventListener('change', async function() {
@@ -4881,22 +4881,22 @@
 
             if (file.name.toLowerCase() !== 'world') {
                 nameEl.style.color = '#c62828';
-                nameEl.textContent = currentLang === 'ru'
-                    ? '❌ Файл должен называться "world" (без расширения)!'
-                    : '❌ File must be named "world" (no extension)!';
+                nameEl.innerHTML = currentLang === 'ru'
+                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!'
+                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!';
                 this.value = '';
                 return;
             }
 
             if (file.size === 0) {
                 nameEl.style.color = '#c62828';
-                nameEl.textContent = currentLang === 'ru' ? '❌ Файл пустой!' : '❌ File is empty!';
+                nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File is empty!';
                 this.value = '';
                 return;
             }
 
             nameEl.style.color = '#2e7d32';
-            nameEl.textContent = '✓ ' + file.name + ' (' + formatSize(file.size) + ')';
+            nameEl.innerHTML = '✓ ' + file.name + ' (' + formatSize(file.size) + ')';
         });
 
         document.addEventListener('dragover', e => {
@@ -4919,11 +4919,11 @@
             const input = document.getElementById('report-img-input');
             const ru = window.currentLang === 'ru';
             if (!allowed.includes(file.type)) {
-                if (labelSpan) labelSpan.textContent = ru ? '❌ Формат не поддерживается' : '❌ Unsupported format';
+                if (labelSpan) labelSpan.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format';
                 return;
             }
             const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-            if (labelSpan) labelSpan.textContent = '✓ ' + file.name;
+            if (labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
         });
 
         document.addEventListener('dragover', e => {
@@ -4945,20 +4945,20 @@
             const input = document.getElementById('bp-world-input');
             if (file.name.toLowerCase() !== 'world') {
                 nameEl.style.color = '#c62828';
-                nameEl.textContent = currentLang === 'ru'
-                    ? '❌ Файл должен называться "world" (без расширения)!'
-                    : '❌ File must be named "world" (no extension)!';
+                nameEl.innerHTML = currentLang === 'ru'
+                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!'
+                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!';
                 return;
             }
             if (file.size === 0) {
                 nameEl.style.color = '#c62828';
-                nameEl.textContent = currentLang === 'ru' ? '❌ Файл пустой!' : '❌ File is empty!';
+                nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File is empty!';
                 return;
             }
             const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-            if (labelSpan) labelSpan.textContent = '✓ ' + file.name;
+            if (labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
             nameEl.style.color = '#2e7d32';
-            nameEl.textContent = '✓ ' + file.name + ' (' + formatSize(file.size) + ')';
+            nameEl.innerHTML = '✓ ' + file.name + ' (' + formatSize(file.size) + ')';
         });
 
         async function checkImageMagicBytes(file) {
@@ -5120,10 +5120,10 @@
             const input = document.getElementById('ref-link-input');
             if (!input) return;
             navigator.clipboard.writeText(input.value).then(() => {
-                showInfoBanner(currentLang === 'ru' ? '✅ Реферальная ссылка скопирована!' : '✅ Referral link copied!', 'success');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Реферальная ссылка скопирована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Referral link copied!', 'success');
             }).catch(() => {
                 input.select(); document.execCommand('copy');
-                showInfoBanner(currentLang === 'ru' ? '✅ Скопировано!' : '✅ Copied!', 'success');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Скопировано!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Copied!', 'success');
             });
         };
 
@@ -5230,7 +5230,7 @@
         function showAuthStatus(type, msg) {
             const el = document.getElementById('bp-auth-status');
             el.className = 'bp-auth-status ' + type;
-            el.textContent = msg;
+            el.innerHTML = msg;
         }
 
         const _badWords = [
@@ -5298,14 +5298,14 @@
             const nick = document.getElementById('bp-auth-nick').value.trim();
             const pass = document.getElementById('bp-auth-pass').value;
 
-            if (!nick) { showAuthStatus('err', ru ? '❌ Введи никнейм!' : '❌ Enter nickname!'); return; }
+            if (!nick) { showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи никнейм!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter nickname!'); return; }
             if (containsProfanity(nick)) { showAuthStatus('err', profanityError(ru)); return; }
-            if (!pass || pass.length < 4) { showAuthStatus('err', ru ? '❌ Пароль минимум 4 символа!' : '❌ Password min 4 chars!'); return; }
-            if (!sbClient) { showAuthStatus('err', '❌ Supabase не подключён'); return; }
+            if (!pass || pass.length < 4) { showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароль минимум 4 символа!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Password min 4 chars!'); return; }
+            if (!sbClient) { showAuthStatus('err', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase не подключён'); return; }
 
             const captchaVal = document.querySelector('[name="cf-turnstile-response"]')?.value;
             if (!captchaVal) {
-                showAuthStatus('err', ru ? '❌ Пройди проверку капчи!' : '❌ Please complete the captcha!');
+                showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди проверку капчи!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please complete the captcha!');
                 return;
             }
 
@@ -5313,11 +5313,11 @@
                 const email = document.getElementById('bp-auth-email').value.trim();
                 const pass2 = document.getElementById('bp-auth-pass2').value;
                 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    showAuthStatus('err', ru ? '❌ Введи корректный Email!' : '❌ Enter a valid email!');
+                    showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи корректный Email!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a valid email!');
                     return;
                 }
                 if (pass !== pass2) {
-                    showAuthStatus('err', ru ? '❌ Пароли не совпадают!' : '❌ Passwords do not match!');
+                    showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match!');
                     return;
                 }
             }
@@ -5335,14 +5335,14 @@
 
                 if (authMode === 'register') {
                     if (data && data.length > 0) {
-                        showAuthStatus('err', ru ? '❌ Этот ник уже занят!' : '❌ Nickname already taken!');
+                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Этот ник уже занят!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Nickname already taken!');
                         return;
                     }
                     const email = document.getElementById('bp-auth-email').value.trim();
 
                     const { data: emailCheck } = await sbClient.from('accounts').select('nick').ilike('email', email).limit(1);
                     if (emailCheck && emailCheck.length > 0) {
-                        showAuthStatus('err', ru ? '❌ Этот email уже используется!' : '❌ Email already in use!');
+                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Этот email уже используется!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Email already in use!');
                         return;
                     }
 
@@ -5389,12 +5389,12 @@
                     document.body.appendChild(pendingBox);
                 } else {
                     if (!data || data.length === 0) {
-                        showAuthStatus('err', ru ? '❌ Аккаунт не найден!' : '❌ Account not found!');
+                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Аккаунт не найден!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Account not found!');
                         return;
                     }
                     const acc = data[0];
                     if (acc.password_hash !== passHash) {
-                        showAuthStatus('err', ru ? '❌ Неверный пароль!' : '❌ Wrong password!');
+                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверный пароль!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Wrong password!');
                         return;
                     }
                     if (acc.banned) {
@@ -5405,17 +5405,17 @@
                     }
                     if (!acc.email_verified) {
                         showAuthStatus('err', ru
-                            ? '❌ Сначала подтверди email! Проверь почту.'
-                            : '❌ Please verify your email first! Check your inbox.');
+                            ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Сначала подтверди email! Проверь почту.'
+                            : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please verify your email first! Check your inbox.');
                         return;
                     }
-                    showAuthStatus('ok', ru ? '✅ Вход выполнен!' : '✅ Logged in!');
+                    showAuthStatus('ok', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Вход выполнен!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Logged in!');
                     await recordReferral(acc.nick);
                     setLoggedIn(acc.nick, acc.verified, acc.avatar_url, acc.email, acc.email_verified, acc.created_at);
                 }
                 if (window.turnstile) window.turnstile.reset('#auth-turnstile');
             } catch(e) {
-                showAuthStatus('err', '❌ ' + (e.message || JSON.stringify(e)));
+                showAuthStatus('err', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || JSON.stringify(e)));
             }
         }
 
@@ -5567,7 +5567,7 @@
                         .limit(1);
                     if (!error && data && data.length > 0) {
                         await sbClient.from('accounts').update({ email_verified: true, email_verify_token: null }).eq('email_verify_token', verifyToken);
-                        showInfoBanner('✅ Email подтверждён! Теперь ваш аккаунт верифицирован.', 'success');
+                        showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Email подтверждён! Теперь ваш аккаунт верифицирован.', 'success');
                         const s = JSON.parse(localStorage.getItem('bp_session') || 'null');
                         if (s && s.nick && s.nick.toLowerCase() === data[0].nick.toLowerCase()) {
                             s.email_verified = true;
@@ -5575,7 +5575,7 @@
                             if (currentAccount) currentAccount.email_verified = true;
                         }
                     } else {
-                        showInfoBanner('❌ Ссылка подтверждения недействительна или уже использована.', 'error');
+                        showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка подтверждения недействительна или уже использована.', 'error');
                     }
                 } catch(e) { console.error(e); }
                 window.history.replaceState({}, '', window.location.pathname);
@@ -5594,10 +5594,10 @@
                         if (data[0].reset_token_expires && data[0].reset_token_expires > now) {
                             showResetPasswordModal(resetToken, data[0].nick);
                         } else {
-                            showInfoBanner('❌ Ссылка сброса пароля устарела. Запроси новую.', 'error');
+                            showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка сброса пароля устарела. Запроси новую.', 'error');
                         }
                     } else {
-                        showInfoBanner('❌ Неверная ссылка сброса пароля.', 'error');
+                        showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверная ссылка сброса пароля.', 'error');
                     }
                 } catch(e) { console.error(e); }
             }
@@ -5622,8 +5622,8 @@
                     to_email: currentAccount.email, to_name: currentAccount.nick,
                     verify_link: `${SITE_URL}?verify=${token}`, site_url: SITE_URL
                 });
-                showInfoBanner(ru ? '✅ Письмо отправлено! Проверь почту.' : '✅ Verification email sent!', 'success');
-            } catch(err) { showInfoBanner('❌ ' + err.message, 'error'); }
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Письмо отправлено! Проверь почту.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Verification email sent!', 'success');
+            } catch(err) { showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message, 'error'); }
         }
 
         function showForgotModal() {
@@ -5663,10 +5663,10 @@
             const email = document.getElementById('forgot-email-input').value.trim();
             const statusEl = document.getElementById('forgot-status');
             if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                statusEl.textContent = ru ? '❌ Введи корректный Email' : '❌ Enter a valid email';
+                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи корректный Email' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a valid email';
                 statusEl.style.color = '#c62828'; return;
             }
-            statusEl.textContent = ru ? '⏳ Ищем аккаунт...' : '⏳ Looking up account...';
+            statusEl.innerHTML = ru ? '⏳ Ищем аккаунт...' : '⏳ Looking up account...';
             statusEl.style.color = '#f57f17';
             try {
                 const { data } = await sbClient.from('accounts').select('nick, email').ilike('email', email).limit(1);
@@ -5679,12 +5679,12 @@
                         reset_link: `${SITE_URL}?reset=${resetToken}`, site_url: SITE_URL
                     });
                 }
-                statusEl.textContent = ru
-                    ? '✅ Если аккаунт существует — письмо отправлено!'
-                    : '✅ If account exists — email sent!';
+                statusEl.innerHTML = ru
+                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Если аккаунт существует — письмо отправлено!'
+                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> If account exists — email sent!';
                 statusEl.style.color = '#2e7d32';
             } catch(e) {
-                statusEl.textContent = '❌ ' + (e.message || e);
+                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e);
                 statusEl.style.color = '#c62828';
             }
         }
@@ -5726,9 +5726,9 @@
             const pass = document.getElementById('reset-pass-input').value;
             const pass2 = document.getElementById('reset-pass2-input').value;
             const statusEl = document.getElementById('reset-status');
-            if (!pass || pass.length < 4) { statusEl.textContent = ru ? '❌ Минимум 4 символа' : '❌ Min 4 chars'; statusEl.style.color='#c62828'; return; }
-            if (pass !== pass2) { statusEl.textContent = ru ? '❌ Пароли не совпадают' : '❌ Passwords do not match'; statusEl.style.color='#c62828'; return; }
-            statusEl.textContent = ru ? '⏳ Сохраняем...' : '⏳ Saving...';
+            if (!pass || pass.length < 4) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Минимум 4 символа' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Min 4 chars'; statusEl.style.color='#c62828'; return; }
+            if (pass !== pass2) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match'; statusEl.style.color='#c62828'; return; }
+            statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...';
             statusEl.style.color = '#f57f17';
             try {
                 const hash = await hashPassword(pass);
@@ -5737,9 +5737,9 @@
                     .eq('reset_token', resetToken);
                 if (error) throw error;
                 document.getElementById('bp-reset-modal').remove();
-                showInfoBanner(ru ? '✅ Пароль изменён! Войди с новым паролем.' : '✅ Password changed! Login with your new password.', 'success');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароль изменён! Войди с новым паролем.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Password changed! Login with your new password.', 'success');
             } catch(e) {
-                statusEl.textContent = '❌ ' + (e.message || e); statusEl.style.color = '#c62828';
+                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e); statusEl.style.color = '#c62828';
             }
         }
 
@@ -5787,23 +5787,23 @@
             const newPass2 = document.getElementById('chpass-new2').value;
             const statusEl = document.getElementById('chpass-status');
 
-            if (!oldPass) { statusEl.textContent = ru?'❌ Введи текущий пароль':'❌ Enter current password'; statusEl.style.color='#c62828'; return; }
-            if (!newPass || newPass.length < 4) { statusEl.textContent = ru?'❌ Новый пароль минимум 4 символа':'❌ New password min 4 chars'; statusEl.style.color='#c62828'; return; }
-            if (newPass !== newPass2) { statusEl.textContent = ru?'❌ Пароли не совпадают':'❌ Passwords do not match'; statusEl.style.color='#c62828'; return; }
+            if (!oldPass) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи текущий пароль':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter current password'; statusEl.style.color='#c62828'; return; }
+            if (!newPass || newPass.length < 4) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новый пароль минимум 4 символа':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> New password min 4 chars'; statusEl.style.color='#c62828'; return; }
+            if (newPass !== newPass2) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match'; statusEl.style.color='#c62828'; return; }
 
-            statusEl.textContent = ru?'⏳ Проверяем...':'⏳ Checking...'; statusEl.style.color='#f57f17';
+            statusEl.innerHTML = ru?'⏳ Проверяем...':'⏳ Checking...'; statusEl.style.color='#f57f17';
             try {
                 const oldHash = await hashPassword(oldPass);
                 const { data } = await sbClient.from('accounts').select('password_hash').ilike('nick', currentAccount.nick).limit(1);
                 if (!data || data.length === 0 || data[0].password_hash !== oldHash) {
-                    statusEl.textContent = ru?'❌ Неверный текущий пароль':'❌ Incorrect current password'; statusEl.style.color='#c62828'; return;
+                    statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверный текущий пароль':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Incorrect current password'; statusEl.style.color='#c62828'; return;
                 }
                 const newHash = await hashPassword(newPass);
                 const { error } = await sbClient.from('accounts').update({ password_hash: newHash }).ilike('nick', currentAccount.nick);
                 if (error) throw error;
                 document.getElementById('bp-chpass-modal').remove();
-                showInfoBanner(ru?'✅ Пароль успешно изменён!':'✅ Password changed successfully!', 'success');
-            } catch(e) { statusEl.textContent = '❌ ' + (e.message||e); statusEl.style.color='#c62828'; }
+                showInfoBanner(ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароль успешно изменён!':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Password changed successfully!', 'success');
+            } catch(e) { statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message||e); statusEl.style.color='#c62828'; }
         }
 
 
@@ -5812,7 +5812,7 @@
             if (!currentAccount || !sbClient) return;
             const file = input.files[0];
             if (!file) return;
-            if (file.size > 2 * 1024 * 1024) { alert(ru ? '❌ Файл слишком большой (макс 2MB)' : '❌ File too large (max 2MB)'); return; }
+            if (file.size > 2 * 1024 * 1024) { alert(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл слишком большой (макс 2MB)' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File too large (max 2MB)'); return; }
             try {
                 const ext = file.name.split('.').pop().toLowerCase();
                 const path = `avatars/${currentAccount.nick.replace(/[^a-zA-Z0-9_]/g,'_')}_${Date.now()}.${ext}`;
@@ -5824,8 +5824,8 @@
                 if (dbErr) throw dbErr;
                 currentAccount.avatar_url = avatarUrl;
                 setLoggedIn(currentAccount.nick, currentAccount.verified, avatarUrl, currentAccount.email, currentAccount.email_verified);
-                showInfoBanner(ru?'✅ Иконка обновлена!':'✅ Avatar updated!', 'success');
-            } catch(e) { alert('❌ ' + (e.message || e)); }
+                showInfoBanner(ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Иконка обновлена!':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Avatar updated!', 'success');
+            } catch(e) { alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e)); }
         }
 
         function showRenameModal() {
@@ -5861,20 +5861,20 @@
             const ru = currentLang === 'ru';
             const newNick = document.getElementById('rename-input').value.trim();
             const statusEl = document.getElementById('rename-status');
-            if (!newNick || newNick.length < 2) { statusEl.textContent = ru?'❌ Минимум 2 символа':'❌ Min 2 characters'; statusEl.style.color='#c62828'; return; }
-            if (containsProfanity(newNick)) { statusEl.textContent = profanityError(ru); statusEl.style.color='#c62828'; return; }
+            if (!newNick || newNick.length < 2) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Минимум 2 символа':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Min 2 characters'; statusEl.style.color='#c62828'; return; }
+            if (containsProfanity(newNick)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
             if (newNick.toLowerCase() === currentAccount.nick.toLowerCase()) { document.getElementById('bp-rename-modal').remove(); return; }
-            statusEl.textContent = ru?'⏳ Проверяем...':'⏳ Checking...'; statusEl.style.color='#f57f17';
+            statusEl.innerHTML = ru?'⏳ Проверяем...':'⏳ Checking...'; statusEl.style.color='#f57f17';
             try {
                 const { data: ex } = await sbClient.from('accounts').select('nick').ilike('nick', newNick).limit(1);
-                if (ex && ex.length > 0) { statusEl.textContent = ru?'❌ Ник занят!':'❌ Nickname taken!'; statusEl.style.color='#c62828'; return; }
+                if (ex && ex.length > 0) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ник занят!':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Nickname taken!'; statusEl.style.color='#c62828'; return; }
                 const { error } = await sbClient.from('accounts').update({ nick: newNick }).ilike('nick', currentAccount.nick);
                 if (error) throw error;
                 currentAccount.nick = newNick;
                 setLoggedIn(newNick, currentAccount.verified, currentAccount.avatar_url, currentAccount.email, currentAccount.email_verified);
                 document.getElementById('bp-rename-modal').remove();
-                showInfoBanner(ru?`✅ Имя изменено на ${newNick}`:`✅ Username changed to ${newNick}`, 'success');
-            } catch(e) { statusEl.textContent = '❌ '+(e.message||e); statusEl.style.color='#c62828'; }
+                showInfoBanner(ru?`<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Имя изменено на ${newNick}`:`<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Username changed to ${newNick}`, 'success');
+            } catch(e) { statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> '+(e.message||e); statusEl.style.color='#c62828'; }
         }
 
         async function deleteAccount() {
@@ -5885,8 +5885,8 @@
                 const { error } = await sbClient.from('accounts').delete().ilike('nick', currentAccount.nick);
                 if (error) throw error;
                 doLogout();
-                showInfoBanner(ru?'✅ Аккаунт удалён.':'✅ Account deleted.', 'success');
-            } catch(e) { alert('❌ '+(e.message||e)); }
+                showInfoBanner(ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Аккаунт удалён.':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Account deleted.', 'success');
+            } catch(e) { alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> '+(e.message||e)); }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -5921,56 +5921,56 @@
 
             if (!sbClient) {
                 showBpStatus('error', ru
-                    ? '❌ Вставь свой Publishable key (sb_publishable_...) в код вместо YOUR_ANON_KEY!'
-                    : '❌ Insert your Publishable key (sb_publishable_...) into the code instead of YOUR_ANON_KEY!');
+                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Вставь свой Publishable key (sb_publishable_...) в код вместо YOUR_ANON_KEY!'
+                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Insert your Publishable key (sb_publishable_...) into the code instead of YOUR_ANON_KEY!');
                 return;
             }
 
-            if (!currentAccount) { showBpStatus('error', ru ? '❌ Войди в аккаунт перед загрузкой!' : '❌ Login before uploading!'); return; }
+            if (!currentAccount) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт перед загрузкой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login before uploading!'); return; }
 
             const bpCaptchaToken = document.querySelector('#bp-upload-turnstile [name="cf-turnstile-response"]')?.value
                 || document.querySelector('#bp-upload-captcha-wrap [name="cf-turnstile-response"]')?.value;
             if (!bpCaptchaToken) {
-                showBpStatus('error', ru ? '❌ Пройди капчу!' : '❌ Complete the captcha!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди капчу!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Complete the captcha!');
                 return;
             }
 
             if (getDailyPostsLeft() <= 0) {
-                showBpStatus('error', ru ? '❌ Достигнут дневной лимит (3 поста в день). Попробуй завтра!' : '❌ Daily limit reached (3 posts/day). Try tomorrow!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Достигнут дневной лимит (3 поста в день). Попробуй завтра!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Daily limit reached (3 posts/day). Try tomorrow!');
                 return;
             }
-            if (!name) { showBpStatus('error', ru ? '❌ Введи название!' : '❌ Enter a name!'); return; }
+            if (!name) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a name!'); return; }
             if (containsProfanity(name)) { showBpStatus('error', profanityError(ru)); return; }
-            if (!author) { showBpStatus('error', ru ? '❌ Введи свой никнейм!' : '❌ Enter your nickname!'); return; }
+            if (!author) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи свой никнейм!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter your nickname!'); return; }
 
             if (!imageFile) {
-                showBpStatus('error', ru ? '❌ Выбери изображение!' : '❌ Choose an image!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери изображение!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose an image!');
                 return;
             }
             if (!worldFile) {
-                showBpStatus('error', ru ? '❌ Выбери world файл!' : '❌ Choose a world file!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери world файл!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose a world file!');
                 return;
             }
 
             if (worldFile.name.toLowerCase() !== 'world') {
-                showBpStatus('error', ru ? '❌ Файл должен называться "world" (без расширения)!' : '❌ File must be named "world" (no extension)!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!');
                 return;
             }
 
             if (worldFile.size === 0) {
-                showBpStatus('error', ru ? '❌ World файл пустой!' : '❌ World file is empty!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> World файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> World file is empty!');
                 return;
             }
 
             const imgExt = imageFile.name.split('.').pop().toLowerCase();
             if (!['png', 'jpg', 'jpeg'].includes(imgExt)) {
-                showBpStatus('error', ru ? '❌ Изображение должно быть PNG или JPEG!' : '❌ Image must be PNG or JPEG!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Изображение должно быть PNG или JPEG!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image must be PNG or JPEG!');
                 return;
             }
 
             const magicCheck = await checkImageMagicBytes(imageFile);
             if (!magicCheck.valid) {
-                showBpStatus('error', ru ? '❌ Файл изображения повреждён или не является PNG/JPEG!' : '❌ Image file is corrupted or not a valid PNG/JPEG!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл изображения повреждён или не является PNG/JPEG!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image file is corrupted or not a valid PNG/JPEG!');
                 return;
             }
 
@@ -6033,7 +6033,7 @@
                 incrementDailyPost();
                 updateDailyLimitUI();
 
-                showBpStatus('success', ru ? '✅ Buildplate успешно загружен и проверен!' : '✅ Buildplate uploaded and verified!');
+                showBpStatus('success', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Buildplate успешно загружен и проверен!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Buildplate uploaded and verified!');
 
                 document.getElementById('bp-name').value = '';
                 document.getElementById('bp-image-input').value = '';
@@ -6046,7 +6046,7 @@
 
             } catch (err) {
                 console.error(err);
-                showBpStatus('error', '❌ ' + err.message);
+                showBpStatus('error', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
                 if (window.turnstile) window.turnstile.reset('#bp-upload-turnstile');
                 if (imagePath) await sbClient.storage.from('buildplates').remove([imagePath]).catch(() => {});
                 if (worldPath) await sbClient.storage.from('buildplates').remove([worldPath]).catch(() => {});
@@ -6058,7 +6058,7 @@
         function showBpStatus(type, message) {
             const el = document.getElementById('bp-status');
             el.className = 'bp-status' + (type ? ' ' + type : '');
-            el.textContent = message;
+            el.innerHTML = message;
             if (!type) el.style.display = 'none';
         }
 
@@ -6391,7 +6391,7 @@
 
             } catch (err) {
                 console.error(err);
-                alert('❌ ' + err.message);
+                alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fas fa-trash"></i> <span>${ru ? 'Удалить' : 'Delete'}</span>`;
             }
@@ -6514,9 +6514,9 @@
             } else {
                 try {
                     await navigator.clipboard.writeText(worldUrl);
-                    alert(ru ? '✅ Ссылка скопирована!' : '✅ Link copied!');
+                    alert(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка скопирована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Link copied!');
                 } catch (e) {
-                    alert(ru ? '❌ Не удалось скопировать' : '❌ Could not copy');
+                    alert(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Не удалось скопировать' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Could not copy');
                 }
             }
         }
@@ -6741,7 +6741,7 @@
             saveCookieConsent({ essential: true, functional, analytics });
             document.getElementById('cookie-modal-overlay')?.remove();
             hideCookieBanner();
-            showInfoBanner(currentLang === 'ru' ? '✅ Настройки cookie сохранены!' : '✅ Cookie settings saved!', 'success');
+            showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Настройки cookie сохранены!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Cookie settings saved!', 'success');
         }
 
         (function initCookies() {
@@ -6837,40 +6837,40 @@
             const submitBtn = document.getElementById('gallery-submit-btn');
 
             const showStatus = (type, msg) => {
-                statusEl.textContent = msg;
+                statusEl.innerHTML = msg;
                 statusEl.style.color = type === 'error' ? '#c62828' : '#2e7d32';
             };
 
-            if (!sbClient) { showStatus('error', ru ? '❌ Supabase не подключён!' : '❌ Supabase not connected!'); return; }
-            if (!currentAccount) { showStatus('error', ru ? '❌ Войди в аккаунт!' : '❌ Log in first!'); return; }
+            if (!sbClient) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase не подключён!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase not connected!'); return; }
+            if (!currentAccount) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Log in first!'); return; }
 
             const galleryCaptchaToken = document.querySelector('#gallery-upload-turnstile [name="cf-turnstile-response"]')?.value
                 || document.querySelector('#gallery-upload-captcha-wrap [name="cf-turnstile-response"]')?.value;
             if (!galleryCaptchaToken) {
-                showStatus('error', ru ? '❌ Пройди капчу!' : '❌ Complete the captcha!');
+                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди капчу!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Complete the captcha!');
                 return;
             }
             if (getDailyPostsLeft() <= 0) {
-                showStatus('error', ru ? '❌ Достигнут дневной лимит (3 поста в день).' : '❌ Daily limit reached (3 posts/day).');
+                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Достигнут дневной лимит (3 поста в день).' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Daily limit reached (3 posts/day).');
                 return;
             }
-            if (!title) { showStatus('error', ru ? '❌ Введи название!' : '❌ Enter a title!'); return; }
+            if (!title) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a title!'); return; }
             if (typeof containsProfanity === 'function' && containsProfanity(title)) {
-                showStatus('error', typeof profanityError === 'function' ? profanityError(ru) : (ru ? '❌ Недопустимое слово!' : '❌ Inappropriate word!'));
+                showStatus('error', typeof profanityError === 'function' ? profanityError(ru) : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Недопустимое слово!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Inappropriate word!'));
                 return;
             }
-            if (!imageFile) { showStatus('error', ru ? '❌ Выбери фото!' : '❌ Choose a photo!'); return; }
+            if (!imageFile) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери фото!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose a photo!'); return; }
 
             const ext = imageFile.name.split('.').pop().toLowerCase();
             if (!['png','jpg','jpeg','webp'].includes(ext)) {
-                showStatus('error', ru ? '❌ Формат: PNG, JPG или WEBP' : '❌ Format: PNG, JPG or WEBP');
+                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат: PNG, JPG или WEBP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Format: PNG, JPG or WEBP');
                 return;
             }
 
             // Check magic bytes
             if (typeof checkImageMagicBytes === 'function') {
                 const check = await checkImageMagicBytes(imageFile);
-                if (!check.valid) { showStatus('error', ru ? '❌ Файл повреждён или не является изображением!' : '❌ File corrupted or not a valid image!'); return; }
+                if (!check.valid) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл повреждён или не является изображением!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File corrupted or not a valid image!'); return; }
             }
 
             submitBtn.disabled = true;
@@ -6902,7 +6902,7 @@
                 incrementDailyPost();
                 updateGalleryDailyLimitUI();
                 updateDailyLimitUI();
-                showStatus('success', ru ? '✅ Фото опубликовано!' : '✅ Photo published!');
+                showStatus('success', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Фото опубликовано!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Photo published!');
                 document.getElementById('gallery-title').value = '';
                 document.getElementById('gallery-image-input').value = '';
                 document.getElementById('gallery-image-label').innerHTML =
@@ -6911,7 +6911,7 @@
                 _galleryCache = null;
                 loadGallery();
             } catch(e) {
-                showStatus('error', '❌ ' + (e.message || e));
+                showStatus('error', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e));
                 if (window.turnstile) window.turnstile.reset('#gallery-upload-turnstile');
             } finally {
                 submitBtn.disabled = getDailyPostsLeft() <= 0;
@@ -7127,7 +7127,7 @@
                         navigator.share({ title: photo.title, url: shareUrl }).catch(() => {});
                     } else {
                         navigator.clipboard.writeText(shareUrl).then(() =>
-                            showInfoBanner(ru ? '✅ Ссылка скопирована!' : '✅ Link copied!', 'success')
+                            showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка скопирована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Link copied!', 'success')
                         ).catch(() => {});
                     }
                 });
@@ -7257,7 +7257,7 @@
                 showInfoBanner(ru ? '🗑️ Фото удалено.' : '🗑️ Photo deleted.', 'success');
             } catch(err) {
                 console.error(err);
-                alert('❌ ' + err.message);
+                alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fas fa-trash"></i> <span>${currentLang === 'ru' ? 'Удалить' : 'Delete'}</span>`;
             }
