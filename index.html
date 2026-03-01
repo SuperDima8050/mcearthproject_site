@@ -6218,12 +6218,12 @@
                     dlBtn.classList.add('dl-locked');
                     dlBtn.innerHTML = `<img src="${LOCK_ICON_URL}" style="width:16px;height:16px;image-rendering:pixelated;object-fit:contain;"> <span>${currentLang === 'ru' ? 'Скачать' : 'Download'}</span>`;
                 }
-                if (dlBtn) dlBtn.addEventListener('click', () => {
+                if (dlBtn) dlBtn.addEventListener('click', (event) => {
                     if (!currentAccount) {
                         showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы скачивать!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to download!', 'error');
                         return;
                     }
-                    downloadWorld(bp.world_url, bp.name);
+                    downloadWorld(bp.world_url, bp.name, event);
                 });
                 if (dotsBtn) dotsBtn.addEventListener('click', e => {
                     e.stopPropagation();
