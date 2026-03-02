@@ -100,7 +100,7 @@
         }
 
         body {
-            font-family: 'Minecraft', 'Noto Sans', 'NotoSansCJK', monospace;
+            font-family: 'Minecraft', 'NotoSans', 'NotoSansCJK', monospace;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -108,11 +108,13 @@
             padding: 20px;
             position: relative;
             background: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/backgrounds/splash_screen.png') center center / cover no-repeat fixed;
-            /* Исправление рендеринга кириллицы */
-            font-feature-settings: "kern" 1, "liga" 1;
+            /* Улучшенный рендеринг для кириллицы */
+            font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            font-variant-ligatures: common-ligatures;
+            letter-spacing: 0.02em;
         }
 
         /* Специальные правила для кириллицы */
@@ -120,13 +122,61 @@
             font-family: inherit;
         }
         
-        /* Предотвращение смешивания латиницы и кириллицы в разных шрифтах */
+        /* Улучшенный рендеринг для кириллических символов в Minecraft шрифтах */
         .container, .tab-content, .section {
-            font-family: 'Minecraft', 'Noto Sans', sans-serif !important;
+            font-family: 'Minecraft', 'NotoSans', sans-serif !important;
+            font-feature-settings: "kern" 1, "liga" 0, "calt" 0;
+            text-rendering: geometricPrecision;
+            -webkit-font-smoothing: subpixel-antialiased;
+            letter-spacing: 0.01em;
         }
         
+        /* Для заголовков с кириллицей */
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'MinecraftTen', 'Minecraft', 'Noto Sans', sans-serif !important;
+            font-family: 'MinecraftTen', 'Minecraft', 'NotoSans', sans-serif !important;
+            font-feature-settings: "kern" 1, "liga" 0;
+            text-rendering: geometricPrecision;
+            letter-spacing: 0.03em;
+        }
+        
+        /* Для вкладок и кнопок с кириллицей */
+        .nav-tab, .lang-btn, .theme-btn {
+            font-family: 'MinecraftSeven', 'Minecraft', sans-serif !important;
+            font-feature-settings: "kern" 0, "liga" 0;
+            text-rendering: optimizeSpeed;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Специальная обработка для русских символов */
+        [data-ru], .ru-text {
+            font-family: 'Minecraft', 'NotoSans', sans-serif !important;
+            font-feature-settings: "kern" 1, "liga" 0, "calt" 0;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Улучшение для форм с кириллицей */
+        .bp-form-row label, .bp-form-row input, .bp-form-row textarea {
+            font-family: 'Minecraft', 'NotoSans', sans-serif !important;
+            font-feature-settings: "kern" 1, "liga" 0;
+            text-rendering: optimizeLegibility;
+            letter-spacing: 0.01em;
+        }
+        
+        /* Для кнопок с кириллицей */
+        .bp-submit-btn, .bp-download-btn, .bp-like-btn, .bp-dislike-btn {
+            font-family: 'Minecraft', 'NotoSans', sans-serif !important;
+            font-feature-settings: "kern" 0, "liga" 0;
+            text-rendering: optimizeSpeed;
+            letter-spacing: 0.02em;
+        }
+        
+        /* Для уведомлений с кириллицей */
+        .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
+            font-family: 'Minecraft', 'NotoSans', sans-serif !important;
+            font-feature-settings: "kern" 1, "liga" 0;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
         }
 
         body::before {
