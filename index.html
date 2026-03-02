@@ -111,13 +111,17 @@
             padding: 20px;
             position: relative;
             background: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/backgrounds/splash_screen.png') center center / cover no-repeat fixed;
-            /* Улучшенный рендеринг для кириллицы */
-            font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            font-variant-ligatures: common-ligatures;
-            letter-spacing: 0.02em;
+            /* Оптимизированный рендеринг для кириллицы на компьютерах */
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            letter-spacing: 0.005em;
             /* Улучшения для мобильных устройств */
             -webkit-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
@@ -130,6 +134,27 @@
             body {
                 padding: 10px;
                 font-size: 14px;
+                /* Восстанавливаем мобильный рендеринг */
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                font-smooth: auto;
+                letter-spacing: 0.01em;
+            }
+            
+            /* Сохраняем идеальный рендеринг на мобильных */
+            .container, .tab-content, .section,
+            h1, h2, h3, h4, h5, h6,
+            .nav-tab, .lang-btn, .theme-btn,
+            [data-ru], .ru-text,
+            .bp-form-row label, .bp-form-row input, .bp-form-row textarea,
+            .bp-submit-btn, .bp-download-btn, .bp-like-btn, .bp-dislike-btn,
+            .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                font-smooth: auto;
+                letter-spacing: 0.01em;
             }
         }
 
@@ -137,6 +162,41 @@
             body {
                 padding: 5px;
                 font-size: 13px;
+            }
+        }
+
+        /* Правила только для десктопных браузеров */
+        @media (min-width: 769px) {
+            body {
+                /* Пиксельный рендеринг только на десктопе */
+                text-rendering: -webkit-optimize-contrast;
+                text-rendering: optimize-contrast;
+                -webkit-font-smoothing: none;
+                -moz-osx-font-smoothing: unset;
+                font-smooth: never;
+                image-rendering: pixelated;
+                image-rendering: -moz-crisp-edges;
+                image-rendering: crisp-edges;
+                letter-spacing: 0.005em;
+            }
+            
+            .container, .tab-content, .section,
+            h1, h2, h3, h4, h5, h6,
+            .nav-tab, .lang-btn, .theme-btn,
+            [data-ru], .ru-text,
+            .bp-form-row label, .bp-form-row input, .bp-form-row textarea,
+            .bp-submit-btn, .bp-download-btn, .bp-like-btn, .bp-dislike-btn,
+            .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
+                font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+                text-rendering: -webkit-optimize-contrast;
+                text-rendering: optimize-contrast;
+                -webkit-font-smoothing: none;
+                -moz-osx-font-smoothing: unset;
+                font-smooth: never;
+                letter-spacing: 0.005em;
+                image-rendering: pixelated;
+                image-rendering: -moz-crisp-edges;
+                image-rendering: crisp-edges;
             }
         }
 
@@ -148,58 +208,148 @@
         /* Улучшенный рендеринг для кириллических символов в Minecraft шрифтах */
         .container, .tab-content, .section {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
-            font-feature-settings: "kern" 1, "liga" 0, "calt" 0;
-            text-rendering: geometricPrecision;
-            -webkit-font-smoothing: subpixel-antialiased;
-            letter-spacing: 0.01em;
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.005em;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         
         /* Для заголовков с кириллицей */
         h1, h2, h3, h4, h5, h6 {
             font-family: 'MinecraftTen', 'Minecraft', 'NotoSans', sans-serif !important;
-            font-feature-settings: "kern" 1, "liga" 0;
-            text-rendering: geometricPrecision;
-            letter-spacing: 0.03em;
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.01em;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         
         /* Для вкладок и кнопок с кириллицей */
         .nav-tab, .lang-btn, .theme-btn {
             font-family: 'MinecraftSeven', 'Minecraft', sans-serif !important;
-            font-feature-settings: "kern" 0, "liga" 0;
-            text-rendering: optimizeSpeed;
-            letter-spacing: 0.05em;
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.02em;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         
         /* Специальная обработка для русских символов */
         [data-ru], .ru-text {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
-            font-feature-settings: "kern" 1, "liga" 0, "calt" 0;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.005em;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         
         /* Улучшение для форм с кириллицей */
         .bp-form-row label, .bp-form-row input, .bp-form-row textarea {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
-            font-feature-settings: "kern" 1, "liga" 0;
-            text-rendering: optimizeLegibility;
-            letter-spacing: 0.01em;
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.005em;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         
         /* Для кнопок с кириллицей */
         .bp-submit-btn, .bp-download-btn, .bp-like-btn, .bp-dislike-btn {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
-            font-feature-settings: "kern" 0, "liga" 0;
-            text-rendering: optimizeSpeed;
-            letter-spacing: 0.02em;
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.01em;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
         
         /* Для уведомлений с кириллицей */
         .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
-            font-feature-settings: "kern" 1, "liga" 0;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.005em;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        /* Общие правила для всего текста */
+        body {
+            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
+            text-rendering: -webkit-optimize-contrast;
+            text-rendering: optimize-contrast;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        /* Специальные правила для Firefox */
+        @-moz-document url-prefix() {
+            .container, .tab-content, .section,
+            h1, h2, h3, h4, h5, h6,
+            .nav-tab, .lang-btn, .theme-btn,
+            [data-ru], .ru-text,
+            .bp-form-row label, .bp-form-row input, .bp-form-row textarea,
+            .bp-submit-btn, .bp-download-btn, .bp-like-btn, .bp-dislike-btn,
+            .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
+                text-rendering: optimizeLegibility;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        }
+
+        /* Специальные правила для Safari/Chrome */
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            .container, .tab-content, .section,
+            h1, h2, h3, h4, h5, h6,
+            .nav-tab, .lang-btn, .theme-btn,
+            [data-ru], .ru-text,
+            .bp-form-row label, .bp-form-row input, .bp-form-row textarea,
+            .bp-submit-btn, .bp-download-btn, .bp-like-btn, .bp-dislike-btn,
+            .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
+                text-rendering: -webkit-optimize-contrast;
+                -webkit-font-smoothing: none;
+                -webkit-text-stroke: 0.01em transparent;
+            }
         }
 
         body::before {
@@ -2085,22 +2235,80 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            position: relative;
+        }
+
+        .drag-drop-container {
+            position: relative;
+            min-height: 200px;
+        }
+
+        .drag-drop-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(107, 142, 35, 0.05);
+            border: 3px dashed #8b7355;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .drag-drop-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+            background: rgba(107, 142, 35, 0.1);
+            border-color: #6b8e23;
+        }
+
+        .drag-drop-overlay.drag-over {
+            opacity: 1;
+            pointer-events: all;
+            background: rgba(107, 142, 35, 0.15);
+            border-color: #6b8e23;
+            border-style: solid;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(107, 142, 35, 0.3);
+        }
+
+        .drag-drop-content {
+            text-align: center;
+            padding: 20px;
         }
 
         .photo-upload-row {
             display: flex;
             flex-direction: column;
             gap: 6px;
+            position: relative;
+            z-index: 5;
         }
 
         .gallery-photo-label {
             width: 100%;
             box-sizing: border-box;
+            position: relative;
+            z-index: 5;
         }
 
         @media (max-width: 768px) {
             #gallery-photo-upload-container {
                 gap: 10px;
+            }
+            
+            .drag-drop-overlay {
+                min-height: 150px;
+            }
+            
+            .drag-drop-content {
+                padding: 15px;
             }
             
             .photo-upload-row {
@@ -2122,6 +2330,33 @@
                 gap: 8px;
             }
             
+            .drag-drop-overlay {
+                min-height: 120px;
+            }
+            
+            .drag-drop-content {
+                padding: 10px;
+            }
+            
+            .drag-drop-content i {
+                font-size: 2rem !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .drag-drop-content p:first-of-type {
+                font-size: 0.9rem !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .drag-drop-content p:nth-of-type(2) {
+                font-size: 0.8rem !important;
+            }
+            
+            .drag-drop-content p:last-of-type {
+                font-size: 0.7rem !important;
+                margin-top: 8px !important;
+            }
+            
             .gallery-photo-label {
                 padding: 10px;
                 font-size: 0.85rem;
@@ -2130,6 +2365,23 @@
             .bp-formats {
                 font-size: 0.65rem;
             }
+        }
+
+        /* Темная тема для drag & drop */
+        body.dark-theme .drag-drop-overlay {
+            background: rgba(124, 179, 66, 0.1);
+            border-color: #8b7355;
+        }
+
+        body.dark-theme .drag-drop-overlay.active {
+            background: rgba(124, 179, 66, 0.15);
+            border-color: #7cb342;
+        }
+
+        body.dark-theme .drag-drop-overlay.drag-over {
+            background: rgba(124, 179, 66, 0.2);
+            border-color: #7cb342;
+            box-shadow: 0 8px 25px rgba(124, 179, 66, 0.4);
         }
 
         .bp-submit-btn {
@@ -4055,7 +4307,15 @@
                         </div>
                         <div class="bp-form-row">
                             <label data-ru="Фото (PNG / JPG / WEBP) - до 3 штук" data-en="Photos (PNG / JPG / WEBP) - up to 3 photos">Фото (PNG / JPG / WEBP) - до 3 штук</label>
-                            <div id="gallery-photo-upload-container">
+                            <div id="gallery-photo-upload-container" class="drag-drop-container">
+                                <div class="drag-drop-overlay" id="gallery-drag-overlay">
+                                    <div class="drag-drop-content">
+                                        <i class="fas fa-cloud-upload-alt" style="font-size:3rem;color:#6b8e23;margin-bottom:15px;"></i>
+                                        <p style="font-family:Minecraft,sans-serif;font-size:1.1rem;color:#5a4a3a;font-weight:700;margin-bottom:10px;" data-ru="Перетащи файлы сюда" data-en="Drag files here">Перетащи файлы сюда</p>
+                                        <p style="font-family:Minecraft,sans-serif;font-size:0.9rem;color:#8b7355;font-weight:600;" data-ru="или нажми для выбора" data-en="or click to select">или нажми для выбора</p>
+                                        <p style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#8b7355;margin-top:10px;">PNG · JPG · WEBP (максимум 3 файла)</p>
+                                    </div>
+                                </div>
                                 <div class="photo-upload-row">
                                     <label class="bp-file-label gallery-photo-label" for="gallery-image-input-1">
                                         <i class="fas fa-image"></i>
@@ -5221,6 +5481,97 @@
                         }
                     });
                 }
+            }
+
+            // Добавляем функциональность drag & drop для галереи
+            const galleryContainer = document.getElementById('gallery-photo-upload-container');
+            const dragOverlay = document.getElementById('gallery-drag-overlay');
+            
+            if (galleryContainer && dragOverlay) {
+                // Показываем overlay при наведении
+                galleryContainer.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragOverlay.classList.add('active');
+                });
+
+                galleryContainer.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragOverlay.classList.add('drag-over');
+                });
+
+                galleryContainer.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Проверяем, покинул ли курсор область контейнера
+                    if (!galleryContainer.contains(e.relatedTarget)) {
+                        dragOverlay.classList.remove('active', 'drag-over');
+                    }
+                });
+
+                // Обработка сброса файлов
+                galleryContainer.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragOverlay.classList.remove('active', 'drag-over');
+
+                    const files = Array.from(e.dataTransfer.files);
+                    const validFiles = files.filter(file => {
+                        const ext = file.name.split('.').pop().toLowerCase();
+                        return ['png', 'jpg', 'jpeg', 'webp'].includes(ext);
+                    });
+
+                    if (validFiles.length === 0) {
+                        const ru = currentLang === 'ru';
+                        showInfoBanner(
+                            ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Поддерживаются только PNG, JPG и WEBP файлы!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Only PNG, JPG and WEBP files are supported!',
+                            'error'
+                        );
+                        return;
+                    }
+
+                    if (validFiles.length > 3) {
+                        const ru = currentLang === 'ru';
+                        showInfoBanner(
+                            ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Можно загрузить максимум 3 файла!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Maximum 3 files can be uploaded!',
+                            'error'
+                        );
+                        return;
+                    }
+
+                    // Распределяем файлы по инпутам
+                    for (let i = 0; i < Math.min(validFiles.length, 3); i++) {
+                        const input = document.getElementById(`gallery-image-input-${i + 1}`);
+                        const nameEl = document.getElementById(`gallery-image-name-${i + 1}`);
+                        
+                        if (input && nameEl) {
+                            // Создаем DataTransfer для установки файлов
+                            const dt = new DataTransfer();
+                            dt.items.add(validFiles[i]);
+                            input.files = dt.files;
+                            
+                            // Обновляем отображение имени файла
+                            nameEl.textContent = `📎 ${validFiles[i].name}`;
+                            nameEl.style.color = '#6b8e23';
+                        }
+                    }
+
+                    const ru = currentLang === 'ru';
+                    const message = validFiles.length === 1 
+                        ? (ru ? '📎 Файл добавлен' : '📎 File added')
+                        : (ru ? `📎 Добавлено ${validFiles.length} файла` : `📎 ${validFiles.length} files added`);
+                    
+                    showInfoBanner(message, 'success');
+                });
+
+                // Клик на overlay для выбора файлов
+                dragOverlay.addEventListener('click', function() {
+                    const input = document.getElementById('gallery-image-input-1');
+                    if (input) {
+                        input.click();
+                    }
+                });
             }
         });
     </script>
@@ -7198,7 +7549,97 @@
             }
             if (tabName === 'news') { if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin); else loadNews(); }
             if (tabName === 'reports') { if (typeof window.loadReports === 'function') window.loadReports(); }
-            if (tabName === 'gallery') { loadGallery(); updateGalleryDailyLimitUI(); }
+            if (tabName === 'gallery') { 
+                loadGallery(); 
+                updateGalleryDailyLimitUI();
+                // Инициализируем drag & drop для галереи
+                const galleryContainer = document.getElementById('gallery-photo-upload-container');
+                const dragOverlay = document.getElementById('gallery-drag-overlay');
+                
+                if (galleryContainer && dragOverlay) {
+                    // Показываем overlay при наведении
+                    galleryContainer.addEventListener('dragenter', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dragOverlay.classList.add('active');
+                    });
+
+                    galleryContainer.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dragOverlay.classList.add('drag-over');
+                    });
+
+                    galleryContainer.addEventListener('dragleave', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!galleryContainer.contains(e.relatedTarget)) {
+                            dragOverlay.classList.remove('active', 'drag-over');
+                        }
+                    });
+
+                    // Обработка сброса файлов
+                    galleryContainer.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dragOverlay.classList.remove('active', 'drag-over');
+
+                        const files = Array.from(e.dataTransfer.files);
+                        const validFiles = files.filter(file => {
+                            const ext = file.name.split('.').pop().toLowerCase();
+                            return ['png', 'jpg', 'jpeg', 'webp'].includes(ext);
+                        });
+
+                        if (validFiles.length === 0) {
+                            const ru = currentLang === 'ru';
+                            showInfoBanner(
+                                ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Поддерживаются только PNG, JPG и WEBP файлы!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Only PNG, JPG and WEBP files are supported!',
+                                'error'
+                            );
+                            return;
+                        }
+
+                        if (validFiles.length > 3) {
+                            const ru = currentLang === 'ru';
+                            showInfoBanner(
+                                ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Можно загрузить максимум 3 файла!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Maximum 3 files can be uploaded!',
+                                'error'
+                            );
+                            return;
+                        }
+
+                        // Распределяем файлы по инпутам
+                        for (let i = 0; i < Math.min(validFiles.length, 3); i++) {
+                            const input = document.getElementById(`gallery-image-input-${i + 1}`);
+                            const nameEl = document.getElementById(`gallery-image-name-${i + 1}`);
+                            
+                            if (input && nameEl) {
+                                const dt = new DataTransfer();
+                                dt.items.add(validFiles[i]);
+                                input.files = dt.files;
+                                
+                                nameEl.textContent = `📎 ${validFiles[i].name}`;
+                                nameEl.style.color = '#6b8e23';
+                            }
+                        }
+
+                        const ru = currentLang === 'ru';
+                        const message = validFiles.length === 1 
+                            ? (ru ? '📎 Файл добавлен' : '📎 File added')
+                            : (ru ? `📎 Добавлено ${validFiles.length} файла` : `📎 ${validFiles.length} files added`);
+                        
+                        showInfoBanner(message, 'success');
+                    });
+
+                    // Клик на overlay для выбора файлов
+                    dragOverlay.addEventListener('click', function() {
+                        const input = document.getElementById('gallery-image-input-1');
+                        if (input) {
+                            input.click();
+                        }
+                    });
+                }
+            }
         };
 
         const COOKIE_KEY = 'pe_cookie_consent';
