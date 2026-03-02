@@ -2509,6 +2509,7 @@
             font-family: 'Minecraft', sans-serif;
             letter-spacing: 0.5px;
             justify-content: center;
+            margin-top: 8px;
         }
 
         .bp-delete-btn:hover {
@@ -2528,7 +2529,50 @@
             transform: none;
         }
 
-        .bp-logged-in-top {
+        .bp-edit-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 9px 14px;
+            background: linear-gradient(180deg, #1565c0 0%, #0d47a1 100%);
+            color: white;
+            border: 2px solid #0a3880;
+            border-radius: 2px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.82rem;
+            transition: all 0.15s;
+            box-shadow: 0 4px 0 #07265c;
+            text-transform: uppercase;
+            font-family: 'Minecraft', sans-serif;
+            letter-spacing: 0.5px;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .bp-edit-btn:hover {
+            background: linear-gradient(180deg, #1976d2 0%, #1565c0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #07265c;
+        }
+
+        .bp-edit-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #07265c;
+        }
+
+        .bp-edit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        body.dark-theme .bp-edit-btn {
+            background: linear-gradient(180deg, #1976d2 0%, #1565c0 100%);
+            border-color: #0d47a1;
+            box-shadow: 0 4px 0 #07265c;
+        }
             display: flex;
             align-items: center;
             gap: 10px;
@@ -3875,6 +3919,7 @@
                                     <button class="dots-dropdown-item" data-share="true"><i class="fas fa-share-alt"></i> ${ru ? 'Поделиться' : 'Share'}</button>
                                     ${!isAdmin ? `<button class="dots-dropdown-item danger" data-report="true"><i class="fas fa-flag"></i> ${ru ? 'Пожаловаться' : 'Report'}</button>` : ''}
                                     ${isAdmin ? `<button class="dots-dropdown-item danger" data-delete="true"><i class="fas fa-trash"></i> ${ru ? 'Удалить' : 'Delete'}</button>` : ''}
+                                    ${isAdmin ? `<button class="dots-dropdown-item" data-edit-news="true"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')"> ${ru ? 'Изменить' : 'Edit'}</button>` : ''}
                                 </div>
                             </div>
                         </div>
@@ -3907,6 +3952,11 @@
                     if (delBtn) delBtn.addEventListener('click', () => {
                         newsItem.querySelector('.dots-dropdown')?.classList.remove('open');
                         confirmDeleteNews(news.id, news.title || 'Без названия', newsItem);
+                    });
+                    const editNewsBtn = newsItem.querySelector('[data-edit-news="true"]');
+                    if (editNewsBtn) editNewsBtn.addEventListener('click', () => {
+                        newsItem.querySelector('.dots-dropdown')?.classList.remove('open');
+                        editNewsItem(news, newsItem);
                     });
                 }
                 newsContainer.appendChild(newsItem);
@@ -3958,10 +4008,77 @@
             newsItemEl.style.opacity = '0';
             newsItemEl.style.transform = 'scale(0.95)';
             setTimeout(() => newsItemEl.remove(), 300);
-            showInfoBanner(ru ? '🗑️ Новость удалена!' : '🗑️ News deleted!', 'success');
+            showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость удалена!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News deleted!', 'success');
         }
 
         window.deleteNews = deleteNews;
+
+        async function editNewsItem(news, newsItemEl) {
+            const ru = currentLang === 'ru';
+            const isDark = document.body.classList.contains('dark-theme');
+            const ex = document.getElementById('news-edit-modal'); if (ex) ex.remove();
+            const overlay = document.createElement('div');
+            overlay.id = 'news-edit-modal';
+            overlay.className = 'bp-modal-overlay';
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            overlay.innerHTML = `
+                <div class="bp-modal" style="max-width:520px;">
+                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить новость' : 'Edit news'}</h3>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
+                        <input id="nedit-title" style="${inputStyle}" maxlength="200" value="${(news.title||'').replace(/"/g,'&quot;')}" />
+                    </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (EN)' : 'Title (EN)'}</label>
+                        <input id="nedit-title-en" style="${inputStyle}" maxlength="200" value="${(news.title_en||'').replace(/"/g,'&quot;')}" />
+                    </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Текст (RU)' : 'Content (RU)'}</label>
+                        <textarea id="nedit-content" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content||'').replace(/</g,'&lt;')}</textarea>
+                    </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Текст (EN)' : 'Content (EN)'}</label>
+                        <textarea id="nedit-content-en" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content_en||'').replace(/</g,'&lt;')}</textarea>
+                    </div>
+                    <div id="nedit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                        </button>
+                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-edit-modal').remove()">
+                            ${ru ? 'Отмена' : 'Cancel'}
+                        </button>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            document.getElementById('nedit-save-btn').addEventListener('click', async () => {
+                const statusEl = document.getElementById('nedit-status');
+                const title = document.getElementById('nedit-title').value.trim();
+                const titleEn = document.getElementById('nedit-title-en').value.trim();
+                const content = document.getElementById('nedit-content').value.trim();
+                const contentEn = document.getElementById('nedit-content-en').value.trim();
+                if (!title || !content) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title and content required!'; statusEl.style.color='#c62828'; return; }
+                if (containsProfanity(title) || containsProfanity(titleEn) || containsProfanity(content) || containsProfanity(contentEn)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
+                statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...'; statusEl.style.color='#f57f17';
+                try {
+                    const { error } = await sbClient.from('news').update({ title, title_en: titleEn||title, content, content_en: contentEn||content }).eq('id', news.id);
+                    if (error) throw error;
+                    if (_newsCache) { const idx = _newsCache.findIndex(n => String(n.id) === String(news.id)); if (idx !== -1) { _newsCache[idx].title = title; _newsCache[idx].title_en = titleEn||title; _newsCache[idx].content = content; _newsCache[idx].content_en = contentEn||content; } }
+                    overlay.remove();
+                    // Update the news item in DOM
+                    const titleEl = newsItemEl.querySelector('.news-title');
+                    if (titleEl) titleEl.textContent = ru ? title : (titleEn||title);
+                    const contentEl = newsItemEl.querySelector('.news-content');
+                    if (contentEl) contentEl.innerHTML = makeLinksClickable(ru ? content : (contentEn||content));
+                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость обновлена!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News updated!', 'success');
+                } catch(err) {
+                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
+                    statusEl.style.color='#c62828';
+                }
+            });
+        }
+        window.editNewsItem = editNewsItem;
 
         async function handleNewsLike(newsId, action, likeBtn, dislikeBtn) {
             if (!currentAccount) {
@@ -6231,6 +6348,9 @@
                                     <button class="bp-dots-item" data-bp-share="${bp.id}">
                                         <i class="fas fa-share-alt"></i> ${currentLang === 'ru' ? 'Поделиться' : 'Share'}
                                     </button>
+                                    ${bp.image_url ? `<button class="bp-dots-item" data-bp-dlimg="${bp.id}" data-bp-imgurl="${bp.image_url}" data-bp-imgname="${escapeHtml(bp.name)}">
+                                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ${currentLang === 'ru' ? 'Скачать картинку' : 'Download image'}
+                                    </button>` : ''}
                                     ${!isMine ? `<button class="bp-dots-item danger" data-bp-report="${bp.id}">
                                         <i class="fas fa-flag"></i> ${currentLang === 'ru' ? 'Пожаловаться' : 'Report'}
                                     </button>` : ''}
@@ -6241,6 +6361,10 @@
                         <button class="bp-delete-btn" onclick="deleteBuildplate('${bp.id}', this)">
                             <i class="fas fa-trash"></i>
                             <span>${currentLang === 'ru' ? 'Удалить' : 'Delete'}</span>
+                        </button>
+                        <button class="bp-edit-btn" data-bp-edit="${bp.id}">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')">
+                            <span>${currentLang === 'ru' ? 'Изменить' : 'Edit'}</span>
                         </button>` : ''}
                     </div>`;
                 grid.appendChild(card);
@@ -6251,6 +6375,8 @@
                 const bpShareBtn = card.querySelector(`[data-bp-share="${bp.id}"]`);
                 const reportBtn = card.querySelector(`[data-bp-report="${bp.id}"]`);
                 const dlBtn = card.querySelector(`[data-bp-dl="${bp.id}"]`);
+                const editBtn = card.querySelector(`[data-bp-edit="${bp.id}"]`);
+                const dlImgBtn = card.querySelector(`[data-bp-dlimg="${bp.id}"]`);
 
                 if (likeBtn) likeBtn.addEventListener('click', () => handleBpLike(bp.id, likeBtn, dislikeBtn));
                 if (dislikeBtn) dislikeBtn.addEventListener('click', () => handleBpDislike(bp.id, dislikeBtn, likeBtn));
@@ -6278,6 +6404,10 @@
                     card.querySelector(`#bp-dots-dd-${bp.id}`)?.classList.remove('open');
                     handleBpShare(bp.name, bp.world_url);
                 });
+                if (dlImgBtn) dlImgBtn.addEventListener('click', () => {
+                    card.querySelector(`#bp-dots-dd-${bp.id}`)?.classList.remove('open');
+                    downloadImage(dlImgBtn.dataset.bpImgurl, dlImgBtn.dataset.bpImgname);
+                });
                 if (reportBtn) reportBtn.addEventListener('click', () => {
                     card.querySelector(`#bp-dots-dd-${bp.id}`)?.classList.remove('open');
                     if (!currentAccount) {
@@ -6286,6 +6416,7 @@
                     }
                     showReportModal('buildplate', bp.id, bp.name, bp.author, bp.image_url || null);
                 });
+                if (editBtn) editBtn.addEventListener('click', () => editBuildplate(bp.id, bp.name));
             });
             setTimeout(attachRefBadges, 150);
         }
@@ -6441,6 +6572,84 @@
         }
 
         const bpProcessing = {}; // блокировка от многократных кликов
+
+        async function downloadImage(url, name) {
+            const ru = currentLang === 'ru';
+            if (!url) { showInfoBanner(ru ? 'Нет изображения для скачивания' : 'No image to download', 'error'); return; }
+            try {
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const blob = await resp.blob();
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                const safeName = (name || 'image').replace(/[^a-zA-Za-яёА-ЯЁ0-9 _-]/g, '').trim().replace(/\s+/g, '_') || 'image';
+                const ext = blob.type.includes('png') ? '.png' : blob.type.includes('webp') ? '.webp' : '.jpg';
+                a.download = safeName + ext;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Изображение скачано!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image downloaded!', 'success');
+            } catch(e) {
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка скачивания: ' + e.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Download error: ' + e.message, 'error');
+            }
+        }
+        window.downloadImage = downloadImage;
+
+        async function editBuildplate(id, currentName) {
+            const ru = currentLang === 'ru';
+            const isDark = document.body.classList.contains('dark-theme');
+            const ex = document.getElementById('bp-edit-modal'); if (ex) ex.remove();
+            const overlay = document.createElement('div');
+            overlay.id = 'bp-edit-modal';
+            overlay.className = 'bp-modal-overlay';
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            overlay.innerHTML = `
+                <div class="bp-modal" style="max-width:420px;">
+                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить buildplate' : 'Edit buildplate'}</h3>
+                    <div class="bp-form-row" style="margin-bottom:14px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New name'}</label>
+                        <input id="bp-edit-name" style="${inputStyle}" maxlength="100" value="${currentName.replace(/"/g,'&quot;')}" />
+                    </div>
+                    <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                        </button>
+                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-edit-modal').remove()">
+                            ${ru ? 'Отмена' : 'Cancel'}
+                        </button>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            const nameInput = document.getElementById('bp-edit-name');
+            nameInput.focus(); nameInput.select();
+            document.getElementById('bp-edit-save-btn').addEventListener('click', async () => {
+                const newName = nameInput.value.trim();
+                const statusEl = document.getElementById('bp-edit-status');
+                if (!newName) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a name!'; statusEl.style.color='#c62828'; return; }
+                if (containsProfanity(newName)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
+                statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...'; statusEl.style.color='#f57f17';
+                try {
+                    const { error } = await sbClient.from('buildplates').update({ name: newName }).eq('id', id);
+                    if (error) throw error;
+                    // Update cache
+                    const idx = _bpAllData.findIndex(b => String(b.id) === String(id));
+                    if (idx !== -1) _bpAllData[idx].name = newName;
+                    overlay.remove();
+                    // Update card name
+                    const nameEl = document.querySelector(`#bp-card-${id} .bp-card-name`);
+                    if (nameEl) nameEl.textContent = newName;
+                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Название обновлено!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Name updated!', 'success');
+                } catch(err) {
+                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
+                    statusEl.style.color='#c62828';
+                }
+            });
+            nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('bp-edit-save-btn').click(); });
+        }
+        window.editBuildplate = editBuildplate;
 
         async function handleBpLike(id, likeBtn, dislikeBtn) {
             if (!currentAccount) {
@@ -7132,6 +7341,9 @@
                                     <button class="bp-dots-item" data-gl-share="${photo.id}">
                                         <i class="fas fa-share-alt"></i> ${ru ? 'Поделиться' : 'Share'}
                                     </button>
+                                    ${photo.image_url ? `<button class="bp-dots-item" data-gl-dlimg="${photo.id}" data-gl-imgurl="${photo.image_url}" data-gl-imgname="${escapeHtml(photo.title||'photo')}">
+                                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Скачать картинку' : 'Download image'}
+                                    </button>` : ''}
                                     ${!isMine ? `<button class="bp-dots-item danger" data-gl-report="${photo.id}">
                                         <i class="fas fa-flag"></i> ${ru ? 'Пожаловаться' : 'Report'}
                                     </button>` : ''}
@@ -7142,6 +7354,10 @@
                         <button class="bp-delete-btn" id="gl-del-${photo.id}">
                             <i class="fas fa-trash"></i>
                             <span>${ru ? 'Удалить' : 'Delete'}</span>
+                        </button>
+                        <button class="bp-edit-btn" id="gl-edit-${photo.id}">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')">
+                            <span>${ru ? 'Изменить' : 'Edit'}</span>
                         </button>` : ''}
                     </div>`;
 
@@ -7155,6 +7371,8 @@
                 const shareBtn = card.querySelector(`[data-gl-share="${photo.id}"]`);
                 const reportBtn = card.querySelector(`[data-gl-report="${photo.id}"]`);
                 const deleteBtn = card.querySelector(`#gl-del-${photo.id}`);
+                const editBtn = card.querySelector(`#gl-edit-${photo.id}`);
+                const dlImgBtn = card.querySelector(`[data-gl-dlimg="${photo.id}"]`);
 
                 if (likeBtn) likeBtn.addEventListener('click', () => handleGalleryLike(photo.id, likeBtn, dislikeBtn));
                 if (dislikeBtn) dislikeBtn.addEventListener('click', () => handleGalleryDislike(photo.id, dislikeBtn, likeBtn));
@@ -7174,6 +7392,10 @@
                         ).catch(() => {});
                     }
                 });
+                if (dlImgBtn) dlImgBtn.addEventListener('click', () => {
+                    document.getElementById(`gl-dd-${photo.id}`)?.classList.remove('open');
+                    downloadImage(dlImgBtn.dataset.glImgurl, dlImgBtn.dataset.glImgname);
+                });
                 if (reportBtn) reportBtn.addEventListener('click', () => {
                     document.getElementById(`gl-dd-${photo.id}`)?.classList.remove('open');
                     if (!currentAccount) {
@@ -7185,6 +7407,7 @@
                     }
                 });
                 if (deleteBtn) deleteBtn.addEventListener('click', () => deleteGalleryPhoto(photo.id, photo.image_path, deleteBtn));
+                if (editBtn) editBtn.addEventListener('click', () => editGalleryPhoto(photo.id, photo.title || ''));
 
                 grid.appendChild(card);
             });
@@ -7297,7 +7520,7 @@
                     card.style.transform = 'scale(0.8)';
                     setTimeout(() => { card.remove(); }, 300);
                 }
-                showInfoBanner(ru ? '🗑️ Фото удалено.' : '🗑️ Photo deleted.', 'success');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Фото удалено.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Photo deleted.', 'success');
             } catch(err) {
                 console.error(err);
                 alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
@@ -7305,6 +7528,59 @@
                 btn.innerHTML = `<i class="fas fa-trash"></i> <span>${currentLang === 'ru' ? 'Удалить' : 'Delete'}</span>`;
             }
         }
+
+        async function editGalleryPhoto(id, currentTitle) {
+            const ru = currentLang === 'ru';
+            const isDark = document.body.classList.contains('dark-theme');
+            const ex = document.getElementById('gl-edit-modal'); if (ex) ex.remove();
+            const overlay = document.createElement('div');
+            overlay.id = 'gl-edit-modal';
+            overlay.className = 'bp-modal-overlay';
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            overlay.innerHTML = `
+                <div class="bp-modal" style="max-width:420px;">
+                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить фото' : 'Edit photo'}</h3>
+                    <div class="bp-form-row" style="margin-bottom:14px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New title'}</label>
+                        <input id="gl-edit-title" style="${inputStyle}" maxlength="200" value="${(currentTitle||'').replace(/"/g,'&quot;')}" />
+                    </div>
+                    <div id="gl-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                        </button>
+                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
+                            ${ru ? 'Отмена' : 'Cancel'}
+                        </button>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            const titleInput = document.getElementById('gl-edit-title');
+            titleInput.focus(); titleInput.select();
+            document.getElementById('gl-edit-save-btn').addEventListener('click', async () => {
+                const newTitle = titleInput.value.trim();
+                const statusEl = document.getElementById('gl-edit-status');
+                if (!newTitle) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a title!'; statusEl.style.color='#c62828'; return; }
+                if (containsProfanity(newTitle)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
+                statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...'; statusEl.style.color='#f57f17';
+                try {
+                    const { error } = await sbClient.from('gallery').update({ title: newTitle }).eq('id', id);
+                    if (error) throw error;
+                    // Update cache
+                    if (_galleryCache) { const idx = _galleryCache.findIndex(p => String(p.id) === String(id)); if (idx !== -1) _galleryCache[idx].title = newTitle; }
+                    overlay.remove();
+                    const nameEl = document.querySelector(`#gallery-card-${id} .bp-card-name`);
+                    if (nameEl) nameEl.textContent = newTitle;
+                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Название обновлено!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title updated!', 'success');
+                } catch(err) {
+                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
+                    statusEl.style.color='#c62828';
+                }
+            });
+            titleInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gl-edit-save-btn').click(); });
+        }
+        window.editGalleryPhoto = editGalleryPhoto;
 
         // Wire up file input label for gallery
         document.addEventListener('DOMContentLoaded', () => {
