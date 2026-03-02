@@ -4029,7 +4029,7 @@
                                     <button class="dots-dropdown-item" data-share="true"><i class="fas fa-share-alt"></i> ${ru ? 'Поделиться' : 'Share'}</button>
                                     ${!isAdmin ? `<button class="dots-dropdown-item danger" data-report="true"><i class="fas fa-flag"></i> ${ru ? 'Пожаловаться' : 'Report'}</button>` : ''}
                                     ${isAdmin ? `<button class="dots-dropdown-item danger" data-delete="true"><i class="fas fa-trash"></i> ${ru ? 'Удалить' : 'Delete'}</button>` : ''}
-                                    ${isAdmin ? `<button class="dots-dropdown-item" data-edit-news="true"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')"> ${ru ? 'Изменить' : 'Edit'}</button>` : ''}
+                                    ${isAdmin ? `<button class="dots-dropdown-item" data-edit-news="true"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')"> ${ru ? 'Изменить' : 'Edit'}</button>` : ''}
                                 </div>
                             </div>
                         </div>
@@ -4133,7 +4133,7 @@
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:520px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить новость' : 'Edit news'}</h3>
+                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}</h3>
                     <div class="bp-form-row" style="margin-bottom:10px;">
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
                         <input id="nedit-title" style="${inputStyle}" maxlength="200" value="${(news.title||'').replace(/"/g,'&quot;')}" />
@@ -6473,7 +6473,7 @@
                             <span>${currentLang === 'ru' ? 'Удалить' : 'Delete'}</span>
                         </button>
                         <button class="bp-edit-btn" data-bp-edit="${bp.id}">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')">
                             <span>${currentLang === 'ru' ? 'Изменить' : 'Edit'}</span>
                         </button>` : ''}
                     </div>`;
@@ -6716,7 +6716,7 @@
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:420px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить buildplate' : 'Edit buildplate'}</h3>
+                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить buildplate' : 'Edit buildplate'}</h3>
                     <div class="bp-form-row" style="margin-bottom:14px;">
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New name'}</label>
                         <input id="bp-edit-name" style="${inputStyle}" maxlength="100" value="${currentName.replace(/"/g,'&quot;')}" />
@@ -7466,7 +7466,7 @@
                             <span>${ru ? 'Удалить' : 'Delete'}</span>
                         </button>
                         <button class="bp-edit-btn" id="gl-edit-${photo.id}">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')">
                             <span>${ru ? 'Изменить' : 'Edit'}</span>
                         </button>` : ''}
                     </div>`;
