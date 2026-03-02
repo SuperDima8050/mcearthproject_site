@@ -2145,68 +2145,118 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 14px 18px;
-            border: 3px dashed #8b7355;
-            border-radius: 2px;
-            background: #f5eed9;
+            padding: 16px 20px;
+            border: 3px solid #8b7355;
+            border-radius: 4px;
+            background: linear-gradient(180deg, #f5eed9 0%, #e8dcc0 100%);
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s ease;
             font-family: 'Minecraft', sans-serif;
             font-weight: 600;
             color: #5a4a3a;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .bp-file-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(107, 142, 35, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .bp-file-label:hover::before {
+            left: 100%;
         }
 
         .bp-file-label:hover {
             border-color: #6b8e23;
-            background: #eee8d0;
+            background: linear-gradient(180deg, #e8dcc0 0%, #d4c5a8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+
+        .bp-file-label:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
         }
 
         .bp-file-label i {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: #6b8e23;
+            transition: transform 0.2s ease;
+        }
+
+        .bp-file-label:hover i {
+            transform: scale(1.1);
         }
 
         .bp-file-label input[type="file"] {
-            display: none;
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
         }
 
         .bp-file-label.drag-over {
             border-color: #6b8e23;
-            background: #e4edcc;
+            background: linear-gradient(180deg, #e4edcc 0%, #d0e0b0 100%);
             transform: scale(1.02);
-            box-shadow: 0 8px 16px rgba(107, 142, 35, 0.2);
+            box-shadow: 0 8px 20px rgba(107, 142, 35, 0.3), inset 0 1px 0 rgba(255,255,255,0.4);
             border-style: solid;
             animation: dragPulse 1.5s ease-in-out infinite;
         }
 
+        .bp-file-label.drag-over i {
+            transform: scale(1.2);
+            color: #4a5d23;
+        }
+
         @keyframes dragPulse {
             0%, 100% { 
-                box-shadow: 0 8px 16px rgba(107, 142, 35, 0.2);
+                box-shadow: 0 8px 20px rgba(107, 142, 35, 0.3);
                 border-color: #6b8e23;
             }
             50% { 
-                box-shadow: 0 12px 24px rgba(107, 142, 35, 0.4);
+                box-shadow: 0 12px 30px rgba(107, 142, 35, 0.5);
                 border-color: #7cb342;
             }
         }
 
-        body.dark-theme .bp-file-label.drag-over {
-            background: #2a3a1a;
-            border-color: #7cb342;
-            box-shadow: 0 8px 16px rgba(124, 179, 66, 0.3);
+        body.dark-theme .bp-file-label {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
+            border-color: #555;
+            color: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        body.dark-theme .bp-file-label:hover {
+            background: linear-gradient(180deg, #333333 0%, #2a2a2a 100%);
+            border-color: #6b8e23;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
         }
 
         body.dark-theme .bp-file-label.drag-over {
+            background: linear-gradient(180deg, #2a3a1a 0%, #1f2f0f 100%);
+            border-color: #7cb342;
+            box-shadow: 0 8px 20px rgba(124, 179, 66, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
             animation: dragPulseDark 1.5s ease-in-out infinite;
         }
 
         @keyframes dragPulseDark {
             0%, 100% { 
-                box-shadow: 0 8px 16px rgba(124, 179, 66, 0.3);
+                box-shadow: 0 8px 20px rgba(124, 179, 66, 0.4);
                 border-color: #7cb342;
             }
             50% { 
-                box-shadow: 0 12px 24px rgba(124, 179, 66, 0.5);
+                box-shadow: 0 12px 30px rgba(124, 179, 66, 0.6);
                 border-color: #8bc34a;
             }
         }
@@ -2217,30 +2267,113 @@
             color: #8b7355;
             font-weight: 600;
             white-space: nowrap;
+            background: rgba(139, 115, 85, 0.1);
+            padding: 4px 8px;
+            border-radius: 3px;
+            border: 1px solid rgba(139, 115, 85, 0.2);
         }
 
         body.dark-theme .bp-formats {
-            color: #888;
+            color: #aaa;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
         .bp-file-name {
             font-size: 0.85rem;
             color: #6b8e23;
-            margin-top: 6px;
+            margin-top: 8px;
             font-weight: 600;
+            padding: 8px 12px;
+            background: rgba(107, 142, 35, 0.05);
+            border: 1px solid rgba(107, 142, 35, 0.2);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .bp-file-name:hover {
+            background: rgba(107, 142, 35, 0.08);
+            border-color: rgba(107, 142, 35, 0.3);
+        }
+
+        body.dark-theme .bp-file-name {
+            color: #7cb342;
+            background: rgba(124, 179, 66, 0.05);
+            border-color: rgba(124, 179, 66, 0.2);
+        }
+
+        body.dark-theme .bp-file-name:hover {
+            background: rgba(124, 179, 66, 0.08);
+            border-color: rgba(124, 179, 66, 0.3);
+        }
+
+        /* Мобильная адаптация для кнопок загрузки */
+        @media (max-width: 768px) {
+            .bp-file-label {
+                padding: 14px 16px;
+                font-size: 0.9rem;
+                gap: 10px;
+            }
+
+            .bp-file-label i {
+                font-size: 1.2rem;
+            }
+
+            .bp-formats {
+                font-size: 0.68rem;
+                padding: 3px 6px;
+            }
+
+            .bp-file-name {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bp-file-label {
+                padding: 12px 14px;
+                font-size: 0.85rem;
+                gap: 8px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .bp-file-label i {
+                font-size: 1.1rem;
+            }
+
+            .bp-formats {
+                font-size: 0.65rem;
+                padding: 2px 4px;
+                margin-left: 0;
+                margin-top: 4px;
+            }
+
+            .bp-file-name {
+                font-size: 0.75rem;
+                padding: 5px 8px;
+                margin-top: 5px;
+            }
         }
 
         /* Стили для множественной загрузки фотографий */
         #gallery-photo-upload-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
             position: relative;
         }
 
         .drag-drop-container {
             position: relative;
-            min-height: 200px;
+            min-height: 220px;
+            border-radius: 6px;
+            overflow: hidden;
         }
 
         .drag-drop-overlay {
@@ -2249,44 +2382,71 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(107, 142, 35, 0.05);
+            background: linear-gradient(135deg, rgba(107, 142, 35, 0.08) 0%, rgba(107, 142, 35, 0.12) 100%);
             border: 3px dashed #8b7355;
-            border-radius: 4px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(2px);
         }
 
         .drag-drop-overlay.active {
             opacity: 1;
             pointer-events: all;
-            background: rgba(107, 142, 35, 0.1);
+            background: linear-gradient(135deg, rgba(107, 142, 35, 0.12) 0%, rgba(107, 142, 35, 0.18) 100%);
             border-color: #6b8e23;
+            border-style: solid;
         }
 
         .drag-drop-overlay.drag-over {
             opacity: 1;
             pointer-events: all;
-            background: rgba(107, 142, 35, 0.15);
+            background: linear-gradient(135deg, rgba(107, 142, 35, 0.18) 0%, rgba(107, 142, 35, 0.25) 100%);
             border-color: #6b8e23;
             border-style: solid;
             transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(107, 142, 35, 0.3);
+            box-shadow: 0 12px 32px rgba(107, 142, 35, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+            animation: dropPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes dropPulse {
+            0%, 100% { 
+                box-shadow: 0 12px 32px rgba(107, 142, 35, 0.4);
+                border-color: #6b8e23;
+            }
+            50% { 
+                box-shadow: 0 16px 40px rgba(107, 142, 35, 0.6);
+                border-color: #7cb342;
+            }
         }
 
         .drag-drop-content {
             text-align: center;
-            padding: 20px;
+            padding: 24px;
+            color: #5a4a3a;
+        }
+
+        .drag-drop-content i {
+            font-size: 3.5rem;
+            color: #6b8e23;
+            margin-bottom: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .drag-drop-overlay.drag-over .drag-drop-content i {
+            transform: scale(1.1);
+            color: #4a5d23;
         }
 
         .photo-upload-row {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
             position: relative;
             z-index: 5;
         }
@@ -2298,25 +2458,31 @@
             z-index: 5;
         }
 
+        /* Мобильная адаптация для drag & drop */
         @media (max-width: 768px) {
             #gallery-photo-upload-container {
-                gap: 10px;
+                gap: 14px;
             }
             
-            .drag-drop-overlay {
-                min-height: 150px;
+            .drag-drop-container {
+                min-height: 180px;
             }
             
             .drag-drop-content {
-                padding: 15px;
+                padding: 20px;
+            }
+            
+            .drag-drop-content i {
+                font-size: 3rem;
+                margin-bottom: 14px;
             }
             
             .photo-upload-row {
-                gap: 4px;
+                gap: 6px;
             }
             
             .gallery-photo-label {
-                padding: 12px;
+                padding: 14px 16px;
                 font-size: 0.9rem;
             }
             
@@ -2327,20 +2493,20 @@
 
         @media (max-width: 480px) {
             #gallery-photo-upload-container {
-                gap: 8px;
+                gap: 12px;
             }
             
-            .drag-drop-overlay {
-                min-height: 120px;
+            .drag-drop-container {
+                min-height: 160px;
             }
             
             .drag-drop-content {
-                padding: 10px;
+                padding: 16px;
             }
             
             .drag-drop-content i {
-                font-size: 2rem !important;
-                margin-bottom: 10px !important;
+                font-size: 2.5rem !important;
+                margin-bottom: 12px !important;
             }
             
             .drag-drop-content p:first-of-type {
@@ -2358,7 +2524,7 @@
             }
             
             .gallery-photo-label {
-                padding: 10px;
+                padding: 12px 14px;
                 font-size: 0.85rem;
             }
             
@@ -2369,19 +2535,131 @@
 
         /* Темная тема для drag & drop */
         body.dark-theme .drag-drop-overlay {
-            background: rgba(124, 179, 66, 0.1);
+            background: linear-gradient(135deg, rgba(124, 179, 66, 0.12) 0%, rgba(124, 179, 66, 0.18) 100%);
             border-color: #8b7355;
         }
 
         body.dark-theme .drag-drop-overlay.active {
-            background: rgba(124, 179, 66, 0.15);
+            background: linear-gradient(135deg, rgba(124, 179, 66, 0.18) 0%, rgba(124, 179, 66, 0.25) 100%);
             border-color: #7cb342;
         }
 
         body.dark-theme .drag-drop-overlay.drag-over {
-            background: rgba(124, 179, 66, 0.2);
+            background: linear-gradient(135deg, rgba(124, 179, 66, 0.25) 0%, rgba(124, 179, 66, 0.35) 100%);
             border-color: #7cb342;
-            box-shadow: 0 8px 25px rgba(124, 179, 66, 0.4);
+            box-shadow: 0 12px 32px rgba(124, 179, 66, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            animation: dropPulseDark 1.5s ease-in-out infinite;
+        }
+
+        @keyframes dropPulseDark {
+            0%, 100% { 
+                box-shadow: 0 12px 32px rgba(124, 179, 66, 0.5);
+                border-color: #7cb342;
+            }
+            50% { 
+                box-shadow: 0 16px 40px rgba(124, 179, 66, 0.7);
+                border-color: #8bc34a;
+            }
+        }
+
+        body.dark-theme .drag-drop-content {
+            color: #e0e0e0;
+        }
+
+        body.dark-theme .drag-drop-content i {
+            color: #7cb342;
+        }
+
+        body.dark-theme .drag-drop-overlay.drag-over .drag-drop-content i {
+            color: #8bc34a;
+        }
+
+        /* Стили для перетаскиваемых модальных окон */
+        .draggable-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10001;
+            transition: transform 0.1s ease-out;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        .draggable-modal.dragging {
+            transition: none;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4), 0 0 0 2px rgba(107, 142, 35, 0.3);
+        }
+
+        .modal-header {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .modal-header:hover {
+            background: linear-gradient(180deg, #7cb342 0%, #6b8e23 100%) !important;
+        }
+
+        .modal-header:active {
+            background: linear-gradient(180deg, #556b2f 0%, #4a5d23 100%) !important;
+        }
+
+        /* Темная тема для перетаскиваемых модальных окон */
+        body.dark-theme .draggable-modal {
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+        }
+
+        body.dark-theme .draggable-modal.dragging {
+            box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 0 2px rgba(124, 179, 66, 0.4);
+        }
+
+        body.dark-theme .modal-header:hover {
+            background: linear-gradient(180deg, #8bc34a 0%, #7cb342 100%) !important;
+        }
+
+        body.dark-theme .modal-header:active {
+            background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%) !important;
+        }
+
+        /* Мобильная адаптация для перетаскиваемых окон */
+        @media (max-width: 768px) {
+            .draggable-modal {
+                max-width: 90vw !important;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .modal-header {
+                padding: 10px 12px !important;
+            }
+
+            .modal-header h3 {
+                font-size: 0.9rem !important;
+            }
+
+            .modal-header i {
+                font-size: 0.8rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .draggable-modal {
+                max-width: 95vw !important;
+                max-height: 85vh;
+            }
+
+            .modal-header {
+                padding: 8px 10px !important;
+            }
+
+            .modal-header h3 {
+                font-size: 0.85rem !important;
+            }
+
+            .modal-header i {
+                font-size: 0.75rem !important;
+            }
         }
 
         .bp-submit-btn {
@@ -7286,24 +7564,95 @@
             overlay.className = 'bp-modal-overlay';
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
-                <div class="bp-modal" style="max-width:420px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить buildplate' : 'Edit buildplate'}</h3>
-                    <div class="bp-form-row" style="margin-bottom:14px;">
-                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New name'}</label>
-                        <input id="bp-edit-name" style="${inputStyle}" maxlength="100" value="${currentName.replace(/"/g,'&quot;')}" />
+                <div class="bp-modal draggable-modal" style="max-width:420px;" id="bp-edit-modal-content">
+                    <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
+                        <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить buildplate' : 'Edit buildplate'}</h3>
+                        <i class="fas fa-grip-lines" style="opacity:0.7; font-size:0.9rem;"></i>
                     </div>
-                    <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
-                    <div style="display:flex;gap:10px;">
-                        <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
-                        </button>
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-edit-modal').remove()">
-                            ${ru ? 'Отмена' : 'Cancel'}
-                        </button>
+                    <div style="padding:16px;">
+                        <div class="bp-form-row" style="margin-bottom:14px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New name'}</label>
+                            <input id="bp-edit-name" style="${inputStyle}" maxlength="100" value="${currentName.replace(/"/g,'&quot;')}" />
+                        </div>
+                        <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                        <div style="display:flex;gap:10px;">
+                            <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
+                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                            </button>
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-edit-modal').remove()">
+                                ${ru ? 'Отмена' : 'Cancel'}
+                            </button>
+                        </div>
                     </div>
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            
+            // Добавляем функциональность перетаскивания
+            const modal = document.getElementById('bp-edit-modal-content');
+            const header = modal.querySelector('.modal-header');
+            
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+
+            function dragStart(e) {
+                if (e.type === "touchstart") {
+                    initialX = e.touches[0].clientX - xOffset;
+                    initialY = e.touches[0].clientY - yOffset;
+                } else {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                }
+
+                if (e.target === header || header.contains(e.target)) {
+                    isDragging = true;
+                    modal.style.cursor = 'grabbing';
+                    header.style.cursor = 'grabbing';
+                }
+            }
+
+            function dragEnd(e) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+                modal.style.cursor = 'auto';
+                header.style.cursor = 'move';
+            }
+
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    
+                    if (e.type === "touchmove") {
+                        currentX = e.touches[0].clientX - initialX;
+                        currentY = e.touches[0].clientY - initialY;
+                    } else {
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                    }
+
+                    xOffset = currentX;
+                    yOffset = currentY;
+
+                    modal.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                }
+            }
+
+            // Добавляем обработчики событий
+            header.addEventListener('mousedown', dragStart);
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('mousemove', drag);
+            
+            // Для мобильных устройств
+            header.addEventListener('touchstart', dragStart, { passive: false });
+            document.addEventListener('touchend', dragEnd);
+            document.addEventListener('touchmove', drag, { passive: false });
+            
             const nameInput = document.getElementById('bp-edit-name');
             nameInput.focus(); nameInput.select();
             document.getElementById('bp-edit-save-btn').addEventListener('click', async () => {
@@ -8336,24 +8685,187 @@
             overlay.className = 'bp-modal-overlay';
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
-                <div class="bp-modal" style="max-width:420px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить фото' : 'Edit photo'}</h3>
-                    <div class="bp-form-row" style="margin-bottom:14px;">
-                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New title'}</label>
-                        <input id="gl-edit-title" style="${inputStyle}" maxlength="200" value="${(currentTitle||'').replace(/"/g,'&quot;')}" />
+                <div class="bp-modal draggable-modal" style="max-width:420px;" id="gl-edit-modal-content">
+                    <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
+                        <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить фото' : 'Edit photo'}</h3>
+                        <i class="fas fa-grip-lines" style="opacity:0.7; font-size:0.9rem;"></i>
                     </div>
-                    <div id="gl-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
-                    <div style="display:flex;gap:10px;">
-                        <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
-                        </button>
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
-                            ${ru ? 'Отмена' : 'Cancel'}
-                        </button>
+                    <div style="padding:16px;">
+                        <div class="bp-form-row" style="margin-bottom:14px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New title'}</label>
+                            <input id="gl-edit-title" style="${inputStyle}" maxlength="200" value="${(currentTitle||'').replace(/"/g,'&quot;')}" />
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:14px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заменить изображение (опционально)' : 'Replace image (optional)'}</label>
+                            <div class="drag-drop-container" style="min-height:120px; position:relative;">
+                                <div class="drag-drop-overlay" id="gl-edit-drag-overlay">
+                                    <div class="drag-drop-content">
+                                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#6b8e23;margin-bottom:10px;"></i>
+                                        <p style="font-family:Minecraft,sans-serif;font-size:0.9rem;color:#5a4a3a;font-weight:700;margin-bottom:5px;" data-ru="Перетащи новое изображение" data-en="Drag new image">Перетащи новое изображение</p>
+                                        <p style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#8b7355;font-weight:600;" data-ru="или нажми для выбора" data-en="or click to select">или нажми для выбора</p>
+                                        <p style="font-family:Minecraft,sans-serif;font-size:0.7rem;color:#8b7355;margin-top:5px;">PNG · JPG · WEBP</p>
+                                    </div>
+                                </div>
+                                <label class="bp-file-label" for="gl-edit-image-input" style="width:100%; margin:0;">
+                                    <i class="fas fa-image"></i>
+                                    <span data-ru="Выбрать новое изображение" data-en="Choose new image">Выбрать новое изображение</span>
+                                    <span class="bp-formats">PNG · JPG · WEBP</span>
+                                </label>
+                                <input type="file" id="gl-edit-image-input" accept=".png,.jpg,.jpeg,.webp" style="position:absolute; opacity:0; width:100%; height:100%; cursor:pointer;">
+                                <div class="bp-file-name" id="gl-edit-image-name"></div>
+                            </div>
+                        </div>
+                        <div id="gl-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                        <div style="display:flex;gap:10px;">
+                            <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
+                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                            </button>
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
+                                ${ru ? 'Отмена' : 'Cancel'}
+                            </button>
+                        </div>
                     </div>
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            
+            // Добавляем функциональность перетаскивания
+            const modal = document.getElementById('gl-edit-modal-content');
+            const header = modal.querySelector('.modal-header');
+            
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+
+            function dragStart(e) {
+                if (e.type === "touchstart") {
+                    initialX = e.touches[0].clientX - xOffset;
+                    initialY = e.touches[0].clientY - yOffset;
+                } else {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                }
+
+                if (e.target === header || header.contains(e.target)) {
+                    isDragging = true;
+                    modal.style.cursor = 'grabbing';
+                    header.style.cursor = 'grabbing';
+                }
+            }
+
+            function dragEnd(e) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+                modal.style.cursor = 'auto';
+                header.style.cursor = 'move';
+            }
+
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    
+                    if (e.type === "touchmove") {
+                        currentX = e.touches[0].clientX - initialX;
+                        currentY = e.touches[0].clientY - initialY;
+                    } else {
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                    }
+
+                    xOffset = currentX;
+                    yOffset = currentY;
+
+                    modal.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                }
+            }
+
+            // Добавляем обработчики событий
+            header.addEventListener('mousedown', dragStart);
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('mousemove', drag);
+            
+            // Для мобильных устройств
+            header.addEventListener('touchstart', dragStart, { passive: false });
+            document.addEventListener('touchend', dragEnd);
+            document.addEventListener('touchmove', drag, { passive: false });
+
+            // Добавляем drag & drop для изображения
+            const dragContainer = modal.querySelector('.drag-drop-container');
+            const dragOverlay = modal.querySelector('#gl-edit-drag-overlay');
+            const imageInput = modal.querySelector('#gl-edit-image-input');
+            const imageName = modal.querySelector('#gl-edit-image-name');
+            
+            if (dragContainer && dragOverlay && imageInput && imageName) {
+                dragContainer.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragOverlay.classList.add('active');
+                });
+
+                dragContainer.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragOverlay.classList.add('drag-over');
+                });
+
+                dragContainer.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!dragContainer.contains(e.relatedTarget)) {
+                        dragOverlay.classList.remove('active', 'drag-over');
+                    }
+                });
+
+                dragContainer.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragOverlay.classList.remove('active', 'drag-over');
+
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const file = files[0];
+                        const ext = file.name.split('.').pop().toLowerCase();
+                        
+                        if (['png', 'jpg', 'jpeg', 'webp'].includes(ext)) {
+                            const dt = new DataTransfer();
+                            dt.items.add(file);
+                            imageInput.files = dt.files;
+                            imageName.textContent = `📎 ${file.name}`;
+                            imageName.style.color = '#6b8e23';
+                            
+                            const ru = currentLang === 'ru';
+                            showInfoBanner(
+                                ru ? '📎 Новое изображение добавлено' : '📎 New image added',
+                                'success'
+                            );
+                        } else {
+                            const ru = currentLang === 'ru';
+                            showInfoBanner(
+                                ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Поддерживаются только PNG, JPG и WEBP!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Only PNG, JPG and WEBP are supported!',
+                                'error'
+                            );
+                        }
+                    }
+                });
+
+                dragOverlay.addEventListener('click', function() {
+                    imageInput.click();
+                });
+
+                imageInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        imageName.textContent = `📎 ${file.name}`;
+                        imageName.style.color = '#6b8e23';
+                    }
+                });
+            }
+            
             const titleInput = document.getElementById('gl-edit-title');
             titleInput.focus(); titleInput.select();
             document.getElementById('gl-edit-save-btn').addEventListener('click', async () => {
