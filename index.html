@@ -2578,12 +2578,21 @@
             gap: 10px;
         }
         .bp-avatar {
-            width: 42px;
-            height: 42px;
+            width: 42px !important;
+            height: 42px !important;
+            max-width: 42px !important;
+            max-height: 42px !important;
             border-radius: 2px;
             object-fit: cover;
             border: 2px solid #4caf50;
             flex-shrink: 0;
+            display: block;
+        }
+        #bp-profile-avatar-wrap {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            overflow: hidden;
         }
         .bp-avatar-placeholder {
             width: 42px;
