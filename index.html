@@ -6,33 +6,33 @@
     <title>Revival Minecraft Earth</title>
     <link rel="icon" type="image/png" href="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico">
     <style>
-        /* Roboto Mono — моноширинный шрифт с поддержкой кириллицы (замена Minecraft) */
+        /* Press Start 2P — пиксельный шрифт в стиле Minecraft с поддержкой кириллицы */
         @font-face {
-            font-family: 'Roboto Mono';
-            src: url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap') format('truetype');
+            font-family: 'Minecraft';
+            src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap') format('truetype');
             font-weight: 400;
             font-style: normal;
             unicode-range: U+0400-U+04FF, U+0200-U+024F; /* Кириллица и латиница */
         }
         @font-face {
-            font-family: 'Roboto Mono';
-            src: url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap') format('truetype');
+            font-family: 'Minecraft';
+            src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap') format('truetype');
             font-weight: 700;
             font-style: normal;
             unicode-range: U+0400-U+04FF, U+0200-U+024F; /* Кириллица и латиница */
         }
-        /* Rubik — для крупных заголовков (замена MinecraftTen) */
+        /* VT323 — моноширинный пиксельный шрифт для крупных заголовков */
         @font-face {
-            font-family: 'Rubik';
-            src: url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap') format('truetype');
+            font-family: 'MinecraftTen';
+            src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap') format('truetype');
             font-weight: 400;
             font-style: normal;
             unicode-range: U+0400-U+04FF, U+0200-U+024F; /* Кириллица и латиница */
         }
-        /* Rubik — для секционных заголовков (замена MinecraftSeven) */
+        /* VT323 — для секционных заголовков */
         @font-face {
-            font-family: 'Rubik';
-            src: url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&display=swap') format('truetype');
+            font-family: 'MinecraftSeven';
+            src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap') format('truetype');
             font-weight: 400;
             font-style: normal;
             unicode-range: U+0400-U+04FF, U+0200-U+024F; /* Кириллица и латиница */
@@ -53,7 +53,7 @@
             font-style: normal;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Rubik:wght@400;500;700&family=Noto+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Noto+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     
@@ -105,7 +105,7 @@
         }
 
         body {
-            font-family: 'Roboto Mono', 'Noto Sans', 'NotoSansCJK', monospace;
+            font-family: 'Minecraft', 'Noto Sans', 'NotoSansCJK', monospace;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -127,11 +127,11 @@
         
         /* Предотвращение смешивания латиницы и кириллицы в разных шрифтах */
         .container, .tab-content, .section {
-            font-family: 'Roboto Mono', 'Noto Sans', sans-serif !important;
+            font-family: 'Minecraft', 'Noto Sans', sans-serif !important;
         }
         
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Rubik', 'Noto Sans', sans-serif !important;
+            font-family: 'VT323', 'Minecraft', 'Noto Sans', sans-serif !important;
         }
 
         body::before {
@@ -211,7 +211,7 @@
             font-size: 0.9rem;
             box-shadow: 0 4px 0 #3e2f1f;
             text-transform: uppercase;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 1px;
         }
 
@@ -334,7 +334,7 @@
 
         body.dark-theme .info-card p {
             color: #e0e0e0;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
 
         body.dark-theme .step-content h3 {
@@ -343,7 +343,7 @@
 
         body.dark-theme .step-content p {
             color: #b0b0b0;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
 
         body.dark-theme .zerotier-code p:first-child {
@@ -356,7 +356,7 @@
 
         body.dark-theme .faq-answer {
             color: #b0b0b0;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
 
         h1 {
@@ -365,7 +365,7 @@
             margin-bottom: 10px;
             font-size: 2.5rem;
             margin-top: 60px;
-            font-family: 'Rubik', 'Roboto Mono', sans-serif;
+            font-family: 'VT323', 'Minecraft', sans-serif;
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 4px;
@@ -383,7 +383,7 @@
             color: #5a4a3a;
             margin-bottom: 20px;
             font-size: 1.1rem;
-            font-family: 'Rubik', 'Roboto Mono', sans-serif;
+            font-family: 'VT323', 'Minecraft', sans-serif;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
@@ -404,7 +404,7 @@
             border-radius: 2px;
             font-size: 1.05rem;
             font-weight: 900;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             cursor: pointer;
             transition: all 0.15s;
             text-decoration: none;
@@ -436,7 +436,7 @@
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 4px solid #6b8e23;
-            font-family: 'Rubik', 'Roboto Mono', sans-serif;
+            font-family: 'VT323', 'Minecraft', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -453,7 +453,7 @@
         .info-card p {
             line-height: 1.8;
             color: #4a4a4a;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-weight: 400;
             font-size: 0.82rem;
         }
@@ -484,7 +484,7 @@
             font-weight: 700;
             color: #3e2723;
             margin-bottom: 5px;
-            font-family: 'Rubik', 'Roboto Mono', sans-serif;
+            font-family: 'VT323', 'Minecraft', sans-serif;
             word-break: break-word;
             overflow-wrap: break-word;
         }
@@ -575,7 +575,7 @@
             flex-shrink: 0;
             border: 2px solid #4a5d23;
             box-shadow: 0 4px 0 #3d4f1c;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
 
         .step-content {
@@ -594,7 +594,7 @@
         .step-content p {
             color: #5a4a3a;
             line-height: 1.6;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-weight: 400;
             font-size: 0.82rem;
         }
@@ -651,7 +651,7 @@
             gap: 8px;
             box-shadow: 0 5px 0 #3d4f1c;
             text-transform: uppercase;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 1px;
         }
 
@@ -688,7 +688,7 @@
         .faq-answer {
             color: #5a4a3a;
             line-height: 1.6;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-weight: 400;
             font-size: 0.82rem;
         }
@@ -714,7 +714,7 @@
         .info-note span {
             color: #8b6914;
             font-weight: 700;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
 
 
@@ -781,7 +781,7 @@
             box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-family: 'Rubik', 'Roboto Mono', sans-serif;
+            font-family: 'VT323', 'Minecraft', sans-serif;
             -webkit-font-smoothing: none;
             -moz-osx-font-smoothing: unset;
             text-rendering: optimizeSpeed;
@@ -974,7 +974,7 @@
             color: white;
             margin: 0;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 1px;
         }
 
@@ -1163,7 +1163,7 @@
             align-items: center;
             gap: 10px;
             padding: 11px 14px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.83rem;
             font-weight: 700;
             color: #3e2723;
@@ -1222,7 +1222,7 @@
             align-items: center;
             gap: 10px;
             padding: 10px 14px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.8rem;
             font-weight: 700;
             color: #3e2723;
@@ -1341,7 +1341,7 @@
             cursor: pointer;
             font-size: 0.8rem;
             font-weight: 700;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             box-shadow: 0 4px 0 #5a0000;
             transition: all 0.15s;
             text-transform: uppercase;
@@ -1406,7 +1406,7 @@
             font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
 
         .bp-form-row input[type="text"] {
@@ -1416,7 +1416,7 @@
             border-radius: 2px;
             background: #f5eed9;
             color: #3e2723;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 1rem;
             font-weight: 600;
             outline: none;
@@ -1436,7 +1436,7 @@
             border-radius: 2px;
             background: #f5eed9;
             color: #3e2723;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 1rem;
             font-weight: 600;
             outline: none;
@@ -1502,7 +1502,7 @@
             letter-spacing: 1px;
             color: #3e2723;
             margin-bottom: 12px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1513,7 +1513,7 @@
         .bp-auth-status {
             font-size: 0.82rem;
             font-weight: 600;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             margin-top: 8px;
             padding: 8px 12px;
             border-radius: 2px;
@@ -1529,7 +1529,7 @@
             color: #6b8e23;
             cursor: pointer;
             text-decoration: underline;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-weight: 600;
             background: none;
             border: none;
@@ -1553,7 +1553,7 @@
 
         .bp-logged-in-name {
             font-weight: 800;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             color: #1b5e20;
             display: flex;
             align-items: center;
@@ -1571,7 +1571,7 @@
             cursor: pointer;
             padding: 4px 10px;
             font-weight: 700;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             border-radius: 2px;
         }
 
@@ -1585,7 +1585,7 @@
             color: white;
             font-size: 0.65rem;
             font-weight: 800;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             padding: 2px 6px;
             border-radius: 2px;
             text-transform: uppercase;
@@ -1632,7 +1632,7 @@
             background: rgba(107,142,35,0.1);
             border: 2px solid rgba(107,142,35,0.3);
             border-radius: 2px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
         .ref-profile-title {
             font-size: 0.72rem;
@@ -1650,7 +1650,7 @@
         .ref-link-input {
             flex: 1;
             font-size: 0.7rem;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-weight: 700;
             padding: 5px 8px;
             border: 2px solid #8b7355;
@@ -1671,7 +1671,7 @@
             font-size: 0.72rem;
             font-weight: 700;
             cursor: pointer;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             box-shadow: 0 3px 0 #3d4f1c;
         }
         .ref-stats {
@@ -1699,7 +1699,7 @@
         }
         body.dark-theme .ref-xp-wrap { border-color: #3a5a1a; }
         .ref-xp-label {
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.6rem;
             font-weight: 700;
             color: #80ff00;
@@ -1741,7 +1741,7 @@
             filter: grayscale(1);
         }
         .ref-xp-mob-name {
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.52rem;
             font-weight: 700;
             color: #666;
@@ -1804,7 +1804,7 @@
             background: rgba(255,255,255,0.18);
         }
         .ref-xp-bar-count {
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.6rem;
             font-weight: 700;
             color: #80ff00;
@@ -1830,7 +1830,7 @@
         .ref-xp-bar-fill.animate { animation: xpPulse 0.6s ease-out; }
         /* Arrow between mobs */
         .ref-xp-arrow {
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.55rem;
             color: #444;
             text-align: center;
@@ -1883,7 +1883,7 @@
             text-align: center;
         }
         .ref-xp-tier-thresh {
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.5rem;
             font-weight: 700;
             color: #555;
@@ -1908,7 +1908,7 @@
             background: #f5eed9;
             cursor: pointer;
             transition: all 0.15s;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-weight: 600;
             color: #5a4a3a;
         }
@@ -2004,7 +2004,7 @@
             gap: 10px;
             box-shadow: 0 5px 0 #3d4f1c;
             text-transform: uppercase;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 1px;
             margin-top: 20px;
         }
@@ -2032,7 +2032,7 @@
             font-weight: 700;
             text-align: center;
             display: none;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
 
         .bp-status.success {
@@ -2054,7 +2054,7 @@
             color: #4a5d23;
             font-weight: 800;
             margin-bottom: 16px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -2116,7 +2116,7 @@
             color: #3e2723;
             font-size: 1rem;
             margin-bottom: 6px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 0.5px;
             word-break: break-word;
         }
@@ -2206,7 +2206,7 @@
             transition: all 0.15s;
             box-shadow: 0 4px 0 #3d4f1c;
             text-transform: uppercase;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 0;
             text-decoration: none;
             justify-content: center;
@@ -2238,7 +2238,7 @@
             font-size: 0.85rem;
             transition: all 0.15s;
             box-shadow: 0 4px 0 #5a4a3a;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             flex-shrink: 0;
             white-space: nowrap;
         }
@@ -2291,7 +2291,7 @@
             font-size: 0.85rem;
             transition: all 0.15s;
             box-shadow: 0 4px 0 #5a4a3a;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             flex-shrink: 0;
         }
 
@@ -2455,7 +2455,7 @@
             border-radius: 2px;
             background: #fffbf0;
             color: #3e2723;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.9rem;
             font-weight: 600;
             outline: none;
@@ -2472,7 +2472,7 @@
             border-radius: 2px;
             background: #fffbf0;
             color: #3e2723;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
@@ -2494,7 +2494,7 @@
             border-radius: 2px;
             background: #fffbf0;
             color: #5a4a3a;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
@@ -2518,7 +2518,7 @@
             font-weight: 700;
             color: #8b7355;
             padding: 0 2px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             white-space: nowrap;
         }
 
@@ -2562,7 +2562,7 @@
             transition: all 0.15s;
             box-shadow: 0 4px 0 #641e16;
             text-transform: uppercase;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 0.5px;
             justify-content: center;
             margin-top: 8px;
@@ -2601,7 +2601,7 @@
             transition: all 0.15s;
             box-shadow: 0 4px 0 #07265c;
             text-transform: uppercase;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 0.5px;
             justify-content: center;
             margin-top: 6px;
@@ -2682,7 +2682,7 @@
             cursor: pointer;
             padding: 9px 4px;
             font-weight: 700;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             border-radius: 2px;
             transition: all 0.15s;
             text-transform: uppercase;
@@ -2758,7 +2758,7 @@
         }
         body.dark-theme .bp-modal { background: #2a2a2a; border-color: #3a3a3a; color: #e0e0e0; }
         .bp-modal h3 {
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             color: #4a5d23;
             margin-bottom: 16px;
             font-size: 1rem;
@@ -2804,7 +2804,7 @@
             min-width: 200px;
         }
         .cookie-banner-title {
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-size: 13px;
             font-weight: 700;
             color: #4a5d23;
@@ -2821,7 +2821,7 @@
             font-weight: 600;
             color: #5a4a3a;
             line-height: 1.6;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
         }
         body.dark-theme .cookie-banner-desc { color: #b0b0b0; }
         .cookie-banner-btns {
@@ -2839,7 +2839,7 @@
             cursor: pointer;
             font-weight: 700;
             font-size: 0.82rem;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: 0 4px 0 #3d4f1c;
@@ -2855,7 +2855,7 @@
             cursor: pointer;
             font-weight: 700;
             font-size: 0.82rem;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: 0 4px 0 #5a4a3a;
@@ -2876,7 +2876,7 @@
             font-size: 0.85rem;
             box-shadow: 0 4px 0 #3e2f1f;
             text-transform: uppercase;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             letter-spacing: 1px;
         }
         .cookie-settings-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #3e2f1f; }
@@ -2903,7 +2903,7 @@
         }
         body.dark-theme .cookie-modal { background: #2a2a2a; border-color: #3a3a3a; color: #e0e0e0; }
         .cookie-modal h3 {
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             color: #4a5d23;
             margin-bottom: 16px;
             font-size: 14px;
@@ -2926,14 +2926,14 @@
             font-weight: 800;
             font-size: 0.88rem;
             color: #3e2723;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             margin-bottom: 3px;
         }
         body.dark-theme .cookie-toggle-name { color: #e0e0e0; }
         .cookie-toggle-desc {
             font-size: 0.75rem;
             color: #7a6340;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             line-height: 1.4;
             font-weight: 600;
         }
@@ -2984,7 +2984,7 @@
             color: white;
             font-size: 11px;
             font-weight: 700;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             padding: 6px 10px;
             border-radius: 2px;
             white-space: nowrap;
@@ -3027,7 +3027,7 @@
             padding: 5px 14px;
             cursor: pointer;
             border-radius: 2px;
-            font-family: 'Roboto Mono', sans-serif;
+            font-family: 'Minecraft', sans-serif;
             font-weight: 700;
         }
         /* bp-card-img clickable cursor for gallery */
@@ -3712,12 +3712,12 @@
                     <div id="bp-daily-limit" style="display:none;align-items:center;gap:10px;margin-bottom:12px;padding:12px 16px;background:#fffbf0;border:3px solid #8b7355;border-radius:2px;box-shadow:0 4px 0 #5a4a3a;">
                         <img id="bp-daily-limit-timer" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" alt="timer" style="width:36px;height:36px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
                         <div style="flex:1;">
-                            <div style="font-family:'Roboto Mono', sans-serif;font-size:0.78rem;font-weight:700;color:#4a5d23;text-transform:uppercase;letter-spacing:1px;" id="bp-limit-title">Лимит постов сегодня</div>
+                            <div style="font-family:'Minecraft', sans-serif;font-size:0.78rem;font-weight:700;color:#4a5d23;text-transform:uppercase;letter-spacing:1px;" id="bp-limit-title">Лимит постов сегодня</div>
                             <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
                                 <div id="bp-limit-dots" style="display:flex;gap:5px;"></div>
-                                <span id="bp-limit-text" style="font-family:'Roboto Mono', sans-serif;font-size:0.8rem;font-weight:700;color:#5a4a3a;"></span>
+                                <span id="bp-limit-text" style="font-family:'Minecraft', sans-serif;font-size:0.8rem;font-weight:700;color:#5a4a3a;"></span>
                             </div>
-                            <div id="bp-limit-reset" style="font-family:'Roboto Mono', sans-serif;font-size:0.72rem;color:#8b7355;margin-top:2px;"></div>
+                            <div id="bp-limit-reset" style="font-family:'Minecraft', sans-serif;font-size:0.72rem;color:#8b7355;margin-top:2px;"></div>
                         </div>
                     </div>
 
@@ -4384,7 +4384,7 @@
             overlay.innerHTML = `
                 <div id="report-modal-box" style="${boxStyle}">
                     <div id="report-drag-handle" style="
-                        font-family: 'Roboto Mono', sans-serif;
+                        font-family: 'Minecraft', sans-serif;
                         font-size: 1rem;
                         font-weight: 700;
                         text-transform: uppercase;
@@ -5660,7 +5660,7 @@
                 const needToggle = email.length > maxLen;
                 const short = needToggle ? email.substring(0, maxLen) + '...' : email;
                 if (needToggle) {
-                    badge.innerHTML = `<span style="font-size:0.78rem;font-weight:700;word-break:break-all;" id="bp-email-text">${short}</span><button id="bp-email-toggle" onclick="toggleEmail('${email.replace(/'/g,"\\'")}') " style="margin-left:5px;font-size:0.68rem;font-weight:700;background:none;border:1px solid currentColor;opacity:0.75;border-radius:3px;padding:1px 5px;cursor:pointer;color:inherit;font-family:'Roboto Mono', sans-serif;vertical-align:middle;">показать</button>`;
+                    badge.innerHTML = `<span style="font-size:0.78rem;font-weight:700;word-break:break-all;" id="bp-email-text">${short}</span><button id="bp-email-toggle" onclick="toggleEmail('${email.replace(/'/g,"\\'")}') " style="margin-left:5px;font-size:0.68rem;font-weight:700;background:none;border:1px solid currentColor;opacity:0.75;border-radius:3px;padding:1px 5px;cursor:pointer;color:inherit;font-family:'Minecraft', sans-serif;vertical-align:middle;">показать</button>`;
                 } else {
                     badge.innerHTML = `<span style="font-size:0.78rem;font-weight:700;">${email}</span>`;
                 }
