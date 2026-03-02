@@ -2,7 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
     <title>Revival Minecraft Earth</title>
     <link rel="icon" type="image/png" href="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico">
     <style>
@@ -115,6 +118,26 @@
             -moz-osx-font-smoothing: grayscale;
             font-variant-ligatures: common-ligatures;
             letter-spacing: 0.02em;
+            /* Улучшения для мобильных устройств */
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            touch-action: manipulation;
+            overscroll-behavior: contain;
+        }
+
+        /* Специальные правила для мобильных устройств */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+                font-size: 13px;
+            }
         }
 
         /* Специальные правила для кириллицы */
@@ -572,20 +595,45 @@
                 gap: 10px;
                 width: 100%;
                 box-sizing: border-box;
+                padding: 0 8px;
             }
             .author-card {
                 width: 100%;
                 box-sizing: border-box;
                 box-shadow: 0 4px 0 #5a4a3a;
+                padding: 16px;
             }
             .author-name {
                 font-size: 1rem;
+                line-height: 1.3;
             }
             .author-role {
                 font-size: 0.82rem;
+                line-height: 1.4;
             }
             .link {
                 font-size: 0.82rem;
+                padding: 8px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .authors {
+                padding: 0 4px;
+                gap: 8px;
+            }
+            .author-card {
+                padding: 12px;
+            }
+            .author-name {
+                font-size: 0.9rem;
+            }
+            .author-role {
+                font-size: 0.78rem;
+            }
+            .link {
+                font-size: 0.78rem;
+                padding: 6px 10px;
             }
         }
 
@@ -2030,6 +2078,58 @@
             color: #6b8e23;
             margin-top: 6px;
             font-weight: 600;
+        }
+
+        /* Стили для множественной загрузки фотографий */
+        #gallery-photo-upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .photo-upload-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .gallery-photo-label {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            #gallery-photo-upload-container {
+                gap: 10px;
+            }
+            
+            .photo-upload-row {
+                gap: 4px;
+            }
+            
+            .gallery-photo-label {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .bp-formats {
+                font-size: 0.68rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #gallery-photo-upload-container {
+                gap: 8px;
+            }
+            
+            .gallery-photo-label {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .bp-formats {
+                font-size: 0.65rem;
+            }
         }
 
         .bp-submit-btn {
@@ -3954,13 +4054,36 @@
                                    placeholder="Мой крутой скриншот" />
                         </div>
                         <div class="bp-form-row">
-                            <label data-ru="Фото (PNG / JPG / WEBP)" data-en="Photo (PNG / JPG / WEBP)">Фото (PNG / JPG / WEBP)</label>
-                            <label class="bp-file-label" id="gallery-image-label" for="gallery-image-input">
-                                <i class="fas fa-image"></i>
-                                <span data-ru="Нажми, чтобы выбрать изображение или перетащи файл сюда" data-en="Click to choose image or drag file here">Нажми, чтобы выбрать изображение или перетащи файл сюда</span>
-                                <span class="bp-formats">PNG · JPG · WEBP</span>
-                            </label>
-                            <input type="file" id="gallery-image-input" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
+                            <label data-ru="Фото (PNG / JPG / WEBP) - до 3 штук" data-en="Photos (PNG / JPG / WEBP) - up to 3 photos">Фото (PNG / JPG / WEBP) - до 3 штук</label>
+                            <div id="gallery-photo-upload-container">
+                                <div class="photo-upload-row">
+                                    <label class="bp-file-label gallery-photo-label" for="gallery-image-input-1">
+                                        <i class="fas fa-image"></i>
+                                        <span data-ru="Фото 1: Нажми, чтобы выбрать изображение" data-en="Photo 1: Click to choose image">Фото 1: Нажми, чтобы выбрать изображение</span>
+                                        <span class="bp-formats">PNG · JPG · WEBP</span>
+                                    </label>
+                                    <input type="file" id="gallery-image-input-1" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
+                                    <div class="bp-file-name" id="gallery-image-name-1"></div>
+                                </div>
+                                <div class="photo-upload-row">
+                                    <label class="bp-file-label gallery-photo-label" for="gallery-image-input-2">
+                                        <i class="fas fa-image"></i>
+                                        <span data-ru="Фото 2: Нажми, чтобы выбрать изображение" data-en="Photo 2: Click to choose image">Фото 2: Нажми, чтобы выбрать изображение</span>
+                                        <span class="bp-formats">PNG · JPG · WEBP</span>
+                                    </label>
+                                    <input type="file" id="gallery-image-input-2" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
+                                    <div class="bp-file-name" id="gallery-image-name-2"></div>
+                                </div>
+                                <div class="photo-upload-row">
+                                    <label class="bp-file-label gallery-photo-label" for="gallery-image-input-3">
+                                        <i class="fas fa-image"></i>
+                                        <span data-ru="Фото 3: Нажми, чтобы выбрать изображение" data-en="Photo 3: Click to choose image">Фото 3: Нажми, чтобы выбрать изображение</span>
+                                        <span class="bp-formats">PNG · JPG · WEBP</span>
+                                    </label>
+                                    <input type="file" id="gallery-image-input-3" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
+                                    <div class="bp-file-name" id="gallery-image-name-3"></div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Daily limit shared with buildplates -->
@@ -5081,6 +5204,24 @@
                     }
                 }
             });
+
+            // Добавляем обработчики для полей загрузки фотографий
+            for (let i = 1; i <= 3; i++) {
+                const input = document.getElementById(`gallery-image-input-${i}`);
+                const nameEl = document.getElementById(`gallery-image-name-${i}`);
+                
+                if (input && nameEl) {
+                    input.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            nameEl.textContent = `📎 ${file.name}`;
+                            nameEl.style.color = '#6b8e23';
+                        } else {
+                            nameEl.textContent = '';
+                        }
+                    });
+                }
+            }
         });
     </script>
     
@@ -7273,7 +7414,12 @@
         async function uploadGalleryPhoto() {
             const ru = currentLang === 'ru';
             const title = document.getElementById('gallery-title').value.trim();
-            const imageFile = document.getElementById('gallery-image-input').files[0];
+            const imageFiles = [
+                document.getElementById('gallery-image-input-1').files[0],
+                document.getElementById('gallery-image-input-2').files[0],
+                document.getElementById('gallery-image-input-3').files[0]
+            ].filter(file => file !== undefined); // Фильтруем undefined значения
+            
             const statusEl = document.getElementById('gallery-status');
             const submitBtn = document.getElementById('gallery-submit-btn');
 
@@ -7300,54 +7446,76 @@
                 showStatus('error', typeof profanityError === 'function' ? profanityError(ru) : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Недопустимое слово!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Inappropriate word!'));
                 return;
             }
-            if (!imageFile) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери фото!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose a photo!'); return; }
+            if (imageFiles.length === 0) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери хотя бы одно фото!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose at least one photo!'); return; }
 
-            const ext = imageFile.name.split('.').pop().toLowerCase();
-            if (!['png','jpg','jpeg','webp'].includes(ext)) {
-                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат: PNG, JPG или WEBP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Format: PNG, JPG or WEBP');
-                return;
-            }
+            // Проверяем все файлы на формат и целостность
+            for (const imageFile of imageFiles) {
+                const ext = imageFile.name.split('.').pop().toLowerCase();
+                if (!['png','jpg','jpeg','webp'].includes(ext)) {
+                    showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат: PNG, JPG или WEBP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Format: PNG, JPG or WEBP');
+                    return;
+                }
 
-            // Check magic bytes
-            if (typeof checkImageMagicBytes === 'function') {
-                const check = await checkImageMagicBytes(imageFile);
-                if (!check.valid) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл повреждён или не является изображением!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File corrupted or not a valid image!'); return; }
+                // Check magic bytes
+                if (typeof checkImageMagicBytes === 'function') {
+                    const check = await checkImageMagicBytes(imageFile);
+                    if (!check.valid) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл повреждён или не является изображением!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File corrupted or not a valid image!'); return; }
+                }
             }
 
             submitBtn.disabled = true;
-            showStatus('', ru ? '⏳ Загружаем фото...' : '⏳ Uploading photo...');
+            showStatus('', ru ? `⏳ Загружаем ${imageFiles.length} фото...` : `⏳ Uploading ${imageFiles.length} photo${imageFiles.length !== 1 ? 's' : ''}...`);
 
             try {
                 const ts = Date.now();
                 const safeName = (currentAccount.nick || 'user').replace(/[^a-zA-Z0-9_]/g, '_');
-                const imagePath = `gallery/${safeName}_${ts}.${ext}`;
+                const uploadedImages = [];
 
-                const { error: uploadErr } = await sbClient.storage
-                    .from('buildplates')
-                    .upload(imagePath, imageFile, { contentType: imageFile.type, upsert: false });
-                if (uploadErr) throw uploadErr;
+                // Загружаем каждое фото
+                for (let i = 0; i < imageFiles.length; i++) {
+                    const imageFile = imageFiles[i];
+                    const ext = imageFile.name.split('.').pop().toLowerCase();
+                    const imagePath = `gallery/${safeName}_${ts}_${i + 1}.${ext}`;
 
-                const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
-                const imageUrl = urlData?.publicUrl || '';
+                    const { error: uploadErr } = await sbClient.storage
+                        .from('buildplates')
+                        .upload(imagePath, imageFile, { contentType: imageFile.type, upsert: false });
+                    if (uploadErr) throw uploadErr;
 
-                const { error: insertErr } = await sbClient.from('gallery').insert([{
-                    title,
-                    author: currentAccount.nick,
-                    image_url: imageUrl,
-                    image_path: imagePath,
-                    likes: 0,
-                    dislikes: 0,
-                }]);
-                if (insertErr) throw insertErr;
+                    const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
+                    uploadedImages.push({
+                        url: urlData?.publicUrl || '',
+                        path: imagePath
+                    });
+                }
+
+                // Создаем записи в базе данных для каждого фото
+                for (const image of uploadedImages) {
+                    const { error: insertErr } = await sbClient.from('gallery').insert([{
+                        title,
+                        author: currentAccount.nick,
+                        image_url: image.url,
+                        image_path: image.path,
+                        likes: 0,
+                        dislikes: 0,
+                    }]);
+                    if (insertErr) throw insertErr;
+                }
 
                 incrementDailyPost();
                 updateGalleryDailyLimitUI();
                 updateDailyLimitUI();
-                showStatus('success', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Фото опубликовано!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Photo published!');
+                showStatus('success', ru ? `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${imageFiles.length} фото опубликовано!` : `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${imageFiles.length} photo${imageFiles.length !== 1 ? 's' : ''} published!`);
+                
+                // Очищаем форму
                 document.getElementById('gallery-title').value = '';
-                document.getElementById('gallery-image-input').value = '';
-                document.getElementById('gallery-image-label').innerHTML =
-                    `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
+                for (let i = 1; i <= 3; i++) {
+                    const input = document.getElementById(`gallery-image-input-${i}`);
+                    const nameEl = document.getElementById(`gallery-image-name-${i}`);
+                    if (input) input.value = '';
+                    if (nameEl) nameEl.textContent = '';
+                }
+                
                 if (window.turnstile) window.turnstile.reset('#gallery-upload-turnstile');
                 _galleryCache = null;
                 loadGallery();
