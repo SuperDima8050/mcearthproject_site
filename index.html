@@ -6140,6 +6140,193 @@
             console.error('Supabase init error:', e);
         }
 
+        // Система технического перерыва
+        let maintenanceMode = false;
+        let maintenanceData = null;
+
+        async function checkMaintenanceStatus() {
+            if (!sbClient) return;
+            
+            try {
+                const { data, error } = await sbClient
+                    .from('maintenance')
+                    .select('*')
+                    .eq('active', true)
+                    .single();
+                
+                if (error && error.code !== 'PGRST116') {
+                    console.error('Maintenance check error:', error);
+                    return;
+                }
+                
+                maintenanceData = data;
+                maintenanceMode = !!data;
+                
+                updateMaintenanceUI();
+            } catch (err) {
+                console.error('Maintenance check failed:', err);
+            }
+        }
+
+        function updateMaintenanceUI() {
+            const blockedTabs = ['reports', 'news', 'buildplates', 'gallery'];
+            const isDark = document.body.classList.contains('dark-theme');
+            
+            // Блокируем/разблокируем вкладки
+            blockedTabs.forEach(tabName => {
+                const tab = document.querySelector(`[onclick*="' + tabName + '"]`);
+                if (tab) {
+                    if (maintenanceMode) {
+                        tab.classList.add('maintenance-locked');
+                        tab.onclick = (e) => {
+                            e.preventDefault();
+                            showMaintenanceMessage();
+                        };
+                        
+                        // Добавляем иконку технических работ
+                        const icon = tab.querySelector('.nav-icon');
+                        if (icon && !icon.querySelector('.maintenance-icon')) {
+                            icon.innerHTML += '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" class="maintenance-icon" style="width:12px;height:12px;margin-left:4px;opacity:0.7;">';
+                        }
+                    } else {
+                        tab.classList.remove('maintenance-locked');
+                        // Восстанавливаем оригинальный onclick
+                        tab.onclick = () => showTab(tabName);
+                        
+                        // Убираем иконку технических работ
+                        const maintIcon = tab.querySelector('.maintenance-icon');
+                        if (maintIcon) maintIcon.remove();
+                    }
+                }
+            });
+            
+            // Показываем/скрываем баннер технических работ
+            let banner = document.getElementById('maintenance-banner');
+            if (maintenanceMode) {
+                if (!banner) {
+                    banner = document.createElement('div');
+                    banner.id = 'maintenance-banner';
+                    banner.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        background: linear-gradient(180deg, #ff6b6b, #ee5a52);
+                        color: white;
+                        padding: 12px;
+                        text-align: center;
+                        font-family: 'Minecraft', sans-serif;
+                        font-weight: 700;
+                        font-size: 0.9rem;
+                        z-index: 10000;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                        border-bottom: 3px solid #d63031;
+                    `;
+                    document.body.appendChild(banner);
+                }
+                
+                const ru = currentLang === 'ru';
+                const message = maintenanceData?.message || (ru ? 'Идут технические работы. Некоторые функции временно недоступны.' : 'Maintenance in progress. Some features are temporarily unavailable.');
+                banner.innerHTML = `
+                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" style="width:16px;height:16px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">
+                    ${message}
+                `;
+                
+                // Добавляем отступ для body чтобы контент не перекрывался
+                document.body.style.paddingTop = '60px';
+            } else {
+                if (banner) {
+                    banner.remove();
+                    document.body.style.paddingTop = '0';
+                }
+            }
+        }
+
+        function showMaintenanceMessage() {
+            const ru = currentLang === 'ru';
+            const message = maintenanceData?.message || (ru ? 'Идут технические работы. Эта функция временно недоступна.' : 'Maintenance in progress. This feature is temporarily unavailable.');
+            showInfoBanner(
+                `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${message}`,
+                'warning'
+            );
+        }
+
+        // Функция для администраторов для управления техническим перерывом
+        window.toggleMaintenance = async function(enabled, message = '') {
+            if (!sbClient) return;
+            
+            try {
+                if (enabled) {
+                    // Включаем технический перерыв
+                    const { error } = await sbClient
+                        .from('maintenance')
+                        .upsert({
+                            active: true,
+                            message: message || (currentLang === 'ru' ? 'Идут технические работы' : 'Maintenance in progress'),
+                            created_at: new Date().toISOString()
+                        });
+                    
+                    if (error) throw error;
+                } else {
+                    // Выключаем технический перерыв
+                    const { error } = await sbClient
+                        .from('maintenance')
+                        .update({ active: false })
+                        .eq('active', true);
+                    
+                    if (error) throw error;
+                }
+                
+                await checkMaintenanceStatus();
+                
+                const ru = currentLang === 'ru';
+                showInfoBanner(
+                    `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${enabled ? (ru ? 'Технический перерыв включен' : 'Maintenance enabled') : (ru ? 'Технический перерыв выключен' : 'Maintenance disabled')}`,
+                    'success'
+                );
+            } catch (err) {
+                console.error('Maintenance toggle error:', err);
+                showInfoBanner(
+                    `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка: ${err.message}`,
+                    'error'
+                );
+            }
+        };
+
+        // Добавляем CSS стили для заблокированных вкладок
+        const maintenanceStyles = document.createElement('style');
+        maintenanceStyles.textContent = `
+            .maintenance-locked {
+                opacity: 0.5 !important;
+                cursor: not-allowed !important;
+                position: relative;
+            }
+            
+            .maintenance-locked:hover {
+                background: ${isDark ? '#2a2a2a !important' : '#f5eed9 !important'} !important;
+                transform: none !important;
+            }
+            
+            .maintenance-locked::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 107, 107, 0.1);
+                pointer-events: none;
+            }
+        `;
+        document.head.appendChild(maintenanceStyles);
+
+        // Проверяем статус технического перерыва при загрузке
+        if (sbClient) {
+            checkMaintenanceStatus();
+            // Проверяем каждые 30 секунд
+            setInterval(checkMaintenanceStatus, 30000);
+        }
+
         if (typeof window.loadNews === 'function') window.loadNews();
 
         document.getElementById('bp-image-input').addEventListener('change', function() {
