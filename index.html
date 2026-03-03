@@ -3025,6 +3025,69 @@
             display: block;
         }
 
+        .bp-status.loading {
+            background: rgba(33, 150, 243, 0.15);
+            border: 2px solid #2196f3;
+            color: #1565c0;
+            display: block;
+        }
+
+        /* Прогресс-бар для загрузки файлов */
+        .upload-progress {
+            margin-top: 12px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            height: 24px;
+            position: relative;
+        }
+
+        body.dark-theme .upload-progress {
+            background: #1a1a1a;
+            border-color: #444;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #2196f3 0%, #1976d2 50%, #1565c0 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: 'Minecraft', sans-serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .upload-progress-bar.error {
+            background: linear-gradient(90deg, #f44336 0%, #d32f2f 50%, #c62828 100%);
+            animation: progressError 0.5s ease;
+        }
+
+        .upload-progress-bar.success {
+            background: linear-gradient(90deg, #4caf50 0%, #388e3c 50%, #2e7d32 100%);
+            animation: progressSuccess 0.5s ease;
+        }
+
+        @keyframes progressError {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            50% { transform: translateX(2px); }
+            75% { transform: translateX(-2px); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes progressSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
         .bp-gallery-title {
             font-size: 1.2rem;
             color: #4a5d23;
@@ -5367,40 +5430,74 @@
             const imageFile = document.getElementById('nadmin-image-input')?.files[0] || null;
             const statusEl = document.getElementById('nadmin-status');
 
+            function showNewsStatus(type, message, progress = null) {
+                if (type === 'loading' && progress !== null) {
+                    statusEl.innerHTML = `
+                        <div>${message}</div>
+                        <div class="upload-progress">
+                            <div class="upload-progress-bar" style="width: ${progress}%">
+                                ${progress > 10 ? progress + '%' : ''}
+                            </div>
+                        </div>
+                    `;
+                } else if (type === 'error') {
+                    statusEl.innerHTML = `
+                        <div>${message}</div>
+                        <div class="upload-progress">
+                            <div class="upload-progress-bar error" style="width: 100%">
+                                ✕
+                            </div>
+                        </div>
+                    `;
+                } else if (type === 'success') {
+                    statusEl.innerHTML = `
+                        <div>${message}</div>
+                        <div class="upload-progress">
+                            <div class="upload-progress-bar success" style="width: 100%">
+                                ✓
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    statusEl.innerHTML = message;
+                }
+                
+                statusEl.style.color = type === 'error' ? '#c62828' : (type === 'success' ? '#2e7d32' : '#f57f17');
+            }
+
             if (!title || !content) {
-                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title and content are required!';
-                statusEl.style.color = '#c62828'; return;
+                showNewsStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title and content are required!');
+                return;
             }
             if (containsProfanity(title) || containsProfanity(titleEn) || containsProfanity(content) || containsProfanity(contentEn)) {
-                statusEl.innerHTML = profanityError(ru); statusEl.style.color = '#c62828'; return;
+                showNewsStatus('error', profanityError(ru)); return;
             }
 
             if (imageFile) {
                 const allowed = ['image/png','image/jpeg','image/gif','image/webp'];
                 if (!allowed.includes(imageFile.type)) {
-                    statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается. PNG, JPEG, GIF, WebP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format. Use PNG, JPEG, GIF or WebP';
-                    statusEl.style.color = '#c62828'; return;
+                    showNewsStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается. PNG, JPEG, GIF, WebP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format. Use PNG, JPEG, GIF or WebP');
+                    return;
                 }
             }
 
-            statusEl.innerHTML = ru ? '⏳ Публикуем...' : '⏳ Publishing...';
-            statusEl.style.color = '#f57f17';
+            showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Публикуем...' : '⏳ Publishing...'}`, 25);
 
             let imageUrl = null;
             if (imageFile) {
-                statusEl.innerHTML = ru ? '⏳ Загружаем изображение...' : '⏳ Uploading image...';
+                showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Загружаем изображение...' : '⏳ Uploading image...'}`, 50);
                 const ext = imageFile.name.split('.').pop().toLowerCase();
                 const imagePath = 'news/' + Date.now() + '_' + Math.random().toString(36).slice(2,8) + '.' + ext;
                 const { error: imgError } = await sbClient.storage
                     .from('buildplates')
                     .upload(imagePath, imageFile, { cacheControl: '3600', upsert: false });
                 if (imgError) {
-                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (imgError.message || 'Upload error');
-                    statusEl.style.color = '#c62828'; return;
+                    showNewsStatus('error', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (imgError.message || 'Upload error'));
+                    return;
                 }
                 const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 imageUrl = urlData.publicUrl;
-                statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...';
+                showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Сохраняем...' : '⏳ Saving...'}`, 75);
             }
 
             const { error } = await sbClient.from('news').insert([{
@@ -5413,12 +5510,11 @@
             }]);
 
             if (error) {
-                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (error.message || 'Error');
-                statusEl.style.color = '#c62828'; return;
+                showNewsStatus('error', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (error.message || 'Error'));
+                return;
             }
 
-            statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость опубликована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News published!';
-            statusEl.style.color = '#2e7d32';
+            showNewsStatus('success', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость опубликована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News published!');
             setTimeout(() => { document.getElementById('news-admin-modal')?.remove(); loadNews(); }, 1200);
         }
 
@@ -7585,7 +7681,7 @@
 
             submitBtn.disabled = true;
             showBpStatus('', '');
-            showBpStatus('success', ru ? '⏳ Загружаем изображение...' : '⏳ Uploading image...');
+            showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Загружаем изображение...' : '⏳ Uploading image...'}`, 25);
 
             let imagePath, worldPath;
 
@@ -7599,7 +7695,7 @@
                     .upload(imagePath, imageFile, { cacheControl: '3600', upsert: false });
                 if (imgError) throw new Error(parseSbError(imgError, ru));
 
-                showBpStatus('success', ru ? '⏳ Загружаем world файл...' : '⏳ Uploading world file...');
+                showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Загружаем world файл...' : '⏳ Uploading world file...'}`, 50);
 
                 worldPath = `worlds/${timestamp}_${safeName}_world`;
                 const { error: worldError } = await sbClient.storage
@@ -7607,7 +7703,7 @@
                     .upload(worldPath, worldFile, { cacheControl: '3600', upsert: false });
                 if (worldError) throw new Error(parseSbError(worldError, ru));
 
-                showBpStatus('success', ru ? '⏳ Сохраняем запись...' : '⏳ Saving record...');
+                showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Сохраняем запись...' : '⏳ Saving record...'}`, 75);
 
                 const { data: imgData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 const { data: worldData } = sbClient.storage.from('buildplates').getPublicUrl(worldPath);
@@ -7668,10 +7764,44 @@
             }
         }
 
-        function showBpStatus(type, message) {
+        function showBpStatus(type, message, progress = null) {
             const el = document.getElementById('bp-status');
             el.className = 'bp-status' + (type ? ' ' + type : '');
-            el.innerHTML = message;
+            
+            if (type === 'loading' && progress !== null) {
+                // Показываем прогресс-бар во время загрузки
+                el.innerHTML = `
+                    <div>${message}</div>
+                    <div class="upload-progress">
+                        <div class="upload-progress-bar" style="width: ${progress}%">
+                            ${progress > 10 ? progress + '%' : ''}
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'error') {
+                // Показываем ошибку с красным прогресс-баром
+                el.innerHTML = `
+                    <div>${message}</div>
+                    <div class="upload-progress">
+                        <div class="upload-progress-bar error" style="width: 100%">
+                            ✕
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'success') {
+                // Показываем успех с зеленым прогресс-баром
+                el.innerHTML = `
+                    <div>${message}</div>
+                    <div class="upload-progress">
+                        <div class="upload-progress-bar success" style="width: 100%">
+                            ✓
+                        </div>
+                    </div>
+                `;
+            } else {
+                el.innerHTML = message;
+            }
+            
             el.style.display = (!type || !message) ? 'none' : '';
         }
 
@@ -8623,9 +8753,38 @@
             const statusEl = document.getElementById('gallery-status');
             const submitBtn = document.getElementById('gallery-submit-btn');
 
-            const showStatus = (type, msg) => {
-                statusEl.innerHTML = msg;
-                statusEl.style.color = type === 'error' ? '#c62828' : '#2e7d32';
+            const showStatus = (type, msg, progress = null) => {
+                if (type === 'loading' && progress !== null) {
+                    statusEl.innerHTML = `
+                        <div>${msg}</div>
+                        <div class="upload-progress">
+                            <div class="upload-progress-bar" style="width: ${progress}%">
+                                ${progress > 10 ? progress + '%' : ''}
+                            </div>
+                        </div>
+                    `;
+                } else if (type === 'error') {
+                    statusEl.innerHTML = `
+                        <div>${msg}</div>
+                        <div class="upload-progress">
+                            <div class="upload-progress-bar error" style="width: 100%">
+                                ✕
+                            </div>
+                        </div>
+                    `;
+                } else if (type === 'success') {
+                    statusEl.innerHTML = `
+                        <div>${msg}</div>
+                        <div class="upload-progress">
+                            <div class="upload-progress-bar success" style="width: 100%">
+                                ✓
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    statusEl.innerHTML = msg;
+                }
+                statusEl.style.color = type === 'error' ? '#c62828' : (type === 'success' ? '#2e7d32' : '#f57f17');
             };
 
             if (!sbClient) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase не подключён!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase not connected!'); return; }
@@ -8664,7 +8823,7 @@
             }
 
             submitBtn.disabled = true;
-            showStatus('', ru ? `⏳ Загружаем ${imageFiles.length} фото...` : `⏳ Uploading ${imageFiles.length} photo${imageFiles.length !== 1 ? 's' : ''}...`);
+            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? `⏳ Загружаем ${imageFiles.length} фото...` : `⏳ Uploading ${imageFiles.length} photo${imageFiles.length !== 1 ? 's' : ''}...`}`, 10);
 
             try {
                 const ts = Date.now();
@@ -8673,6 +8832,9 @@
 
                 // Загружаем каждое фото
                 for (let i = 0; i < imageFiles.length; i++) {
+                    const progress = 10 + Math.floor((i / imageFiles.length) * 70); // 10-80%
+                    showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? `⏳ Загружаем фото ${i + 1}/${imageFiles.length}...` : `⏳ Uploading photo ${i + 1}/${imageFiles.length}...`}`, progress);
+                    
                     const imageFile = imageFiles[i];
                     const ext = imageFile.name.split('.').pop().toLowerCase();
                     const imagePath = `gallery/${safeName}_${ts}_${i + 1}.${ext}`;
@@ -8688,6 +8850,8 @@
                         path: imagePath
                     });
                 }
+
+                showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Сохраняем в базу данных...' : '⏳ Saving to database...'}`, 85);
 
                 // Создаем записи в базе данных для каждого фото
                 for (const image of uploadedImages) {
