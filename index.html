@@ -6204,7 +6204,31 @@
             if (e.target.id !== 'nadmin-image-input') return;
             const file = e.target.files[0];
             const labelSpan = document.getElementById('nadmin-image-label');
-            if (file && labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
+            const nameEl = document.getElementById('nadmin-image-name');
+            if (file && labelSpan) {
+                labelSpan.innerHTML = '✓ ' + file.name;
+                if (nameEl) {
+                    nameEl.textContent = `📎 ${file.name}`;
+                    nameEl.style.color = '#6b8e23';
+                }
+            } else if (labelSpan) {
+                const ru = currentLang === 'ru';
+                labelSpan.innerHTML = `<i class="fas fa-image" style="color:#ff9800;font-size:1.3rem;"></i> <span>${ru ? 'Выбери или перетащи сюда...' : 'Choose or drag here...'}</span>`;
+                if (nameEl) {
+                    nameEl.textContent = '';
+                }
+            }
+        });
+        document.addEventListener('change', e => {
+            if (e.target.id !== 'report-img-input') return;
+            const file = e.target.files[0];
+            const labelSpan = document.getElementById('report-img-label');
+            const ru = window.currentLang === 'ru';
+            if (file && labelSpan) {
+                labelSpan.innerHTML = '✓ ' + file.name;
+            } else if (labelSpan) {
+                labelSpan.innerHTML = ru ? 'Выбери или перетащи фото...' : 'Choose or drag photo...';
+            }
         });
 
         document.getElementById('bp-world-input').addEventListener('change', async function() {
@@ -9108,97 +9132,121 @@
         }
         window.editGalleryPhoto = editGalleryPhoto;
 
-        // Wire up file input label for gallery
+        // Wire up file input labels for gallery (all 3 inputs)
         document.addEventListener('DOMContentLoaded', () => {
-            const galleryInput = document.getElementById('gallery-image-input');
-            const galleryLabel = document.getElementById('gallery-image-label');
-            
-            if (galleryInput && galleryLabel) {
-                // Обработчик изменения файла
-                galleryInput.addEventListener('change', function() {
-                    const file = this.files[0];
-                    if (file) {
-                        galleryLabel.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
-                    } else {
-                        const ru = currentLang === 'ru';
-                        galleryLabel.innerHTML = `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
-                    }
-                });
-
-                // Drag and Drop функциональность для галереи
-                const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+            // Обработчики для всех трех gallery input
+            for (let i = 1; i <= 3; i++) {
+                const galleryInput = document.getElementById(`gallery-image-input-${i}`);
+                const galleryLabel = document.getElementById(`gallery-image-label-${i}`);
+                const galleryName = document.getElementById(`gallery-image-name-${i}`);
                 
-                galleryLabel.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    galleryLabel.classList.add('drag-over');
-                });
+                if (galleryInput && galleryLabel) {
+                    // Обработчик изменения файла
+                    galleryInput.addEventListener('change', function() {
+                        const file = this.files[0];
+                        if (file) {
+                            galleryLabel.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
+                            if (galleryName) {
+                                galleryName.textContent = `📎 ${file.name}`;
+                                galleryName.style.color = '#6b8e23';
+                            }
+                        } else {
+                            const ru = currentLang === 'ru';
+                            galleryLabel.innerHTML = `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
+                            if (galleryName) {
+                                galleryName.textContent = '';
+                            }
+                        }
+                    });
 
-                galleryLabel.addEventListener('dragleave', (e) => {
-                    e.preventDefault();
-                    if (!galleryLabel.contains(e.relatedTarget)) {
-                        galleryLabel.classList.remove('drag-over');
-                    }
-                });
-
-                galleryLabel.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    galleryLabel.classList.remove('drag-over');
+                    // Drag and Drop функциональность для галереи
+                    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
                     
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        const file = files[0];
+                    galleryLabel.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        galleryLabel.classList.add('drag-over');
+                    });
+
+                    galleryLabel.addEventListener('dragleave', (e) => {
+                        e.preventDefault();
+                        if (!galleryLabel.contains(e.relatedTarget)) {
+                            galleryLabel.classList.remove('drag-over');
+                        }
+                    });
+
+                    galleryLabel.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        galleryLabel.classList.remove('drag-over');
                         
-                        // Проверка типа файла
-                        if (allowedTypes.includes(file.type)) {
-                            // Проверка размера (максимум 10MB)
-                            const maxSize = 10 * 1024 * 1024; // 10MB
-                            if (file.size <= maxSize) {
-                                // Устанавливаем файл в input
-                                const dataTransfer = new DataTransfer();
-                                dataTransfer.items.add(file);
-                                galleryInput.files = dataTransfer.files;
-                                
-                                // Обновляем label
-                                galleryLabel.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
-                                
-                                // Показываем уведомление
-                                const ru = currentLang === 'ru';
-                                showInfoBanner(
-                                    `<i class="fas fa-check-circle" style="color:#6b8e23;"></i> ${ru ? 'Файл добавлен!' : 'File added!'}`,
-                                    'success'
-                                );
+                        const files = e.dataTransfer.files;
+                        if (files.length > 0) {
+                            const file = files[0];
+                            
+                            // Проверка типа файла
+                            if (allowedTypes.includes(file.type)) {
+                                // Проверка размера (максимум 10MB)
+                                const maxSize = 10 * 1024 * 1024; // 10MB
+                                if (file.size <= maxSize) {
+                                    // Устанавливаем файл в input
+                                    const dataTransfer = new DataTransfer();
+                                    dataTransfer.items.add(file);
+                                    galleryInput.files = dataTransfer.files;
+                                    
+                                    // Обновляем label
+                                    galleryLabel.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
+                                    
+                                    if (galleryName) {
+                                        galleryName.textContent = `📎 ${file.name}`;
+                                        galleryName.style.color = '#6b8e23';
+                                    }
+                                    
+                                    // Показываем уведомление
+                                    const ru = currentLang === 'ru';
+                                    showInfoBanner(
+                                        `<i class="fas fa-check-circle" style="color:#6b8e23;"></i> ${ru ? 'Файл добавлен!' : 'File added!'}`,
+                                        'success'
+                                    );
+                                } else {
+                                    // Файл слишком большой
+                                    const ru = currentLang === 'ru';
+                                    showInfoBanner(
+                                        `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${ru ? 'Файл слишком большой (максимум 10MB)' : 'File too large (max 10MB)'}`,
+                                        'error'
+                                    );
+                                }
                             } else {
-                                // Файл слишком большой
+                                // Неправильный тип файла
                                 const ru = currentLang === 'ru';
                                 showInfoBanner(
-                                    `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${ru ? 'Файл слишком большой (максимум 10MB)' : 'File too large (max 10MB)'}`,
+                                    `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${ru ? 'Неправильный формат файла (только PNG, JPG, WEBP)' : 'Invalid file format (PNG, JPG, WEBP only)'}`,
                                     'error'
                                 );
                             }
-                        } else {
-                            // Неправильный тип файла
-                            const ru = currentLang === 'ru';
-                            showInfoBanner(
-                                `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${ru ? 'Неправильный формат файла (только PNG, JPG, WEBP)' : 'Invalid file format (PNG, JPG, WEBP only)'}`,
-                                'error'
-                            );
                         }
-                    }
-                });
-
-                // Предотвращаем drag-over по умолчанию для всей страницы
-                document.addEventListener('dragover', (e) => {
-                    if (e.target === galleryLabel || galleryLabel.contains(e.target)) {
-                        e.preventDefault();
-                    }
-                });
-
-                document.addEventListener('drop', (e) => {
-                    if (e.target === galleryLabel || galleryLabel.contains(e.target)) {
-                        e.preventDefault();
-                    }
-                });
+                    });
+                }
             }
+
+            // Предотвращаем drag-over по умолчанию для всей страницы
+            document.addEventListener('dragover', (e) => {
+                for (let i = 1; i <= 3; i++) {
+                    const galleryLabel = document.getElementById(`gallery-image-label-${i}`);
+                    if (galleryLabel && (e.target === galleryLabel || galleryLabel.contains(e.target))) {
+                        e.preventDefault();
+                        break;
+                    }
+                }
+            });
+
+            document.addEventListener('drop', (e) => {
+                for (let i = 1; i <= 3; i++) {
+                    const galleryLabel = document.getElementById(`gallery-image-label-${i}`);
+                    if (galleryLabel && (e.target === galleryLabel || galleryLabel.contains(e.target))) {
+                        e.preventDefault();
+                        break;
+                    }
+                }
+            });
         });
 
         // Hook into setLoggedIn/doLogout to update gallery auth state
