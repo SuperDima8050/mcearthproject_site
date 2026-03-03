@@ -4762,7 +4762,7 @@
                         </div>
                         
                         <div id="bp-logged-in-box" class="bp-logged-in" style="display:none;">
-                            
+=WR=GVrdwzsx <!-- f -->
                             <div class="bp-logged-in-top">
                                 <div id="bp-profile-avatar-wrap">
                                     <div class="bp-avatar-placeholder" id="bp-avatar-placeholder"><i class="fas fa-user"></i></div>
@@ -4867,10 +4867,16 @@
                         wrap.appendChild(div);
                     })();
                     </script>
-                    <button class="bp-submit-btn" id="bp-submit-btn" onclick="uploadBuildplate()">
-                        <i class="fas fa-upload"></i>
-                        <span data-ru="Загрузить Buildplate" data-en="Upload Buildplate">Загрузить Buildplate</span>
-                    </button>
+                    <div style="display:flex;gap:10px;">
+                        <button class="bp-submit-btn" id="bp-submit-btn" onclick="uploadBuildplate()">
+                            <i class="fas fa-upload"></i>
+                            <span data-ru="Загрузить Buildplate" data-en="Upload Buildplate">Загрузить Buildplate</span>
+                        </button>
+                        <button class="bp-submit-btn" onclick="clearBuildplateForm()" style="background:linear-gradient(180deg,#c62828,#8b0000);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;">
+                            <i class="fas fa-trash"></i>
+                            <span data-ru="Очистить" data-en="Clear">Очистить</span>
+                        </button>
+                    </div>
                     <div class="bp-status" id="bp-status"></div>
                 </div>
 
@@ -4960,44 +4966,14 @@
                                    placeholder="Мой крутой скриншот" />
                         </div>
                         <div class="bp-form-row">
-                            <label data-ru="Фото (PNG / JPG / WEBP) - до 3 штук" data-en="Photos (PNG / JPG / WEBP) - up to 3 photos">Фото (PNG / JPG / WEBP) - до 3 штук</label>
-                            <div id="gallery-photo-upload-container" class="drag-drop-container">
-                                <div class="drag-drop-overlay" id="gallery-drag-overlay">
-                                    <div class="drag-drop-content">
-                                        <i class="fas fa-cloud-upload-alt" style="font-size:3rem;color:#6b8e23;margin-bottom:15px;"></i>
-                                        <p style="font-family:Minecraft,sans-serif;font-size:1.1rem;color:#5a4a3a;font-weight:700;margin-bottom:10px;" data-ru="Перетащи файлы сюда" data-en="Drag files here">Перетащи файлы сюда</p>
-                                        <p style="font-family:Minecraft,sans-serif;font-size:0.9rem;color:#8b7355;font-weight:600;" data-ru="или нажми для выбора" data-en="or click to select">или нажми для выбора</p>
-                                        <p style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#8b7355;margin-top:10px;">PNG · JPG · WEBP (максимум 3 файла)</p>
-                                    </div>
-                                </div>
-                                <div class="photo-upload-row">
-                                    <label class="bp-file-label gallery-upload gallery-photo-label" for="gallery-image-input-1">
-                                        <i class="fas fa-image"></i>
-                                        <span data-ru="Фото 1: Нажми, чтобы выбрать изображение" data-en="Photo 1: Click to choose image">Фото 1: Нажми, чтобы выбрать изображение</span>
-                                        <span class="bp-formats">PNG · JPG · WEBP</span>
-                                    </label>
-                                    <input type="file" id="gallery-image-input-1" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
-                                    <div class="bp-file-name" id="gallery-image-name-1"></div>
-                                </div>
-                                <div class="photo-upload-row">
-                                    <label class="bp-file-label gallery-upload gallery-photo-label" for="gallery-image-input-2">
-                                        <i class="fas fa-image"></i>
-                                        <span data-ru="Фото 2: Нажми, чтобы выбрать изображение" data-en="Photo 2: Click to choose image">Фото 2: Нажми, чтобы выбрать изображение</span>
-                                        <span class="bp-formats">PNG · JPG · WEBP</span>
-                                    </label>
-                                    <input type="file" id="gallery-image-input-2" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
-                                    <div class="bp-file-name" id="gallery-image-name-2"></div>
-                                </div>
-                                <div class="photo-upload-row">
-                                    <label class="bp-file-label gallery-upload gallery-photo-label" for="gallery-image-input-3">
-                                        <i class="fas fa-image"></i>
-                                        <span data-ru="Фото 3: Нажми, чтобы выбрать изображение" data-en="Photo 3: Click to choose image">Фото 3: Нажми, чтобы выбрать изображение</span>
-                                        <span class="bp-formats">PNG · JPG · WEBP</span>
-                                    </label>
-                                    <input type="file" id="gallery-image-input-3" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
-                                    <div class="bp-file-name" id="gallery-image-name-3"></div>
-                                </div>
-                            </div>
+                            <label data-ru="Фото (PNG / JPG / WEBP)" data-en="Photo (PNG / JPG / WEBP)">Фото (PNG / JPG / WEBP)</label>
+                            <label class="bp-file-label gallery-upload" for="gallery-image-input-1">
+                                <i class="fas fa-image"></i>
+                                <span data-ru="Фото: Нажми, чтобы выбрать изображение" data-en="Photo: Click to choose image">Фото: Нажми, чтобы выбрать изображение</span>
+                                <span class="bp-formats">PNG · JPG · WEBP</span>
+                            </label>
+                            <input type="file" id="gallery-image-input-1" accept=".png,.jpg,.jpeg,.webp" style="display:none;" />
+                            <div class="bp-file-name" id="gallery-image-name-1"></div>
                         </div>
 
                         <!-- Daily limit shared with buildplates -->
@@ -5027,10 +5003,16 @@
                             wrap.appendChild(div);
                         })();
                         </script>
+                        <div style="display:flex;gap:10px;">
                         <button class="bp-submit-btn" id="gallery-submit-btn" onclick="uploadGalleryPhoto()">
                             <i class="fas fa-upload"></i>
                             <span data-ru="Опубликовать фото" data-en="Publish photo">Опубликовать фото</span>
                         </button>
+                        <button class="bp-submit-btn" onclick="clearGalleryForm()" style="background:linear-gradient(180deg,#c62828,#8b0000);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;">
+                            <i class="fas fa-trash"></i>
+                            <span data-ru="Очистить" data-en="Clear">Очистить</span>
+                        </button>
+                    </div>
                     </div>
                 </div>
 
@@ -5414,6 +5396,10 @@
                         <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;" onclick="submitNews()">
                             <i class="fas fa-paper-plane"></i> ${ru ? 'Опубликовать' : 'Publish'}
                         </button>
+                        <button class="bp-submit-btn" onclick="clearNewsForm()" style="margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;">
+                            <i class="fas fa-trash"></i>
+                            ${ru ? 'Очистить' : 'Clear'}
+                        </button>
                         <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-admin-modal').remove()">
                             ${ru ? 'Отмена' : 'Cancel'}
                         </button>
@@ -5550,7 +5536,35 @@
         }
         window.downloadWorld = downloadWorld;
 
-        window.loadNews = loadNews;
+        window.loadGallery = loadGallery;
+
+        function clearBuildplateForm() {
+            document.getElementById('bp-name').value = '';
+            document.getElementById('bp-image-input').value = '';
+            document.getElementById('bp-world-input').value = '';
+            document.getElementById('bp-image-name').textContent = '';
+            document.getElementById('bp-world-name').textContent = '';
+            document.getElementById('bp-status').innerHTML = '';
+            if (window.turnstile) window.turnstile.reset('#bp-upload-turnstile');
+        }
+
+        function clearGalleryForm() {
+            document.getElementById('gallery-title').value = '';
+            document.getElementById('gallery-image-input-1').value = '';
+            document.getElementById('gallery-image-name-1').textContent = '';
+            document.getElementById('gallery-status').innerHTML = '';
+            if (window.turnstile) window.turnstile.reset('#gallery-upload-turnstile');
+        }
+
+        function clearNewsForm() {
+            document.getElementById('nadmin-title').value = '';
+            document.getElementById('nadmin-title-en').value = '';
+            document.getElementById('nadmin-content').value = '';
+            document.getElementById('nadmin-content-en').value = '';
+            document.getElementById('nadmin-image-input').value = '';
+            document.getElementById('nadmin-image-name').textContent = '';
+            document.getElementById('nadmin-status').innerHTML = '';
+        }
         window.addEventListener('languageChanged', () => { if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin); });
 
 
@@ -8746,11 +8760,12 @@
         async function uploadGalleryPhoto() {
             const ru = currentLang === 'ru';
             const title = document.getElementById('gallery-title').value.trim();
-            const imageFiles = [
-                document.getElementById('gallery-image-input-1').files[0],
-                document.getElementById('gallery-image-input-2').files[0],
-                document.getElementById('gallery-image-input-3').files[0]
-            ].filter(file => file !== undefined); // Фильтруем undefined значения
+            const imageFile = document.getElementById('gallery-image-input-1').files[0];
+            
+            if (!imageFile) { 
+                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери фото!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose a photo!'); 
+                return; 
+            }
             
             const statusEl = document.getElementById('gallery-status');
             const submitBtn = document.getElementById('gallery-submit-btn');
@@ -8807,87 +8822,68 @@
                 showStatus('error', typeof profanityError === 'function' ? profanityError(ru) : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Недопустимое слово!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Inappropriate word!'));
                 return;
             }
-            if (imageFiles.length === 0) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери хотя бы одно фото!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose at least one photo!'); return; }
 
-            // Проверяем все файлы на формат и целостность
-            for (const imageFile of imageFiles) {
-                const ext = imageFile.name.split('.').pop().toLowerCase();
-                if (!['png','jpg','jpeg','webp'].includes(ext)) {
-                    showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат: PNG, JPG или WEBP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Format: PNG, JPG or WEBP');
-                    return;
-                }
+            // Проверяем формат и целостность файла
+            const ext = imageFile.name.split('.').pop().toLowerCase();
+            if (!['png','jpg','jpeg','webp'].includes(ext)) {
+                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат: PNG, JPG или WEBP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Format: PNG, JPG or WEBP');
+                return;
+            }
 
-                // Check magic bytes
-                if (typeof checkImageMagicBytes === 'function') {
-                    const check = await checkImageMagicBytes(imageFile);
-                    if (!check.valid) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл повреждён или не является изображением!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File corrupted or not a valid image!'); return; }
-                }
+            // Check magic bytes
+            if (typeof checkImageMagicBytes === 'function') {
+                const check = await checkImageMagicBytes(imageFile);
+                if (!check.valid) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл повреждён или не является изображением!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File corrupted or not a valid image!'); return; }
             }
 
             submitBtn.disabled = true;
-            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? `⏳ Загружаем ${imageFiles.length} фото...` : `⏳ Uploading ${imageFiles.length} photo${imageFiles.length !== 1 ? 's' : ''}...`}`, 10);
+            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Загружаем фото...' : '⏳ Uploading photo...'}`, 10);
 
             try {
                 const ts = Date.now();
                 const safeName = (currentAccount.nick || 'user').replace(/[^a-zA-Z0-9_]/g, '_');
                 const uploadedImages = [];
 
-                // Загружаем каждое фото
-                for (let i = 0; i < imageFiles.length; i++) {
-                    const progress = 10 + Math.floor((i / imageFiles.length) * 70); // 10-80%
-                    showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? `⏳ Загружаем фото ${i + 1}/${imageFiles.length}...` : `⏳ Uploading photo ${i + 1}/${imageFiles.length}...`}`, progress);
-                    
-                    const imageFile = imageFiles[i];
-                    const ext = imageFile.name.split('.').pop().toLowerCase();
-                    const imagePath = `gallery/${safeName}_${ts}_${i + 1}.${ext}`;
+                // Загружаем фото
+const ext = imageFile.name.split('.').pop().toLowerCase();
+const imagePath = `gallery/${safeName}_${ts}.${ext}`;
 
-                    const { error: uploadErr } = await sbClient.storage
-                        .from('buildplates')
-                        .upload(imagePath, imageFile, { contentType: imageFile.type, upsert: false });
-                    if (uploadErr) throw uploadErr;
+showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Загружаем фото...' : '⏳ Uploading photo...'}`, 50);
 
-                    const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
-                    uploadedImages.push({
-                        url: urlData?.publicUrl || '',
-                        path: imagePath
-                    });
-                }
+const { error: uploadErr } = await sbClient.storage
+    .from('buildplates')
+    .upload(imagePath, imageFile, { contentType: imageFile.type, upsert: false });
+if (uploadErr) throw uploadErr;
+
+const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
+uploadedImages.push({
+    url: urlData?.publicUrl || '',
+    path: imagePath
+});
 
                 showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '⏳ Сохраняем в базу данных...' : '⏳ Saving to database...'}`, 85);
 
-                // Создаем записи в базе данных для каждого фото
-                for (const image of uploadedImages) {
-                    const { error: insertErr } = await sbClient.from('gallery').insert([{
-                        title,
-                        author: currentAccount.nick,
-                        image_url: image.url,
-                        image_path: image.path,
-                        likes: 0,
-                        dislikes: 0,
-                    }]);
-                    if (insertErr) throw insertErr;
-                }
+                // Создаем запись в базе данных для фото
+const { error: insertErr } = await sbClient.from('gallery').insert([{
+    title,
+    author: currentAccount.nick,
+    image_url: uploadedImages[0].url,
+    image_path: uploadedImages[0].path,
+    likes: 0,
+    dislikes: 0,
+}]);
+if (insertErr) throw insertErr;
 
-                incrementDailyPost();
-                updateGalleryDailyLimitUI();
-                updateDailyLimitUI();
-                showStatus('success', ru ? `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${imageFiles.length} фото опубликовано!` : `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${imageFiles.length} photo${imageFiles.length !== 1 ? 's' : ''} published!`);
+incrementDailyPost();
+updateGalleryDailyLimitUI();
+updateDailyLimitUI();
+showStatus('success', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Фото опубликовано!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Photo published!');
                 
                 // Очищаем форму
-                document.getElementById('gallery-title').value = '';
-                for (let i = 1; i <= 3; i++) {
-                    const input = document.getElementById(`gallery-image-input-${i}`);
-                    const nameEl = document.getElementById(`gallery-image-name-${i}`);
-                    if (input) input.value = '';
-                    if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
-                    // Сбрасываем текст лейбла обратно к плейсхолдеру
-                    const labelEl = document.querySelector(`label[for="gallery-image-input-${i}"]`);
-                    if (labelEl) {
-                        const ru2 = currentLang === 'ru';
-                        labelEl.innerHTML = `<i class="fas fa-image" style="font-size:1.3rem;"></i><span>${ru2 ? `Фото ${i}` : `Photo ${i}`}</span>`;
-                    }
-                }
-                
+document.getElementById('gallery-title').value = '';
+document.getElementById('gallery-image-input-1').value = '';
+const nameEl = document.getElementById('gallery-image-name-1');
+if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 if (window.turnstile) window.turnstile.reset('#gallery-upload-turnstile');
                 _galleryCache = null;
                 loadGallery();
