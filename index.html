@@ -6331,9 +6331,22 @@
 
         document.getElementById('bp-image-input').addEventListener('change', function() {
             const file = this.files[0];
-            if (file) {
-                document.getElementById('bp-image-label').textContent = '✓ ' + file.name;
-                document.getElementById('bp-image-name').textContent = '';
+            const labelSpan = document.getElementById('bp-image-label');
+            const nameEl = document.getElementById('bp-image-name');
+            if (file && labelSpan) {
+                // Заменяем текст на месте, не добавляя в nameEl
+                labelSpan.textContent = '✓ ' + file.name;
+                if (nameEl) {
+                    nameEl.style.display = 'none';
+                }
+            } else if (labelSpan) {
+                // Возвращаем оригинальный текст
+                const ru = currentLang === 'ru';
+                labelSpan.innerHTML = `<i class="fas fa-image"></i> <span>${ru ? 'Выбери или перетащи изображение...' : 'Choose or drag image...'}</span>`;
+                if (nameEl) {
+                    nameEl.style.display = '';
+                    nameEl.textContent = '';
+                }
             }
         });
 
@@ -6356,8 +6369,9 @@
                     return;
                 }
                 const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-                labelSpan.innerHTML = '✓ ' + file.name;
-                nameEl.style.color = ''; nameEl.innerHTML = '';
+                // Заменяем текст на месте, не добавляя в nameEl
+                if (labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
+                if (nameEl) { nameEl.style.color = ''; nameEl.style.display = 'none'; }
             });
         })();
 
@@ -6384,24 +6398,31 @@
             }
             const input = document.getElementById('nadmin-image-input');
             if (input) { const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files; }
+            // Заменяем текст на месте, не добавляя в nameEl
             if (labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
             if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = ''; }
         });
+        
+        // Сохраняем оригинальный текст для nadmin
+        const nadminLabel = document.getElementById('nadmin-image-label');
+        const nadminOriginalText = nadminLabel ? nadminLabel.innerHTML : '';
+        
         document.addEventListener('change', e => {
             if (e.target.id !== 'nadmin-image-input') return;
             const file = e.target.files[0];
             const labelSpan = document.getElementById('nadmin-image-label');
             const nameEl = document.getElementById('nadmin-image-name');
             if (file && labelSpan) {
+                // Заменяем текст на месте
                 labelSpan.innerHTML = '✓ ' + file.name;
                 if (nameEl) {
-                    nameEl.textContent = `📎 ${file.name}`;
-                    nameEl.style.color = '#6b8e23';
+                    nameEl.style.display = 'none';
                 }
             } else if (labelSpan) {
-                const ru = currentLang === 'ru';
-                labelSpan.innerHTML = `<i class="fas fa-image" style="color:#ff9800;font-size:1.3rem;"></i> <span>${ru ? 'Выбери или перетащи сюда...' : 'Choose or drag here...'}</span>`;
+                // Возвращаем оригинальный текст
+                labelSpan.innerHTML = nadminOriginalText;
                 if (nameEl) {
+                    nameEl.style.display = '';
                     nameEl.textContent = '';
                 }
             }
@@ -9328,19 +9349,25 @@
                 const galleryName = document.getElementById(`gallery-image-name-${i}`);
                 
                 if (galleryInput && galleryLabel) {
+                    // Сохраняем оригинальный текст
+                    const ru = currentLang === 'ru';
+                    const originalText = galleryLabel.innerHTML;
+                    
                     // Обработчик изменения файла
                     galleryInput.addEventListener('change', function() {
                         const file = this.files[0];
                         if (file) {
+                            // Заменяем текст на имя файла в том же элементе
                             galleryLabel.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
+                            // Скрываем дополнительный элемент имени файла
                             if (galleryName) {
-                                galleryName.textContent = `📎 ${file.name}`;
-                                galleryName.style.color = '#6b8e23';
+                                galleryName.style.display = 'none';
                             }
                         } else {
-                            const ru = currentLang === 'ru';
-                            galleryLabel.innerHTML = `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
+                            // Возвращаем оригинальный текст
+                            galleryLabel.innerHTML = originalText;
                             if (galleryName) {
+                                galleryName.style.display = '';
                                 galleryName.textContent = '';
                             }
                         }
@@ -9379,12 +9406,12 @@
                                     dataTransfer.items.add(file);
                                     galleryInput.files = dataTransfer.files;
                                     
-                                    // Обновляем label
+                                    // Заменяем текст на имя файла в том же элементе
                                     galleryLabel.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
                                     
+                                    // Скрываем дополнительный элемент имени файла
                                     if (galleryName) {
-                                        galleryName.textContent = `📎 ${file.name}`;
-                                        galleryName.style.color = '#6b8e23';
+                                        galleryName.style.display = 'none';
                                     }
                                     
                                     // Показываем уведомление
