@@ -6336,7 +6336,7 @@
                 bpImageInput.addEventListener('change', function() {
                     const file = this.files[0];
                     if (file) {
-                        document.getElementById('bp-image-label').textContent = '✓ ' + file.name;
+                        document.getElementById('bp-image-label').innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ✓ ${file.name}`;
                         document.getElementById('bp-image-name').textContent = '';
                     }
                 });
@@ -6348,7 +6348,7 @@
                 nadminImageInput.addEventListener('change', function() {
                     const file = this.files[0];
                     if (file) {
-                        document.getElementById('nadmin-image-label').textContent = '✓ ' + file.name;
+                        document.getElementById('nadmin-image-label').innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ✓ ${file.name}`;
                         document.getElementById('nadmin-image-name').textContent = `📎 ${file.name}`;
                         document.getElementById('nadmin-image-name').style.color = '#6b8e23';
                     }
@@ -6361,7 +6361,7 @@
                 reportImgInput.addEventListener('change', function() {
                     const file = this.files[0];
                     if (file) {
-                        document.getElementById('report-img-label').textContent = '✓ ' + file.name;
+                        document.getElementById('report-img-label').innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ✓ ${file.name}`;
                     }
                 });
             }
@@ -6373,7 +6373,7 @@
                     galleryInput.addEventListener('change', function() {
                         const file = this.files[0];
                         if (file) {
-                            document.getElementById(`gallery-image-label-${i}`).textContent = '✓ ' + file.name;
+                            document.getElementById(`gallery-image-label-${i}`).innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ✓ ${file.name}`;
                             document.getElementById(`gallery-image-name-${i}`).textContent = `📎 ${file.name}`;
                             document.getElementById(`gallery-image-name-${i}`).style.color = '#6b8e23';
                         }
@@ -9283,7 +9283,7 @@
         }
         window.editGalleryPhoto = editGalleryPhoto;
 
-        // Оригинальные gallery обработчики (простые и рабочие)
+        // Оригинальные gallery обработчики с иконками из Supabase
         document.addEventListener('DOMContentLoaded', () => {
             for (let i = 1; i <= 3; i++) {
                 const galleryInput = document.getElementById(`gallery-image-input-${i}`);
@@ -9291,7 +9291,7 @@
                     galleryInput.addEventListener('change', function() {
                         const file = this.files[0];
                         if (file) {
-                            document.getElementById(`gallery-image-label-${i}`).textContent = '✓ ' + file.name;
+                            document.getElementById(`gallery-image-label-${i}`).innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ✓ ${file.name}`;
                             document.getElementById(`gallery-image-name-${i}`).textContent = `📎 ${file.name}`;
                             document.getElementById(`gallery-image-name-${i}`).style.color = '#6b8e23';
                         }
