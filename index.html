@@ -1619,14 +1619,14 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 8px 14px;
+            gap: 4px;
+            padding: 6px 10px;
             background: linear-gradient(180deg, #c62828 0%, #8b0000 100%);
             color: #fff;
             border: 2px solid #7f0000;
             border-radius: 2px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 700;
             font-family: 'Minecraft', sans-serif;
             box-shadow: 0 4px 0 #5a0000;
@@ -2188,24 +2188,26 @@
         /* === ИДЕАЛЬНЫЕ УНИФИЦИРОВАННЫЕ СТИЛИ ДЛЯ ЗАГРУЗКИ ФАЙЛОВ === */
         .bp-file-label {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding: 20px 16px;
-            border: 3px solid #8b7355;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #f8f6f0 0%, #f0e6d2 100%);
-            color: #3e2723;
-            font-family: 'Minecraft', sans-serif;
+            gap: 6px;
+            padding: 16px;
+            border: 3px dashed #8b7355;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #fffbf0 0%, #f5eed9 100%);
+            color: #5a4a3a;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 6px 16px rgba(139, 115, 85, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
             position: relative;
             overflow: hidden;
             text-align: center;
-            min-height: 80px;
+            min-height: 70px;
         }
 
         .bp-file-label::before {
@@ -2965,24 +2967,24 @@
 
         .bp-submit-btn {
             width: 100%;
-            padding: 14px;
+            padding: 10px;
             background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%);
             color: white;
             border: 2px solid #4a5d23;
             border-radius: 2px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.85rem;
             transition: all 0.15s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            box-shadow: 0 5px 0 #3d4f1c;
+            gap: 8px;
+            box-shadow: 0 4px 0 #3d4f1c;
             text-transform: uppercase;
             font-family: 'Minecraft', sans-serif;
-            letter-spacing: 1px;
-            margin-top: 20px;
+            letter-spacing: 0.8px;
+            margin-top: 16px;
         }
 
         .bp-submit-btn:hover:not(:disabled) {
