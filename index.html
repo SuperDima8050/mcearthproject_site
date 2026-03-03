@@ -1565,50 +1565,6 @@
             background: #2a2a2a;
         }
 
-        /* === MAINTENANCE MODE: disabled tabs === */
-        .nav-tab.nav-tab-disabled {
-            opacity: 0.45;
-            filter: grayscale(100%);
-            cursor: not-allowed !important;
-            pointer-events: none;
-        }
-        .nav-tab.nav-tab-disabled:hover {
-            transform: none !important;
-            box-shadow: 0 4px 0 #3e2f1f !important;
-            background: #f5eed9 !important;
-        }
-        body.dark-theme .nav-tab.nav-tab-disabled:hover {
-            background: #2a2a2a !important;
-        }
-        /* Maintenance banner on home page */
-        #maintenance-banner {
-            display: none;
-            background: linear-gradient(135deg, #2d1b00 0%, #4a2c00 100%);
-            border: 3px solid #ff8c00;
-            border-radius: 4px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(255,140,0,0.3);
-            animation: maintenancePulse 2s ease-in-out infinite;
-        }
-        #maintenance-banner.active { display: block; }
-        @keyframes maintenancePulse {
-            0%, 100% { box-shadow: 0 4px 12px rgba(255,140,0,0.3); }
-            50% { box-shadow: 0 4px 24px rgba(255,140,0,0.6); }
-        }
-        #maintenance-banner .maintenance-title {
-            font-family: 'MinecraftSeven', 'Minecraft', sans-serif;
-            font-size: 1.1rem;
-            color: #ffcc00;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-        }
-        #maintenance-banner .maintenance-desc {
-            font-family: 'Minecraft', 'NotoSans', sans-serif;
-            font-size: 0.85rem;
-            color: #ffa040;
-        }
         body.dark-theme .nav-tab.active {
             color: white;
             background: linear-gradient(180deg, #7cb342 0%, #558b2f 100%);
@@ -2185,6 +2141,7 @@
         }
         .ref-xp-tier-connector.filled { background: #50c000; box-shadow: 0 0 4px rgba(80,192,0,0.5); }
 
+        /* Улучшенные унифицированные стили для загрузки файлов */
         .bp-file-label {
             display: flex;
             align-items: center;
@@ -2271,6 +2228,80 @@
             50% { 
                 box-shadow: 0 12px 30px rgba(107, 142, 35, 0.5);
                 border-color: #7cb342;
+            }
+        }
+
+        /* Специальные стили для разных типов загрузчиков */
+        .bp-file-label.news-upload {
+            background: linear-gradient(180deg, #fff3e0 0%, #ffe0b2 100%);
+            border-color: #ff9800;
+        }
+
+        .bp-file-label.news-upload:hover {
+            background: linear-gradient(180deg, #ffe0b2 0%, #ffcc80 100%);
+            border-color: #f57c00;
+        }
+
+        .bp-file-label.news-upload i {
+            color: #ff9800;
+        }
+
+        .bp-file-label.buildplate-upload {
+            background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+            border-color: #2196f3;
+        }
+
+        .bp-file-label.buildplate-upload:hover {
+            background: linear-gradient(180deg, #bbdefb 0%, #90caf9 100%);
+            border-color: #1976d2;
+        }
+
+        .bp-file-label.buildplate-upload i {
+            color: #2196f3;
+        }
+
+        .bp-file-label.gallery-upload {
+            background: linear-gradient(180deg, #f3e5f5 0%, #e1bee7 100%);
+            border-color: #9c27b0;
+        }
+
+        .bp-file-label.gallery-upload:hover {
+            background: linear-gradient(180deg, #e1bee7 0%, #ce93d8 100%);
+            border-color: #7b1fa2;
+        }
+
+        .bp-file-label.gallery-upload i {
+            color: #9c27b0;
+        }
+
+        body.dark-theme .bp-file-label {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
+            border-color: #555;
+            color: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        body.dark-theme .bp-file-label:hover {
+            background: linear-gradient(180deg, #333333 0%, #2a2a2a 100%);
+            border-color: #6b8e23;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+
+        body.dark-theme .bp-file-label.drag-over {
+            background: linear-gradient(180deg, #2a3a1a 0%, #1f2f0f 100%);
+            border-color: #7cb342;
+            box-shadow: 0 8px 20px rgba(124, 179, 66, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+            animation: dragPulseDark 1.5s ease-in-out infinite;
+        }
+
+        @keyframes dragPulseDark {
+            0%, 100% { 
+                box-shadow: 0 8px 20px rgba(124, 179, 66, 0.4);
+                border-color: #7cb342;
+            }
+            50% { 
+                box-shadow: 0 12px 30px rgba(124, 179, 66, 0.6);
+                border-color: #8bc34a;
             }
         }
 
@@ -4011,16 +4042,6 @@
 
         
         <div id="home-tab" class="tab-content active">
-        <!-- Maintenance Mode Banner -->
-        <div id="maintenance-banner">
-            <div class="maintenance-title">
-                🔧 <span data-ru="Технические работы" data-en="Maintenance in progress">Технические работы</span>
-            </div>
-            <div class="maintenance-desc">
-                <span data-ru="Некоторые разделы сайта временно недоступны. Мы уже работаем над этим!" data-en="Some sections are temporarily unavailable. We are working on it!">Некоторые разделы сайта временно недоступны. Мы уже работаем над этим!</span>
-            </div>
-        </div>
-
         <div class="discord-banner">
             <a href="https://discord.gg/tWb8RFEMC" target="_blank" class="discord-btn">
                 <i class="fab fa-discord"></i>
@@ -4498,8 +4519,8 @@
 
                     <div class="bp-form-row">
                         <label data-ru="Скриншот" data-en="Screenshot">Скриншот</label>
-                        <label class="bp-file-label" id="bp-image-label-wrap" for="bp-image-input">
-                            <i class="fas fa-image"></i>
+                        <label class="bp-file-label buildplate-upload" id="bp-image-label-wrap" for="bp-image-input">
+                            <i class="fas fa-image" style="color:#2196f3;"></i>
                             <span id="bp-image-label" data-ru="Выбери или перетащи сюда..." data-en="Choose or drag here...">Выбери или перетащи сюда...</span>
                             <span class="bp-formats">PNG · JPEG · GIF · WebP</span>
                             <input type="file" id="bp-image-input" accept=".png,.jpg,.jpeg,.gif,.webp" />
@@ -4509,8 +4530,8 @@
 
                     <div class="bp-form-row">
                         <label data-ru="Файл Buildplate (world)" data-en="Buildplate File (world)">Файл Buildplate (world)</label>
-                        <label class="bp-file-label" id="bp-world-label-wrap" for="bp-world-input">
-                            <i class="fas fa-cube"></i>
+                        <label class="bp-file-label buildplate-upload" id="bp-world-label-wrap" for="bp-world-input">
+                            <i class="fas fa-cube" style="color:#2196f3;"></i>
                             <span id="bp-world-label" data-ru="Выбери или перетащи world файл..." data-en="Choose or drag world file...">Выбери или перетащи world файл...</span>
                             <input type="file" id="bp-world-input" />
                         </label>
@@ -4598,7 +4619,7 @@
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:18px;height:18px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
                         </button>
                         <button class="copy-btn" id="reports-filter-resolved" onclick="window.filterReports('resolved')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Решённые" data-en="Resolved">Решённые</span>
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Решённые" data-en="Resolved">Решённые</span>
                         </button>
                     </div>
                 </div>
@@ -4649,8 +4670,8 @@
                                     </div>
                                 </div>
                                 <div class="photo-upload-row">
-                                    <label class="bp-file-label gallery-photo-label" for="gallery-image-input-1">
-                                        <i class="fas fa-image"></i>
+                                    <label class="bp-file-label gallery-photo-label gallery-upload" for="gallery-image-input-1">
+                                        <i class="fas fa-image" style="color:#9c27b0;"></i>
                                         <span data-ru="Фото 1: Нажми, чтобы выбрать изображение" data-en="Photo 1: Click to choose image">Фото 1: Нажми, чтобы выбрать изображение</span>
                                         <span class="bp-formats">PNG · JPG · WEBP</span>
                                     </label>
@@ -4658,8 +4679,8 @@
                                     <div class="bp-file-name" id="gallery-image-name-1"></div>
                                 </div>
                                 <div class="photo-upload-row">
-                                    <label class="bp-file-label gallery-photo-label" for="gallery-image-input-2">
-                                        <i class="fas fa-image"></i>
+                                    <label class="bp-file-label gallery-photo-label gallery-upload" for="gallery-image-input-2">
+                                        <i class="fas fa-image" style="color:#9c27b0;"></i>
                                         <span data-ru="Фото 2: Нажми, чтобы выбрать изображение" data-en="Photo 2: Click to choose image">Фото 2: Нажми, чтобы выбрать изображение</span>
                                         <span class="bp-formats">PNG · JPG · WEBP</span>
                                     </label>
@@ -4667,8 +4688,8 @@
                                     <div class="bp-file-name" id="gallery-image-name-2"></div>
                                 </div>
                                 <div class="photo-upload-row">
-                                    <label class="bp-file-label gallery-photo-label" for="gallery-image-input-3">
-                                        <i class="fas fa-image"></i>
+                                    <label class="bp-file-label gallery-photo-label gallery-upload" for="gallery-image-input-3">
+                                        <i class="fas fa-image" style="color:#9c27b0;"></i>
                                         <span data-ru="Фото 3: Нажми, чтобы выбрать изображение" data-en="Photo 3: Click to choose image">Фото 3: Нажми, чтобы выбрать изображение</span>
                                         <span class="bp-formats">PNG · JPG · WEBP</span>
                                     </label>
@@ -4847,7 +4868,7 @@
                     const repBtn = newsItem.querySelector('[data-report="true"]');
                     if (repBtn) repBtn.addEventListener('click', () => {
                         newsItem.querySelector('.dots-dropdown')?.classList.remove('open');
-                        if (!currentAccount) { showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please log in to report!', 'error'); return; }
+                        if (!currentAccount) { showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please log in to report!', 'error'); return; }
                         showReportModal('news', news.id, news.title || 'Без названия', news.author, news.image_url || null);
                     });
                 }
@@ -4894,17 +4915,17 @@
             const ru = currentLang === 'ru';
             const isAdmin = await checkNewsAdmin();
             if (!isAdmin) {
-                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> У тебя нет прав удалять новости!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> You have no permission to delete news!', 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> У тебя нет прав удалять новости!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> You have no permission to delete news!', 'error');
                 return;
             }
             const { error } = await sbClient.from('news').delete().eq('id', newsId);
             if (error) {
-                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка при удалении: ' + error.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Delete error: ' + error.message, 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка при удалении: ' + error.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Delete error: ' + error.message, 'error');
                 return;
             }
             const { data: check } = await sbClient.from('news').select('id').eq('id', newsId).limit(1);
             if (check && check.length > 0) {
-                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Не удалось удалить — добавь в Supabase SQL Editor:\nGRANT DELETE ON news TO anon;' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Delete failed — run in Supabase SQL Editor:\nGRANT DELETE ON news TO anon;', 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Не удалось удалить — добавь в Supabase SQL Editor:\nGRANT DELETE ON news TO anon;' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Delete failed — run in Supabase SQL Editor:\nGRANT DELETE ON news TO anon;', 'error');
                 return;
             }
             if (_newsCache) _newsCache = _newsCache.filter(n => String(n.id) !== String(newsId));
@@ -4912,7 +4933,7 @@
             newsItemEl.style.opacity = '0';
             newsItemEl.style.transform = 'scale(0.95)';
             setTimeout(() => newsItemEl.remove(), 300);
-            showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость удалена!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News deleted!', 'success');
+            showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость удалена!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News deleted!', 'success');
         }
 
         window.deleteNews = deleteNews;
@@ -4926,43 +4947,114 @@
             overlay.className = 'bp-modal-overlay';
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
-                <div class="bp-modal" style="max-width:520px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}</h3>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
-                        <input id="nedit-title" style="${inputStyle}" maxlength="200" value="${(news.title||'').replace(/"/g,'&quot;')}" />
+                <div class="bp-modal draggable-modal" style="max-width:520px;" id="news-edit-modal-content">
+                    <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
+                        <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}</h3>
+                        <i class="fas fa-grip-lines" style="opacity:0.7; font-size:0.9rem;"></i>
                     </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (EN)' : 'Title (EN)'}</label>
-                        <input id="nedit-title-en" style="${inputStyle}" maxlength="200" value="${(news.title_en||'').replace(/"/g,'&quot;')}" />
-                    </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Текст (RU)' : 'Content (RU)'}</label>
-                        <textarea id="nedit-content" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content||'').replace(/</g,'&lt;')}</textarea>
-                    </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Текст (EN)' : 'Content (EN)'}</label>
-                        <textarea id="nedit-content-en" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content_en||'').replace(/</g,'&lt;')}</textarea>
-                    </div>
-                    <div id="nedit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
-                    <div style="display:flex;gap:10px;">
-                        <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
-                        </button>
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-edit-modal').remove()">
-                            ${ru ? 'Отмена' : 'Cancel'}
-                        </button>
+                    <div style="padding:16px;">
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
+                            <input id="nedit-title" style="${inputStyle}" maxlength="200" value="${(news.title||'').replace(/"/g,'&quot;')}" />
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (EN)' : 'Title (EN)'}</label>
+                            <input id="nedit-title-en" style="${inputStyle}" maxlength="200" value="${(news.title_en||'').replace(/"/g,'&quot;')}" />
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Текст (RU)' : 'Content (RU)'}</label>
+                            <textarea id="nedit-content" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content||'').replace(/</g,'&lt;')}</textarea>
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Текст (EN)' : 'Content (EN)'}</label>
+                            <textarea id="nedit-content-en" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content_en||'').replace(/</g,'&lt;')}</textarea>
+                        </div>
+                        <div id="nedit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                        <div style="display:flex;gap:10px;">
+                            <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
+                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                            </button>
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-edit-modal').remove()">
+                                ${ru ? 'Отмена' : 'Cancel'}
+                            </button>
+                        </div>
                     </div>
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            
+            // Добавляем функциональность перетаскивания
+            const modal = document.getElementById('news-edit-modal-content');
+            const header = modal.querySelector('.modal-header');
+            
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+
+            function dragStart(e) {
+                if (e.type === "touchstart") {
+                    initialX = e.touches[0].clientX - xOffset;
+                    initialY = e.touches[0].clientY - yOffset;
+                } else {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                }
+
+                if (e.target === header || header.contains(e.target)) {
+                    isDragging = true;
+                    modal.style.cursor = 'grabbing';
+                    header.style.cursor = 'grabbing';
+                }
+            }
+
+            function dragEnd(e) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+                modal.style.cursor = 'auto';
+                header.style.cursor = 'move';
+            }
+
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    
+                    if (e.type === "touchmove") {
+                        currentX = e.touches[0].clientX - initialX;
+                        currentY = e.touches[0].clientY - initialY;
+                    } else {
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                    }
+
+                    xOffset = currentX;
+                    yOffset = currentY;
+
+                    modal.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                }
+            }
+
+            // Добавляем обработчики событий
+            header.addEventListener('mousedown', dragStart);
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('mousemove', drag);
+            
+            // Для мобильных устройств
+            header.addEventListener('touchstart', dragStart, { passive: false });
+            document.addEventListener('touchend', dragEnd);
+            document.addEventListener('touchmove', drag, { passive: false });
+            
             document.getElementById('nedit-save-btn').addEventListener('click', async () => {
                 const statusEl = document.getElementById('nedit-status');
                 const title = document.getElementById('nedit-title').value.trim();
                 const titleEn = document.getElementById('nedit-title-en').value.trim();
                 const content = document.getElementById('nedit-content').value.trim();
                 const contentEn = document.getElementById('nedit-content-en').value.trim();
-                if (!title || !content) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title and content required!'; statusEl.style.color='#c62828'; return; }
+                if (!title || !content) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title and content required!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(title) || containsProfanity(titleEn) || containsProfanity(content) || containsProfanity(contentEn)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...'; statusEl.style.color='#f57f17';
                 try {
@@ -4975,9 +5067,9 @@
                     if (titleEl) titleEl.textContent = ru ? title : (titleEn||title);
                     const contentEl = newsItemEl.querySelector('.news-content');
                     if (contentEl) contentEl.innerHTML = makeLinksClickable(ru ? content : (contentEn||content));
-                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость обновлена!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News updated!', 'success');
+                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость обновлена!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News updated!', 'success');
                 } catch(err) {
-                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
+                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
                     statusEl.style.color='#c62828';
                 }
             });
@@ -5046,7 +5138,7 @@
         async function showNewsAdminPanel() {
             const isAdmin = await checkNewsAdmin();
             if (!isAdmin) {
-                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> У тебя нет прав публиковать новости!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> You have no permission to post news!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> У тебя нет прав публиковать новости!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> You have no permission to post news!', 'error');
                 return;
             }
             const ru = currentLang === 'ru';
@@ -5055,50 +5147,120 @@
             overlay.className = 'bp-modal-overlay'; overlay.id = 'news-admin-modal';
             const inputStyle = 'width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:#f5eed9;color:#3e2723;font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;';
             overlay.innerHTML = `
-                <div class="bp-modal" style="max-width:520px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}</h3>
-                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:rgba(107,142,35,0.1);border-radius:3px;border:2px solid #8b7355;">
-                        <i class="fas fa-user" style="color:#6b8e23;"></i>
-                        <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:#3e2723;">${currentAccount.nick}${currentAccount.verified ? ' <span class=\"verified-badge\" title=\"Верифицирован\"><i class=\"fas fa-check\"></i></span>' : ''}</span>
+                <div class="bp-modal draggable-modal" style="max-width:520px;" id="news-admin-modal-content">
+                    <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
+                        <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Добавить новость' : 'Add News'}</h3>
+                        <i class="fas fa-grip-lines" style="opacity:0.7; font-size:0.9rem;"></i>
                     </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label>${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
-                        <input id="nadmin-title" style="${inputStyle}" maxlength="200" />
-                    </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label>${ru ? 'Заголовок (EN)' : 'Title (EN)'}</label>
-                        <input id="nadmin-title-en" style="${inputStyle}" maxlength="200" />
-                    </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label>${ru ? 'Текст (RU)' : 'Content (RU)'}</label>
-                        <textarea id="nadmin-content" style="${inputStyle}height:100px;resize:vertical;" maxlength="5000"></textarea>
-                    </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label>${ru ? 'Текст (EN)' : 'Content (EN)'}</label>
-                        <textarea id="nadmin-content-en" style="${inputStyle}height:100px;resize:vertical;" maxlength="5000"></textarea>
-                    </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label>${ru ? '🖼️ Изображение (необязательно)' : '🖼️ Image (optional)'}</label>
-                        <label class="bp-file-label" id="nadmin-image-wrap" for="nadmin-image-input" style="cursor:pointer;">
-                            <i class="fas fa-image" style="color:#6b8e23;font-size:1.3rem;"></i>
-                            <span id="nadmin-image-label">${ru ? 'Выбери или перетащи сюда...' : 'Choose or drag here...'}</span>
-                            <span class="bp-formats">PNG · JPEG · GIF · WebP</span>
-                            <input type="file" id="nadmin-image-input" accept=".png,.jpg,.jpeg,.gif,.webp" />
-                        </label>
-                        <div class="bp-file-name" id="nadmin-image-name"></div>
-                    </div>
-                    <div id="nadmin-status" style="font-size:0.85rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:20px;"></div>
-                    <div style="display:flex;gap:10px;">
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;" onclick="submitNews()">
-                            <i class="fas fa-paper-plane"></i> ${ru ? 'Опубликовать' : 'Publish'}
-                        </button>
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-admin-modal').remove()">
-                            ${ru ? 'Отмена' : 'Cancel'}
-                        </button>
+                    <div style="padding:16px;">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:rgba(107,142,35,0.1);border-radius:3px;border:2px solid #8b7355;">
+                            <i class="fas fa-user" style="color:#6b8e23;"></i>
+                            <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:#3e2723;">${currentAccount.nick}${currentAccount.verified ? ' <span class=\"verified-badge\" title=\"Верифицирован\"><i class=\"fas fa-check\"></i></span>' : ''}</span>
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label>${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
+                            <input id="nadmin-title" style="${inputStyle}" maxlength="200" />
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label>${ru ? 'Заголовок (EN)' : 'Title (EN)'}</label>
+                            <input id="nadmin-title-en" style="${inputStyle}" maxlength="200" />
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label>${ru ? 'Текст (RU)' : 'Content (RU)'}</label>
+                            <textarea id="nadmin-content" style="${inputStyle}height:100px;resize:vertical;" maxlength="5000"></textarea>
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label>${ru ? 'Текст (EN)' : 'Content (EN)'}</label>
+                            <textarea id="nadmin-content-en" style="${inputStyle}height:100px;resize:vertical;" maxlength="5000"></textarea>
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:10px;">
+                            <label>${ru ? '🖼️ Изображение (необязательно)' : '🖼️ Image (optional)'}</label>
+                            <label class="bp-file-label news-upload" id="nadmin-image-wrap" for="nadmin-image-input" style="cursor:pointer;">
+                                <i class="fas fa-image" style="color:#ff9800;font-size:1.3rem;"></i>
+                                <span id="nadmin-image-label">${ru ? 'Выбери или перетащи сюда...' : 'Choose or drag here...'}</span>
+                                <span class="bp-formats">PNG · JPEG · GIF · WebP</span>
+                                <input type="file" id="nadmin-image-input" accept=".png,.jpg,.jpeg,.gif,.webp" />
+                            </label>
+                            <div class="bp-file-name" id="nadmin-image-name"></div>
+                        </div>
+                        <div id="nadmin-status" style="font-size:0.85rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:20px;"></div>
+                        <div style="display:flex;gap:10px;">
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;" onclick="submitNews()">
+                                <i class="fas fa-paper-plane"></i> ${ru ? 'Опубликовать' : 'Publish'}
+                            </button>
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-admin-modal').remove()">
+                                ${ru ? 'Отмена' : 'Cancel'}
+                            </button>
+                        </div>
                     </div>
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            
+            // Добавляем функциональность перетаскивания
+            const modal = document.getElementById('news-admin-modal-content');
+            const header = modal.querySelector('.modal-header');
+            
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+
+            function dragStart(e) {
+                if (e.type === "touchstart") {
+                    initialX = e.touches[0].clientX - xOffset;
+                    initialY = e.touches[0].clientY - yOffset;
+                } else {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                }
+
+                if (e.target === header || header.contains(e.target)) {
+                    isDragging = true;
+                    modal.style.cursor = 'grabbing';
+                    header.style.cursor = 'grabbing';
+                }
+            }
+
+            function dragEnd(e) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+                modal.style.cursor = 'auto';
+                header.style.cursor = 'move';
+            }
+
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    
+                    if (e.type === "touchmove") {
+                        currentX = e.touches[0].clientX - initialX;
+                        currentY = e.touches[0].clientY - initialY;
+                    } else {
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                    }
+
+                    xOffset = currentX;
+                    yOffset = currentY;
+
+                    modal.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                }
+            }
+
+            // Добавляем обработчики событий
+            header.addEventListener('mousedown', dragStart);
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('mousemove', drag);
+            
+            // Для мобильных устройств
+            header.addEventListener('touchstart', dragStart, { passive: false });
+            document.addEventListener('touchend', dragEnd);
+            document.addEventListener('touchmove', drag, { passive: false });
         }
 
         async function submitNews() {
@@ -5111,7 +5273,7 @@
             const statusEl = document.getElementById('nadmin-status');
 
             if (!title || !content) {
-                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title and content are required!';
+                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title and content are required!';
                 statusEl.style.color = '#c62828'; return;
             }
             if (containsProfanity(title) || containsProfanity(titleEn) || containsProfanity(content) || containsProfanity(contentEn)) {
@@ -5121,7 +5283,7 @@
             if (imageFile) {
                 const allowed = ['image/png','image/jpeg','image/gif','image/webp'];
                 if (!allowed.includes(imageFile.type)) {
-                    statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается. PNG, JPEG, GIF, WebP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format. Use PNG, JPEG, GIF or WebP';
+                    statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается. PNG, JPEG, GIF, WebP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format. Use PNG, JPEG, GIF or WebP';
                     statusEl.style.color = '#c62828'; return;
                 }
             }
@@ -5138,7 +5300,7 @@
                     .from('buildplates')
                     .upload(imagePath, imageFile, { cacheControl: '3600', upsert: false });
                 if (imgError) {
-                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (imgError.message || 'Upload error');
+                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (imgError.message || 'Upload error');
                     statusEl.style.color = '#c62828'; return;
                 }
                 const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
@@ -5156,11 +5318,11 @@
             }]);
 
             if (error) {
-                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (error.message || 'Error');
+                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (error.message || 'Error');
                 statusEl.style.color = '#c62828'; return;
             }
 
-            statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость опубликована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News published!';
+            statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новость опубликована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> News published!';
             statusEl.style.color = '#2e7d32';
             setTimeout(() => { document.getElementById('news-admin-modal')?.remove(); loadNews(); }, 1200);
         }
@@ -5187,7 +5349,7 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(a.href);
             } catch(e) {
-                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка скачивания: ' + e.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Download error: ' + e.message, 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка скачивания: ' + e.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Download error: ' + e.message, 'error');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = origHTML;
@@ -5251,7 +5413,7 @@
                             const labels = {
                                 spam: ru ? '📢 Спам' : '📢 Spam',
                                 inappropriate: ru ? '🔞 Неприемлемый контент' : '🔞 Inappropriate content',
-                                misinformation: ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ложная информация' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Misinformation',
+                                misinformation: ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ложная информация' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Misinformation',
                                 copyright: ru ? '©️ Нарушение авторских прав' : '©️ Copyright violation',
                                 other: ru ? '✏️ Другое' : '✏️ Other'
                             };
@@ -5322,7 +5484,7 @@
         async function submitReport(postType, postId, postTitleEnc, postAuthorEnc, imageUrlEnc) {
             const ru = currentLang === 'ru';
             const reasonEl = document.querySelector('input[name="report-reason"]:checked');
-            if (!reasonEl) { showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери причину жалобы!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please select a reason!', 'error'); return; }
+            if (!reasonEl) { showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери причину жалобы!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please select a reason!', 'error'); return; }
             const details = document.getElementById('report-details')?.value?.trim() || '';
             const postTitle = decodeURIComponent(postTitleEnc);
             const postAuthor = decodeURIComponent(postAuthorEnc);
@@ -5338,7 +5500,7 @@
                 details: details || null,
                 status: 'pending'
             }]);
-            if (error) { showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + error.message, 'error'); return; }
+            if (error) { showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + error.message, 'error'); return; }
             document.getElementById('report-modal')?.remove();
             showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Жалоба отправлена! Спасибо.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Report sent! Thank you.', 'success');
         }
@@ -5402,8 +5564,8 @@
                 const ICO = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon';
                 const iStyle = 'width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;';
                 const iTimer    = `<img src="${ICO}/timer_icon.png" style="${iStyle}">`;
-                const iEmerald  = `<img src="${ICO}/emerald_block.png" style="${iStyle}">`;
-                const iRedstone = `<img src="${ICO}/block_of_redstone.png" style="${iStyle}">`;
+                const iEmerald  = `<img src="${ICO}/xp_single_icon.png" style="${iStyle}">`;
+                const iRedstone = `<img src="${ICO}/redstone_torch.png" style="${iStyle}">`;
                 const iPost     = `<img src="${ICO}/journal_icon.png" style="${iStyle}">`;
                 const iAuthor   = `<img src="${ICO}/mob_of_me_icon.png" style="${iStyle}">`;
                 const iReporter = `<img src="${ICO}/settings_icon.png" style="${iStyle}">`;
@@ -5413,13 +5575,13 @@
                 const actionBtns = rep.status === 'pending' ? `
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
                         <button onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','approve',false)" style="font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;padding:7px 12px;background:linear-gradient(180deg,#2e7d32,#1b5e20);color:#fff;border:2px solid #1b5e20;border-radius:2px;cursor:pointer;box-shadow:0 3px 0 #0a3d0a;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Одобрить (удалить пост)' : 'Approve (delete post)'}
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Одобрить (удалить пост)' : 'Approve (delete post)'}
                         </button>
                         <button onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','approve',true)" style="font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;padding:7px 12px;background:linear-gradient(180deg,#b71c1c,#7f0000);color:#fff;border:2px solid #7f0000;border-radius:2px;cursor:pointer;box-shadow:0 3px 0 #4a0000;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/block_of_redstone.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Удалить + забанить' : 'Delete + ban'}
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Удалить + забанить' : 'Delete + ban'}
                         </button>
                         <button onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','reject',false)" style="font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;padding:7px 12px;background:linear-gradient(180deg,#888,#555);color:#fff;border:2px solid #333;border-radius:2px;cursor:pointer;box-shadow:0 3px 0 #222;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/block_of_redstone.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Отклонить' : 'Reject'}
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Отклонить' : 'Reject'}
                         </button>
                     </div>` : `<div style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${statusColors[rep.status]};font-weight:700;margin-top:8px;">${statusLabels[rep.status]}</div>`;
                 const textColor = isDarkMode ? '#d0e8d0' : '#3e2723';
@@ -5487,7 +5649,7 @@
 
             const bannerMsg = action === 'approve'
                 ? (banUser ? (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пост удалён, пользователь заблокирован!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Post deleted, user banned!') : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пост удалён!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Post deleted!'))
-                : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Жалоба отклонена.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Report rejected.');
+                : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Жалоба отклонена.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Report rejected.');
             showInfoBanner(bannerMsg, 'success');
 
             const affectedCards = document.querySelectorAll('[id^="report-card-"]');
@@ -5500,7 +5662,7 @@
                 const isApprove = action === 'approve';
                 const overlayColor = isApprove ? (banUser ? '#7f0000' : '#2e7d32') : '#555';
                 const overlayBorder = isApprove ? (banUser ? '#4a0000' : '#1b5e20') : '#333';
-                const overlayIcon = isApprove ? (banUser ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">') : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">';
+                const overlayIcon = isApprove ? (banUser ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">') : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;">';
                 const overlayText = isApprove
                     ? (banUser ? (ru ? 'Удалено + бан' : 'Deleted + banned') : (ru ? 'Жалоба одобрена' : 'Report approved'))
                     : (ru ? 'Жалоба отклонена' : 'Report rejected');
@@ -5837,7 +5999,7 @@
                     e.preventDefault();
                     e.stopPropagation();
                     // Проверяем, покинул ли курсор область контейнера
-                    if (!e.relatedTarget || !galleryContainer.contains(e.relatedTarget)) {
+                    if (!galleryContainer.contains(e.relatedTarget)) {
                         dragOverlay.classList.remove('active', 'drag-over');
                     }
                 });
@@ -5857,7 +6019,7 @@
                     if (validFiles.length === 0) {
                         const ru = currentLang === 'ru';
                         showInfoBanner(
-                            ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Поддерживаются только PNG, JPG и WEBP файлы!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Only PNG, JPG and WEBP files are supported!',
+                            ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Поддерживаются только PNG, JPG и WEBP файлы!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Only PNG, JPG and WEBP files are supported!',
                             'error'
                         );
                         return;
@@ -5866,7 +6028,7 @@
                     if (validFiles.length > 3) {
                         const ru = currentLang === 'ru';
                         showInfoBanner(
-                            ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Можно загрузить максимум 3 файла!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Maximum 3 files can be uploaded!',
+                            ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Можно загрузить максимум 3 файла!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Maximum 3 files can be uploaded!',
                             'error'
                         );
                         return;
@@ -5980,99 +6142,6 @@
 
         if (typeof window.loadNews === 'function') window.loadNews();
 
-        // === MAINTENANCE MODE ===
-        // Reads `maintenance_mode` from Supabase table `site_settings` (key/value).
-        // SQL to create: CREATE TABLE site_settings (key TEXT PRIMARY KEY, value TEXT);
-        //                INSERT INTO site_settings VALUES ('maintenance_mode', 'false');
-        // To enable: UPDATE site_settings SET value='true' WHERE key='maintenance_mode';
-        // To disable: UPDATE site_settings SET value='false' WHERE key='maintenance_mode';
-        const MAINTENANCE_TABS = ['news', 'buildplates', 'gallery'];
-
-        function applyMaintenanceMode(isActive) {
-            const banner = document.getElementById('maintenance-banner');
-            if (banner) {
-                banner.classList.toggle('active', isActive);
-            }
-
-            MAINTENANCE_TABS.forEach(tabName => {
-                // Find nav buttons for this tab
-                document.querySelectorAll('.nav-tab').forEach(btn => {
-                    const oc = btn.getAttribute('onclick') || '';
-                    if (oc.includes("'" + tabName + "'")) {
-                        if (isActive) {
-                            btn.classList.add('nav-tab-disabled');
-                            btn.setAttribute('data-maintenance', 'true');
-                            btn._origOnclick = btn.getAttribute('onclick');
-                            btn.setAttribute('onclick', 'return false;');
-                        } else {
-                            btn.classList.remove('nav-tab-disabled');
-                            if (btn._origOnclick) {
-                                btn.setAttribute('onclick', btn._origOnclick);
-                                delete btn._origOnclick;
-                            }
-                            btn.removeAttribute('data-maintenance');
-                        }
-                    }
-                });
-            });
-
-            // If maintenance is active and we're on a disabled tab, go to home
-            if (isActive) {
-                const currentActiveTab = document.querySelector('.tab-content.active');
-                if (currentActiveTab) {
-                    const tabId = currentActiveTab.id.replace('-tab', '');
-                    if (MAINTENANCE_TABS.includes(tabId)) {
-                        if (typeof switchTab === 'function') switchTab('home');
-                    }
-                }
-            }
-        }
-
-        async function checkMaintenanceMode() {
-            if (!sbClient) return;
-            try {
-                const { data, error } = await sbClient
-                    .from('site_settings')
-                    .select('value')
-                    .eq('key', 'maintenance_mode')
-                    .single();
-                if (error) {
-                    // Table may not exist yet — silently skip
-                    console.warn('[Maintenance] Could not read site_settings:', error.message);
-                    return;
-                }
-                const isActive = data && data.value === 'true';
-                applyMaintenanceMode(isActive);
-
-                // Subscribe to realtime changes for instant toggle
-                sbClient
-                    .channel('site_settings_maintenance')
-                    .on('postgres_changes', {
-                        event: 'UPDATE',
-                        schema: 'public',
-                        table: 'site_settings',
-                        filter: 'key=eq.maintenance_mode'
-                    }, (payload) => {
-                        const newValue = payload.new && payload.new.value === 'true';
-                        applyMaintenanceMode(newValue);
-                    })
-                    .subscribe();
-            } catch(e) {
-                console.warn('[Maintenance] checkMaintenanceMode error:', e);
-            }
-        }
-
-        // Run after sbClient is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(checkMaintenanceMode, 500);
-        });
-        // Also run immediately if DOM already loaded
-        if (document.readyState !== 'loading') {
-            setTimeout(checkMaintenanceMode, 500);
-        }
-        // === END MAINTENANCE MODE ===
-
-
         document.getElementById('bp-image-input').addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
@@ -6096,7 +6165,7 @@
                 if (!file) return;
                 if (!allowed.includes(file.type)) {
                     nameEl.style.color = '#c62828';
-                    nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format';
+                    nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format';
                     return;
                 }
                 const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
@@ -6123,7 +6192,7 @@
             const nameEl = document.getElementById('nadmin-image-name');
             const labelSpan = document.getElementById('nadmin-image-label');
             if (!allowed.includes(file.type)) {
-                if (nameEl) { nameEl.style.color = '#c62828'; nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format'; }
+                if (nameEl) { nameEl.style.color = '#c62828'; nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format'; }
                 return;
             }
             const input = document.getElementById('nadmin-image-input');
@@ -6146,15 +6215,15 @@
             if (file.name.toLowerCase() !== 'world') {
                 nameEl.style.color = '#c62828';
                 nameEl.innerHTML = currentLang === 'ru'
-                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!'
-                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!';
+                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!'
+                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!';
                 this.value = '';
                 return;
             }
 
             if (file.size === 0) {
                 nameEl.style.color = '#c62828';
-                nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File is empty!';
+                nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File is empty!';
                 this.value = '';
                 return;
             }
@@ -6183,7 +6252,7 @@
             const input = document.getElementById('report-img-input');
             const ru = window.currentLang === 'ru';
             if (!allowed.includes(file.type)) {
-                if (labelSpan) labelSpan.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format';
+                if (labelSpan) labelSpan.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат не поддерживается' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Unsupported format';
                 return;
             }
             const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
@@ -6210,13 +6279,13 @@
             if (file.name.toLowerCase() !== 'world') {
                 nameEl.style.color = '#c62828';
                 nameEl.innerHTML = currentLang === 'ru'
-                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!'
-                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!';
+                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!'
+                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!';
                 return;
             }
             if (file.size === 0) {
                 nameEl.style.color = '#c62828';
-                nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File is empty!';
+                nameEl.innerHTML = currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File is empty!';
                 return;
             }
             const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
@@ -6562,14 +6631,14 @@
             const nick = document.getElementById('bp-auth-nick').value.trim();
             const pass = document.getElementById('bp-auth-pass').value;
 
-            if (!nick) { showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи никнейм!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter nickname!'); return; }
+            if (!nick) { showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи никнейм!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter nickname!'); return; }
             if (containsProfanity(nick)) { showAuthStatus('err', profanityError(ru)); return; }
-            if (!pass || pass.length < 4) { showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароль минимум 4 символа!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Password min 4 chars!'); return; }
-            if (!sbClient) { showAuthStatus('err', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase не подключён'); return; }
+            if (!pass || pass.length < 4) { showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароль минимум 4 символа!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Password min 4 chars!'); return; }
+            if (!sbClient) { showAuthStatus('err', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase не подключён'); return; }
 
             const captchaVal = document.querySelector('[name="cf-turnstile-response"]')?.value;
             if (!captchaVal) {
-                showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди проверку капчи!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please complete the captcha!');
+                showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди проверку капчи!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please complete the captcha!');
                 return;
             }
 
@@ -6577,11 +6646,11 @@
                 const email = document.getElementById('bp-auth-email').value.trim();
                 const pass2 = document.getElementById('bp-auth-pass2').value;
                 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи корректный Email!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a valid email!');
+                    showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи корректный Email!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a valid email!');
                     return;
                 }
                 if (pass !== pass2) {
-                    showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match!');
+                    showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match!');
                     return;
                 }
             }
@@ -6599,14 +6668,14 @@
 
                 if (authMode === 'register') {
                     if (data && data.length > 0) {
-                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Этот ник уже занят!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Nickname already taken!');
+                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Этот ник уже занят!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Nickname already taken!');
                         return;
                     }
                     const email = document.getElementById('bp-auth-email').value.trim();
 
                     const { data: emailCheck } = await sbClient.from('accounts').select('nick').ilike('email', email).limit(1);
                     if (emailCheck && emailCheck.length > 0) {
-                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Этот email уже используется!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Email already in use!');
+                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Этот email уже используется!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Email already in use!');
                         return;
                     }
 
@@ -6653,12 +6722,12 @@
                     document.body.appendChild(pendingBox);
                 } else {
                     if (!data || data.length === 0) {
-                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Аккаунт не найден!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Account not found!');
+                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Аккаунт не найден!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Account not found!');
                         return;
                     }
                     const acc = data[0];
                     if (acc.password_hash !== passHash) {
-                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверный пароль!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Wrong password!');
+                        showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверный пароль!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Wrong password!');
                         return;
                     }
                     if (acc.banned) {
@@ -6669,17 +6738,17 @@
                     }
                     if (!acc.email_verified) {
                         showAuthStatus('err', ru
-                            ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Сначала подтверди email! Проверь почту.'
-                            : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please verify your email first! Check your inbox.');
+                            ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Сначала подтверди email! Проверь почту.'
+                            : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please verify your email first! Check your inbox.');
                         return;
                     }
-                    showAuthStatus('ok', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Вход выполнен!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Logged in!');
+                    showAuthStatus('ok', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Вход выполнен!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Logged in!');
                     await recordReferral(acc.nick);
                     setLoggedIn(acc.nick, acc.verified, acc.avatar_url, acc.email, acc.email_verified, acc.created_at);
                 }
                 if (window.turnstile) window.turnstile.reset('#auth-turnstile');
             } catch(e) {
-                showAuthStatus('err', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || JSON.stringify(e)));
+                showAuthStatus('err', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || JSON.stringify(e)));
             }
         }
 
@@ -6839,7 +6908,7 @@
                             if (currentAccount) currentAccount.email_verified = true;
                         }
                     } else {
-                        showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка подтверждения недействительна или уже использована.', 'error');
+                        showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка подтверждения недействительна или уже использована.', 'error');
                     }
                 } catch(e) { console.error(e); }
                 window.history.replaceState({}, '', window.location.pathname);
@@ -6858,10 +6927,10 @@
                         if (data[0].reset_token_expires && data[0].reset_token_expires > now) {
                             showResetPasswordModal(resetToken, data[0].nick);
                         } else {
-                            showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка сброса пароля устарела. Запроси новую.', 'error');
+                            showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка сброса пароля устарела. Запроси новую.', 'error');
                         }
                     } else {
-                        showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверная ссылка сброса пароля.', 'error');
+                        showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверная ссылка сброса пароля.', 'error');
                     }
                 } catch(e) { console.error(e); }
             }
@@ -6887,7 +6956,7 @@
                     verify_link: `${SITE_URL}?verify=${token}`, site_url: SITE_URL
                 });
                 showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Письмо отправлено! Проверь почту.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Verification email sent!', 'success');
-            } catch(err) { showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message, 'error'); }
+            } catch(err) { showInfoBanner('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message, 'error'); }
         }
 
         function showForgotModal() {
@@ -6927,7 +6996,7 @@
             const email = document.getElementById('forgot-email-input').value.trim();
             const statusEl = document.getElementById('forgot-status');
             if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи корректный Email' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a valid email';
+                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи корректный Email' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a valid email';
                 statusEl.style.color = '#c62828'; return;
             }
             statusEl.innerHTML = ru ? '⏳ Ищем аккаунт...' : '⏳ Looking up account...';
@@ -6948,7 +7017,7 @@
                     : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> If account exists — email sent!';
                 statusEl.style.color = '#2e7d32';
             } catch(e) {
-                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e);
+                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e);
                 statusEl.style.color = '#c62828';
             }
         }
@@ -6990,8 +7059,8 @@
             const pass = document.getElementById('reset-pass-input').value;
             const pass2 = document.getElementById('reset-pass2-input').value;
             const statusEl = document.getElementById('reset-status');
-            if (!pass || pass.length < 4) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Минимум 4 символа' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Min 4 chars'; statusEl.style.color='#c62828'; return; }
-            if (pass !== pass2) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match'; statusEl.style.color='#c62828'; return; }
+            if (!pass || pass.length < 4) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Минимум 4 символа' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Min 4 chars'; statusEl.style.color='#c62828'; return; }
+            if (pass !== pass2) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match'; statusEl.style.color='#c62828'; return; }
             statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...';
             statusEl.style.color = '#f57f17';
             try {
@@ -7003,7 +7072,7 @@
                 document.getElementById('bp-reset-modal').remove();
                 showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароль изменён! Войди с новым паролем.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Password changed! Login with your new password.', 'success');
             } catch(e) {
-                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e); statusEl.style.color = '#c62828';
+                statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e); statusEl.style.color = '#c62828';
             }
         }
 
@@ -7051,23 +7120,23 @@
             const newPass2 = document.getElementById('chpass-new2').value;
             const statusEl = document.getElementById('chpass-status');
 
-            if (!oldPass) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи текущий пароль':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter current password'; statusEl.style.color='#c62828'; return; }
-            if (!newPass || newPass.length < 4) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новый пароль минимум 4 символа':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> New password min 4 chars'; statusEl.style.color='#c62828'; return; }
-            if (newPass !== newPass2) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match'; statusEl.style.color='#c62828'; return; }
+            if (!oldPass) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи текущий пароль':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter current password'; statusEl.style.color='#c62828'; return; }
+            if (!newPass || newPass.length < 4) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Новый пароль минимум 4 символа':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> New password min 4 chars'; statusEl.style.color='#c62828'; return; }
+            if (newPass !== newPass2) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароли не совпадают':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Passwords do not match'; statusEl.style.color='#c62828'; return; }
 
             statusEl.innerHTML = ru?'⏳ Проверяем...':'⏳ Checking...'; statusEl.style.color='#f57f17';
             try {
                 const oldHash = await hashPassword(oldPass);
                 const { data } = await sbClient.from('accounts').select('password_hash').ilike('nick', currentAccount.nick).limit(1);
                 if (!data || data.length === 0 || data[0].password_hash !== oldHash) {
-                    statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверный текущий пароль':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Incorrect current password'; statusEl.style.color='#c62828'; return;
+                    statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Неверный текущий пароль':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Incorrect current password'; statusEl.style.color='#c62828'; return;
                 }
                 const newHash = await hashPassword(newPass);
                 const { error } = await sbClient.from('accounts').update({ password_hash: newHash }).ilike('nick', currentAccount.nick);
                 if (error) throw error;
                 document.getElementById('bp-chpass-modal').remove();
                 showInfoBanner(ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пароль успешно изменён!':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Password changed successfully!', 'success');
-            } catch(e) { statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message||e); statusEl.style.color='#c62828'; }
+            } catch(e) { statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message||e); statusEl.style.color='#c62828'; }
         }
 
 
@@ -7076,7 +7145,7 @@
             if (!currentAccount || !sbClient) return;
             const file = input.files[0];
             if (!file) return;
-            if (file.size > 2 * 1024 * 1024) { alert(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл слишком большой (макс 2MB)' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File too large (max 2MB)'); return; }
+            if (file.size > 2 * 1024 * 1024) { alert(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл слишком большой (макс 2MB)' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File too large (max 2MB)'); return; }
             try {
                 const ext = file.name.split('.').pop().toLowerCase();
                 const path = `avatars/${currentAccount.nick.replace(/[^a-zA-Z0-9_]/g,'_')}_${Date.now()}.${ext}`;
@@ -7089,7 +7158,7 @@
                 currentAccount.avatar_url = avatarUrl;
                 setLoggedIn(currentAccount.nick, currentAccount.verified, avatarUrl, currentAccount.email, currentAccount.email_verified);
                 showInfoBanner(ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Иконка обновлена!':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Avatar updated!', 'success');
-            } catch(e) { alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e)); }
+            } catch(e) { alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e)); }
         }
 
         function showRenameModal() {
@@ -7125,20 +7194,20 @@
             const ru = currentLang === 'ru';
             const newNick = document.getElementById('rename-input').value.trim();
             const statusEl = document.getElementById('rename-status');
-            if (!newNick || newNick.length < 2) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Минимум 2 символа':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Min 2 characters'; statusEl.style.color='#c62828'; return; }
+            if (!newNick || newNick.length < 2) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Минимум 2 символа':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Min 2 characters'; statusEl.style.color='#c62828'; return; }
             if (containsProfanity(newNick)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
             if (newNick.toLowerCase() === currentAccount.nick.toLowerCase()) { document.getElementById('bp-rename-modal').remove(); return; }
             statusEl.innerHTML = ru?'⏳ Проверяем...':'⏳ Checking...'; statusEl.style.color='#f57f17';
             try {
                 const { data: ex } = await sbClient.from('accounts').select('nick').ilike('nick', newNick).limit(1);
-                if (ex && ex.length > 0) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ник занят!':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Nickname taken!'; statusEl.style.color='#c62828'; return; }
+                if (ex && ex.length > 0) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ник занят!':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Nickname taken!'; statusEl.style.color='#c62828'; return; }
                 const { error } = await sbClient.from('accounts').update({ nick: newNick }).ilike('nick', currentAccount.nick);
                 if (error) throw error;
                 currentAccount.nick = newNick;
                 setLoggedIn(newNick, currentAccount.verified, currentAccount.avatar_url, currentAccount.email, currentAccount.email_verified);
                 document.getElementById('bp-rename-modal').remove();
                 showInfoBanner(ru?`<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Имя изменено на ${newNick}`:`<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Username changed to ${newNick}`, 'success');
-            } catch(e) { statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> '+(e.message||e); statusEl.style.color='#c62828'; }
+            } catch(e) { statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> '+(e.message||e); statusEl.style.color='#c62828'; }
         }
 
         async function deleteAccount() {
@@ -7150,7 +7219,7 @@
                 if (error) throw error;
                 doLogout();
                 showInfoBanner(ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Аккаунт удалён.':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Account deleted.', 'success');
-            } catch(e) { alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> '+(e.message||e)); }
+            } catch(e) { alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> '+(e.message||e)); }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -7185,56 +7254,56 @@
 
             if (!sbClient) {
                 showBpStatus('error', ru
-                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Вставь свой Publishable key (sb_publishable_...) в код вместо YOUR_ANON_KEY!'
-                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Insert your Publishable key (sb_publishable_...) into the code instead of YOUR_ANON_KEY!');
+                    ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Вставь свой Publishable key (sb_publishable_...) в код вместо YOUR_ANON_KEY!'
+                    : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Insert your Publishable key (sb_publishable_...) into the code instead of YOUR_ANON_KEY!');
                 return;
             }
 
-            if (!currentAccount) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт перед загрузкой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login before uploading!'); return; }
+            if (!currentAccount) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт перед загрузкой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login before uploading!'); return; }
 
             const bpCaptchaToken = document.querySelector('#bp-upload-turnstile [name="cf-turnstile-response"]')?.value
                 || document.querySelector('#bp-upload-captcha-wrap [name="cf-turnstile-response"]')?.value;
             if (!bpCaptchaToken) {
-                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди капчу!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Complete the captcha!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди капчу!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Complete the captcha!');
                 return;
             }
 
             if (getDailyPostsLeft() <= 0) {
-                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Достигнут дневной лимит (3 поста в день). Попробуй завтра!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Daily limit reached (3 posts/day). Try tomorrow!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Достигнут дневной лимит (3 поста в день). Попробуй завтра!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Daily limit reached (3 posts/day). Try tomorrow!');
                 return;
             }
-            if (!name) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a name!'); return; }
+            if (!name) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a name!'); return; }
             if (containsProfanity(name)) { showBpStatus('error', profanityError(ru)); return; }
-            if (!author) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи свой никнейм!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter your nickname!'); return; }
+            if (!author) { showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи свой никнейм!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter your nickname!'); return; }
 
             if (!imageFile) {
-                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери изображение!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose an image!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери изображение!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose an image!');
                 return;
             }
             if (!worldFile) {
-                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери world файл!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose a world file!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери world файл!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose a world file!');
                 return;
             }
 
             if (worldFile.name.toLowerCase() !== 'world') {
-                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл должен называться "world" (без расширения)!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File must be named "world" (no extension)!');
                 return;
             }
 
             if (worldFile.size === 0) {
-                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> World файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> World file is empty!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> World файл пустой!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> World file is empty!');
                 return;
             }
 
             const imgExt = imageFile.name.split('.').pop().toLowerCase();
             if (!['png', 'jpg', 'jpeg'].includes(imgExt)) {
-                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Изображение должно быть PNG или JPEG!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image must be PNG or JPEG!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Изображение должно быть PNG или JPEG!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image must be PNG or JPEG!');
                 return;
             }
 
             const magicCheck = await checkImageMagicBytes(imageFile);
             if (!magicCheck.valid) {
-                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл изображения повреждён или не является PNG/JPEG!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image file is corrupted or not a valid PNG/JPEG!');
+                showBpStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл изображения повреждён или не является PNG/JPEG!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image file is corrupted or not a valid PNG/JPEG!');
                 return;
             }
 
@@ -7297,24 +7366,20 @@
                 incrementDailyPost();
                 updateDailyLimitUI();
 
-                showBpStatus('success', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Buildplate успешно загружен и проверен!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Buildplate uploaded and verified!');
+                showBpStatus('success', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Buildplate успешно загружен и проверен!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Buildplate uploaded and verified!');
 
                 document.getElementById('bp-name').value = '';
                 document.getElementById('bp-image-input').value = '';
                 document.getElementById('bp-world-input').value = '';
                 document.getElementById('bp-image-name').textContent = '';
                 document.getElementById('bp-world-name').textContent = '';
-                const imgLabelSpan = document.getElementById('bp-image-label');
-                if (imgLabelSpan) imgLabelSpan.innerHTML = ru ? 'Выбери или перетащи сюда...' : 'Choose or drag here...';
-                const worldLabelSpan = document.getElementById('bp-world-label');
-                if (worldLabelSpan) worldLabelSpan.innerHTML = ru ? 'Выбери или перетащи world файл...' : 'Choose or drag world file...';
                 if (window.turnstile) window.turnstile.reset('#bp-upload-turnstile');
 
                 loadBuildplates();
 
             } catch (err) {
                 console.error(err);
-                showBpStatus('error', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
+                showBpStatus('error', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
                 if (window.turnstile) window.turnstile.reset('#bp-upload-turnstile');
                 if (imagePath) await sbClient.storage.from('buildplates').remove([imagePath]).catch(() => {});
                 if (worldPath) await sbClient.storage.from('buildplates').remove([worldPath]).catch(() => {});
@@ -7327,7 +7392,7 @@
             const el = document.getElementById('bp-status');
             el.className = 'bp-status' + (type ? ' ' + type : '');
             el.innerHTML = message;
-            el.style.display = (!type || !message) ? 'none' : '';
+            if (!type) el.style.display = 'none';
         }
 
         let _bpAllData = [];
@@ -7521,7 +7586,7 @@
                 if (reportBtn) reportBtn.addEventListener('click', () => {
                     card.querySelector(`#bp-dots-dd-${bp.id}`)?.classList.remove('open');
                     if (!currentAccount) {
-                        showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please log in to report!', 'error');
+                        showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please log in to report!', 'error');
                         return;
                     }
                     showReportModal('buildplate', bp.id, bp.name, bp.author, bp.image_url || null);
@@ -7675,7 +7740,7 @@
 
             } catch (err) {
                 console.error(err);
-                alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
+                alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fas fa-trash"></i> <span>${ru ? 'Удалить' : 'Delete'}</span>`;
             }
@@ -7699,9 +7764,9 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(a.href);
-                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Изображение скачано!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image downloaded!', 'success');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Изображение скачано!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Image downloaded!', 'success');
             } catch(e) {
-                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка скачивания: ' + e.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Download error: ' + e.message, 'error');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка скачивания: ' + e.message : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Download error: ' + e.message, 'error');
             }
         }
         window.downloadImage = downloadImage;
@@ -7728,7 +7793,7 @@
                         <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
                         <div style="display:flex;gap:10px;">
                             <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
                             </button>
                             <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-edit-modal').remove()">
                                 ${ru ? 'Отмена' : 'Cancel'}
@@ -7809,7 +7874,7 @@
             document.getElementById('bp-edit-save-btn').addEventListener('click', async () => {
                 const newName = nameInput.value.trim();
                 const statusEl = document.getElementById('bp-edit-status');
-                if (!newName) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a name!'; statusEl.style.color='#c62828'; return; }
+                if (!newName) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a name!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(newName)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...'; statusEl.style.color='#f57f17';
                 try {
@@ -7822,9 +7887,9 @@
                     // Update card name
                     const nameEl = document.querySelector(`#bp-card-${id} .bp-card-name`);
                     if (nameEl) nameEl.textContent = newName;
-                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Название обновлено!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Name updated!', 'success');
+                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Название обновлено!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Name updated!', 'success');
                 } catch(err) {
-                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
+                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
                     statusEl.style.color='#c62828';
                 }
             });
@@ -7949,7 +8014,7 @@
                     await navigator.clipboard.writeText(worldUrl);
                     alert(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ссылка скопирована!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Link copied!');
                 } catch (e) {
-                    alert(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Не удалось скопировать' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Could not copy');
+                    alert(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Не удалось скопировать' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Could not copy');
                 }
             }
         }
@@ -8052,7 +8117,93 @@
             if (tabName === 'gallery') { 
                 loadGallery(); 
                 updateGalleryDailyLimitUI();
-                // Drag & drop уже инициализируется один раз в DOMContentLoaded
+                // Инициализируем drag & drop для галереи
+                const galleryContainer = document.getElementById('gallery-photo-upload-container');
+                const dragOverlay = document.getElementById('gallery-drag-overlay');
+                
+                if (galleryContainer && dragOverlay) {
+                    // Показываем overlay при наведении
+                    galleryContainer.addEventListener('dragenter', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dragOverlay.classList.add('active');
+                    });
+
+                    galleryContainer.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dragOverlay.classList.add('drag-over');
+                    });
+
+                    galleryContainer.addEventListener('dragleave', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!galleryContainer.contains(e.relatedTarget)) {
+                            dragOverlay.classList.remove('active', 'drag-over');
+                        }
+                    });
+
+                    // Обработка сброса файлов
+                    galleryContainer.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dragOverlay.classList.remove('active', 'drag-over');
+
+                        const files = Array.from(e.dataTransfer.files);
+                        const validFiles = files.filter(file => {
+                            const ext = file.name.split('.').pop().toLowerCase();
+                            return ['png', 'jpg', 'jpeg', 'webp'].includes(ext);
+                        });
+
+                        if (validFiles.length === 0) {
+                            const ru = currentLang === 'ru';
+                            showInfoBanner(
+                                ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Поддерживаются только PNG, JPG и WEBP файлы!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Only PNG, JPG and WEBP files are supported!',
+                                'error'
+                            );
+                            return;
+                        }
+
+                        if (validFiles.length > 3) {
+                            const ru = currentLang === 'ru';
+                            showInfoBanner(
+                                ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Можно загрузить максимум 3 файла!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Maximum 3 files can be uploaded!',
+                                'error'
+                            );
+                            return;
+                        }
+
+                        // Распределяем файлы по инпутам
+                        for (let i = 0; i < Math.min(validFiles.length, 3); i++) {
+                            const input = document.getElementById(`gallery-image-input-${i + 1}`);
+                            const nameEl = document.getElementById(`gallery-image-name-${i + 1}`);
+                            
+                            if (input && nameEl) {
+                                const dt = new DataTransfer();
+                                dt.items.add(validFiles[i]);
+                                input.files = dt.files;
+                                
+                                nameEl.textContent = `📎 ${validFiles[i].name}`;
+                                nameEl.style.color = '#6b8e23';
+                            }
+                        }
+
+                        const ru = currentLang === 'ru';
+                        const message = validFiles.length === 1 
+                            ? (ru ? '📎 Файл добавлен' : '📎 File added')
+                            : (ru ? `📎 Добавлено ${validFiles.length} файла` : `📎 ${validFiles.length} files added`);
+                        
+                        showInfoBanner(message, 'success');
+                    });
+
+                    // Клик на overlay для выбора файлов
+                    dragOverlay.addEventListener('click', function() {
+                        const input = document.getElementById('gallery-image-input-1');
+                        if (input) {
+                            input.click();
+                        }
+                    });
+                }
             }
         };
 
@@ -8283,38 +8434,38 @@
                 statusEl.style.color = type === 'error' ? '#c62828' : '#2e7d32';
             };
 
-            if (!sbClient) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase не подключён!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase not connected!'); return; }
-            if (!currentAccount) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Log in first!'); return; }
+            if (!sbClient) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase не подключён!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Supabase not connected!'); return; }
+            if (!currentAccount) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Log in first!'); return; }
 
             const galleryCaptchaToken = document.querySelector('#gallery-upload-turnstile [name="cf-turnstile-response"]')?.value
                 || document.querySelector('#gallery-upload-captcha-wrap [name="cf-turnstile-response"]')?.value;
             if (!galleryCaptchaToken) {
-                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди капчу!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Complete the captcha!');
+                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Пройди капчу!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Complete the captcha!');
                 return;
             }
             if (getDailyPostsLeft() <= 0) {
-                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Достигнут дневной лимит (3 поста в день).' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Daily limit reached (3 posts/day).');
+                showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Достигнут дневной лимит (3 поста в день).' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Daily limit reached (3 posts/day).');
                 return;
             }
-            if (!title) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a title!'); return; }
+            if (!title) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a title!'); return; }
             if (typeof containsProfanity === 'function' && containsProfanity(title)) {
-                showStatus('error', typeof profanityError === 'function' ? profanityError(ru) : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Недопустимое слово!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Inappropriate word!'));
+                showStatus('error', typeof profanityError === 'function' ? profanityError(ru) : (ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Недопустимое слово!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Inappropriate word!'));
                 return;
             }
-            if (imageFiles.length === 0) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери хотя бы одно фото!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose at least one photo!'); return; }
+            if (imageFiles.length === 0) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Выбери хотя бы одно фото!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Choose at least one photo!'); return; }
 
             // Проверяем все файлы на формат и целостность
             for (const imageFile of imageFiles) {
                 const ext = imageFile.name.split('.').pop().toLowerCase();
                 if (!['png','jpg','jpeg','webp'].includes(ext)) {
-                    showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат: PNG, JPG или WEBP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Format: PNG, JPG or WEBP');
+                    showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Формат: PNG, JPG или WEBP' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Format: PNG, JPG or WEBP');
                     return;
                 }
 
                 // Check magic bytes
                 if (typeof checkImageMagicBytes === 'function') {
                     const check = await checkImageMagicBytes(imageFile);
-                    if (!check.valid) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл повреждён или не является изображением!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File corrupted or not a valid image!'); return; }
+                    if (!check.valid) { showStatus('error', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Файл повреждён или не является изображением!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> File corrupted or not a valid image!'); return; }
                 }
             }
 
@@ -8360,7 +8511,7 @@
                 incrementDailyPost();
                 updateGalleryDailyLimitUI();
                 updateDailyLimitUI();
-                showStatus('success', ru ? `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${imageFiles.length} фото опубликовано!` : `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${imageFiles.length} photo${imageFiles.length !== 1 ? 's' : ''} published!`);
+                showStatus('success', ru ? `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${imageFiles.length} фото опубликовано!` : `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${imageFiles.length} photo${imageFiles.length !== 1 ? 's' : ''} published!`);
                 
                 // Очищаем форму
                 document.getElementById('gallery-title').value = '';
@@ -8368,20 +8519,14 @@
                     const input = document.getElementById(`gallery-image-input-${i}`);
                     const nameEl = document.getElementById(`gallery-image-name-${i}`);
                     if (input) input.value = '';
-                    if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
-                    // Сбрасываем текст лейбла обратно к плейсхолдеру
-                    const labelEl = document.querySelector(`label[for="gallery-image-input-${i}"]`);
-                    if (labelEl) {
-                        const ru2 = currentLang === 'ru';
-                        labelEl.innerHTML = `<i class="fas fa-image" style="font-size:1.3rem;"></i><span>${ru2 ? `Фото ${i}` : `Photo ${i}`}</span>`;
-                    }
+                    if (nameEl) nameEl.textContent = '';
                 }
                 
                 if (window.turnstile) window.turnstile.reset('#gallery-upload-turnstile');
                 _galleryCache = null;
                 loadGallery();
             } catch(e) {
-                showStatus('error', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e));
+                showStatus('error', '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (e.message || e));
                 if (window.turnstile) window.turnstile.reset('#gallery-upload-turnstile');
             } finally {
                 submitBtn.disabled = getDailyPostsLeft() <= 0;
@@ -8617,7 +8762,7 @@
                 if (reportBtn) reportBtn.addEventListener('click', () => {
                     document.getElementById(`gl-dd-${photo.id}`)?.classList.remove('open');
                     if (!currentAccount) {
-                        showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Log in to report!', 'error');
+                        showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт, чтобы пожаловаться!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Log in to report!', 'error');
                         return;
                     }
                     if (typeof showReportModal === 'function') {
@@ -8738,10 +8883,10 @@
                     card.style.transform = 'scale(0.8)';
                     setTimeout(() => { card.remove(); }, 300);
                 }
-                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Фото удалено.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Photo deleted.', 'success');
+                showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Фото удалено.' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Photo deleted.', 'success');
             } catch(err) {
                 console.error(err);
-                alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
+                alert('<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + err.message);
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fas fa-trash"></i> <span>${currentLang === 'ru' ? 'Удалить' : 'Delete'}</span>`;
             }
@@ -8789,7 +8934,7 @@
                         <div id="gl-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
                         <div style="display:flex;gap:10px;">
                             <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
                             </button>
                             <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
                                 ${ru ? 'Отмена' : 'Cancel'}
@@ -8887,7 +9032,7 @@
                 dragContainer.addEventListener('dragleave', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    if (!e.relatedTarget || !dragContainer.contains(e.relatedTarget)) {
+                    if (!dragContainer.contains(e.relatedTarget)) {
                         dragOverlay.classList.remove('active', 'drag-over');
                     }
                 });
@@ -8917,7 +9062,7 @@
                         } else {
                             const ru = currentLang === 'ru';
                             showInfoBanner(
-                                ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Поддерживаются только PNG, JPG и WEBP!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Only PNG, JPG and WEBP are supported!',
+                                ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Поддерживаются только PNG, JPG и WEBP!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Only PNG, JPG and WEBP are supported!',
                                 'error'
                             );
                         }
@@ -8942,7 +9087,7 @@
             document.getElementById('gl-edit-save-btn').addEventListener('click', async () => {
                 const newTitle = titleInput.value.trim();
                 const statusEl = document.getElementById('gl-edit-status');
-                if (!newTitle) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a title!'; statusEl.style.color='#c62828'; return; }
+                if (!newTitle) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Enter a title!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(newTitle)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '⏳ Сохраняем...' : '⏳ Saving...'; statusEl.style.color='#f57f17';
                 try {
@@ -8953,15 +9098,108 @@
                     overlay.remove();
                     const nameEl = document.querySelector(`#gallery-card-${id} .bp-card-name`);
                     if (nameEl) nameEl.textContent = newTitle;
-                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Название обновлено!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/emerald_block.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title updated!', 'success');
+                    showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Название обновлено!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Title updated!', 'success');
                 } catch(err) {
-                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/weakness_effect.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
+                    statusEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ' + (err.message || err);
                     statusEl.style.color='#c62828';
                 }
             });
             titleInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gl-edit-save-btn').click(); });
         }
         window.editGalleryPhoto = editGalleryPhoto;
+
+        // Wire up file input label for gallery
+        document.addEventListener('DOMContentLoaded', () => {
+            const galleryInput = document.getElementById('gallery-image-input');
+            const galleryLabel = document.getElementById('gallery-image-label');
+            
+            if (galleryInput && galleryLabel) {
+                // Обработчик изменения файла
+                galleryInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        galleryLabel.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
+                    } else {
+                        const ru = currentLang === 'ru';
+                        galleryLabel.innerHTML = `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
+                    }
+                });
+
+                // Drag and Drop функциональность для галереи
+                const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+                
+                galleryLabel.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    galleryLabel.classList.add('drag-over');
+                });
+
+                galleryLabel.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    if (!galleryLabel.contains(e.relatedTarget)) {
+                        galleryLabel.classList.remove('drag-over');
+                    }
+                });
+
+                galleryLabel.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    galleryLabel.classList.remove('drag-over');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const file = files[0];
+                        
+                        // Проверка типа файла
+                        if (allowedTypes.includes(file.type)) {
+                            // Проверка размера (максимум 10MB)
+                            const maxSize = 10 * 1024 * 1024; // 10MB
+                            if (file.size <= maxSize) {
+                                // Устанавливаем файл в input
+                                const dataTransfer = new DataTransfer();
+                                dataTransfer.items.add(file);
+                                galleryInput.files = dataTransfer.files;
+                                
+                                // Обновляем label
+                                galleryLabel.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
+                                
+                                // Показываем уведомление
+                                const ru = currentLang === 'ru';
+                                showInfoBanner(
+                                    `<i class="fas fa-check-circle" style="color:#6b8e23;"></i> ${ru ? 'Файл добавлен!' : 'File added!'}`,
+                                    'success'
+                                );
+                            } else {
+                                // Файл слишком большой
+                                const ru = currentLang === 'ru';
+                                showInfoBanner(
+                                    `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${ru ? 'Файл слишком большой (максимум 10MB)' : 'File too large (max 10MB)'}`,
+                                    'error'
+                                );
+                            }
+                        } else {
+                            // Неправильный тип файла
+                            const ru = currentLang === 'ru';
+                            showInfoBanner(
+                                `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> ${ru ? 'Неправильный формат файла (только PNG, JPG, WEBP)' : 'Invalid file format (PNG, JPG, WEBP only)'}`,
+                                'error'
+                            );
+                        }
+                    }
+                });
+
+                // Предотвращаем drag-over по умолчанию для всей страницы
+                document.addEventListener('dragover', (e) => {
+                    if (e.target === galleryLabel || galleryLabel.contains(e.target)) {
+                        e.preventDefault();
+                    }
+                });
+
+                document.addEventListener('drop', (e) => {
+                    if (e.target === galleryLabel || galleryLabel.contains(e.target)) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        });
 
         // Hook into setLoggedIn/doLogout to update gallery auth state
         const _origSetLoggedIn = window.setLoggedIn;
