@@ -6332,7 +6332,7 @@
         document.getElementById('bp-image-input').addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
-                document.getElementById('bp-image-label').innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ✓ ${file.name}`;
+                document.getElementById('bp-image-label').textContent = '✓ ' + file.name;
                 document.getElementById('bp-image-name').textContent = '';
             }
         });
@@ -6356,7 +6356,7 @@
                     return;
                 }
                 const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-                if (labelSpan) labelSpan.innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ✓ ${file.name}`;
+                labelSpan.innerHTML = '✓ ' + file.name;
                 nameEl.style.color = ''; nameEl.innerHTML = '';
             });
         })();
@@ -6405,8 +6405,7 @@
                     nameEl.style.color = '#6b8e23';
                 }
             } else if (labelSpan) {
-                const ru = currentLang === 'ru';
-                labelSpan.innerHTML = `<i class="fas fa-image" style="color:#ff9800;font-size:1.3rem;"></i> <span>${ru ? 'Выбери или перетащи сюда...' : 'Choose or drag here...'}</span>`;
+                labelSpan.innerHTML = nadminOriginalText;
                 if (nameEl) {
                     nameEl.textContent = '';
                 }
@@ -9334,18 +9333,21 @@
                 const galleryName = document.getElementById(`gallery-image-name-${i}`);
                 
                 if (galleryInput && galleryLabel) {
+                    // Сохраняем оригинальный текст
+                    const ru = currentLang === 'ru';
+                    const originalText = galleryLabel.innerHTML;
+                    
                     // Обработчик изменения файла
                     galleryInput.addEventListener('change', function() {
                         const file = this.files[0];
                         if (file) {
-                            galleryLabel.innerHTML = `✓ ${file.name}`;
+                            galleryLabel.innerHTML = '✓ ' + file.name;
                             if (galleryName) {
                                 galleryName.textContent = `📎 ${file.name}`;
                                 galleryName.style.color = '#6b8e23';
                             }
                         } else {
-                            const ru = currentLang === 'ru';
-                            galleryLabel.innerHTML = `<i class="fas fa-image"></i> <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>`;
+                            galleryLabel.innerHTML = originalText;
                             if (galleryName) {
                                 galleryName.textContent = '';
                             }
@@ -9386,7 +9388,7 @@
                                     galleryInput.files = dataTransfer.files;
                                     
                                     // Обновляем label
-                                    galleryLabel.innerHTML = `✓ ${file.name}`;
+                                    galleryLabel.innerHTML = '✓ ' + file.name;
                                     
                                     if (galleryName) {
                                         galleryName.textContent = `📎 ${file.name}`;
