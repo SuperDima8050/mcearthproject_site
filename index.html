@@ -6334,13 +6334,13 @@
             const labelSpan = document.getElementById('bp-image-label');
             const nameEl = document.getElementById('bp-image-name');
             if (file && labelSpan) {
-                // Заменяем текст на месте, не добавляя в nameEl
-                labelSpan.textContent = '✓ ' + file.name;
+                // Заменяем текст на месте, сохраняя иконку
+                labelSpan.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
                 if (nameEl) {
                     nameEl.style.display = 'none';
                 }
             } else if (labelSpan) {
-                // Возвращаем оригинальный текст
+                // Возвращаем оригинальный текст с иконкой
                 const ru = currentLang === 'ru';
                 labelSpan.innerHTML = `<i class="fas fa-image"></i> <span>${ru ? 'Выбери или перетащи изображение...' : 'Choose or drag image...'}</span>`;
                 if (nameEl) {
@@ -6369,8 +6369,8 @@
                     return;
                 }
                 const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-                // Заменяем текст на месте, не добавляя в nameEl
-                if (labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
+                // Заменяем текст на месте с иконкой
+                if (labelSpan) labelSpan.innerHTML = `<i class="fas fa-check" style="color:#6b8e23;"></i> ✓ ${file.name}`;
                 if (nameEl) { nameEl.style.color = ''; nameEl.style.display = 'none'; }
             });
         })();
@@ -6413,14 +6413,15 @@
             const labelSpan = document.getElementById('nadmin-image-label');
             const nameEl = document.getElementById('nadmin-image-name');
             if (file && labelSpan) {
-                // Заменяем текст на месте
+                // Заменяем текст на месте с иконкой
                 labelSpan.innerHTML = '✓ ' + file.name;
                 if (nameEl) {
                     nameEl.style.display = 'none';
                 }
             } else if (labelSpan) {
-                // Возвращаем оригинальный текст
-                labelSpan.innerHTML = nadminOriginalText;
+                // Возвращаем оригинальный текст с иконкой
+                const ru = currentLang === 'ru';
+                labelSpan.innerHTML = `<i class="fas fa-image" style="color:#ff9800;font-size:1.3rem;"></i> <span>${ru ? 'Выбери или перетащи сюда...' : 'Choose or drag here...'}</span>`;
                 if (nameEl) {
                     nameEl.style.display = '';
                     nameEl.textContent = '';
@@ -6435,7 +6436,7 @@
             if (file && labelSpan) {
                 labelSpan.innerHTML = '✓ ' + file.name;
             } else if (labelSpan) {
-                labelSpan.innerHTML = ru ? 'Выбери или перетащи фото...' : 'Choose or drag photo...';
+                labelSpan.innerHTML = `<i class="fas fa-image"></i> ${ru ? 'Выбери или перетащи фото...' : 'Choose or drag photo...'}`;
             }
         });
 
