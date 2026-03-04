@@ -520,7 +520,7 @@
             color: #aed581;
         }
 
-        body.dark-theme .zerotier-code,
+        body.dark-theme .tailscale-code,
         body.dark-theme .code-text {
             background: #1a1a1a;
             color: #8bc34a;
@@ -564,7 +564,7 @@
             font-family: 'Minecraft', sans-serif;
         }
 
-        body.dark-theme .zerotier-code p:first-child {
+        body.dark-theme .tailscale-code p:first-child {
             color: #b0b0b0;
         }
 
@@ -842,7 +842,7 @@
             font-size: 0.82rem;
         }
 
-        .zerotier-code {
+        .tailscale-code {
             background: #f0ede0;
             padding: 16px;
             border-radius: 4px;
@@ -854,7 +854,7 @@
             max-width: 380px;
         }
 
-        .zerotier-code p:first-child {
+        .tailscale-code p:first-child {
             color: #5a4a3a;
             margin-bottom: 10px;
             font-weight: 700;
@@ -4092,7 +4092,7 @@
                 height: 34px;
                 font-size: 1rem;
             }
-            .zerotier-code {
+            .tailscale-code {
                 padding: 10px 8px;
             }
             .step-content h3 {
@@ -4120,7 +4120,7 @@
                 overflow-x: hidden;
             }
 
-            .zerotier-code {
+            .tailscale-code {
                 margin: 14px 0;
                 max-width: 100%;
                 width: 100%;
@@ -4418,12 +4418,12 @@
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3 data-ru="Установи ZeroTier One" data-en="Install ZeroTier One">
-                            Установи ZeroTier One
+                        <h3 data-ru="Установи Tailscale" data-en="Install Tailscale">
+                            Установи Tailscale
                         </h3>
-                        <p data-ru="Скачай и установи ZeroTier One на своё устройство."
-                           data-en="Download and install ZeroTier One on your device.">
-                            Скачай и установи ZeroTier One на своё устройство.
+                        <p data-ru="Скачай и установи Tailscale на своё устройство."
+                           data-en="Download and install Tailscale on your device.">
+                            Скачай и установи Tailscale на своё устройство.
                         </p>
                     </div>
                 </div>
@@ -4431,41 +4431,18 @@
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3 data-ru="Введи код сети" data-en="Enter Network Code">
-                            Введи код сети
+                        <h3 data-ru="Получи приглашение" data-en="Get Invitation">
+                            Получи приглашение
                         </h3>
-                        <p data-ru="Открой ZeroTier One и введи наш код сети:"
-                           data-en="Open ZeroTier One and enter our network code:">
-                            Открой ZeroTier One и введи наш код сети:
+                        <p data-ru="Напиши администратору в личные сообщения для получения приглашения в сеть Tailscale. После принятия приглашения ты сможешь подключиться к серверу."
+                           data-en="Contact the administrator in private messages to get an invitation to the Tailscale network. After accepting the invitation, you can connect to the server.">
+                            Напиши администратору в личные сообщения для получения приглашения в сеть Tailscale. После принятия приглашения ты сможешь подключиться к серверу.
                         </p>
-                        <div class="zerotier-code">
-                            <p>Network ID:</p>
-                            <div class="code-container">
-                                <span class="code-text">3b19b3a716030d76</span>
-                                <button class="copy-btn" onclick="copyZeroTier()">
-                                    <i class="fas fa-copy"></i>
-                                    <span data-ru="Копировать" data-en="Copy">Копировать</span>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <div class="step">
+                    <div class="step">
                     <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3 data-ru="Подожди авторизации" data-en="Wait for Authorization">
-                            Подожди авторизации
-                        </h3>
-                        <p data-ru="После входа в сеть подожди несколько минут — тебя авторизуют."
-                           data-en="After joining the network, wait a few minutes to be authorized.">
-                            После входа в сеть подожди несколько минут — тебя авторизуют.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">4</div>
                     <div class="step-content">
                         <h3 data-ru="Скачай APK" data-en="Download APK">
                             Скачай APK
@@ -4478,7 +4455,7 @@
                 </div>
 
                 <div class="step">
-                    <div class="step-number">5</div>
+                    <div class="step-number">4</div>
                     <div class="step-content">
                         <h3 data-ru="Запусти игру!" data-en="Launch the Game!">
                             Запусти игру!
@@ -4625,13 +4602,13 @@
             <div class="faq-item">
                 <div class="faq-question">
                     <i class="fas fa-question-circle"></i>
-                    <span data-ru="Нужен ли мне ZeroTier?" data-en="Do I need ZeroTier?">
-                        Нужен ли мне ZeroTier?
+                    <span data-ru="Нужен ли мне Tailscale?" data-en="Do I need Tailscale?">
+                        Нужен ли мне Tailscale?
                     </span>
                 </div>
-                <div class="faq-answer" data-ru="Да! ZeroTier необходим для подключения к нашему серверу. Он создаёт безопасную виртуальную сеть для игры." 
-                     data-en="Yes! ZeroTier is required to connect to our server. It creates a secure virtual network for the game.">
-                    Да! ZeroTier необходим для подключения к нашему серверу. Он создаёт безопасную виртуальную сеть для игры.
+                <div class="faq-answer" data-ru="Да! Tailscale необходим для подключения к нашему серверу. Он создаёт безопасную виртуальную сеть для игры. Напишите администратору для получения приглашения." 
+                     data-en="Yes! Tailscale is required to connect to our server. It creates a secure virtual network for the game. Contact the administrator to get an invitation.">
+                    Да! Tailscale необходим для подключения к нашему серверу. Он создаёт безопасную виртуальную сеть для игры. Напишите администратору для получения приглашения.
                 </div>
             </div>
         </div>
@@ -6071,11 +6048,7 @@
             if (window.turnstile) window.turnstile.render(div);
         }
 
-        function copyZeroTier() {
-            const code = '3b19b3a716030d76';
-            copyToClipboard(code);
-        }
-
+        
         function copyToClipboard(text) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
