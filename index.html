@@ -2244,6 +2244,36 @@
             box-shadow: 0 8px 24px rgba(139, 115, 85, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.9);
             border-color: #6b5637;
             background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            animation: fileGlowDefault 1.4s ease-in-out infinite;
+        }
+
+        @keyframes fileGlowDefault {
+            0%, 100% { box-shadow: 0 8px 24px rgba(139,115,85,0.25), 0 0 0 rgba(139,115,85,0); }
+            50%       { box-shadow: 0 8px 32px rgba(139,115,85,0.45), 0 0 18px rgba(139,115,85,0.3); }
+        }
+
+        .bp-file-label.news-upload:hover {
+            animation: fileGlowOrange 1.4s ease-in-out infinite;
+        }
+        @keyframes fileGlowOrange {
+            0%, 100% { box-shadow: 0 8px 24px rgba(255,152,0,0.2), 0 0 0 rgba(255,152,0,0); }
+            50%       { box-shadow: 0 8px 32px rgba(255,152,0,0.5), 0 0 20px rgba(255,152,0,0.35); }
+        }
+
+        .bp-file-label.buildplate-upload:hover {
+            animation: fileGlowBlue 1.4s ease-in-out infinite;
+        }
+        @keyframes fileGlowBlue {
+            0%, 100% { box-shadow: 0 8px 24px rgba(33,150,243,0.2), 0 0 0 rgba(33,150,243,0); }
+            50%       { box-shadow: 0 8px 32px rgba(33,150,243,0.5), 0 0 20px rgba(33,150,243,0.35); }
+        }
+
+        .bp-file-label.gallery-upload:hover {
+            animation: fileGlowPurple 1.4s ease-in-out infinite;
+        }
+        @keyframes fileGlowPurple {
+            0%, 100% { box-shadow: 0 8px 24px rgba(156,39,176,0.2), 0 0 0 rgba(156,39,176,0); }
+            50%       { box-shadow: 0 8px 32px rgba(156,39,176,0.5), 0 0 20px rgba(156,39,176,0.35); }
         }
 
         .bp-file-label:active {
@@ -2409,6 +2439,11 @@
             background: linear-gradient(135deg, #333333 0%, #2a2a2a 100%);
             border-color: #6b8e23;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            animation: fileGlowGreen 1.4s ease-in-out infinite;
+        }
+        @keyframes fileGlowGreen {
+            0%, 100% { box-shadow: 0 8px 24px rgba(107,142,35,0.2), 0 0 0 rgba(107,142,35,0); }
+            50%       { box-shadow: 0 8px 32px rgba(107,142,35,0.5), 0 0 20px rgba(107,142,35,0.4); }
         }
 
         body.dark-theme .bp-file-label.drag-over {
