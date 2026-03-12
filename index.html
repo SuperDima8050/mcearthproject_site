@@ -4383,6 +4383,8 @@
             }
         })();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.2.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nsfwjs@2.4.2/dist/nsfwjs.min.js"></script>
 </head>
 <body>
 
@@ -6453,29 +6455,53 @@
         const SUPABASE_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co';
         window.SUPABASE_URL = SUPABASE_URL;
 
-        // === Модерация изображений через Edge Function ===
+        // === Модерация через NsfwJS (клиент, без API ключей) ===
+        let _nsfwModel = null;
+        async function _loadNsfwModel() {
+            if (_nsfwModel) return _nsfwModel;
+            try {
+                _nsfwModel = await nsfwjs.load('https://cdn.jsdelivr.net/npm/nsfwjs@2.4.2/example/nsfw_demo/public/model/');
+            } catch(e) {
+                console.warn('nsfwjs load error:', e);
+            }
+            return _nsfwModel;
+        }
+
         async function moderateImage(file) {
             try {
-                const fd = new FormData();
-                fd.append('file', file);
-                const res = await fetch(
-                    `${SUPABASE_URL}/functions/v1/moderate-image`,
-                    { 
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
-                        body: fd 
+                const model = await _loadNsfwModel();
+                if (!model) return { ok: true, skipped: true };
+
+                const img = new Image();
+                const url = URL.createObjectURL(file);
+                await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+                URL.revokeObjectURL(url);
+
+                const predictions = await model.classify(img);
+                console.log('NSFW predictions:', predictions);
+
+                const violations = [];
+                for (const p of predictions) {
+                    if ((p.className === 'Porn' || p.className === 'Hentai') && p.probability > 0.7) {
+                        violations.push(p.className.toLowerCase());
                     }
-                );
-                if (!res.ok) return { ok: true, skipped: true }; // при сетевой ошибке — не блокируем
-                return await res.json();
-            } catch (e) {
+                    if (p.className === 'Sexy' && p.probability > 0.85) {
+                        violations.push('sexy');
+                    }
+                }
+
+                if (violations.length > 0) {
+                    return { ok: false, reason: 'nsfw', violations };
+                }
+                return { ok: true };
+            } catch(e) {
                 console.warn('moderateImage error:', e);
-                return { ok: true, skipped: true }; // fail-open
+                return { ok: true, skipped: true };
             }
         }
 
         function moderationErrorMsg(result, ru) {
-            const map = { adult: ru ? 'порно/18+' : 'adult content', violence: ru ? 'насилие' : 'violence', racy: ru ? 'непристойный контент' : 'racy content', medical: ru ? 'шокирующий медицинский контент' : 'graphic medical content' };
+            const map = { porn: ru ? 'порно' : 'porn', hentai: ru ? 'хентай' : 'hentai', sexy: ru ? 'непристойный контент' : 'suggestive content' };
             const labels = (result.violations || []).map(v => map[v] || v).join(', ');
             return ru
                 ? `🚫 Изображение не прошло модерацию (${labels}). Загрузка запрещена.`
