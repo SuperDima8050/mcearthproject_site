@@ -6460,7 +6460,7 @@
         async function _loadNsfwModel() {
             if (_nsfwModel) return _nsfwModel;
             try {
-                _nsfwModel = await nsfwjs.load('https://cdn.jsdelivr.net/npm/nsfwjs@2.4.2/example/nsfw_demo/public/model/');
+                _nsfwModel = await nsfwjs.load('https://cdn.jsdelivr.net/npm/nsfwjs@2.4.2/dist/models/mobilenet_v2/');
             } catch(e) {
                 console.warn('nsfwjs load error:', e);
             }
