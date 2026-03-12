@@ -6462,7 +6462,11 @@
                 fd.append('file', file);
                 const res = await fetch(
                     `${SUPABASE_URL}/functions/v1/moderate-image`,
-                    { method: 'POST', body: fd }
+                    { 
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+                        body: fd 
+                    }
                 );
                 if (!res.ok) return { ok: true, skipped: true }; // при сетевой ошибке — не блокируем
                 return await res.json();
