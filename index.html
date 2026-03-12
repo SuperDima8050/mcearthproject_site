@@ -3976,7 +3976,62 @@
         .cookie-settings-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #3e2f1f; }
         body.dark-theme .cookie-settings-btn { color: #e0e0e0; background: #2a2a2a; border-color: #3a3a3a; box-shadow: 0 4px 0 #0a0a0a; }
 
-        .cookie-modal-overlay {
+        .donate-btn {
+            font-family: 'Minecraft', sans-serif;
+            font-size: 0.78rem; font-weight: 700;
+            padding: 6px 12px; border-radius: 2px;
+            border: 3px solid #c17f24;
+            background: linear-gradient(180deg, #f9a825 0%, #c17f24 100%);
+            color: #3e2000; cursor: pointer;
+            box-shadow: 0 4px 0 #7f5200;
+            display: flex; align-items: center; gap: 5px;
+            transition: transform 0.1s, box-shadow 0.1s;
+            white-space: nowrap;
+        }
+        .donate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #7f5200; }
+        .donate-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #7f5200; }
+        body.dark-theme .donate-btn { border-color: #f9a825; background: linear-gradient(180deg,#f9a825,#c17f24); color: #1a0a00; }
+
+        .donate-modal-overlay {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.7);
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px; box-sizing: border-box;
+        }
+        .donate-modal {
+            background: #f5ede0; border: 4px solid #8b7355;
+            border-radius: 4px; box-shadow: 0 8px 0 #3e2723, 0 0 0 2px #3e2723;
+            padding: 28px 24px; max-width: 420px; width: 100%;
+            font-family: 'Minecraft', sans-serif; text-align: center;
+        }
+        body.dark-theme .donate-modal { background: #1e1e1e; border-color: #3a3a3a; }
+        .donate-modal-title {
+            font-size: 1.2rem; font-weight: 700; color: #3e2723;
+            margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        body.dark-theme .donate-modal-title { color: #e0e0e0; }
+        .donate-modal-desc {
+            font-size: 0.78rem; color: #5a4a3a; margin-bottom: 18px; line-height: 1.6;
+        }
+        body.dark-theme .donate-modal-desc { color: #aaa; }
+        .donate-modal-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+        .donate-option {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 14px; border-radius: 3px;
+            border: 2px solid #b09070; background: #fff8f0;
+            font-family: 'Minecraft', sans-serif; font-size: 0.78rem;
+            font-weight: 700; color: #3e2723; text-decoration: none;
+            transition: all 0.1s; cursor: pointer;
+        }
+        .donate-option:hover { background: #ffe0b2; border-color: #c17f24; transform: translateY(-1px); }
+        body.dark-theme .donate-option { background: #2a2a2a; border-color: #3a3a3a; color: #e0e0e0; }
+        body.dark-theme .donate-option:hover { background: #333; border-color: #f9a825; }
+        .donate-modal-close {
+            font-family: 'Minecraft', sans-serif; font-size: 0.78rem;
+            padding: 8px 20px; border: 2px solid #8b7355; border-radius: 2px;
+            background: none; color: #8b7355; cursor: pointer;
+        }
+        .donate-modal-close:hover { background: rgba(139,115,85,0.1); }
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.65);
@@ -4413,6 +4468,10 @@
                 <span class="theme-icon">🌙</span>
             </button>
             <button class="cookie-settings-btn" onclick="showCookieModal()" title="Cookie Settings">🍪</button>
+            <button class="donate-btn" onclick="showDonateModal()" data-ru="Пожертвовать" data-en="Donate" title="Пожертвовать">
+                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/minecoin_icon.png" alt="minecoin" style="width:18px;height:18px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;">
+                <span data-ru="Пожертвовать" data-en="Donate">Пожертвовать</span>
+            </button>
         </div>
 
         <h1>PROJECT EARTH</h1>
@@ -8104,7 +8163,7 @@
                         <div class="bp-card-actions">
                             <button class="bp-download-btn" data-bp-dl="${bp.id}">
                                 <i class="fas fa-download"></i>
-                                <span>${currentLang === 'ru' ? 'Скачать' : 'Download'}</span>${bp.downloads > 0 ? `<span class="bp-dl-count" style="margin-left:5px;font-size:0.78rem;opacity:0.75;">${bp.downloads}</span>` : ''}
+                                <span>${currentLang === 'ru' ? 'Скачать' : 'Download'}</span>
                             </button>
                             <button class="bp-like-btn ${isLiked ? 'liked' : ''}" data-id="${bp.id}">
                                 <i class="fas fa-thumbs-up"></i>
@@ -8165,15 +8224,6 @@
                         showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы скачивать!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to download!', 'error');
                         return;
                     }
-                    // Increment download counter
-                    sbClient.from('buildplates').select('downloads').eq('id', bp.id).single().then(({data}) => {
-                        const newCount = ((data && data.downloads) || 0) + 1;
-                        sbClient.from('buildplates').update({ downloads: newCount }).eq('id', bp.id).then(() => {
-                            const countEl = dlBtn.querySelector('.bp-dl-count');
-                            if (countEl) countEl.textContent = newCount;
-                            else dlBtn.insertAdjacentHTML('beforeend', `<span class="bp-dl-count" style="margin-left:5px;font-size:0.78rem;opacity:0.75;">${newCount}</span>`);
-                        });
-                    });
                     downloadWorld(bp.world_url, bp.name, event);
                 });
                 if (dotsBtn) dotsBtn.addEventListener('click', e => {
@@ -8783,6 +8833,14 @@
             const banner = document.getElementById('cookie-banner');
             if (banner) { setTimeout(() => banner.classList.add('show'), 800); }
         }
+
+        function showDonateModal() {
+            document.getElementById('donate-modal-overlay').style.display = 'flex';
+        }
+        function hideDonateModal() {
+            document.getElementById('donate-modal-overlay').style.display = 'none';
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') hideDonateModal(); });
 
         function showCookieModal() {
             const ex = document.getElementById('cookie-modal-overlay'); if (ex) ex.remove();
@@ -9857,6 +9915,25 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         });
     })();
     </script>
+
+        <div class="donate-modal-overlay" id="donate-modal-overlay" style="display:none;" onclick="if(event.target===this)hideDonateModal()">
+            <div class="donate-modal">
+                <div class="donate-modal-title">
+                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/minecoin_icon.png" style="width:24px;height:24px;image-rendering:pixelated;object-fit:contain;">
+                    <span data-ru="Поддержать проект" data-en="Support the project">Поддержать проект</span>
+                </div>
+                <div class="donate-modal-desc" data-ru="Пожертвования помогают нам поддерживать сервер и развивать проект. Спасибо! ❤️" data-en="Donations help us keep the server running and develop the project. Thank you! ❤️">
+                    Пожертвования помогают нам поддерживать сервер и развивать проект. Спасибо! ❤️
+                </div>
+                <div class="donate-modal-options">
+                    <a class="donate-option" href="https://www.donationalerts.com/r/superdima8051" target="_blank" rel="noopener">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/minecoin_icon.png" style="width:20px;height:20px;image-rendering:pixelated;object-fit:contain;">
+                        <span data-ru="Пожертвовать через DonationAlerts" data-en="Donate via DonationAlerts">Пожертвовать через DonationAlerts</span>
+                    </a>
+                </div>
+                <button class="donate-modal-close" onclick="hideDonateModal()" data-ru="Закрыть" data-en="Close">Закрыть</button>
+            </div>
+        </div>
 
 </body>
 </html>
