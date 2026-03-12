@@ -8104,7 +8104,7 @@
                         <div class="bp-card-actions">
                             <button class="bp-download-btn" data-bp-dl="${bp.id}">
                                 <i class="fas fa-download"></i>
-                                <span>${currentLang === 'ru' ? 'Скачать' : 'Download'}</span>
+                                <span>${currentLang === 'ru' ? 'Скачать' : 'Download'}</span>${bp.downloads > 0 ? `<span class="bp-dl-count" style="margin-left:5px;font-size:0.78rem;opacity:0.75;">${bp.downloads}</span>` : ''}
                             </button>
                             <button class="bp-like-btn ${isLiked ? 'liked' : ''}" data-id="${bp.id}">
                                 <i class="fas fa-thumbs-up"></i>
@@ -8165,6 +8165,15 @@
                         showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Войди в аккаунт чтобы скачивать!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Login to download!', 'error');
                         return;
                     }
+                    // Increment download counter
+                    sbClient.from('buildplates').select('downloads').eq('id', bp.id).single().then(({data}) => {
+                        const newCount = ((data && data.downloads) || 0) + 1;
+                        sbClient.from('buildplates').update({ downloads: newCount }).eq('id', bp.id).then(() => {
+                            const countEl = dlBtn.querySelector('.bp-dl-count');
+                            if (countEl) countEl.textContent = newCount;
+                            else dlBtn.insertAdjacentHTML('beforeend', `<span class="bp-dl-count" style="margin-left:5px;font-size:0.78rem;opacity:0.75;">${newCount}</span>`);
+                        });
+                    });
                     downloadWorld(bp.world_url, bp.name, event);
                 });
                 if (dotsBtn) dotsBtn.addEventListener('click', e => {
