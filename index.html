@@ -176,13 +176,11 @@
         /* Правила только для десктопных браузеров */
         @media (min-width: 769px) {
             body {
-                /* Пиксельный рендеринг только на десктопе */
-                text-rendering: -webkit-optimize-contrast;
-                text-rendering: optimize-contrast;
-                -webkit-font-smoothing: none;
-                -moz-osx-font-smoothing: unset;
-                font-smooth: never;
-                letter-spacing: 0.005em;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                font-smooth: auto;
+                letter-spacing: 0.01em;
             }
             
             .container, .tab-content, .section,
@@ -192,13 +190,11 @@
             .bp-form-row label, .bp-form-row input, .bp-form-row textarea,
             .bp-submit-btn, .bp-download-btn, .bp-like-btn, .bp-dislike-btn,
             .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
-                font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
-                text-rendering: -webkit-optimize-contrast;
-                text-rendering: optimize-contrast;
-                -webkit-font-smoothing: none;
-                -moz-osx-font-smoothing: unset;
-                font-smooth: never;
-                letter-spacing: 0.005em;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                font-smooth: auto;
+                letter-spacing: 0.01em;
                 image-rendering: pixelated;
                 image-rendering: -moz-crisp-edges;
                 image-rendering: crisp-edges;
@@ -317,15 +313,10 @@
 
         /* Общие правила для всего текста */
         body {
-            font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
-            text-rendering: -webkit-optimize-contrast;
-            text-rendering: optimize-contrast;
-            -webkit-font-smoothing: none;
-            -moz-osx-font-smoothing: unset;
-            font-smooth: never;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-smooth: auto;
         }
 
         /* Специальные правила для Firefox */
