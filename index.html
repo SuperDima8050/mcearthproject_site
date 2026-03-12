@@ -3616,60 +3616,6 @@
             white-space: nowrap;
         }
 
-        /* Tags */
-        .bp-tags-row {
-            display: flex; flex-wrap: wrap; gap: 6px;
-            align-items: center; width: 100%; margin-top: 2px;
-        }
-        .bp-tag-label {
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.72rem; font-weight: 700;
-            color: #8b7355; white-space: nowrap;
-        }
-        .bp-tag-btn {
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.72rem; font-weight: 700;
-            padding: 3px 10px; border-radius: 3px;
-            border: 2px solid #b09070;
-            background: #f5ede0; color: #5a3e28;
-            cursor: pointer; transition: all 0.1s;
-            image-rendering: pixelated;
-        }
-        .bp-tag-btn:hover { background: #e8d8c0; transform: translateY(-1px); }
-        .bp-tag-btn.active {
-            background: linear-gradient(180deg,#7cb342 0%,#558b2f 100%);
-            color: #fff; border-color: #33691e;
-        }
-        .bp-tag-popular {
-            font-size: 0.65rem; opacity: 0.7; margin-left: 2px;
-        }
-        .bp-card-tags {
-            display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px;
-        }
-        .bp-card-tag {
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.65rem; font-weight: 700;
-            padding: 2px 7px; border-radius: 2px;
-            background: rgba(124,179,66,0.15);
-            color: #558b2f; border: 1px solid rgba(124,179,66,0.3);
-            cursor: pointer;
-        }
-        .bp-card-tag:hover { background: rgba(124,179,66,0.3); }
-        body.dark-theme .bp-tag-btn { background: #2a2a2a; color: #e0e0e0; border-color: #3a3a3a; }
-        body.dark-theme .bp-tag-btn:hover { background: #333; }
-        body.dark-theme .bp-tag-btn.active { background: linear-gradient(180deg,#7cb342 0%,#558b2f 100%); color:#fff; border-color:#33691e; }
-        body.dark-theme .bp-tag-label { color: #888; }
-        body.dark-theme .bp-card-tag { background: rgba(124,179,66,0.1); color: #7cb342; border-color: rgba(124,179,66,0.2); }
-
-        /* Auto theme schedule indicator */
-        .theme-schedule-badge {
-            font-size: 0.6rem; font-family: 'Minecraft', sans-serif;
-            background: rgba(124,179,66,0.2); color: #558b2f;
-            border-radius: 3px; padding: 1px 4px; margin-left: 4px;
-            vertical-align: middle;
-        }
-        body.dark-theme .theme-schedule-badge { background: rgba(124,179,66,0.15); color: #7cb342; }
-
         body.dark-theme .bp-search-wrap input,
         body.dark-theme .bp-sort-select,
         body.dark-theme .bp-filter-mine-btn {
@@ -5028,16 +4974,6 @@
                         <div class="bp-file-name" id="bp-world-name"></div>
                     </div>
 
-                    <div class="bp-form-row">
-                        <label data-ru="Теги (необязательно)" data-en="Tags (optional)">Теги (необязательно)</label>
-                        <input type="text" id="bp-tags-input" maxlength="100"
-                            data-placeholder-ru="город, природа, арт..."
-                            data-placeholder-en="city, nature, art..."
-                            placeholder="город, природа, арт..."
-                            style="width:100%;box-sizing:border-box;" />
-                        <div style="font-family:'Minecraft',sans-serif;font-size:0.68rem;color:#8b7355;margin-top:4px;" data-ru="Через запятую, до 5 тегов" data-en="Comma separated, up to 5 tags">Через запятую, до 5 тегов</div>
-                    </div>
-
                     <div id="bp-daily-limit" style="display:none;align-items:center;gap:10px;margin-bottom:12px;padding:12px 16px;background:#fffbf0;border:3px solid #8b7355;border-radius:2px;box-shadow:0 4px 0 #5a4a3a;">
                         <img id="bp-daily-limit-timer" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" alt="timer" style="width:36px;height:36px;object-fit:contain;image-rendering:pixelated;flex-shrink:0;">
                         <div style="flex:1;">
@@ -5103,11 +5039,6 @@
                             data-ru="Мои" data-en="Mine"
                             onclick="toggleFilterMine()"><img id="mine-btn-icon" class="mce-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;"><span data-ru="Мои" data-en="Mine">Мои</span></button>
                     <span class="bp-results-count" id="bp-results-count"></span>
-                </div>
-                <div class="bp-tags-row" id="bp-tags-row" style="display:none;">
-                    <span class="bp-tag-label" data-ru="Теги:" data-en="Tags:">Теги:</span>
-                    <button class="bp-tag-btn active" data-tag="" data-ru="Все" data-en="All" onclick="setBpTag(this,'')">Все</button>
-                    <div id="bp-tags-list" style="display:contents;"></div>
                 </div>
 
                 <div id="bp-gallery">
@@ -6253,34 +6184,13 @@
             if (isDark) {
                 themeIcon.textContent = '☀️';
                 localStorage.setItem('theme', 'dark');
-                localStorage.setItem('theme_manual', '1');
             } else {
                 themeIcon.textContent = '🌙';
                 localStorage.setItem('theme', 'light');
-                localStorage.setItem('theme_manual', '1');
             }
 
             rerenderAuthCaptcha(isDark ? 'dark' : 'light');
         }
-
-        // Автотема по расписанию — тёмная с 21:00 до 8:00
-        function applyAutoTheme() {
-            if (localStorage.getItem('theme_manual')) return; // пользователь выбрал сам
-            const hour = new Date().getHours();
-            const shouldBeDark = hour >= 21 || hour < 8;
-            const isDark = document.body.classList.contains('dark-theme');
-            if (shouldBeDark !== isDark) {
-                const themeBtn = document.querySelector('.theme-btn');
-                const themeIcon = themeBtn?.querySelector('.theme-icon');
-                document.body.classList.toggle('dark-theme', shouldBeDark);
-                if (themeIcon) themeIcon.textContent = shouldBeDark ? '☀️' : '🌙';
-                localStorage.setItem('theme', shouldBeDark ? 'dark' : 'light');
-                rerenderAuthCaptcha(shouldBeDark ? 'dark' : 'light');
-            }
-        }
-
-        // Запускаем автотему каждую минуту
-        setInterval(applyAutoTheme, 60000);
 
         function rerenderAuthCaptcha(theme) {
             const wrap = document.getElementById('auth-captcha-wrap');
@@ -7887,8 +7797,6 @@
             const name = document.getElementById('bp-name').value.trim();
             const author = document.getElementById('bp-author').value.trim();
             const imageFile = document.getElementById('bp-image-input').files[0];
-            const tagsRaw = document.getElementById('bp-tags-input')?.value || '';
-            const tags = tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(t => t.length > 0 && t.length <= 20).slice(0, 5);
             const worldFile = document.getElementById('bp-world-input').files[0];
             const submitBtn = document.getElementById('bp-submit-btn');
             const ru = currentLang === 'ru';
@@ -7993,7 +7901,6 @@
                     author: author,
                     image_url: imgData.publicUrl,
                     world_url: worldData.publicUrl,
-                    tags: tags.length ? tags : null,
                     created_at: new Date().toISOString()
                 }]).select();
                 if (dbError) throw new Error(parseSbError(dbError, ru));
@@ -8099,37 +8006,6 @@
             applyBpFilters();
         }
 
-        let _activeBpTag = '';
-
-        function setBpTag(btn, tag) {
-            _activeBpTag = tag;
-            document.querySelectorAll('#bp-tags-row .bp-tag-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            applyBpFilters();
-        }
-
-        function setBpTagFromCard(tag) {
-            _activeBpTag = tag;
-            document.querySelectorAll('#bp-tags-row .bp-tag-btn').forEach(b => {
-                b.classList.toggle('active', b.dataset.tag === tag);
-            });
-            applyBpFilters();
-        }
-
-        function buildTagsBar(data) {
-            const tagCount = {};
-            data.forEach(bp => { if (bp.tags) bp.tags.forEach(t => { tagCount[t] = (tagCount[t] || 0) + 1; }); });
-            const sorted = Object.entries(tagCount).sort((a,b) => b[1]-a[1]).slice(0, 12);
-            const listEl = document.getElementById('bp-tags-list');
-            const rowEl = document.getElementById('bp-tags-row');
-            if (!listEl || !rowEl) return;
-            if (sorted.length === 0) { rowEl.style.display = 'none'; return; }
-            rowEl.style.display = 'flex';
-            listEl.innerHTML = sorted.map(([tag, count]) =>
-                `<button class="bp-tag-btn${_activeBpTag === tag ? ' active' : ''}" data-tag="${tag}" onclick="setBpTag(this,'${tag}')">#${tag}<span class="bp-tag-popular">${count}</span></button>`
-            ).join('');
-        }
-
         function applyBpFilters() {
             const ru = currentLang === 'ru';
             const searchVal = (document.getElementById('bp-search')?.value || '').toLowerCase().trim();
@@ -8151,9 +8027,6 @@
                     const nameMatch = (bp.name || '').toLowerCase().includes(searchVal);
                     const authorMatch = (bp.author || '').toLowerCase().includes(searchVal);
                     if (!nameMatch && !authorMatch) return false;
-                }
-                if (_activeBpTag) {
-                    if (!bp.tags || !bp.tags.includes(_activeBpTag)) return false;
                 }
                 return true;
             });
@@ -8228,7 +8101,6 @@
                                 }</span>
                             </div>
                         </div>
-                        ${bp.tags && bp.tags.length ? `<div class="bp-card-tags">${bp.tags.map(t => `<span class="bp-card-tag" onclick="setBpTagFromCard('${escapeHtml(t)}')">#${escapeHtml(t)}</span>`).join('')}</div>` : ''}
                         <div class="bp-card-actions">
                             <button class="bp-download-btn" data-bp-dl="${bp.id}">
                                 <i class="fas fa-download"></i>
@@ -8404,7 +8276,10 @@
                 }
 
                 applyBpFilters();
-                buildTagsBar(_bpAllData);
+
+            } catch (err) {
+                console.error(err);
+                gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-exclamation-triangle"></i><p>${currentLang === 'ru' ? 'Ошибка загрузки' : 'Load error'}: ${err.message}</p></div>`;
             }
         }
 
