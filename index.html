@@ -473,8 +473,8 @@
             color: #c8c8c8 !important;
         }
         body.dark-theme #screenshots-section div > div {
-            border-color: #3a3a3a !important;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.7), 0 0 0 4px #3a3a3a !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
         }
 
         body.dark-theme .section-title {
@@ -4538,15 +4538,17 @@
             <h2 class="section-title" data-icon="paint_item.png">
                 <span data-ru="Скриншоты из игры" data-en="In-Game Screenshots">Скриншоты из игры</span>
             </h2>
-            <div style="display:flex;gap:16px;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-top:10px;">
+            <div style="display:flex;gap:10px;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-top:10px;">
 
                 <!-- Screenshot 1 -->
-                <div style="flex:1;min-width:140px;max-width:180px;text-align:center;">
-                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/screenshots/screenshot-1.png"
-                         alt="Gameplay"
-                         style="width:100%;display:block;image-rendering:auto;border-radius:4px;"
-                         onerror="this.style.display='none'">
-                    <p style="margin-top:8px;font-size:0.72rem;line-height:1.4;color:#3e2723;font-family:'Minecraft','NotoSans',sans-serif;"
+                <div style="flex:1;min-width:150px;max-width:200px;text-align:center;">
+                    <div style="overflow:hidden;margin:0 -30%;border-radius:4px;">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/screenshots/screenshot-1.png"
+                             alt="Gameplay"
+                             style="width:100%;display:block;image-rendering:auto;"
+                             onerror="this.style.display='none'">
+                    </div>
+                    <p style="margin-top:8px;font-size:0.75rem;line-height:1.4;color:#3e2723;font-family:'Minecraft','NotoSans',sans-serif;"
                        data-ru="Открытый мир — исследуй карту, собирай ресурсы и встречай мобов прямо вокруг себя"
                        data-en="Open world — explore the map, gather resources and encounter mobs right around you">
                         Открытый мир — исследуй карту, собирай ресурсы и встречай мобов прямо вокруг себя
@@ -4554,12 +4556,14 @@
                 </div>
 
                 <!-- Screenshot 2 -->
-                <div style="flex:1;min-width:140px;max-width:180px;text-align:center;">
-                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/screenshots/screenshot-2.png"
-                         alt="Buildplates"
-                         style="width:100%;display:block;image-rendering:auto;border-radius:4px;"
-                         onerror="this.style.display='none'">
-                    <p style="margin-top:8px;font-size:0.72rem;line-height:1.4;color:#3e2723;font-family:'Minecraft','NotoSans',sans-serif;"
+                <div style="flex:1;min-width:150px;max-width:200px;text-align:center;">
+                    <div style="overflow:hidden;margin:0 -30%;border-radius:4px;">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/screenshots/screenshot-2.png"
+                             alt="Buildplates"
+                             style="width:100%;display:block;image-rendering:auto;"
+                             onerror="this.style.display='none'">
+                    </div>
+                    <p style="margin-top:8px;font-size:0.75rem;line-height:1.4;color:#3e2723;font-family:'Minecraft','NotoSans',sans-serif;"
                        data-ru="Buildplates (Основания) — строй и сохраняй свои постройки, делись ими с другими игроками"
                        data-en="Buildplates — build and save your creations, share them with other players">
                         Buildplates (Основания) — строй и сохраняй свои постройки, делись ими с другими игроками
@@ -4567,12 +4571,14 @@
                 </div>
 
                 <!-- Screenshot 3 -->
-                <div style="flex:1;min-width:140px;max-width:180px;text-align:center;">
-                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/screenshots/screenshot-3.png"
-                         alt="AR Mode"
-                         style="width:100%;display:block;image-rendering:auto;border-radius:4px;"
-                         onerror="this.style.display='none'">
-                    <p style="margin-top:8px;font-size:0.72rem;line-height:1.4;color:#3e2723;font-family:'Minecraft','NotoSans',sans-serif;"
+                <div style="flex:1;min-width:150px;max-width:200px;text-align:center;">
+                    <div style="overflow:hidden;margin:0 -30%;border-radius:4px;">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/screenshots/screenshot-3.png"
+                             alt="AR Mode"
+                             style="width:100%;display:block;image-rendering:auto;"
+                             onerror="this.style.display='none'">
+                    </div>
+                    <p style="margin-top:8px;font-size:0.75rem;line-height:1.4;color:#3e2723;font-family:'Minecraft','NotoSans',sans-serif;"
                        data-ru="AR-режим — помести свою постройку в реальный мир через камеру телефона"
                        data-en="AR mode — place your build into the real world through your phone camera">
                         AR-режим — помести свою постройку в реальный мир через камеру телефона
