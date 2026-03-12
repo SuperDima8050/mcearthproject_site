@@ -4424,14 +4424,14 @@
         
         <div class="nav-tabs-wrapper">
         <div class="nav-tabs">
-            <button class="nav-tab active" onclick="switchTab('home')" data-ru="Главная" data-en="Home"><span class="nav-icon"><img src="shop_icon.png" alt="Home"></span><span data-ru="Главная" data-en="Home">Главная</span></button>
-            <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
-            <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
-            <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery" style="border-right:3px solid #8b7355;border-radius:0 4px 0 0;"><span class="nav-icon"><img src="paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
-            <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+            <button class="nav-tab active" onclick="switchTab('home')" data-ru="Главная" data-en="Home"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/shop_icon.png" alt="Home"></span><span data-ru="Главная" data-en="Home">Главная</span></button>
+            <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
+            <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
+            <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery" style="border-right:3px solid #8b7355;border-radius:0 4px 0 0;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
+            <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
         <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
-            <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+            <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
         </div>
 
@@ -5670,8 +5670,6 @@
             }
         }
         window.downloadWorld = downloadWorld;
-
-        window.loadGallery = loadGallery;
 
         function clearBuildplateForm() {
             document.getElementById('bp-name').value = '';
@@ -9142,7 +9140,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const gallery = document.getElementById('gallery-gallery');
             const filtersEl = document.getElementById('gallery-filters');
             updateGalleryAuthState();
-
             if (!sbClient) {
                 gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-exclamation-triangle"></i><p>${currentLang === 'ru' ? 'Supabase не подключён' : 'Supabase not connected'}</p></div>`;
                 return;
@@ -9732,6 +9729,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             titleInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gl-edit-save-btn').click(); });
         }
         window.editGalleryPhoto = editGalleryPhoto;
+        window.loadGallery = loadGallery;
 
         // Обработчик для report-img-input
         window._reportImgChanged = function(input) {
