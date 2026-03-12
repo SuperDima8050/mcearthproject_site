@@ -6539,11 +6539,7 @@
 
         let sbClient = null;
         try {
-            if (SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxbHlseGNub3FlaG9ybGdtenRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE0OTUwMDgsImV4cCI6MjA4NzA3MTAwOH0.stZw4M4I3W0fbVD1X-rP8eDWYWyye2MTswqSTR_UC3Y') {
-                console.warn('Supabase: вставь ANON KEY!');
-            } else {
-                sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            }
+            sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         } catch(e) {
             console.error('Supabase init error:', e);
         }
