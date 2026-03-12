@@ -4383,8 +4383,6 @@
             }
         })();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.2.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nsfwjs@2.4.2/dist/nsfwjs.min.js"></script>
 </head>
 <body>
 
@@ -4426,14 +4424,14 @@
         
         <div class="nav-tabs-wrapper">
         <div class="nav-tabs">
-            <button class="nav-tab active" onclick="switchTab('home')" data-ru="Главная" data-en="Home"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/shop_icon.png" alt="Home"></span><span data-ru="Главная" data-en="Home">Главная</span></button>
-            <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
-            <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
-            <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery" style="border-right:3px solid #8b7355;border-radius:0 4px 0 0;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
-            <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+            <button class="nav-tab active" onclick="switchTab('home')" data-ru="Главная" data-en="Home"><span class="nav-icon"><img src="shop_icon.png" alt="Home"></span><span data-ru="Главная" data-en="Home">Главная</span></button>
+            <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
+            <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
+            <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery" style="border-right:3px solid #8b7355;border-radius:0 4px 0 0;"><span class="nav-icon"><img src="paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
+            <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
         <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
-            <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+            <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
         </div>
 
@@ -5673,6 +5671,8 @@
         }
         window.downloadWorld = downloadWorld;
 
+        window.loadGallery = loadGallery;
+
         function clearBuildplateForm() {
             document.getElementById('bp-name').value = '';
             document.getElementById('bp-image-input').value = '';
@@ -6455,53 +6455,29 @@
         const SUPABASE_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co';
         window.SUPABASE_URL = SUPABASE_URL;
 
-        // === Модерация через NsfwJS (клиент, без API ключей) ===
-        let _nsfwModel = null;
-        async function _loadNsfwModel() {
-            if (_nsfwModel) return _nsfwModel;
-            try {
-                _nsfwModel = await nsfwjs.load('https://nsfwjs.com/quant_nsfw_mobilenet/');
-            } catch(e) {
-                console.warn('nsfwjs load error:', e);
-            }
-            return _nsfwModel;
-        }
-
+        // === Модерация изображений через Edge Function ===
         async function moderateImage(file) {
             try {
-                const model = await _loadNsfwModel();
-                if (!model) return { ok: true, skipped: true };
-
-                const img = new Image();
-                const url = URL.createObjectURL(file);
-                await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
-                URL.revokeObjectURL(url);
-
-                const predictions = await model.classify(img);
-                console.log('NSFW predictions:', predictions);
-
-                const violations = [];
-                for (const p of predictions) {
-                    if ((p.className === 'Porn' || p.className === 'Hentai') && p.probability > 0.7) {
-                        violations.push(p.className.toLowerCase());
+                const fd = new FormData();
+                fd.append('file', file);
+                const res = await fetch(
+                    `${SUPABASE_URL}/functions/v1/moderate-image`,
+                    { 
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+                        body: fd 
                     }
-                    if (p.className === 'Sexy' && p.probability > 0.85) {
-                        violations.push('sexy');
-                    }
-                }
-
-                if (violations.length > 0) {
-                    return { ok: false, reason: 'nsfw', violations };
-                }
-                return { ok: true };
-            } catch(e) {
+                );
+                if (!res.ok) return { ok: true, skipped: true }; // при сетевой ошибке — не блокируем
+                return await res.json();
+            } catch (e) {
                 console.warn('moderateImage error:', e);
-                return { ok: true, skipped: true };
+                return { ok: true, skipped: true }; // fail-open
             }
         }
 
         function moderationErrorMsg(result, ru) {
-            const map = { porn: ru ? 'порно' : 'porn', hentai: ru ? 'хентай' : 'hentai', sexy: ru ? 'непристойный контент' : 'suggestive content' };
+            const map = { adult: ru ? 'порно/18+' : 'adult content', violence: ru ? 'насилие' : 'violence', racy: ru ? 'непристойный контент' : 'racy content', medical: ru ? 'шокирующий медицинский контент' : 'graphic medical content' };
             const labels = (result.violations || []).map(v => map[v] || v).join(', ');
             return ru
                 ? `🚫 Изображение не прошло модерацию (${labels}). Загрузка запрещена.`
@@ -6560,12 +6536,16 @@
             });
             cookieObserver.observe(document.body, { childList: true, subtree: false });
         }
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxbHlseGNub3FlaG9ybGdtenRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE0OTUwMDgsImV4cCI6MjA4NzA3MTAwOH0.stZw4M4I3W0fbVD1X-rP8eDWYWyye2MTswqSTR_UC3Y';
+        const SUPABASE_ANON_KEY = 'sb_publishable_nhY94pR0kxA70QI__Zy_Hw_OD5nUm7F';
         window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
 
         let sbClient = null;
         try {
-            sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            if (SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxbHlseGNub3FlaG9ybGdtenRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE0OTUwMDgsImV4cCI6MjA4NzA3MTAwOH0.stZw4M4I3W0fbVD1X-rP8eDWYWyye2MTswqSTR_UC3Y') {
+                console.warn('Supabase: вставь ANON KEY!');
+            } else {
+                sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
         } catch(e) {
             console.error('Supabase init error:', e);
         }
@@ -9162,6 +9142,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const gallery = document.getElementById('gallery-gallery');
             const filtersEl = document.getElementById('gallery-filters');
             updateGalleryAuthState();
+
             if (!sbClient) {
                 gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-exclamation-triangle"></i><p>${currentLang === 'ru' ? 'Supabase не подключён' : 'Supabase not connected'}</p></div>`;
                 return;
@@ -9751,7 +9732,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             titleInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gl-edit-save-btn').click(); });
         }
         window.editGalleryPhoto = editGalleryPhoto;
-        window.loadGallery = loadGallery;
 
         // Обработчик для report-img-input
         window._reportImgChanged = function(input) {
