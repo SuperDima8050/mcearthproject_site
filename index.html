@@ -3990,6 +3990,10 @@
         }
         .donate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #7f5200; }
         .donate-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #7f5200; }
+        @media (max-width: 600px) {
+            .donate-btn span { display: none; }
+            .donate-btn { padding: 6px 8px; }
+        }
         body.dark-theme .donate-btn { border-color: #f9a825; background: linear-gradient(180deg,#f9a825,#c17f24); color: #1a0a00; }
 
         .donate-modal-overlay {
