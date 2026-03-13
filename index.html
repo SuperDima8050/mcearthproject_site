@@ -5461,6 +5461,7 @@
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
             document.getElementById('nedit-save-btn').addEventListener('click', async () => {
                 const statusEl = document.getElementById('nedit-status');
                 const title = document.getElementById('nedit-title').value.trim();
@@ -5608,6 +5609,7 @@
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
         }
 
         async function submitNews() {
@@ -8762,7 +8764,16 @@
             if (banner) { setTimeout(() => banner.classList.add('show'), 800); }
         }
 
-        function showPrivacyModal() { const el = document.getElementById('privacy-modal-overlay'); el.style.display = 'flex'; }
+        function showPrivacyModal() {
+            const el = document.getElementById('privacy-modal-overlay');
+            el.style.display = 'flex';
+            const inner = el.querySelector('.privacy-modal-inner');
+            const handle = inner.querySelector('div:first-child');
+            if (inner && handle && !inner._dragInit) {
+                inner._dragInit = true;
+                makeDraggable(inner, handle);
+            }
+        }
         function hidePrivacyModal() { const el = document.getElementById('privacy-modal-overlay'); el.style.display = 'none'; }
         document.addEventListener('keydown', e => { if (e.key === 'Escape') hidePrivacyModal(); });
 
