@@ -5432,7 +5432,7 @@
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:520px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}</h3>
+                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
                     <div class="bp-form-row" style="margin-bottom:10px;">
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
                         <input id="nedit-title" style="${inputStyle}" maxlength="200" value="${(news.title||'').replace(/"/g,'&quot;')}" />
@@ -5562,7 +5562,7 @@
             const inputStyle = 'width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:#f5eed9;color:#3e2723;font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;';
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:520px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}</h3>
+                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
                     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:rgba(107,142,35,0.1);border-radius:3px;border:2px solid #8b7355;">
                         <i class="fas fa-user" style="color:#6b8e23;"></i>
                         <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:#3e2723;">${currentAccount.nick}${currentAccount.verified ? ' <span class=\"verified-badge\" title=\"Верифицирован\"><i class=\"fas fa-check\"></i></span>' : ''}</span>
@@ -8430,7 +8430,7 @@
                 <div class="bp-modal draggable-modal" style="max-width:420px;" id="bp-edit-modal-content">
                     <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
                         <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить buildplate' : 'Edit buildplate'}</h3>
-                        <i class="fas fa-grip-lines" style="opacity:0.7; font-size:0.9rem;"></i>
+                        <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;opacity:0.6;">⠿ ${ru ? 'тащи' : 'drag'}</span>
                     </div>
                     <div style="padding:16px;">
                         <div class="bp-form-row" style="margin-bottom:14px;">
@@ -9557,7 +9557,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 <div class="bp-modal draggable-modal" style="max-width:420px;" id="gl-edit-modal-content">
                     <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
                         <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить фото' : 'Edit photo'}</h3>
-                        <i class="fas fa-grip-lines" style="opacity:0.7; font-size:0.9rem;"></i>
+                        <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;opacity:0.6;">⠿ ${ru ? 'тащи' : 'drag'}</span>
                     </div>
                     <div style="padding:16px;">
                         <div class="bp-form-row" style="margin-bottom:14px;">
