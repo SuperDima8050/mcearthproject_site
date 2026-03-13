@@ -3979,7 +3979,7 @@
         .donate-btn {
             font-family: 'Minecraft', sans-serif;
             font-size: 0.78rem; font-weight: 700;
-            padding: 6px 12px; border-radius: 2px;
+            padding: 6px 8px; border-radius: 2px;
             border: 3px solid #c17f24;
             background: linear-gradient(180deg, #f9a825 0%, #c17f24 100%);
             color: #3e2000; cursor: pointer;
@@ -3988,12 +3988,13 @@
             transition: transform 0.1s, box-shadow 0.1s;
             white-space: nowrap;
         }
+        .donate-btn span { display: none; }
+        @media (min-width: 900px) {
+            .donate-btn { padding: 6px 12px; }
+            .donate-btn span { display: inline; }
+        }
         .donate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #7f5200; }
         .donate-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #7f5200; }
-        @media (max-width: 600px) {
-            .donate-btn span { display: none; }
-            .donate-btn { padding: 6px 8px; }
-        }
         body.dark-theme .donate-btn { border-color: #f9a825; background: linear-gradient(180deg,#f9a825,#c17f24); color: #1a0a00; }
 
         .donate-modal-overlay {
