@@ -8472,14 +8472,9 @@
             }
 
             // Добавляем обработчики событий
-            header.addEventListener('mousedown', dragStart);
-            document.addEventListener('mouseup', dragEnd);
-            document.addEventListener('mousemove', drag);
-            
-            // Для мобильных устройств
-            header.addEventListener('touchstart', dragStart, { passive: false });
-            document.addEventListener('touchend', dragEnd);
-            document.addEventListener('touchmove', drag, { passive: false });
+            function dragEndCleanup(e) { dragEnd(e); document.removeEventListener('mouseup', dragEndCleanup); document.removeEventListener('mousemove', drag); document.removeEventListener('touchend', dragEndCleanup); document.removeEventListener('touchmove', drag); }
+            header.addEventListener('mousedown', (e) => { dragStart(e); document.addEventListener('mouseup', dragEndCleanup); document.addEventListener('mousemove', drag); });
+            header.addEventListener('touchstart', (e) => { dragStart(e); document.addEventListener('touchend', dragEndCleanup); document.addEventListener('touchmove', drag, { passive: false }); }, { passive: false });
             
             const nameInput = document.getElementById('bp-edit-name');
             nameInput.focus(); nameInput.select();
@@ -9628,14 +9623,9 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             }
 
             // Добавляем обработчики событий
-            header.addEventListener('mousedown', dragStart);
-            document.addEventListener('mouseup', dragEnd);
-            document.addEventListener('mousemove', drag);
-            
-            // Для мобильных устройств
-            header.addEventListener('touchstart', dragStart, { passive: false });
-            document.addEventListener('touchend', dragEnd);
-            document.addEventListener('touchmove', drag, { passive: false });
+            function dragEndCleanup(e) { dragEnd(e); document.removeEventListener('mouseup', dragEndCleanup); document.removeEventListener('mousemove', drag); document.removeEventListener('touchend', dragEndCleanup); document.removeEventListener('touchmove', drag); }
+            header.addEventListener('mousedown', (e) => { dragStart(e); document.addEventListener('mouseup', dragEndCleanup); document.addEventListener('mousemove', drag); });
+            header.addEventListener('touchstart', (e) => { dragStart(e); document.addEventListener('touchend', dragEndCleanup); document.addEventListener('touchmove', drag, { passive: false }); }, { passive: false });
 
             // Добавляем drag & drop для изображения
             const dragContainer = modal.querySelector('.drag-drop-container');
