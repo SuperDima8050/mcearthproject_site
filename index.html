@@ -4882,6 +4882,15 @@
                                 <label data-ru="Повтори пароль" data-en="Confirm Password">Повтори пароль</label>
                                 <div class="pass-wrap"><input type="password" id="bp-auth-pass2" placeholder="••••••••" maxlength="100" style="width:100%;padding:12px 44px 12px 14px;border:3px solid #8b7355;border-radius:2px;background:#f5eed9;color:#3e2723;font-family:Minecraft,sans-serif;font-size:1rem;font-weight:600;outline:none;transition:border-color .15s;box-shadow:inset 0 2px 4px rgba(0,0,0,.1);" /><button type="button" class="pass-toggle" onclick="togglePass('bp-auth-pass2',this)" tabindex="-1"><i class="fas fa-eye"></i></button></div>
                             </div>
+                            <div id="bp-privacy-row" style="display:none;margin-bottom:10px;padding:8px 10px;background:rgba(139,115,85,0.08);border:2px solid #c8b090;border-radius:2px;">
+                                <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;">
+                                    <input type="checkbox" id="bp-privacy-check" style="width:15px;height:15px;margin-top:2px;flex-shrink:0;cursor:pointer;accent-color:#5a8a3a;">
+                                    <span style="font-family:'Minecraft',sans-serif;font-size:0.72rem;line-height:1.5;color:#5a4a3a;">
+                                        <span data-ru="Я принимаю" data-en="I accept the">Я принимаю</span>
+                                        <a href="#" onclick="showPrivacyModal();return false;" style="color:#5a8a3a;text-decoration:underline;" data-ru="политику конфиденциальности" data-en="privacy policy">политику конфиденциальности</a>
+                                    </span>
+                                </label>
+                            </div>
                             <button class="bp-submit-btn" style="margin-top:4px; font-size:0.85rem; padding:10px;" onclick="doAuth()">
                                 <i class="fas fa-sign-in-alt"></i>
                                 <span id="bp-auth-btn-text" data-ru="Войти" data-en="Login">Войти</span>
@@ -5198,6 +5207,49 @@
                   data-en="This project is created by fans and is not affiliated with Mojang or Microsoft">
                 Этот проект создан фанатами и не связан с Mojang или Microsoft
             </span>
+        </div>
+
+        <!-- FOOTER -->
+        <div style="text-align:center;padding:20px 0 8px;border-top:2px solid #8b7355;margin-top:24px;">
+            <span style="font-family:'Minecraft',sans-serif;font-size:0.72rem;color:#8b7355;">
+                © 2026 Project Earth &nbsp;·&nbsp;
+                <a href="#" onclick="showPrivacyModal();return false;" style="color:#5a8a3a;text-decoration:underline;font-family:'Minecraft',sans-serif;font-size:0.72rem;" data-ru="Политика конфиденциальности" data-en="Privacy Policy">Политика конфиденциальности</a>
+                &nbsp;·&nbsp;
+                <a href="https://discord.gg/s6KsAe4Cn" target="_blank" rel="noopener" style="color:#5a8a3a;text-decoration:underline;font-family:'Minecraft',sans-serif;font-size:0.72rem;">Discord</a>
+            </span>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY MODAL -->
+    <div id="privacy-modal-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;" onclick="if(event.target===this)hidePrivacyModal()">
+        <div style="background:#f5eed9;border:4px solid #8b7355;border-radius:4px;box-shadow:0 8px 0 #3e2723;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;padding:28px 24px;font-family:'Minecraft','NotoSans',sans-serif;position:relative;">
+            <button onclick="hidePrivacyModal()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#8b7355;line-height:1;">✕</button>
+            <div style="font-size:1rem;font-weight:700;color:#3e2723;margin-bottom:16px;" data-ru="🔒 Политика конфиденциальности" data-en="🔒 Privacy Policy">🔒 Политика конфиденциальности</div>
+            <div style="font-size:0.78rem;line-height:1.8;color:#5a4a3a;">
+                <p style="margin-bottom:6px;color:#888;" data-ru="Последнее обновление: март 2026" data-en="Last updated: March 2026">Последнее обновление: март 2026</p>
+
+                <p style="font-weight:700;margin:14px 0 4px;" data-ru="1. Кто мы" data-en="1. Who we are">1. Кто мы</p>
+                <p style="margin-bottom:10px;" data-ru="Project Earth — некоммерческий фанатский проект по возрождению Minecraft Earth. Мы не аффилированы с Mojang Studios или Microsoft." data-en="Project Earth is a non-commercial fan project to revive Minecraft Earth. We are not affiliated with Mojang Studios or Microsoft.">Project Earth — некоммерческий фанатский проект по возрождению Minecraft Earth. Мы не аффилированы с Mojang Studios или Microsoft.</p>
+
+                <p style="font-weight:700;margin:14px 0 4px;" data-ru="2. Какие данные мы собираем" data-en="2. What data we collect">2. Какие данные мы собираем</p>
+                <p style="margin-bottom:10px;" data-ru="При регистрации: никнейм, email, зашифрованный пароль. При загрузке контента: название, описание, изображения. Мы не собираем платёжные данные и не отслеживаем геолокацию." data-en="On registration: nickname, email, encrypted password. When uploading content: title, description, images. We do not collect payment data or track geolocation.">При регистрации: никнейм, email, зашифрованный пароль. При загрузке контента: название, описание, изображения. Мы не собираем платёжные данные и не отслеживаем геолокацию.</p>
+
+                <p style="font-weight:700;margin:14px 0 4px;" data-ru="3. Как используются данные" data-en="3. How data is used">3. Как используются данные</p>
+                <p style="margin-bottom:10px;" data-ru="Данные используются только для идентификации пользователей, отображения контента и модерации. Мы не продаём и не передаём данные третьим лицам." data-en="Data is used only for user identification, content display and moderation. We do not sell or share data with third parties.">Данные используются только для идентификации пользователей, отображения контента и модерации. Мы не продаём и не передаём данные третьим лицам.</p>
+
+                <p style="font-weight:700;margin:14px 0 4px;" data-ru="4. Хранение данных" data-en="4. Data storage">4. Хранение данных</p>
+                <p style="margin-bottom:10px;" data-ru="Данные хранятся в Supabase. Пароли зашифрованы (bcrypt). Изображения хранятся в защищённом облачном хранилище." data-en="Data is stored in Supabase. Passwords are encrypted (bcrypt). Images are stored in secure cloud storage.">Данные хранятся в Supabase. Пароли зашифрованы (bcrypt). Изображения хранятся в защищённом облачном хранилище.</p>
+
+                <p style="font-weight:700;margin:14px 0 4px;" data-ru="5. Ваши права" data-en="5. Your rights">5. Ваши права</p>
+                <p style="margin-bottom:10px;" data-ru="Вы можете запросить удаление аккаунта и всех данных через наш Discord." data-en="You can request deletion of your account and all data via our Discord.">Вы можете запросить удаление аккаунта и всех данных через наш Discord.</p>
+
+                <p style="font-weight:700;margin:14px 0 4px;" data-ru="6. Cookie" data-en="6. Cookies">6. Cookie</p>
+                <p style="margin-bottom:10px;" data-ru="Сайт использует localStorage для сохранения настроек темы и языка. Рекламные cookie не используются." data-en="The site uses localStorage to save theme and language settings. Advertising cookies are not used.">Сайт использует localStorage для сохранения настроек темы и языка. Рекламные cookie не используются.</p>
+
+                <p style="font-weight:700;margin:14px 0 4px;" data-ru="7. Контент пользователей" data-en="7. User content">7. Контент пользователей</p>
+                <p data-ru="Загружая контент, вы подтверждаете что он принадлежит вам. Администрация вправе удалить контент, нарушающий правила." data-en="By uploading content you confirm it belongs to you. Administration may remove content that violates the rules.">Загружая контент, вы подтверждаете что он принадлежит вам. Администрация вправе удалить контент, нарушающий правила.</p>
+            </div>
+            <button onclick="hidePrivacyModal()" style="margin-top:20px;width:100%;font-family:'Minecraft',sans-serif;font-size:0.82rem;padding:10px;border:3px solid #8b7355;border-radius:2px;background:linear-gradient(180deg,#a89060,#7a6040);color:#fff;cursor:pointer;box-shadow:0 4px 0 #4a3820;" data-ru="Закрыть" data-en="Close">Закрыть</button>
         </div>
     </div>
 
@@ -7118,6 +7170,8 @@
             document.getElementById('bp-email-row').style.display  = isReg ? 'block' : 'none';
             document.getElementById('bp-pass2-row').style.display  = isReg ? 'block' : 'none';
             document.getElementById('bp-forgot-btn').style.display = isReg ? 'none'  : 'inline';
+            document.getElementById('bp-privacy-row').style.display = isReg ? 'block' : 'none';
+            if (!isReg) document.getElementById('bp-privacy-check').checked = false;
 
             document.getElementById('bp-auth-status').className = 'bp-auth-status';
             document.getElementById('bp-auth-status').textContent = '';
@@ -7206,6 +7260,10 @@
             }
 
             if (authMode === 'register') {
+                if (!document.getElementById('bp-privacy-check').checked) {
+                    showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Прими политику конфиденциальности!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Please accept the privacy policy!');
+                    return;
+                }
                 const email = document.getElementById('bp-auth-email').value.trim();
                 const pass2 = document.getElementById('bp-auth-pass2').value;
                 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -8783,6 +8841,10 @@
             const banner = document.getElementById('cookie-banner');
             if (banner) { setTimeout(() => banner.classList.add('show'), 800); }
         }
+
+        function showPrivacyModal() { const el = document.getElementById('privacy-modal-overlay'); el.style.display = 'flex'; }
+        function hidePrivacyModal() { const el = document.getElementById('privacy-modal-overlay'); el.style.display = 'none'; }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') hidePrivacyModal(); });
 
         function showDonateModal() {
             document.getElementById('donate-modal-overlay').style.display = 'flex';
