@@ -5860,32 +5860,7 @@
 
             const box = document.getElementById('report-modal-box');
             const handle = document.getElementById('report-drag-handle');
-            if (box && handle) {
-                let dragging = false, startX, startY, origX, origY;
-                handle.addEventListener('mousedown', e => {
-                    dragging = true;
-                    startX = e.clientX; startY = e.clientY;
-                    const rect = box.getBoundingClientRect();
-                    origX = rect.left; origY = rect.top;
-                    box.style.position = 'fixed';
-                    box.style.left = origX + 'px';
-                    box.style.top = origY + 'px';
-                    box.style.margin = '0';
-                    overlay.style.alignItems = 'flex-start';
-                    overlay.style.justifyContent = 'flex-start';
-                    handle.style.cursor = 'grabbing';
-                    e.preventDefault();
-                });
-                document.addEventListener('mousemove', e => {
-                    if (!dragging) return;
-                    box.style.left = (origX + e.clientX - startX) + 'px';
-                    box.style.top = (origY + e.clientY - startY) + 'px';
-                });
-                document.addEventListener('mouseup', () => {
-                    dragging = false;
-                    handle.style.cursor = 'grab';
-                }, { once: true });
-            }
+            if (box && handle) makeDraggable(box, handle);
         }
         window.showReportModal = showReportModal;
 
@@ -8474,76 +8449,10 @@
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             
-            // Добавляем функциональность перетаскивания
+            // Перетаскивание
             const modal = document.getElementById('bp-edit-modal-content');
             const header = modal.querySelector('.modal-header');
-            
-            let isDragging = false;
-            let currentX;
-            let currentY;
-            let initialX;
-            let initialY;
-            let xOffset = 0;
-            let yOffset = 0;
-
-            function dragStart(e) {
-                if (e.type === "touchstart") {
-                    initialX = e.touches[0].clientX - xOffset;
-                    initialY = e.touches[0].clientY - yOffset;
-                } else {
-                    initialX = e.clientX - xOffset;
-                    initialY = e.clientY - yOffset;
-                }
-
-                if (e.target === header || header.contains(e.target)) {
-                    isDragging = true;
-                    modal.style.cursor = 'grabbing';
-                    header.style.cursor = 'grabbing';
-                }
-            }
-
-            function dragEnd(e) {
-                initialX = currentX;
-                initialY = currentY;
-                isDragging = false;
-                modal.style.cursor = 'auto';
-                header.style.cursor = 'move';
-            }
-
-            function drag(e) {
-                if (isDragging) {
-                    e.preventDefault();
-                    
-                    if (e.type === "touchmove") {
-                        currentX = e.touches[0].clientX - initialX;
-                        currentY = e.touches[0].clientY - initialY;
-                    } else {
-                        currentX = e.clientX - initialX;
-                        currentY = e.clientY - initialY;
-                    }
-
-                    xOffset = currentX;
-                    yOffset = currentY;
-
-                    modal.style.transform = `translate(${currentX}px, ${currentY}px)`;
-                }
-            }
-
-            // Добавляем обработчики событий
-            header.addEventListener('mousedown', (e) => {
-                dragStart(e);
-                function onMove(e) { drag(e); }
-                function onUp(e) { dragEnd(e); document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
-                document.addEventListener('mousemove', onMove);
-                document.addEventListener('mouseup', onUp);
-            });
-            header.addEventListener('touchstart', (e) => {
-                dragStart(e);
-                function onMove(e) { drag(e); }
-                function onUp(e) { dragEnd(e); document.removeEventListener('touchmove', onMove); document.removeEventListener('touchend', onUp); }
-                document.addEventListener('touchmove', onMove, { passive: false });
-                document.addEventListener('touchend', onUp);
-            }, { passive: false });
+            makeDraggable(modal, header);
             
             const nameInput = document.getElementById('bp-edit-name');
             nameInput.focus(); nameInput.select();
@@ -8856,6 +8765,44 @@
         function showPrivacyModal() { const el = document.getElementById('privacy-modal-overlay'); el.style.display = 'flex'; }
         function hidePrivacyModal() { const el = document.getElementById('privacy-modal-overlay'); el.style.display = 'none'; }
         document.addEventListener('keydown', e => { if (e.key === 'Escape') hidePrivacyModal(); });
+
+        function makeDraggable(modal, handle) {
+            let offsetX = 0, offsetY = 0;
+            handle.style.cursor = 'move';
+            handle.addEventListener('mousedown', startDrag);
+            handle.addEventListener('touchstart', startDrag, { passive: false });
+            function startDrag(e) {
+                const cx = e.touches ? e.touches[0].clientX : e.clientX;
+                const cy = e.touches ? e.touches[0].clientY : e.clientY;
+                const rect = modal.getBoundingClientRect();
+                offsetX = cx - rect.left;
+                offsetY = cy - rect.top;
+                modal.style.position = 'fixed';
+                modal.style.margin = '0';
+                modal.style.left = rect.left + 'px';
+                modal.style.top = rect.top + 'px';
+                modal.style.transform = 'none';
+                handle.style.cursor = 'grabbing';
+                e.preventDefault();
+                function onMove(e) {
+                    const mx = e.touches ? e.touches[0].clientX : e.clientX;
+                    const my = e.touches ? e.touches[0].clientY : e.clientY;
+                    modal.style.left = Math.max(0, Math.min(window.innerWidth - modal.offsetWidth, mx - offsetX)) + 'px';
+                    modal.style.top = Math.max(0, Math.min(window.innerHeight - modal.offsetHeight, my - offsetY)) + 'px';
+                }
+                function onUp() {
+                    handle.style.cursor = 'move';
+                    document.removeEventListener('mousemove', onMove);
+                    document.removeEventListener('mouseup', onUp);
+                    document.removeEventListener('touchmove', onMove);
+                    document.removeEventListener('touchend', onUp);
+                }
+                document.addEventListener('mousemove', onMove);
+                document.addEventListener('mouseup', onUp);
+                document.addEventListener('touchmove', onMove, { passive: false });
+                document.addEventListener('touchend', onUp);
+            }
+        }
 
         function showDonateModal() {
             document.getElementById('donate-modal-overlay').style.display = 'flex';
@@ -9640,76 +9587,10 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             
-            // Добавляем функциональность перетаскивания
+            // Перетаскивание
             const modal = document.getElementById('gl-edit-modal-content');
             const header = modal.querySelector('.modal-header');
-            
-            let isDragging = false;
-            let currentX;
-            let currentY;
-            let initialX;
-            let initialY;
-            let xOffset = 0;
-            let yOffset = 0;
-
-            function dragStart(e) {
-                if (e.type === "touchstart") {
-                    initialX = e.touches[0].clientX - xOffset;
-                    initialY = e.touches[0].clientY - yOffset;
-                } else {
-                    initialX = e.clientX - xOffset;
-                    initialY = e.clientY - yOffset;
-                }
-
-                if (e.target === header || header.contains(e.target)) {
-                    isDragging = true;
-                    modal.style.cursor = 'grabbing';
-                    header.style.cursor = 'grabbing';
-                }
-            }
-
-            function dragEnd(e) {
-                initialX = currentX;
-                initialY = currentY;
-                isDragging = false;
-                modal.style.cursor = 'auto';
-                header.style.cursor = 'move';
-            }
-
-            function drag(e) {
-                if (isDragging) {
-                    e.preventDefault();
-                    
-                    if (e.type === "touchmove") {
-                        currentX = e.touches[0].clientX - initialX;
-                        currentY = e.touches[0].clientY - initialY;
-                    } else {
-                        currentX = e.clientX - initialX;
-                        currentY = e.clientY - initialY;
-                    }
-
-                    xOffset = currentX;
-                    yOffset = currentY;
-
-                    modal.style.transform = `translate(${currentX}px, ${currentY}px)`;
-                }
-            }
-
-            // Добавляем обработчики событий
-            header.addEventListener('mousedown', (e) => {
-                dragStart(e);
-                function onMove(e) { drag(e); }
-                function onUp(e) { dragEnd(e); document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
-                document.addEventListener('mousemove', onMove);
-                document.addEventListener('mouseup', onUp);
-            });
-            header.addEventListener('touchstart', (e) => {
-                dragStart(e);
-                function onMove(e) { drag(e); }
-                function onUp(e) { dragEnd(e); document.removeEventListener('touchmove', onMove); document.removeEventListener('touchend', onUp); }
-                document.addEventListener('touchmove', onMove, { passive: false });
-                document.addEventListener('touchend', onUp);
-            }, { passive: false });
+            makeDraggable(modal, header);
 
             // Добавляем drag & drop для изображения
             const dragContainer = modal.querySelector('.drag-drop-container');
