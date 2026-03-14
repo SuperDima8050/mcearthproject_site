@@ -5271,7 +5271,7 @@
     
     <div class="cookie-banner" id="cookie-banner">
         <div class="cookie-banner-text">
-            <div class="cookie-banner-title" id="cookie-banner-title-el"><img id="cookie-icon-banner" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/cookie_item.png" alt="cookie" style="width:24px;height:24px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"><span data-ru="Уведомление о Cookie" data-en="Cookie Notice">Уведомление о Cookie</span></div>
+            <div class="cookie-banner-title" id="cookie-banner-title-el" style="cursor:move;user-select:none;"><img id="cookie-icon-banner" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/cookie_item.png" alt="cookie" style="width:24px;height:24px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"><span data-ru="Уведомление о Cookie" data-en="Cookie Notice">Уведомление о Cookie</span><span style="margin-left:8px;font-size:0.6rem;opacity:0.4;font-family:Minecraft,sans-serif;">⠿ drag</span></div>
             <div class="cookie-banner-desc" data-ru="Мы используем cookies для сохранения сессии, лайков и настроек. Без них сайт не будет работать правильно." data-en="We use cookies to save your session, likes and preferences. Without them the site won't work correctly.">
                 We use cookies to save your session, likes and preferences. Without them the site won't work correctly.
             </div>
@@ -8776,7 +8776,58 @@
 
         function showCookieBanner() {
             const banner = document.getElementById('cookie-banner');
-            if (banner) { setTimeout(() => banner.classList.add('show'), 800); }
+            if (banner) { setTimeout(() => { banner.classList.add('show'); initCookieBannerDrag(); }, 800); }
+        }
+
+        function initCookieBannerDrag() {
+            const banner = document.getElementById('cookie-banner');
+            const handle = document.getElementById('cookie-banner-title-el');
+            if (!banner || !handle || banner._dragInit) return;
+            banner._dragInit = true;
+            let offsetX = 0, offsetY = 0;
+            handle.addEventListener('mousedown', startBannerDrag);
+            handle.addEventListener('touchstart', startBannerDrag, { passive: false });
+            function startBannerDrag(e) {
+                // Convert banner from full-width bar to floating compact card on first drag
+                if (!banner._floatingMode) {
+                    banner._floatingMode = true;
+                    const rect = banner.getBoundingClientRect();
+                    banner.style.transition = 'none';
+                    banner.style.bottom = 'unset';
+                    banner.style.left = rect.left + 'px';
+                    banner.style.top = rect.top + 'px';
+                    banner.style.right = 'unset';
+                    banner.style.width = Math.min(rect.width, 440) + 'px';
+                    banner.style.borderRadius = '4px';
+                    banner.style.border = '4px solid #5a4a3a';
+                    banner.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
+                    banner.style.transform = 'none';
+                }
+                const cx = e.touches ? e.touches[0].clientX : e.clientX;
+                const cy = e.touches ? e.touches[0].clientY : e.clientY;
+                const rect = banner.getBoundingClientRect();
+                offsetX = cx - rect.left;
+                offsetY = cy - rect.top;
+                handle.style.cursor = 'grabbing';
+                e.preventDefault();
+                function onMove(e) {
+                    const mx = e.touches ? e.touches[0].clientX : e.clientX;
+                    const my = e.touches ? e.touches[0].clientY : e.clientY;
+                    banner.style.left = Math.max(0, Math.min(window.innerWidth - banner.offsetWidth, mx - offsetX)) + 'px';
+                    banner.style.top = Math.max(0, Math.min(window.innerHeight - banner.offsetHeight, my - offsetY)) + 'px';
+                }
+                function onUp() {
+                    handle.style.cursor = 'move';
+                    document.removeEventListener('mousemove', onMove);
+                    document.removeEventListener('mouseup', onUp);
+                    document.removeEventListener('touchmove', onMove);
+                    document.removeEventListener('touchend', onUp);
+                }
+                document.addEventListener('mousemove', onMove);
+                document.addEventListener('mouseup', onUp);
+                document.addEventListener('touchmove', onMove, { passive: false });
+                document.addEventListener('touchend', onUp);
+            }
         }
 
         function showPrivacyModal() {
@@ -8832,6 +8883,12 @@
 
         function showDonateModal() {
             document.getElementById('donate-modal-overlay').style.display = 'flex';
+            const modal = document.querySelector('.donate-modal');
+            const handle = document.getElementById('donate-modal-handle');
+            if (modal && handle && !modal._dragInit) {
+                modal._dragInit = true;
+                makeDraggable(modal, handle);
+            }
         }
         function hideDonateModal() {
             document.getElementById('donate-modal-overlay').style.display = 'none';
@@ -8847,7 +8904,7 @@
             overlay.className = 'cookie-modal-overlay'; overlay.id = 'cookie-modal-overlay';
             overlay.innerHTML = `
                 <div class="cookie-modal">
-                    <h3><img id="cookie-icon-modal" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/cookie_item.png" alt="cookie" style="width:22px;height:22px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Настройки Cookie' : 'Cookie Settings'}</h3>
+                    <h3 id="cookie-modal-handle" style="cursor:move;user-select:none;display:flex;align-items:center;"><img id="cookie-icon-modal" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/cookie_item.png" alt="cookie" style="width:22px;height:22px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Настройки Cookie' : 'Cookie Settings'}<span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">⠿ drag</span></h3>
                     <p style="font-size:0.82rem;font-family:Minecraft,sans-serif;color:${isDark?'#b0b0b0':'#5a4a3a'};margin-bottom:16px;line-height:1.6;font-weight:600;">
                         ${ru ? 'Управляй тем, какие данные мы сохраняем в твоём браузере.' : 'Control what data we store in your browser.'}
                     </p>
@@ -8896,9 +8953,10 @@
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            const cookieModal = overlay.querySelector('.cookie-modal');
+            const cookieHandle = document.getElementById('cookie-modal-handle');
+            if (cookieModal && cookieHandle) makeDraggable(cookieModal, cookieHandle);
         }
-
-        function saveCookieFromModal() {
             const functional = document.getElementById('cookie-functional')?.checked ?? true;
             const analytics = document.getElementById('cookie-analytics')?.checked ?? true;
             saveCookieConsent({ essential: true, functional, analytics });
@@ -9854,9 +9912,10 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 
         <div class="donate-modal-overlay" id="donate-modal-overlay" style="display:none;" onclick="if(event.target===this)hideDonateModal()">
             <div class="donate-modal">
-                <div class="donate-modal-title">
+                <div class="donate-modal-title" id="donate-modal-handle" style="cursor:move;user-select:none;">
                     <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/minecoin_icon.png" style="width:24px;height:24px;image-rendering:pixelated;object-fit:contain;">
                     <span data-ru="Поддержать проект" data-en="Support the project">Поддержать проект</span>
+                    <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">⠿ drag</span>
                 </div>
                 <div class="donate-modal-desc" data-ru="Пожертвования помогают нам поддерживать сервер и развивать проект. Спасибо! ❤️" data-en="Donations help us keep the server running and develop the project. Thank you! ❤️">
                     Пожертвования помогают нам поддерживать сервер и развивать проект. Спасибо! ❤️
