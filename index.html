@@ -8957,6 +8957,8 @@
             const cookieHandle = document.getElementById('cookie-modal-handle');
             if (cookieModal && cookieHandle) makeDraggable(cookieModal, cookieHandle);
         }
+
+        function saveCookieFromModal() {
             const functional = document.getElementById('cookie-functional')?.checked ?? true;
             const analytics = document.getElementById('cookie-analytics')?.checked ?? true;
             saveCookieConsent({ essential: true, functional, analytics });
