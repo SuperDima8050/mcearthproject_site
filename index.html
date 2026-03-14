@@ -15,12 +15,14 @@
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftfive-regular.ttf') format('truetype');
             font-weight: 400;
             font-style: normal;
+            font-display: block;
         }
         @font-face {
             font-family: 'Minecraft';
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftfive-bold.ttf') format('truetype');
             font-weight: 700;
             font-style: normal;
+            font-display: block;
         }
         /* MinecraftTen — крупные заголовки (h1) */
         @font-face {
@@ -115,6 +117,7 @@
 
         body {
             font-family: 'Minecraft', 'NotoSans', 'NotoSansCJK', monospace;
+            image-rendering: pixelated;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -124,11 +127,12 @@
             background: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/backgrounds/splash_screen.png') center center / cover no-repeat fixed;
             /* Оптимизированный рендеринг для кириллицы на компьютерах */
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            font-smooth: auto;
-            letter-spacing: 0.005em;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.01em;
+            transform: translateZ(0);
             /* Улучшения для мобильных устройств */
             -webkit-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
@@ -209,11 +213,12 @@
         .container, .tab-content, .section {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            font-smooth: auto;
-            letter-spacing: 0.005em;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.01em;
+            transform: translateZ(0);
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
@@ -253,11 +258,12 @@
         [data-ru], .ru-text {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            font-smooth: auto;
-            letter-spacing: 0.005em;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.01em;
+            transform: translateZ(0);
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
@@ -267,11 +273,12 @@
         .bp-form-row label, .bp-form-row input, .bp-form-row textarea {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            font-smooth: auto;
-            letter-spacing: 0.005em;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.01em;
+            transform: translateZ(0);
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
@@ -296,11 +303,12 @@
         .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            font-smooth: auto;
-            letter-spacing: 0.005em;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
+            letter-spacing: 0.01em;
+            transform: translateZ(0);
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
