@@ -4043,6 +4043,16 @@
             background: none; color: #8b7355; cursor: pointer;
         }
         .donate-modal-close:hover { background: rgba(139,115,85,0.1); }
+
+        .privacy-modal-inner { scrollbar-width: thin; scrollbar-color: #4caf50 #e8d9b8; }
+        .privacy-modal-inner::-webkit-scrollbar { width: 8px; }
+        .privacy-modal-inner::-webkit-scrollbar-track { background: #e8d9b8; border-radius: 4px; }
+        .privacy-modal-inner::-webkit-scrollbar-thumb { background: #4caf50; border-radius: 4px; border: 2px solid #e8d9b8; }
+        .privacy-modal-inner::-webkit-scrollbar-thumb:hover { background: #2e7d32; }
+        body.dark-theme .privacy-modal-inner { scrollbar-color: #4caf50 #2a2a2a; }
+        body.dark-theme .privacy-modal-inner::-webkit-scrollbar-track { background: #2a2a2a; }
+        body.dark-theme .privacy-modal-inner::-webkit-scrollbar-thumb { background: #4caf50; border-color: #2a2a2a; }
+        body.dark-theme .privacy-modal-inner::-webkit-scrollbar-thumb:hover { background: #81c784; }
         .cookie-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -5226,9 +5236,9 @@
 
     <!-- PRIVACY POLICY MODAL -->
     <div id="privacy-modal-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;" onclick="if(event.target===this)hidePrivacyModal()">
-        <div style="background:#f5eed9;border:4px solid #8b7355;border-radius:4px;box-shadow:0 8px 0 #3e2723;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;padding:28px 24px;font-family:'Minecraft','NotoSans',sans-serif;position:relative;">
+        <div class="privacy-modal-inner" style="background:#f5eed9;border:4px solid #8b7355;border-radius:4px;box-shadow:0 8px 0 #3e2723;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;padding:28px 24px;font-family:'Minecraft','NotoSans',sans-serif;position:relative;">
             <button onclick="hidePrivacyModal()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#8b7355;line-height:1;">✕</button>
-            <div style="font-size:1rem;font-weight:700;color:#3e2723;margin-bottom:16px;" data-ru="🔒 Политика конфиденциальности" data-en="🔒 Privacy Policy">🔒 Политика конфиденциальности</div>
+            <div style="font-size:1rem;font-weight:700;color:#3e2723;margin-bottom:16px;" data-ru="Политика конфиденциальности" data-en="Privacy Policy"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:18px;height:18px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:6px;">Политика конфиденциальности</div>
             <div style="font-size:0.78rem;line-height:1.8;color:#5a4a3a;">
                 <p style="margin-bottom:6px;color:#888;" data-ru="Последнее обновление: март 2026" data-en="Last updated: March 2026">Последнее обновление: март 2026</p>
 
