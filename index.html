@@ -7632,7 +7632,7 @@
             overlay.className = 'bp-modal-overlay'; overlay.id = 'bp-forgot-modal';
             overlay.innerHTML = `
                 <div class="bp-modal">
-                    <h3><i class="fas fa-envelope"></i> ${ru ? 'Сброс пароля' : 'Reset Password'}</h3>
+                    <h3 style="cursor:move;user-select:none;display:flex;align-items:center;"><i class="fas fa-envelope" style="margin-right:8px;"></i> ${ru ? 'Сброс пароля' : 'Reset Password'}<span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru ? '⠿ тащи' : '⠿ drag'}</span></h3>
                     <p style="font-size:0.85rem;color:${isDark?'#b0b0b0':'#5a4a3a'};margin-bottom:12px;font-family:Minecraft,sans-serif;">
                         ${ru ? 'Введи свой Email — пришлём ссылку для сброса пароля.' : 'Enter your email — we\'ll send a reset link.'}
                     </p>
@@ -7696,7 +7696,7 @@
             overlay.className = 'bp-modal-overlay'; overlay.id = 'bp-reset-modal';
             overlay.innerHTML = `
                 <div class="bp-modal">
-                    <h3><i class="fas fa-key"></i> ${ru ? 'Новый пароль' : 'New Password'}</h3>
+                    <h3 style="cursor:move;user-select:none;display:flex;align-items:center;"><i class="fas fa-key" style="margin-right:8px;"></i> ${ru ? 'Новый пароль' : 'New Password'}<span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru ? '⠿ тащи' : '⠿ drag'}</span></h3>
                     <p style="font-size:0.85rem;color:${isDark?'#b0b0b0':'#5a4a3a'};margin-bottom:12px;font-family:Minecraft,sans-serif;">
                         ${ru ? `Аккаунт: <b>${nick}</b>` : `Account: <b>${nick}</b>`}
                     </p>
@@ -7750,7 +7750,7 @@
             overlay.className = 'bp-modal-overlay'; overlay.id = 'bp-chpass-modal';
             overlay.innerHTML = `
                 <div class="bp-modal">
-                    <h3><i class="fas fa-key"></i> ${ru ? 'Сменить пароль' : 'Change Password'}</h3>
+                    <h3 style="cursor:move;user-select:none;display:flex;align-items:center;"><i class="fas fa-key" style="margin-right:8px;"></i> ${ru ? 'Сменить пароль' : 'Change Password'}<span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru ? '⠿ тащи' : '⠿ drag'}</span></h3>
                     <div class="bp-form-row">
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru?'Текущий пароль':'Current Password'}</label>
                         <div class="pass-wrap"><input type="password" id="chpass-old" placeholder="••••••••" maxlength="100" style="${inputStyle}" /><button type="button" class="pass-toggle" onclick="togglePass('chpass-old',this)" tabindex="-1"><i class="fas fa-eye"></i></button></div>
@@ -7836,7 +7836,7 @@
             overlay.className = 'bp-modal-overlay'; overlay.id = 'bp-rename-modal';
             overlay.innerHTML = `
                 <div class="bp-modal">
-                    <h3><i class="fas fa-pencil-alt"></i> ${ru ? 'Сменить имя' : 'Change Username'}</h3>
+                    <h3 style="cursor:move;user-select:none;display:flex;align-items:center;"><i class="fas fa-pencil-alt" style="margin-right:8px;"></i> ${ru ? 'Сменить имя' : 'Change Username'}<span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru ? '⠿ тащи' : '⠿ drag'}</span></h3>
                     <div class="bp-form-row">
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru?'Новый никнейм':'New Nickname'}</label>
                         <input type="text" id="rename-input" value="${currentAccount.nick}" maxlength="40" style="${inputStyle}" />
