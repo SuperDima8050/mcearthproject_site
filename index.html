@@ -5337,12 +5337,13 @@
                 return;
             }
             newsContainer.innerHTML = '';
-            const userLikes = JSON.parse(localStorage.getItem('userLikes') || '{}');
+            const userLikes = window._sbVotes?.news_likes || JSON.parse(localStorage.getItem('userLikes') || '{}');
             const lastSeenNews = parseInt(localStorage.getItem('news_last_seen') || '0', 10);
             const NEW_ICON_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png';
             newsArray.forEach(news => {
                 const newsItem = document.createElement('div');
                 newsItem.className = 'news-item';
+                newsItem.dataset.newsId = news.id;
                 if (news.image_url) { newsItem.classList.add('has-image'); newsItem.style.setProperty('--news-image', `url(${news.image_url})`); }
                 const isNew = new Date(news.created_at).getTime() > lastSeenNews;
                 const date = new Date(news.created_at);
@@ -5546,7 +5547,9 @@
                 return;
             }
 
-            const userLikes = JSON.parse(localStorage.getItem('userLikes') || '{}');
+            if (!window._sbVotes) window._sbVotes = {};
+            if (!window._sbVotes.news_likes) window._sbVotes.news_likes = {};
+            const userLikes = window._sbVotes.news_likes;
             const currentAction = userLikes[newsId];
 
             const { data, error } = await sbClient.from('news').select('likes, dislikes').eq('id', newsId).single();
@@ -5566,7 +5569,19 @@
                 userLikes[newsId] = action;
             }
 
+            window._sbVotes.news_likes = userLikes;
             window._safeLocalSet('userLikes', JSON.stringify(userLikes));
+            // Sync to Supabase
+            if (sbClient && currentAccount) {
+                try {
+                    if (!userLikes[newsId]) {
+                        await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'news').eq('item_id', String(newsId));
+                    } else {
+                        await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'news').eq('item_id', String(newsId));
+                        await sbClient.from('user_votes').insert([{ nick: currentAccount.nick, item_type: 'news', item_id: String(newsId), vote: userLikes[newsId] }]);
+                    }
+                } catch(e) { console.warn('news vote sync error', e); }
+            }
             likeBtn.querySelector('.like-count').textContent = likes;
             dislikeBtn.querySelector('.like-count').textContent = dislikes;
 
@@ -10016,12 +10031,14 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 ]);
                 if (votesRes.error) throw votesRes.error;
 
-                const votes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {} };
+                const votes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
                 (votesRes.data || []).forEach(row => {
                     if (row.item_type === 'bp' && row.vote === 'like') votes.bp_likes[row.item_id] = true;
                     if (row.item_type === 'bp' && row.vote === 'dislike') votes.bp_dislikes[row.item_id] = true;
                     if (row.item_type === 'gallery' && row.vote === 'like') votes.gallery_likes[row.item_id] = true;
                     if (row.item_type === 'gallery' && row.vote === 'dislike') votes.gallery_dislikes[row.item_id] = true;
+                    if (row.item_type === 'news' && row.vote === 'like') votes.news_likes[row.item_id] = 'like';
+                    if (row.item_type === 'news' && row.vote === 'dislike') votes.news_likes[row.item_id] = 'dislike';
                 });
                 (favsRes.data || []).forEach(row => {
                     if (row.item_type === 'bp') votes.bp_favorites[row.item_id] = true;
@@ -10036,7 +10053,31 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 window._safeLocalSet('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
                 window._safeLocalSet('bp_favorites', JSON.stringify(Object.keys(votes.bp_favorites)));
                 window._safeLocalSet('gallery_favorites', JSON.stringify(Object.keys(votes.gallery_favorites)));
+                window._safeLocalSet('userLikes', JSON.stringify(votes.news_likes));
                 updateFavoriteButtons();
+                // Re-apply vote states on already-rendered news cards
+                document.querySelectorAll('[data-news-id]').forEach(item => {
+                    const id = item.dataset.newsId;
+                    const likeBtn   = item.querySelector('[data-action="like"]');
+                    const dislikeBtn = item.querySelector('[data-action="dislike"]');
+                    if (!likeBtn || !dislikeBtn) return;
+                    likeBtn.classList.toggle('active',    votes.news_likes[id] === 'like');
+                    dislikeBtn.classList.toggle('active', votes.news_likes[id] === 'dislike');
+                });
+                // Re-apply vote states on BP cards
+                document.querySelectorAll('[data-bp-like]').forEach(btn => {
+                    btn.classList.toggle('active', !!votes.bp_likes[btn.dataset.bpLike]);
+                });
+                document.querySelectorAll('[data-bp-dislike]').forEach(btn => {
+                    btn.classList.toggle('active', !!votes.bp_dislikes[btn.dataset.bpDislike]);
+                });
+                // Re-apply vote states on gallery cards
+                document.querySelectorAll('[data-gl-like]').forEach(btn => {
+                    btn.classList.toggle('active', !!votes.gallery_likes[btn.dataset.glLike]);
+                });
+                document.querySelectorAll('[data-gl-dislike]').forEach(btn => {
+                    btn.classList.toggle('active', !!votes.gallery_dislikes[btn.dataset.glDislike]);
+                });
             } catch(e) {
                 console.warn('loadUserVotes error:', e);
             }
