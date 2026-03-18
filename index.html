@@ -10120,6 +10120,7 @@ const SUBDOMAIN_FN      = 'https://sqlylxcnoqehorlgmztm.supabase.co/functions/v1
 const SUBDOMAIN_DOMAIN  = 'mcearthproject.qzz.io';
 const SUBDOMAIN_SITEKEY = '0x4AAAAAACZyA1UOix1SiYwF';
 let _sdTsId = null;
+let _sdModalLocked = false; // блокирует случайное закрытие при confirm()
 
 async function callSubdomainApi(payload) {
     const anonKey = window.SUPABASE_ANON_KEY || 'sb_publishable_nhY94pR0kxA70QI__Zy_Hw_OD5nUm7F';
@@ -10230,7 +10231,7 @@ async function showSubdomainModal() {
         </div>`;
 
     document.body.appendChild(overlay);
-    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    overlay.addEventListener('click', e => { if (!_sdModalLocked && e.target === overlay) overlay.remove(); });
     makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
     await loadCurrentSubdomain();
 }
@@ -10251,7 +10252,7 @@ function _sdFillView(sub) {
     updateSdEditPreview();
 }
 
-async function loadCurrentSubdomain() {
+async function loadCurrentSubdomain(force = false) {
     if (!currentAccount) return;
     const ru = currentLang === 'ru';
     const loadingEl = document.getElementById('sd-loading');
@@ -10261,12 +10262,8 @@ async function loadCurrentSubdomain() {
         const data = await callSubdomainApi({ action: 'get', nick: currentAccount.nick });
         if (loadingEl) loadingEl.style.display = 'none';
 
-        // Поддерживаем несколько форматов ответа edge-функции:
-        // { subdomain: {...} }  или  { subdomains: [{...}] }  или  { data: {...} }
         let sub = data.subdomain || (Array.isArray(data.subdomains) && data.subdomains[0]) || data.data || null;
-
         if (sub && typeof sub === 'object') {
-            // Нормализуем: иногда имя лежит в sub.name, а не sub.subdomain
             if (!sub.subdomain && sub.name) sub.subdomain = sub.name;
         }
 
@@ -10275,14 +10272,12 @@ async function loadCurrentSubdomain() {
             if (createEl){ createEl.style.display = 'none'; }
             _sdFillView(sub);
         } else {
-            // Если view уже показан (данные заполнены вручную после create/update) —
-            // не переключаемся на create: API мог вернуть пустой ответ из-за задержки
-            const viewAlreadyShown = viewEl && viewEl.style.display !== 'none';
+            // guard: не переключаемся на create если view уже показан — кроме случая force=true (после удаления)
+            const viewAlreadyShown = !force && viewEl && viewEl.style.display !== 'none';
             if (viewAlreadyShown) return;
 
             if (viewEl)  { viewEl.style.display = 'none'; }
             if (createEl){ createEl.style.display = 'block'; }
-            // Рендерим капчу только если ещё не создана
             setTimeout(() => {
                 const el = document.getElementById('sd-turnstile');
                 if (el && window.turnstile && el.children.length === 0 && _sdTsId === null) {
@@ -10394,26 +10389,41 @@ async function doUpdateSubdomain() {
 
 async function doDeleteSubdomain() {
     const ru = currentLang === 'ru';
-    if (!confirm(ru?'Удалить поддомен? DNS-запись будет удалена из Cloudflare.':'Delete subdomain? The DNS record will be removed from Cloudflare.')) return;
+
+    // Блокируем backdrop-click на время confirm() — браузер может стрельнуть click по overlay
+    _sdModalLocked = true;
+    const confirmed = confirm(ru?'Удалить поддомен? DNS-запись будет удалена из Cloudflare.':'Delete subdomain? The DNS record will be removed from Cloudflare.');
+    setTimeout(() => { _sdModalLocked = false; }, 300);
+    if (!confirmed) return;
+
     const statusEl = document.getElementById('sd-status-view');
     if (statusEl) { statusEl.innerHTML = ru?'⏳ Удаляем...':'⏳ Deleting...'; statusEl.style.color='#f57f17'; }
+    _sdModalLocked = true;
     try {
         const data = await callSubdomainApi({ action: 'delete', nick: currentAccount.nick });
-        if (data.ok) {
+
+        // Считаем удаление успешным если: data.ok === true ИЛИ ошибка "не найден"
+        // (запись уже отсутствует — цель достигнута)
+        const notFound = !data.ok && data.error && /не найден|not found|no record|does not exist/i.test(data.error);
+        if (data.ok || notFound) {
             _sdTsId = null;
+            _sdModalLocked = false;
+            // Принудительно скидываем guard и переключаемся на форму создания
             const viewEl    = document.getElementById('sd-view');
             const createEl  = document.getElementById('sd-create');
             const loadingEl = document.getElementById('sd-loading');
             if (viewEl)    viewEl.style.display    = 'none';
             if (createEl)  createEl.style.display  = 'none';
             if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color='#f57f17'; loadingEl.textContent='⏳ '+(ru?'Загружаем...':'Loading...'); }
-            await loadCurrentSubdomain();
+            await loadCurrentSubdomain(true); // force=true — игнорируем viewAlreadyShown guard
             const createStatus = document.getElementById('sd-status-create');
             if (createStatus) { createStatus.innerHTML = ru?'✓ Поддомен удалён. Создай новый.':'✓ Deleted. Create a new one.'; createStatus.style.color='#2e7d32'; }
         } else {
+            _sdModalLocked = false;
             if (statusEl) { statusEl.textContent = data.error||(ru?'Ошибка':'Error'); statusEl.style.color='#c62828'; }
         }
     } catch(e) {
+        _sdModalLocked = false;
         if (statusEl) { statusEl.textContent = e.message||String(e); statusEl.style.color='#c62828'; }
     }
 }
