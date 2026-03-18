@@ -10116,103 +10116,107 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 // =============================================
 //  SUBDOMAIN MANAGEMENT
 // =============================================
-const SUBDOMAIN_FN     = 'https://sqlylxcnoqehorlgmztm.supabase.co/functions/v1/manage-subdomain';
-const SUBDOMAIN_DOMAIN = 'mcearthproject.qzz.io';
+const SUBDOMAIN_FN      = 'https://sqlylxcnoqehorlgmztm.supabase.co/functions/v1/manage-subdomain';
+const SUBDOMAIN_DOMAIN  = 'mcearthproject.qzz.io';
 const SUBDOMAIN_SITEKEY = '0x4AAAAAACZyA1UOix1SiYwF';
+let _sdTsId = null;
 
 async function callSubdomainApi(payload) {
     const anonKey = window.SUPABASE_ANON_KEY || 'sb_publishable_nhY94pR0kxA70QI__Zy_Hw_OD5nUm7F';
     const res = await fetch(SUBDOMAIN_FN, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${anonKey}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${anonKey}` },
         body: JSON.stringify(payload)
     });
     return res.json();
 }
 
-// Два режима: 'create' — нет поддомена, 'manage' — есть
 async function showSubdomainModal() {
     const ru = currentLang === 'ru';
     const ex = document.getElementById('bp-subdomain-modal'); if (ex) ex.remove();
+    _sdTsId = null;
     const isDark = document.body.classList.contains('dark-theme');
-    const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#3a3a3a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:1rem;font-weight:600;outline:none;box-shadow:inset 0 2px 4px rgba(0,0,0,.1);margin-top:4px;box-sizing:border-box;`;
-    const suffixColor = isDark ? '#7cb342' : '#4a5d23';
-    const suffixBg    = isDark ? 'rgba(107,142,35,0.15)' : 'rgba(107,142,35,0.1)';
-    const warnBg      = isDark ? 'rgba(198,40,40,0.12)' : 'rgba(198,40,40,0.07)';
-    const warnBorder  = isDark ? '#7b1515' : '#e57373';
-    const warnColor   = isDark ? '#ef9a9a' : '#c62828';
+    const inp = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#3a3a3a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:1rem;font-weight:600;outline:none;box-shadow:inset 0 2px 4px rgba(0,0,0,.1);margin-top:4px;box-sizing:border-box;`;
+    const sc = isDark ? '#7cb342' : '#4a5d23';
+    const sb = isDark ? 'rgba(107,142,35,0.15)' : 'rgba(107,142,35,0.1)';
 
     const overlay = document.createElement('div');
     overlay.className = 'bp-modal-overlay'; overlay.id = 'bp-subdomain-modal';
     overlay.innerHTML = `
-        <div class="bp-modal" style="max-width:460px;">
+        <div class="bp-modal" style="max-width:470px;">
             <h3 style="cursor:move;user-select:none;display:flex;align-items:center;">
                 <i class="fas fa-network-wired" style="margin-right:8px;"></i>
                 ${ru ? 'Мой поддомен' : 'My Subdomain'}
-                <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru ? '⠿ тащи' : '⠿ drag'}</span>
+                <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru?'⠿ тащи':'⠿ drag'}</span>
             </h3>
-
-            <!-- Статус загрузки -->
-            <div id="subdomain-loading" style="text-align:center;padding:18px 0;font-family:Minecraft,sans-serif;font-size:0.85rem;color:#f57f17;">
-                ⏳ ${ru ? 'Загружаем...' : 'Loading...'}
+            <div id="sd-loading" style="text-align:center;padding:18px 0;font-family:Minecraft,sans-serif;font-size:0.85rem;color:#f57f17;">
+                ⏳ ${ru?'Загружаем...':'Loading...'}
             </div>
-
-            <!-- РЕЖИМ: уже есть поддомен -->
-            <div id="subdomain-view-mode" style="display:none;">
-                <div style="background:${suffixBg};border:2px solid ${isDark?'#4a5d23':'#a8c05a'};border-radius:3px;padding:12px 14px;margin-bottom:12px;">
+            <!-- VIEW MODE -->
+            <div id="sd-view" style="display:none;">
+                <div style="background:${sb};border:2px solid ${isDark?'#4a5d23':'#a8c05a'};border-radius:3px;padding:12px 14px;margin-bottom:12px;">
                     <div style="font-family:Minecraft,sans-serif;font-size:0.7rem;color:${isDark?'#888':'#8b7355'};margin-bottom:6px;letter-spacing:0.04em;">${ru?'АКТИВНЫЙ ПОДДОМЕН':'ACTIVE SUBDOMAIN'}</div>
-                    <div id="subdomain-view-name" style="font-family:Minecraft,sans-serif;font-size:1rem;font-weight:700;color:${suffixColor};word-break:break-all;margin-bottom:3px;"></div>
-                    <div id="subdomain-view-ip" style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${isDark?'#aaa':'#8b7355'};"></div>
+                    <div id="sd-view-name" style="font-family:Minecraft,sans-serif;font-size:1rem;font-weight:700;color:${sc};word-break:break-all;margin-bottom:4px;"></div>
+                    <div id="sd-view-ip" style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${isDark?'#aaa':'#8b7355'};"></div>
+                    <div id="sd-view-type" style="font-family:Minecraft,sans-serif;font-size:0.72rem;color:${isDark?'#666':'#bbb'};margin-top:2px;"></div>
                 </div>
-                <div style="background:${warnBg};border:2px solid ${warnBorder};border-radius:3px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:8px;">
-                    <i class="fas fa-exclamation-triangle" style="color:${warnColor};margin-top:1px;flex-shrink:0;"></i>
-                    <span style="font-family:Minecraft,sans-serif;font-size:0.75rem;color:${warnColor};line-height:1.6;">
-                        ${ru
-                            ? 'У тебя уже есть поддомен. Чтобы создать новый — сначала удали текущий. <b>Один поддомен на аккаунт.</b>'
-                            : 'You already have a subdomain. To create a new one — delete the current one first. <b>One subdomain per account.</b>'}
-                    </span>
+                <div style="margin-bottom:10px;">
+                    <div style="font-family:Minecraft,sans-serif;font-size:0.72rem;color:${isDark?'#888':'#8b7355'};margin-bottom:6px;letter-spacing:0.04em;">${ru?'ИЗМЕНИТЬ:':'EDIT:'}</div>
+                    <div style="display:flex;align-items:stretch;margin-bottom:8px;">
+                        <input type="text" id="sd-edit-name" maxlength="32" placeholder="${ru?'новое имя':'new name'}"
+                            style="${inp}margin-top:0;border-radius:2px 0 0 2px;border-right:none;flex:1;"
+                            oninput="updateSdEditPreview()" />
+                        <div style="padding:10px 8px;background:${sb};border:3px solid ${isDark?'#4a5d23':'#a8c05a'};border-left:none;border-radius:0 2px 2px 0;font-family:Minecraft,sans-serif;font-size:0.75rem;font-weight:700;color:${sc};white-space:nowrap;display:flex;align-items:center;flex-shrink:0;">.${SUBDOMAIN_DOMAIN}</div>
+                    </div>
+                    <input type="text" id="sd-edit-ip" maxlength="45" placeholder="${ru?'новый IP':'new IP'}" style="${inp}margin-bottom:8px;" />
+                    <select id="sd-edit-type" style="${inp}margin-top:0;cursor:pointer;" onchange="updateSdEditPreview()">
+                        <option value="A">A — IPv4 (192.168.1.1)</option>
+                        <option value="AAAA">AAAA — IPv6 (2001:db8::1)</option>
+                    </select>
                 </div>
-                <div id="subdomain-status-view" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:8px;min-height:20px;"></div>
+                <div id="sd-edit-preview" style="font-family:Minecraft,sans-serif;font-size:0.75rem;color:${sc};margin-bottom:6px;min-height:16px;opacity:0.8;"></div>
+                <div id="sd-status-view" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:8px;min-height:20px;"></div>
                 <div class="bp-modal-btns" style="margin-top:0;">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doUpdateSubdomain()">
+                        <i class="fas fa-save"></i> ${ru?'Сохранить':'Save'}
+                    </button>
                     <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#5d0000;box-shadow:0 5px 0 #3b0000;" onclick="doDeleteSubdomain()">
-                        <i class="fas fa-trash-alt"></i> ${ru?'Удалить поддомен':'Delete subdomain'}
+                        <i class="fas fa-trash-alt"></i> ${ru?'Удалить':'Delete'}
                     </button>
                     <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
                         ${ru?'Закрыть':'Close'}
                     </button>
                 </div>
             </div>
-
-            <!-- РЕЖИМ: нет поддомена — создать -->
-            <div id="subdomain-create-mode" style="display:none;">
+            <!-- CREATE MODE -->
+            <div id="sd-create" style="display:none;">
                 <div class="bp-form-row">
                     <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru?'Имя поддомена':'Subdomain name'}</label>
                     <div style="display:flex;align-items:stretch;margin-top:4px;">
-                        <input type="text" id="subdomain-name-input"
-                            placeholder="${ru?'например: myserver':'e.g. myserver'}"
-                            maxlength="32"
-                            style="${inputStyle}margin-top:0;border-radius:2px 0 0 2px;border-right:none;flex:1;"
-                            oninput="updateSubdomainPreview()" />
-                        <div style="padding:10px 10px;background:${suffixBg};border:3px solid ${isDark?'#4a5d23':'#a8c05a'};border-left:none;border-radius:0 2px 2px 0;font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;color:${suffixColor};white-space:nowrap;display:flex;align-items:center;flex-shrink:0;">.${SUBDOMAIN_DOMAIN}</div>
+                        <input type="text" id="sd-name" maxlength="32" placeholder="${ru?'например: myserver':'e.g. myserver'}"
+                            style="${inp}margin-top:0;border-radius:2px 0 0 2px;border-right:none;flex:1;"
+                            oninput="updateSdPreview()" />
+                        <div style="padding:10px 8px;background:${sb};border:3px solid ${isDark?'#4a5d23':'#a8c05a'};border-left:none;border-radius:0 2px 2px 0;font-family:Minecraft,sans-serif;font-size:0.75rem;font-weight:700;color:${sc};white-space:nowrap;display:flex;align-items:center;flex-shrink:0;">.${SUBDOMAIN_DOMAIN}</div>
                     </div>
                 </div>
                 <div class="bp-form-row" style="margin-top:10px;">
                     <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru?'IP-адрес сервера':'Server IP address'}</label>
-                    <input type="text" id="subdomain-ip-input" placeholder="192.168.1.1" maxlength="15" style="${inputStyle}" />
+                    <input type="text" id="sd-ip" maxlength="45" placeholder="192.168.1.1" style="${inp}" />
                 </div>
-                <div id="subdomain-preview" style="font-family:Minecraft,sans-serif;font-size:0.75rem;color:${suffixColor};margin-top:8px;min-height:18px;opacity:0.8;"></div>
-
-                <!-- Turnstile капча -->
+                <div class="bp-form-row" style="margin-top:10px;">
+                    <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru?'Тип DNS-записи':'DNS record type'}</label>
+                    <select id="sd-type" style="${inp}margin-top:4px;cursor:pointer;" onchange="updateSdPreview()">
+                        <option value="A">A — IPv4 (192.168.1.1)</option>
+                        <option value="AAAA">AAAA — IPv6 (2001:db8::1)</option>
+                    </select>
+                </div>
+                <div id="sd-preview" style="font-family:Minecraft,sans-serif;font-size:0.75rem;color:${sc};margin-top:8px;min-height:18px;opacity:0.8;"></div>
                 <div style="margin-top:12px;display:flex;justify-content:center;">
-                    <div id="subdomain-turnstile"></div>
+                    <div id="sd-turnstile"></div>
                 </div>
-
-                <div id="subdomain-status-create" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:8px;min-height:20px;"></div>
+                <div id="sd-status-create" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:8px;min-height:20px;"></div>
                 <div class="bp-modal-btns" style="margin-top:10px;">
-                    <button class="bp-submit-btn" id="subdomain-save-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doSaveSubdomain()">
+                    <button class="bp-submit-btn" id="sd-save-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doSaveSubdomain()">
                         <i class="fas fa-save"></i> ${ru?'Создать поддомен':'Create subdomain'}
                     </button>
                     <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
@@ -10220,9 +10224,7 @@ async function showSubdomainModal() {
                     </button>
                 </div>
                 <div style="font-family:Minecraft,sans-serif;font-size:0.68rem;color:${isDark?'#555':'#bbb'};margin-top:10px;line-height:1.6;">
-                    ${ru
-                        ? '• Только A-запись (IPv4) &nbsp;•&nbsp; DNS обновляется до 5 минут &nbsp;•&nbsp; Один поддомен на аккаунт'
-                        : '• IPv4 A-record only &nbsp;•&nbsp; DNS updates up to 5 min &nbsp;•&nbsp; One subdomain per account'}
+                    ${ru ? '• A — для IPv4 &nbsp;•&nbsp; AAAA — для IPv6 &nbsp;•&nbsp; DNS обновляется до 5 минут' : '• A — for IPv4 &nbsp;•&nbsp; AAAA — for IPv6 &nbsp;•&nbsp; DNS updates up to 5 min'}
                 </div>
             </div>
         </div>`;
@@ -10236,120 +10238,152 @@ async function showSubdomainModal() {
 async function loadCurrentSubdomain() {
     if (!currentAccount) return;
     const ru = currentLang === 'ru';
+    const loadingEl = document.getElementById('sd-loading');
+    const viewEl    = document.getElementById('sd-view');
+    const createEl  = document.getElementById('sd-create');
     try {
         const data = await callSubdomainApi({ action: 'get', nick: currentAccount.nick });
-        const loadingEl = document.getElementById('subdomain-loading');
-        const viewMode  = document.getElementById('subdomain-view-mode');
-        const createMode = document.getElementById('subdomain-create-mode');
         if (loadingEl) loadingEl.style.display = 'none';
-
         if (data.subdomain) {
-            // Есть поддомен — показываем view mode
-            if (viewMode) viewMode.style.display = 'block';
-            const nameEl = document.getElementById('subdomain-view-name');
-            const ipEl   = document.getElementById('subdomain-view-ip');
-            if (nameEl) nameEl.innerHTML = `<i class="fas fa-globe" style="margin-right:6px;font-size:0.85em;"></i>${data.subdomain.subdomain}.${SUBDOMAIN_DOMAIN}`;
-            if (ipEl)   ipEl.innerHTML   = `<i class="fas fa-server" style="margin-right:5px;font-size:0.8em;opacity:0.6;"></i>${data.subdomain.ip}`;
+            if (viewEl)  { viewEl.style.display = 'block'; }
+            if (createEl){ createEl.style.display = 'none'; }
+            const sub = data.subdomain;
+            const nameEl     = document.getElementById('sd-view-name');
+            const ipEl       = document.getElementById('sd-view-ip');
+            const typeEl     = document.getElementById('sd-view-type');
+            const editNameEl = document.getElementById('sd-edit-name');
+            const editIpEl   = document.getElementById('sd-edit-ip');
+            const editTypeEl = document.getElementById('sd-edit-type');
+            if (nameEl)     nameEl.innerHTML    = `<i class="fas fa-globe" style="margin-right:6px;"></i>${sub.subdomain}.${SUBDOMAIN_DOMAIN}`;
+            if (ipEl)       ipEl.innerHTML      = `<i class="fas fa-server" style="margin-right:5px;opacity:0.6;"></i>${sub.ip}`;
+            if (typeEl)     typeEl.innerHTML    = `<i class="fas fa-tag" style="margin-right:5px;opacity:0.5;"></i>${sub.record_type || 'A'}`;
+            if (editNameEl) editNameEl.value    = sub.subdomain;
+            if (editIpEl)   editIpEl.value      = sub.ip;
+            if (editTypeEl && sub.record_type) editTypeEl.value = sub.record_type;
+            updateSdEditPreview();
         } else {
-            // Нет поддомена — создать
-            if (createMode) createMode.style.display = 'block';
-            // Рендерим капчу
+            if (viewEl)  { viewEl.style.display = 'none'; }
+            if (createEl){ createEl.style.display = 'block'; }
+            // Рендерим капчу только если ещё не создана
             setTimeout(() => {
-                const el = document.getElementById('subdomain-turnstile');
-                if (el && window.turnstile) {
-                    window.turnstile.render(el, { sitekey: SUBDOMAIN_SITEKEY, theme: document.body.classList.contains('dark-theme') ? 'dark' : 'light' });
+                const el = document.getElementById('sd-turnstile');
+                if (el && window.turnstile && el.children.length === 0 && _sdTsId === null) {
+                    _sdTsId = window.turnstile.render(el, {
+                        sitekey: SUBDOMAIN_SITEKEY,
+                        theme: document.body.classList.contains('dark-theme') ? 'dark' : 'light'
+                    });
                 }
             }, 100);
         }
     } catch(e) {
-        const loadingEl = document.getElementById('subdomain-loading');
         if (loadingEl) { loadingEl.textContent = '⚠ ' + (e.message || String(e)); loadingEl.style.color = '#c62828'; }
     }
 }
 
-function updateSubdomainPreview() {
-    const val = (document.getElementById('subdomain-name-input')?.value || '').toLowerCase().trim();
-    const el  = document.getElementById('subdomain-preview');
+function updateSdPreview() {
+    const val  = (document.getElementById('sd-name')?.value || '').toLowerCase().trim();
+    const type = document.getElementById('sd-type')?.value || 'A';
+    const el   = document.getElementById('sd-preview');
     if (!el) return;
-    if (val) {
-        el.innerHTML = `<i class="fas fa-arrow-right" style="margin-right:4px;font-size:0.7em;opacity:0.6;"></i>${val}.${SUBDOMAIN_DOMAIN}`;
-    } else {
-        el.textContent = '';
-    }
+    el.innerHTML = val ? `<i class="fas fa-arrow-right" style="margin-right:4px;font-size:0.7em;opacity:0.6;"></i>${val}.${SUBDOMAIN_DOMAIN} <span style="opacity:0.5;">[${type}]</span>` : '';
+}
+
+function updateSdEditPreview() {
+    const val  = (document.getElementById('sd-edit-name')?.value || '').toLowerCase().trim();
+    const type = document.getElementById('sd-edit-type')?.value || 'A';
+    const el   = document.getElementById('sd-edit-preview');
+    if (!el) return;
+    el.innerHTML = val ? `<i class="fas fa-arrow-right" style="margin-right:4px;font-size:0.7em;opacity:0.6;"></i>${val}.${SUBDOMAIN_DOMAIN} <span style="opacity:0.5;">[${type}]</span>` : '';
 }
 
 async function doSaveSubdomain() {
-    const ru = currentLang === 'ru';
-    const statusEl = document.getElementById('subdomain-status-create');
-    const saveBtn  = document.getElementById('subdomain-save-btn');
-    const subdomain = (document.getElementById('subdomain-name-input')?.value || '').toLowerCase().trim();
-    const ip        = (document.getElementById('subdomain-ip-input')?.value || '').trim();
-    const captcha   = document.querySelector('#subdomain-turnstile [name="cf-turnstile-response"]')?.value || '';
+    const ru       = currentLang === 'ru';
+    const statusEl = document.getElementById('sd-status-create');
+    const saveBtn  = document.getElementById('sd-save-btn');
+    const subdomain = (document.getElementById('sd-name')?.value || '').toLowerCase().trim();
+    const ip        = (document.getElementById('sd-ip')?.value || '').trim();
+    const recType   = document.getElementById('sd-type')?.value || 'A';
+    const captcha   = document.querySelector('#sd-turnstile [name="cf-turnstile-response"]')?.value || '';
 
-    if (!subdomain) { statusEl.innerHTML = ru ? '⚠ Введи имя поддомена' : '⚠ Enter subdomain name'; statusEl.style.color = '#c62828'; return; }
-    if (!ip)        { statusEl.innerHTML = ru ? '⚠ Введи IP-адрес' : '⚠ Enter IP address'; statusEl.style.color = '#c62828'; return; }
-    if (!captcha)   { statusEl.innerHTML = ru ? '⚠ Пройди проверку капчи' : '⚠ Complete the captcha'; statusEl.style.color = '#c62828'; return; }
+    if (!subdomain) { statusEl.innerHTML = ru?'⚠ Введи имя поддомена':'⚠ Enter subdomain name'; statusEl.style.color='#c62828'; return; }
+    if (!ip)        { statusEl.innerHTML = ru?'⚠ Введи IP-адрес':'⚠ Enter IP address'; statusEl.style.color='#c62828'; return; }
+    if (!captcha)   { statusEl.innerHTML = ru?'⚠ Пройди проверку капчи':'⚠ Complete the captcha'; statusEl.style.color='#c62828'; return; }
 
-    statusEl.innerHTML = ru ? '⏳ Создаём запись DNS...' : '⏳ Creating DNS record...'; statusEl.style.color = '#f57f17';
+    statusEl.innerHTML = ru?'⏳ Создаём запись DNS...':'⏳ Creating DNS record...'; statusEl.style.color='#f57f17';
     if (saveBtn) saveBtn.disabled = true;
-
     try {
-        const data = await callSubdomainApi({ action: 'set', nick: currentAccount.nick, subdomain, ip, captcha });
+        const data = await callSubdomainApi({ action: 'set', nick: currentAccount.nick, subdomain, ip, record_type: recType, captcha });
         if (saveBtn) saveBtn.disabled = false;
         if (data.ok) {
-            statusEl.innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">${ru ? 'Поддомен создан!' : 'Subdomain created!'}`;
+            statusEl.innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">${ru?'Поддомен создан!':'Subdomain created!'}`;
             statusEl.style.color = '#2e7d32';
-            // Переключаемся на view mode через секунду
+            _sdTsId = null;
             setTimeout(async () => {
-                const createMode = document.getElementById('subdomain-create-mode');
-                const loadingEl  = document.getElementById('subdomain-loading');
-                if (createMode) createMode.style.display = 'none';
-                if (loadingEl)  { loadingEl.style.display = 'block'; loadingEl.style.color = '#f57f17'; loadingEl.textContent = '⏳ ' + (ru ? 'Загружаем...' : 'Loading...'); }
+                const createEl  = document.getElementById('sd-create');
+                const loadingEl = document.getElementById('sd-loading');
+                if (createEl)  createEl.style.display  = 'none';
+                if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color='#f57f17'; loadingEl.textContent='⏳ '+(ru?'Загружаем...':'Loading...'); }
                 await loadCurrentSubdomain();
-            }, 1000);
+            }, 800);
         } else {
-            statusEl.textContent = data.error || (ru ? 'Ошибка' : 'Error');
-            statusEl.style.color = '#c62828';
-            if (window.turnstile) window.turnstile.reset('#subdomain-turnstile');
+            statusEl.textContent = data.error || (ru?'Ошибка':'Error'); statusEl.style.color='#c62828';
+            if (_sdTsId !== null && window.turnstile) window.turnstile.reset(_sdTsId);
         }
     } catch(e) {
         if (saveBtn) saveBtn.disabled = false;
-        statusEl.textContent = e.message || String(e);
-        statusEl.style.color = '#c62828';
-        if (window.turnstile) window.turnstile.reset('#subdomain-turnstile');
+        statusEl.textContent = e.message || String(e); statusEl.style.color='#c62828';
+        if (_sdTsId !== null && window.turnstile) window.turnstile.reset(_sdTsId);
+    }
+}
+
+async function doUpdateSubdomain() {
+    const ru       = currentLang === 'ru';
+    const statusEl = document.getElementById('sd-status-view');
+    const subdomain = (document.getElementById('sd-edit-name')?.value || '').toLowerCase().trim();
+    const ip        = (document.getElementById('sd-edit-ip')?.value || '').trim();
+    const recType   = document.getElementById('sd-edit-type')?.value || 'A';
+
+    if (!subdomain) { statusEl.innerHTML = ru?'⚠ Введи имя':'⚠ Enter name'; statusEl.style.color='#c62828'; return; }
+    if (!ip)        { statusEl.innerHTML = ru?'⚠ Введи IP':'⚠ Enter IP'; statusEl.style.color='#c62828'; return; }
+
+    statusEl.innerHTML = ru?'⏳ Обновляем DNS...':'⏳ Updating DNS...'; statusEl.style.color='#f57f17';
+    try {
+        const data = await callSubdomainApi({ action: 'set', nick: currentAccount.nick, subdomain, ip, record_type: recType });
+        if (data.ok) {
+            statusEl.innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">${ru?'Сохранено!':'Saved!'}`;
+            statusEl.style.color = '#2e7d32';
+            await loadCurrentSubdomain();
+        } else {
+            statusEl.textContent = data.error || (ru?'Ошибка':'Error'); statusEl.style.color='#c62828';
+        }
+    } catch(e) {
+        statusEl.textContent = e.message || String(e); statusEl.style.color='#c62828';
     }
 }
 
 async function doDeleteSubdomain() {
     const ru = currentLang === 'ru';
-    const statusEl = document.getElementById('subdomain-status-view');
-    if (!confirm(ru ? 'Удалить поддомен? DNS-запись будет удалена из Cloudflare.' : 'Delete subdomain? The DNS record will be removed from Cloudflare.')) return;
-    if (statusEl) { statusEl.innerHTML = ru ? '⏳ Удаляем...' : '⏳ Deleting...'; statusEl.style.color = '#f57f17'; }
+    if (!confirm(ru?'Удалить поддомен? DNS-запись будет удалена из Cloudflare.':'Delete subdomain? The DNS record will be removed from Cloudflare.')) return;
+    const statusEl = document.getElementById('sd-status-view');
+    if (statusEl) { statusEl.innerHTML = ru?'⏳ Удаляем...':'⏳ Deleting...'; statusEl.style.color='#f57f17'; }
     try {
         const data = await callSubdomainApi({ action: 'delete', nick: currentAccount.nick });
         if (data.ok) {
-            // Переключаемся на create mode
-            const viewMode   = document.getElementById('subdomain-view-mode');
-            const createMode = document.getElementById('subdomain-create-mode');
-            const loadingEl  = document.getElementById('subdomain-loading');
-            if (viewMode)   viewMode.style.display = 'none';
-            if (createMode) { createMode.style.display = 'block'; }
-            if (loadingEl)  loadingEl.style.display = 'none';
-            // Рендерим капчу заново
-            setTimeout(() => {
-                const el = document.getElementById('subdomain-turnstile');
-                if (el && window.turnstile) {
-                    el.innerHTML = '';
-                    window.turnstile.render(el, { sitekey: SUBDOMAIN_SITEKEY, theme: document.body.classList.contains('dark-theme') ? 'dark' : 'light' });
-                }
-            }, 100);
-            const createStatus = document.getElementById('subdomain-status-create');
-            if (createStatus) { createStatus.innerHTML = ru ? '✓ Поддомен удалён. Можешь создать новый.' : '✓ Deleted. You can create a new one.'; createStatus.style.color = '#2e7d32'; }
+            _sdTsId = null;
+            const viewEl    = document.getElementById('sd-view');
+            const createEl  = document.getElementById('sd-create');
+            const loadingEl = document.getElementById('sd-loading');
+            if (viewEl)    viewEl.style.display    = 'none';
+            if (createEl)  createEl.style.display  = 'none';
+            if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color='#f57f17'; loadingEl.textContent='⏳ '+(ru?'Загружаем...':'Loading...'); }
+            await loadCurrentSubdomain();
+            const createStatus = document.getElementById('sd-status-create');
+            if (createStatus) { createStatus.innerHTML = ru?'✓ Поддомен удалён. Создай новый.':'✓ Deleted. Create a new one.'; createStatus.style.color='#2e7d32'; }
         } else {
-            if (statusEl) { statusEl.textContent = data.error || (ru ? 'Ошибка' : 'Error'); statusEl.style.color = '#c62828'; }
+            if (statusEl) { statusEl.textContent = data.error||(ru?'Ошибка':'Error'); statusEl.style.color='#c62828'; }
         }
     } catch(e) {
-        if (statusEl) { statusEl.textContent = e.message || String(e); statusEl.style.color = '#c62828'; }
+        if (statusEl) { statusEl.textContent = e.message||String(e); statusEl.style.color='#c62828'; }
     }
 }
 </script>
