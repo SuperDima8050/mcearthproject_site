@@ -7355,15 +7355,35 @@
                     const pendingWarn = ru ? 'Аккаунт удалится через 24 часа если не подтвердишь.' : 'Account will be deleted in 24h if not verified.';
                     const pendingBtn = ru ? 'Открыть почту' : 'Open mail';
                     const pendingSpam = ru ? 'Проверь папку Спам если письмо не пришло.' : 'Check your Spam folder if you do not see it.';
-                    pendingBox.innerHTML = '<div style="background:#fffbf0;border:3px solid #6b8e23;border-radius:6px;padding:28px 24px;text-align:center;box-shadow:0 8px 0 #4a5d23,0 20px 60px rgba(0,0,0,0.5);max-width:380px;width:100%;">'
-                        + '<div style="font-size:2.5rem;margin-bottom:12px;">📧</div>'
-                        + '<div style="font-family:Minecraft,sans-serif;font-size:1rem;font-weight:700;color:#4a5d23;margin-bottom:10px;">' + pendingTitle + '</div>'
-                        + '<div style="font-family:Minecraft,sans-serif;font-size:0.83rem;font-weight:600;color:#5a4a3a;line-height:1.7;margin-bottom:10px;">' + pendingBody + '</div>'
-                        + '<div style="font-family:Minecraft,sans-serif;font-size:0.76rem;color:#c62828;font-weight:700;margin-bottom:18px;">⏳ ' + pendingWarn + '</div>'
-                        + '<a href="' + mailUrl + '" target="_blank" style="display:inline-block;font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;padding:10px 22px;background:linear-gradient(180deg,#6b8e23,#556b2f);color:#fff;border:2px solid #4a5d23;border-radius:2px;text-decoration:none;box-shadow:0 4px 0 #3d4f1c;">📬 ' + pendingBtn + '</a>'
-                        + '<div style="font-family:Minecraft,sans-serif;font-size:0.72rem;color:#8b7355;margin-top:10px;">' + pendingSpam + '</div>'
-                        + '</div>';
+                    const isDarkV = document.body.classList.contains('dark-theme');
+                    const vBg = isDarkV ? '#1e1e1e' : '#f5eed9';
+                    const vBorder = isDarkV ? '#4a5d23' : '#8b7355';
+                    const vShadow = isDarkV ? '#2a3d10' : '#4a5d23';
+                    const vTitleColor = isDarkV ? '#a5d65c' : '#4a5d23';
+                    const vBodyColor = isDarkV ? '#c0b090' : '#5a4a3a';
+                    const vSubColor = isDarkV ? '#777' : '#8b7355';
+                    pendingBox.innerHTML = `
+                        <div id="bp-verify-inner" style="background:${vBg};border:4px solid ${vBorder};border-radius:4px;padding:0;box-shadow:0 8px 0 ${vShadow},0 20px 60px rgba(0,0,0,0.55);max-width:390px;width:100%;overflow:hidden;cursor:default;">
+                            <div id="bp-verify-header" style="background:linear-gradient(180deg,${isDarkV?'#2d3d15':'#7a9e28'},${isDarkV?'#1e2b0e':'#5a7a1e'});padding:14px 20px 12px;display:flex;align-items:center;gap:10px;cursor:grab;user-select:none;border-bottom:3px solid ${vShadow};">
+                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/send_icon_item.png" style="width:22px;height:22px;image-rendering:pixelated;object-fit:contain;flex-shrink:0;" onerror="this.style.display='none'">
+                                <span style="font-family:Minecraft,sans-serif;font-size:0.95rem;font-weight:700;color:#fff;letter-spacing:0.03em;text-shadow:0 2px 0 rgba(0,0,0,0.4);">${pendingTitle}</span>
+                            </div>
+                            <div style="padding:22px 22px 20px;text-align:center;">
+                                <div style="background:${isDarkV?'rgba(107,142,35,0.15)':'rgba(107,142,35,0.1)'};border:2px solid ${isDarkV?'#4a5d23':'#a8c05a'};border-radius:4px;padding:14px 16px;margin-bottom:14px;">
+                                    <div style="font-family:Minecraft,sans-serif;font-size:0.82rem;font-weight:600;color:${vBodyColor};line-height:1.8;">${pendingBody}</div>
+                                </div>
+                                <div style="background:${isDarkV?'rgba(198,40,40,0.12)':'rgba(198,40,40,0.08)'};border:2px solid ${isDarkV?'#7b1515':'#e57373'};border-radius:4px;padding:10px 14px;margin-bottom:18px;display:flex;align-items:center;gap:8px;justify-content:center;">
+                                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;flex-shrink:0;" onerror="this.style.display='none'">
+                                    <span style="font-family:Minecraft,sans-serif;font-size:0.76rem;color:${isDarkV?'#ef9a9a':'#c62828'};font-weight:700;">${pendingWarn}</span>
+                                </div>
+                                <a href="${mailUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;font-family:Minecraft,sans-serif;font-size:0.88rem;font-weight:700;padding:11px 26px;background:linear-gradient(180deg,#6b8e23,#4a6318);color:#fff;border:3px solid #3d5214;border-radius:2px;text-decoration:none;box-shadow:0 5px 0 #2d3d10;transition:filter 0.1s;letter-spacing:0.03em;" onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">
+                                    <i class="fas fa-envelope-open-text" style="font-size:0.9rem;"></i> ${pendingBtn}
+                                </a>
+                                <div style="font-family:Minecraft,sans-serif;font-size:0.72rem;color:${vSubColor};margin-top:14px;line-height:1.5;">${pendingSpam}</div>
+                            </div>
+                        </div>`;
                     document.body.appendChild(pendingBox);
+                    makeDraggable(pendingBox.querySelector('#bp-verify-inner'), pendingBox.querySelector('#bp-verify-header'));
                 } else {
                     if (!data || data.length === 0) {
                         showAuthStatus('err', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Аккаунт не найден!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Account not found!');
@@ -7632,6 +7652,7 @@
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
             document.getElementById('forgot-email-input').focus();
         }
 
@@ -7754,6 +7775,7 @@
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
             document.getElementById('chpass-old').focus();
         }
 
@@ -7831,6 +7853,7 @@
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
             document.getElementById('rename-input').focus();
         }
 
@@ -8682,10 +8705,7 @@
                     text.textContent = ru ? 'В избранное' : 'Favorite';
                     showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Удалено из избранного' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Removed from favorites', 'success');
                 } else {
-                    if (sbClient) {
-                        const { error: insErr } = await sbClient.from('user_favorites').insert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id) }]);
-                        if (insErr && insErr.code !== '23505') throw insErr; // 23505 = unique violation, игнорируем
-                    }
+                    if (sbClient) await sbClient.from('user_favorites').upsert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id) }], { onConflict: 'nick,item_type,item_id' });
                     votes.bp_favorites[String(id)] = true;
                     emptyIcon.style.display = 'none';
                     filledIcon.style.display = 'inline';
@@ -8695,8 +8715,7 @@
                 window._sbVotes = votes;
                 window._safeLocalSet('bp_favorites', JSON.stringify(Object.keys(votes.bp_favorites)));
             } catch(err) {
-                console.error('BP Favorite error:', err);
-                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка: ' + (err.message || err) : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Error: ' + (err.message || err), 'error');
+                console.error('Favorite error:', err);
             }
         }
 
@@ -8721,10 +8740,7 @@
                     text.textContent = ru ? 'В избранное' : 'Favorite';
                     showInfoBanner(ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Удалено из избранного' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Removed from favorites', 'success');
                 } else {
-                    if (sbClient) {
-                        const { error: insErr } = await sbClient.from('user_favorites').insert([{ nick: currentAccount.nick, item_type: 'gallery', item_id: String(id) }]);
-                        if (insErr && insErr.code !== '23505') throw insErr;
-                    }
+                    if (sbClient) await sbClient.from('user_favorites').upsert([{ nick: currentAccount.nick, item_type: 'gallery', item_id: String(id) }], { onConflict: 'nick,item_type,item_id' });
                     votes.gallery_favorites[String(id)] = true;
                     emptyIcon.style.display = 'none';
                     filledIcon.style.display = 'inline';
@@ -8734,8 +8750,7 @@
                 window._sbVotes = votes;
                 window._safeLocalSet('gallery_favorites', JSON.stringify(Object.keys(votes.gallery_favorites)));
             } catch(err) {
-                console.error('Gallery Favorite error:', err);
-                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Ошибка: ' + (err.message || err) : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:2px;"> Error: ' + (err.message || err), 'error');
+                console.error('Favorite error:', err);
             }
         }
 
