@@ -10275,6 +10275,11 @@ async function loadCurrentSubdomain() {
             if (createEl){ createEl.style.display = 'none'; }
             _sdFillView(sub);
         } else {
+            // Если view уже показан (данные заполнены вручную после create/update) —
+            // не переключаемся на create: API мог вернуть пустой ответ из-за задержки
+            const viewAlreadyShown = viewEl && viewEl.style.display !== 'none';
+            if (viewAlreadyShown) return;
+
             if (viewEl)  { viewEl.style.display = 'none'; }
             if (createEl){ createEl.style.display = 'block'; }
             // Рендерим капчу только если ещё не создана
@@ -10341,7 +10346,7 @@ async function doSaveSubdomain() {
             _sdTsId = null;
 
             // Немедленно показываем view-панель с уже известными данными —
-            // не ждём re-fetch (edge function может вернуть пустой ответ с задержкой)
+            // не делаем re-fetch: API может ещё не вернуть запись, что вызовет мигание
             const createEl  = document.getElementById('sd-create');
             const viewEl    = document.getElementById('sd-view');
             const loadingEl = document.getElementById('sd-loading');
@@ -10351,9 +10356,6 @@ async function doSaveSubdomain() {
                 viewEl.style.display = 'block';
                 _sdFillView({ subdomain, ip, record_type: recType });
             }
-
-            // Параллельно делаем re-fetch чтобы подтянуть актуальный id/данные с сервера
-            setTimeout(() => loadCurrentSubdomain(), 1500);
         } else {
             statusEl.textContent = data.error || (ru?'Ошибка':'Error'); statusEl.style.color='#c62828';
             if (_sdTsId !== null && window.turnstile) window.turnstile.reset(_sdTsId);
