@@ -10235,6 +10235,22 @@ async function showSubdomainModal() {
     await loadCurrentSubdomain();
 }
 
+function _sdFillView(sub) {
+    const nameEl     = document.getElementById('sd-view-name');
+    const ipEl       = document.getElementById('sd-view-ip');
+    const typeEl     = document.getElementById('sd-view-type');
+    const editNameEl = document.getElementById('sd-edit-name');
+    const editIpEl   = document.getElementById('sd-edit-ip');
+    const editTypeEl = document.getElementById('sd-edit-type');
+    if (nameEl)     nameEl.innerHTML    = `<i class="fas fa-globe" style="margin-right:6px;"></i>${sub.subdomain}.${SUBDOMAIN_DOMAIN}`;
+    if (ipEl)       ipEl.innerHTML      = `<i class="fas fa-server" style="margin-right:5px;opacity:0.6;"></i>${sub.ip}`;
+    if (typeEl)     typeEl.innerHTML    = `<i class="fas fa-tag" style="margin-right:5px;opacity:0.5;"></i>${sub.record_type || 'A'}`;
+    if (editNameEl) editNameEl.value    = sub.subdomain;
+    if (editIpEl)   editIpEl.value      = sub.ip;
+    if (editTypeEl && sub.record_type)  editTypeEl.value = sub.record_type;
+    updateSdEditPreview();
+}
+
 async function loadCurrentSubdomain() {
     if (!currentAccount) return;
     const ru = currentLang === 'ru';
@@ -10244,23 +10260,20 @@ async function loadCurrentSubdomain() {
     try {
         const data = await callSubdomainApi({ action: 'get', nick: currentAccount.nick });
         if (loadingEl) loadingEl.style.display = 'none';
-        if (data.subdomain) {
+
+        // Поддерживаем несколько форматов ответа edge-функции:
+        // { subdomain: {...} }  или  { subdomains: [{...}] }  или  { data: {...} }
+        let sub = data.subdomain || (Array.isArray(data.subdomains) && data.subdomains[0]) || data.data || null;
+
+        if (sub && typeof sub === 'object') {
+            // Нормализуем: иногда имя лежит в sub.name, а не sub.subdomain
+            if (!sub.subdomain && sub.name) sub.subdomain = sub.name;
+        }
+
+        if (sub && sub.subdomain) {
             if (viewEl)  { viewEl.style.display = 'block'; }
             if (createEl){ createEl.style.display = 'none'; }
-            const sub = data.subdomain;
-            const nameEl     = document.getElementById('sd-view-name');
-            const ipEl       = document.getElementById('sd-view-ip');
-            const typeEl     = document.getElementById('sd-view-type');
-            const editNameEl = document.getElementById('sd-edit-name');
-            const editIpEl   = document.getElementById('sd-edit-ip');
-            const editTypeEl = document.getElementById('sd-edit-type');
-            if (nameEl)     nameEl.innerHTML    = `<i class="fas fa-globe" style="margin-right:6px;"></i>${sub.subdomain}.${SUBDOMAIN_DOMAIN}`;
-            if (ipEl)       ipEl.innerHTML      = `<i class="fas fa-server" style="margin-right:5px;opacity:0.6;"></i>${sub.ip}`;
-            if (typeEl)     typeEl.innerHTML    = `<i class="fas fa-tag" style="margin-right:5px;opacity:0.5;"></i>${sub.record_type || 'A'}`;
-            if (editNameEl) editNameEl.value    = sub.subdomain;
-            if (editIpEl)   editIpEl.value      = sub.ip;
-            if (editTypeEl && sub.record_type) editTypeEl.value = sub.record_type;
-            updateSdEditPreview();
+            _sdFillView(sub);
         } else {
             if (viewEl)  { viewEl.style.display = 'none'; }
             if (createEl){ createEl.style.display = 'block'; }
@@ -10300,6 +10313,14 @@ async function doSaveSubdomain() {
     const ru       = currentLang === 'ru';
     const statusEl = document.getElementById('sd-status-create');
     const saveBtn  = document.getElementById('sd-save-btn');
+
+    // Защита: если поддомен уже создан — не даём создать ещё один
+    const viewEl = document.getElementById('sd-view');
+    if (viewEl && viewEl.style.display !== 'none') {
+        if (statusEl) { statusEl.innerHTML = ru?'⚠ Поддомен уже существует. Удали его перед созданием нового.':'⚠ Subdomain already exists. Delete it first.'; statusEl.style.color='#c62828'; }
+        return;
+    }
+
     const subdomain = (document.getElementById('sd-name')?.value || '').toLowerCase().trim();
     const ip        = (document.getElementById('sd-ip')?.value || '').trim();
     const recType   = document.getElementById('sd-type')?.value || 'A';
@@ -10318,13 +10339,21 @@ async function doSaveSubdomain() {
             statusEl.innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">${ru?'Поддомен создан!':'Subdomain created!'}`;
             statusEl.style.color = '#2e7d32';
             _sdTsId = null;
-            setTimeout(async () => {
-                const createEl  = document.getElementById('sd-create');
-                const loadingEl = document.getElementById('sd-loading');
-                if (createEl)  createEl.style.display  = 'none';
-                if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color='#f57f17'; loadingEl.textContent='⏳ '+(ru?'Загружаем...':'Loading...'); }
-                await loadCurrentSubdomain();
-            }, 800);
+
+            // Немедленно показываем view-панель с уже известными данными —
+            // не ждём re-fetch (edge function может вернуть пустой ответ с задержкой)
+            const createEl  = document.getElementById('sd-create');
+            const viewEl    = document.getElementById('sd-view');
+            const loadingEl = document.getElementById('sd-loading');
+            if (createEl)  createEl.style.display  = 'none';
+            if (loadingEl) loadingEl.style.display  = 'none';
+            if (viewEl) {
+                viewEl.style.display = 'block';
+                _sdFillView({ subdomain, ip, record_type: recType });
+            }
+
+            // Параллельно делаем re-fetch чтобы подтянуть актуальный id/данные с сервера
+            setTimeout(() => loadCurrentSubdomain(), 1500);
         } else {
             statusEl.textContent = data.error || (ru?'Ошибка':'Error'); statusEl.style.color='#c62828';
             if (_sdTsId !== null && window.turnstile) window.turnstile.reset(_sdTsId);
