@@ -10121,9 +10121,13 @@ const SUBDOMAIN_DOMAIN = 'mcearthproject.qzz.io';
 const SUBDOMAIN_SITEKEY = '0x4AAAAAACZyA1UOix1SiYwF';
 
 async function callSubdomainApi(payload) {
+    const anonKey = window.SUPABASE_ANON_KEY || 'sb_publishable_nhY94pR0kxA70QI__Zy_Hw_OD5nUm7F';
     const res = await fetch(SUBDOMAIN_FN, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${anonKey}`
+        },
         body: JSON.stringify(payload)
     });
     return res.json();
