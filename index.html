@@ -11052,6 +11052,35 @@ function buildToolbar(eid){
   return h;
 }
 
+// Полная очистка форматирования включая цвет
+function fullClearFormat(eid){
+  restoreSelection(eid);
+  var sel=window.getSelection();
+  if(!sel||sel.rangeCount===0) return;
+  var range=sel.getRangeAt(0);
+  // Сначала стандартный removeFormat (bold/italic/underline)
+  document.execCommand('removeFormat',false,null);
+  // Теперь удаляем цвет — проходим по всем span/font внутри выделения
+  var ed=document.getElementById(eid);
+  if(!ed) return;
+  // Получаем новый range после removeFormat
+  sel=window.getSelection();
+  if(!sel||sel.rangeCount===0) return;
+  range=sel.getRangeAt(0);
+  // Обходим все узлы с инлайн-стилями внутри редактора
+  var allNodes=ed.querySelectorAll('[style],[color],[face]');
+  allNodes.forEach(function(node){
+    if(range.intersectsNode ? range.intersectsNode(node) : true){
+      node.removeAttribute('style');
+      node.removeAttribute('color');
+      node.removeAttribute('face');
+    }
+  });
+  // Синхронизируем textarea
+  var ta=document.getElementById(eid.replace(/^rte-/,''));
+  if(ta) ta.value=ed.innerHTML;
+}
+
 document.addEventListener('mousedown', function(e){
   var btn = e.target.closest('.mc-rte-btn');
   var dot = e.target.closest('.mc-rte-color-dot');
@@ -11059,6 +11088,10 @@ document.addEventListener('mousedown', function(e){
     e.preventDefault(); // Не даём потерять фокус и выделение
   }
   if(btn && btn.dataset.eid){
+    if(btn.dataset.cmd === 'removeFormat'){
+      fullClearFormat(btn.dataset.eid);
+      return;
+    }
     restoreSelection(btn.dataset.eid);
     document.execCommand(btn.dataset.cmd, false, null);
     updateStates(btn.dataset.eid);
