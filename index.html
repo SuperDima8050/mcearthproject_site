@@ -10991,6 +10991,40 @@ async function doDeleteSubdomain() {
 var COLORS=['#ffffff','#ffeb3b','#ff9800','#f44336','#e91e63','#9c27b0','#2196f3','#00bcd4','#4caf50','#6b8e23','#795548','#9e9e9e','#3e2723','#000000'];
 var CLABELS=['Белый','Жёлтый','Оранжевый','Красный','Розовый','Фиолетовый','Синий','Бирюзовый','Зелёный','Оливковый','Коричневый','Серый','Тёмный','Чёрный'];
 
+// Сохраняем выделение — ключевой фикс для цветов
+var _savedRange = null;
+var _savedEid = null;
+document.addEventListener('selectionchange', function(){
+  var sel = window.getSelection();
+  if(!sel || sel.rangeCount === 0) return;
+  var range = sel.getRangeAt(0);
+  var node = range.commonAncestorContainer;
+  if(node.nodeType === 3) node = node.parentNode;
+  var ed = node.closest ? node.closest('.mc-rte-editor') : null;
+  if(ed){ _savedRange = range.cloneRange(); _savedEid = ed.id; }
+});
+
+function restoreSelection(eid){
+  var ed = document.getElementById(eid);
+  if(!ed) return;
+  ed.focus();
+  if(_savedRange && _savedEid === eid){
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(_savedRange);
+  } else {
+    // Ставим курсор в конец если выделения нет
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    var range = document.createRange();
+    range.selectNodeContents(ed);
+    range.collapse(false);
+    sel.addRange(range);
+    _savedRange = range.cloneRange();
+    _savedEid = eid;
+  }
+}
+
 function buildToolbar(eid){
   var ru=window.currentLang==='ru';
   var h='<div class="mc-rte-toolbar" id="tb-'+eid+'">';
@@ -11009,10 +11043,11 @@ function buildToolbar(eid){
   h+='<button class="mc-rte-btn" data-eid="'+eid+'" data-cmd="insertUnorderedList"><i class="fas fa-list-ul" style="font-size:10px"></i></button>';
   h+='<span class="mc-rte-sep"></span>';
   COLORS.forEach(function(col,i){
-    h+='<span class="mc-rte-color-dot" style="background:'+col+'" title="'+CLABELS[i]+'" data-eid="'+eid+'" data-color="'+col+'"></span>';
+    h+='<span class="mc-rte-color-dot" style="background:'+col+';outline:2px solid transparent" title="'+CLABELS[i]+'" data-eid="'+eid+'" data-color="'+col+'"></span>';
   });
   h+='<span class="mc-rte-sep"></span>';
-  h+='<button class="mc-rte-btn" title="'+(ru?'Убрать форматирование':'Clear')+'" data-eid="'+eid+'" data-cmd="removeFormat"><i class="fas fa-eraser" style="font-size:10px"></i></button>';
+  // Ластик — убирает ВСЕ форматирование с выделенного текста (цвет, жирный, курсив и тд)
+  h+='<button class="mc-rte-btn" title="'+(ru?'Сбросить форматирование выделенного текста':'Reset formatting of selected text')+'" data-eid="'+eid+'" data-cmd="removeFormat"><i class="fas fa-eraser" style="font-size:10px"></i></button>';
   h+='</div>';
   return h;
 }
@@ -11020,23 +11055,35 @@ function buildToolbar(eid){
 document.addEventListener('mousedown', function(e){
   var btn = e.target.closest('.mc-rte-btn');
   var dot = e.target.closest('.mc-rte-color-dot');
+  if((btn && btn.dataset.eid) || (dot && dot.dataset.eid)){
+    e.preventDefault(); // Не даём потерять фокус и выделение
+  }
   if(btn && btn.dataset.eid){
-    e.preventDefault();
+    restoreSelection(btn.dataset.eid);
+    document.execCommand(btn.dataset.cmd, false, null);
+    updateStates(btn.dataset.eid);
+    var ta=document.getElementById(btn.dataset.eid.replace(/^rte-/,''));
     var ed=document.getElementById(btn.dataset.eid);
-    if(ed){ed.focus();document.execCommand(btn.dataset.cmd,false,null);updateStates(btn.dataset.eid);}
+    if(ta&&ed) ta.value=ed.innerHTML;
   }
   if(dot && dot.dataset.eid){
-    e.preventDefault();
+    restoreSelection(dot.dataset.eid);
+    document.execCommand('foreColor', false, dot.dataset.color);
+    // Подсвечиваем активный цвет
+    var tb=document.getElementById('tb-'+dot.dataset.eid);
+    if(tb) tb.querySelectorAll('.mc-rte-color-dot').forEach(function(d){
+      d.style.outline = d.dataset.color===dot.dataset.color ? '2px solid #fff' : '2px solid transparent';
+    });
+    var ta=document.getElementById(dot.dataset.eid.replace(/^rte-/,''));
     var ed=document.getElementById(dot.dataset.eid);
-    if(ed){ed.focus();document.execCommand('foreColor',false,dot.dataset.color);}
+    if(ta&&ed) ta.value=ed.innerHTML;
   }
 });
 
 function updateStates(eid){
   var tb=document.getElementById('tb-'+eid);
   if(!tb)return;
-  var btns=tb.querySelectorAll('.mc-rte-btn[data-cmd]');
-  btns.forEach(function(b){
+  tb.querySelectorAll('.mc-rte-btn[data-cmd]').forEach(function(b){
     var a=['bold','italic','underline','strikeThrough'];
     if(a.indexOf(b.dataset.cmd)>=0) b.classList.toggle('active',!!document.queryCommandState(b.dataset.cmd));
   });
@@ -11073,28 +11120,20 @@ window.mcRteGetValue=function(taId){
   if(ed){var v=ed.innerHTML;if(/^(<br\/?>|<div><br\/?>?<\/div>)*$/i.test(v.trim()))v='';if(ta)ta.value=v;return v;}
   return ta?ta.value:'';
 };
-
 window.mcRteClear=function(taId){
-  var ed=document.getElementById('rte-'+taId);
-  var ta=document.getElementById(taId);
-  if(ed)ed.innerHTML='';
-  if(ta)ta.value='';
+  var ed=document.getElementById('rte-'+taId);var ta=document.getElementById(taId);
+  if(ed)ed.innerHTML='';if(ta)ta.value='';
 };
-
 window.mcRteSetValue=function(taId,html){
-  var ed=document.getElementById('rte-'+taId);
-  var ta=document.getElementById(taId);
-  if(ed)ed.innerHTML=html||'';
-  if(ta)ta.value=html||'';
+  var ed=document.getElementById('rte-'+taId);var ta=document.getElementById(taId);
+  if(ed)ed.innerHTML=html||'';if(ta)ta.value=html||'';
 };
 
 function autoInit(){
   var ru=window.currentLang==='ru';
-  var cfg=[
-    {id:'bp-description',    ph:ru?'Расскажи о своём билдплейте...':'Tell about your buildplate...',    h:'80px'},
-    {id:'gallery-description',ph:ru?'Расскажи о своём скриншоте...':'Tell about your screenshot...',  h:'80px'}
-  ];
-  cfg.forEach(function(x){
+  [{id:'bp-description',ph:ru?'Расскажи о своём билдплейте...':'Tell about your buildplate...',h:'80px'},
+   {id:'gallery-description',ph:ru?'Расскажи о своём скриншоте...':'Tell about your screenshot...',h:'80px'}
+  ].forEach(function(x){
     var ta=document.getElementById(x.id);
     if(ta&&!ta._rteCreated)window.mcRteCreate(x.id,x.ph,x.h);
   });
