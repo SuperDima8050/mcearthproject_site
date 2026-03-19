@@ -6011,7 +6011,6 @@
         }
         window.downloadWorld = downloadWorld;
 
-        window.loadGallery = loadGallery;
 
         function clearBuildplateForm() {
             document.getElementById('bp-name').value = '';
@@ -9678,7 +9677,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             }
         }
 
-        async function loadGallery() {
+        window.loadGallery = async function loadGallery() {
             const gallery = document.getElementById('gallery-gallery');
             const filtersEl = document.getElementById('gallery-filters');
             updateGalleryAuthState();
