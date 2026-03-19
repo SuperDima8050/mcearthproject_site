@@ -3603,6 +3603,22 @@
             background: #333;
         }
 
+
+        .bp-card-desc {
+            font-family: 'Minecraft', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #5a4a3a;
+            line-height: 1.5;
+            margin: 4px 0 6px;
+            max-height: 3em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-break: break-word;
+        }
+        body.dark-theme .bp-card-desc { color: #aaa; }
         body.dark-theme .bp-card-name {
             color: #e0e0e0;
         }
@@ -8541,6 +8557,7 @@
                     }
                     <div class="bp-card-body">
                         <div class="bp-card-name">${escapeHtml(bp.name)}</div>
+                        ${bp.description ? `<div class="bp-card-desc">${bp.description.replace(/<[^>]*>/g,'')}</div>` : ''}
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
@@ -9895,6 +9912,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         : `<div class="bp-card-img-placeholder">🖼️</div>`}
                     <div class="bp-card-body">
                         <div class="bp-card-name">${escapeHtml(photo.title || (ru ? 'Без названия' : 'Untitled'))}</div>
+                        ${photo.description ? `<div class="bp-card-desc">${photo.description.replace(/<[^>]*>/g,'')}</div>` : ''}
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
