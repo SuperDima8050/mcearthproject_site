@@ -5680,7 +5680,7 @@
                 const contentEn = document.getElementById('nedit-content-en').value.trim();
                 if (!title || !content) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Заголовок и текст обязательны!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Title and content required!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(title) || containsProfanity(titleEn) || containsProfanity(content) || containsProfanity(contentEn)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
-                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Сохраняем...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Saving...'; statusEl.style.color='#f57f17';
+                statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
                 try {
                     const { error } = await sbClient.from('news').update({ title, title_en: titleEn||title, content, content_en: contentEn||content }).eq('id', news.id);
                     if (error) throw error;
@@ -5896,11 +5896,11 @@
                 }
             }
 
-            showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Публикуем...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Publishing...'}`, 25);
+            showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Публикуем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Publishing...'}`, 25);
 
             let imageUrl = null;
             if (imageFile) {
-                showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Загружаем изображение...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Uploading image...'}`, 50);
+                showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 50);
                 const ext = imageFile.name.split('.').pop().toLowerCase();
                 const imagePath = 'news/' + Date.now() + '_' + Math.random().toString(36).slice(2,8) + '.' + ext;
                 const { error: imgError } = await sbClient.storage
@@ -5912,7 +5912,7 @@
                 }
                 const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 imageUrl = urlData.publicUrl;
-                showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Сохраняем...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Saving...'}`, 75);
+                showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'}`, 75);
             }
 
             const { error } = await sbClient.from('news').insert([{
@@ -7477,7 +7477,7 @@
                 }
             }
 
-            showAuthStatus('info', ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Проверяем...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Checking...');
+            showAuthStatus('info', ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking...');
             const passHash = await hashPassword(pass);
 
             try {
@@ -7842,7 +7842,7 @@
                 statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Введи корректный Email' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Enter a valid email';
                 statusEl.style.color = '#c62828'; return;
             }
-            statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Ищем аккаунт...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Looking up account...';
+            statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Ищем аккаунт...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Looking up account...';
             statusEl.style.color = '#f57f17';
             try {
                 const { data } = await sbClient.from('accounts').select('nick, email').ilike('email', email).limit(1);
@@ -7904,7 +7904,7 @@
             const statusEl = document.getElementById('reset-status');
             if (!pass || pass.length < 4) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Минимум 4 символа' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Min 4 chars'; statusEl.style.color='#c62828'; return; }
             if (pass !== pass2) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Пароли не совпадают' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Passwords do not match'; statusEl.style.color='#c62828'; return; }
-            statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Сохраняем...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Saving...';
+            statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...';
             statusEl.style.color = '#f57f17';
             try {
                 const hash = await hashPassword(pass);
@@ -7968,7 +7968,7 @@
             if (!newPass || newPass.length < 4) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Новый пароль минимум 4 символа':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> New password min 4 chars'; statusEl.style.color='#c62828'; return; }
             if (newPass !== newPass2) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Пароли не совпадают':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Passwords do not match'; statusEl.style.color='#c62828'; return; }
 
-            statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Проверяем...':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Checking...'; statusEl.style.color='#f57f17';
+            statusEl.innerHTML = ru?'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем...':'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking...'; statusEl.style.color='#f57f17';
             try {
                 const oldHash = await hashPassword(oldPass);
                 const { data } = await sbClient.from('accounts').select('password_hash').ilike('nick', currentAccount.nick).limit(1);
@@ -8042,7 +8042,7 @@
             if (!newNick || newNick.length < 2) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Минимум 2 символа':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Min 2 characters'; statusEl.style.color='#c62828'; return; }
             if (containsProfanity(newNick)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
             if (newNick.toLowerCase() === currentAccount.nick.toLowerCase()) { document.getElementById('bp-rename-modal').remove(); return; }
-            statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Проверяем...':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Checking...'; statusEl.style.color='#f57f17';
+            statusEl.innerHTML = ru?'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем...':'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking...'; statusEl.style.color='#f57f17';
             try {
                 const { data: ex } = await sbClient.from('accounts').select('nick').ilike('nick', newNick).limit(1);
                 if (ex && ex.length > 0) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Ник занят!':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Nickname taken!'; statusEl.style.color='#c62828'; return; }
@@ -8154,7 +8154,7 @@
 
             submitBtn.disabled = true;
             showBpStatus('', '');
-            showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Проверяем изображение...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Checking image...'}`, 10);
+            showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 10);
 
             // === Модерация ===
             const bpModResult = await moderateImage(imageFile);
@@ -8165,7 +8165,7 @@
             }
             // === /Модерация ===
 
-            showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Загружаем изображение...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Uploading image...'}`, 25);
+            showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 25);
 
             let imagePath, worldPath;
 
@@ -8179,7 +8179,7 @@
                     .upload(imagePath, imageFile, { cacheControl: '3600', upsert: false });
                 if (imgError) throw new Error(parseSbError(imgError, ru));
 
-                showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Загружаем world файл...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Uploading world file...'}`, 50);
+                showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем world файл...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading world file...'}`, 50);
 
                 worldPath = `worlds/${timestamp}_${safeName}_world`;
                 const { error: worldError } = await sbClient.storage
@@ -8187,7 +8187,7 @@
                     .upload(worldPath, worldFile, { cacheControl: '3600', upsert: false });
                 if (worldError) throw new Error(parseSbError(worldError, ru));
 
-                showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Сохраняем запись...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Saving record...'}`, 75);
+                showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем запись...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving record...'}`, 75);
 
                 const { data: imgData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 const { data: worldData } = sbClient.storage.from('buildplates').getPublicUrl(worldPath);
@@ -8733,7 +8733,7 @@
                 const statusEl = document.getElementById('bp-edit-status');
                 if (!newName) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Enter a name!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(newName)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
-                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Сохраняем...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Saving...'; statusEl.style.color='#f57f17';
+                statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
                 try {
                     const { error } = await sbClient.from('buildplates').update({ name: newName }).eq('id', id);
                     if (error) throw error;
@@ -9521,7 +9521,7 @@
             }
 
             submitBtn.disabled = true;
-            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Проверяем изображение...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Checking image...'}`, 5);
+            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 5);
 
             // === Модерация ===
             const modResult = await moderateImage(imageFile);
@@ -9532,7 +9532,7 @@
             }
             // === /Модерация ===
 
-            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Загружаем фото...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Uploading photo...'}`, 10);
+            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 10);
 
             try {
                 const ts = Date.now();
@@ -9543,7 +9543,7 @@
 const ext = imageFile.name.split('.').pop().toLowerCase();
 const imagePath = `gallery/${safeName}_${ts}.${ext}`;
 
-showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Загружаем фото...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Uploading photo...'}`, 50);
+showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 50);
 
 const { error: uploadErr } = await sbClient.storage
     .from('buildplates')
@@ -9556,7 +9556,7 @@ uploadedImages.push({
     path: imagePath
 });
 
-                showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Сохраняем в базу данных...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Saving to database...'}`, 85);
+                showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем в базу данных...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving to database...'}`, 85);
 
                 // Создаем запись в базе данных для фото
 const { error: insertErr } = await sbClient.from('gallery').insert([{
@@ -10121,7 +10121,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 const statusEl = document.getElementById('gl-edit-status');
                 if (!newTitle) { statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Введи название!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Enter a title!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(newTitle)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
-                statusEl.innerHTML = ru ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Сохраняем...' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Saving...'; statusEl.style.color='#f57f17';
+                statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
                 try {
                     const { error } = await sbClient.from('gallery').update({ title: newTitle }).eq('id', id);
                     if (error) throw error;
@@ -10409,7 +10409,7 @@ async function showSubdomainModal() {
                 <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru?'⠿ тащи':'⠿ drag'}</span>
             </h3>
             <div id="sd-loading" style="text-align:center;padding:18px 0;font-family:Minecraft,sans-serif;font-size:0.85rem;color:#f57f17;">
-                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">${ru?'Загружаем...':'Loading...'}
+                <div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>${ru?'Загружаем...':'Loading...'}
             </div>
             <!-- VIEW MODE -->
             <div id="sd-view" style="display:none;">
@@ -10638,7 +10638,7 @@ async function doRenewSubdomain() {
     if (!currentAccount || !_sdCurrentSub) return;
     const ru = currentLang === 'ru';
     const statusEl = document.getElementById('sd-status-view');
-    if (statusEl) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Продлеваем...':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Renewing...'; statusEl.style.color='#f57f17'; }
+    if (statusEl) { statusEl.innerHTML = ru?'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Продлеваем...':'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Renewing...'; statusEl.style.color='#f57f17'; }
     try {
         const data = await callSubdomainApi({ action: 'renew', nick: currentAccount.nick });
         if (data.ok) {
@@ -10731,7 +10731,7 @@ async function doSaveSubdomain() {
     if (!ip)        { statusEl.innerHTML = ru?'⚠ Введи IP-адрес':'⚠ Enter IP address'; statusEl.style.color='#c62828'; return; }
     if (!captcha)   { statusEl.innerHTML = ru?'⚠ Пройди проверку капчи':'⚠ Complete the captcha'; statusEl.style.color='#c62828'; return; }
 
-    statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Создаём запись DNS...':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Creating DNS record...'; statusEl.style.color='#f57f17';
+    statusEl.innerHTML = ru?'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Создаём запись DNS...':'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Creating DNS record...'; statusEl.style.color='#f57f17';
     if (saveBtn) saveBtn.disabled = true;
     try {
         const data = await callSubdomainApi({ action: 'set', nick: currentAccount.nick, subdomain, ip, record_type: recType, captcha });
@@ -10773,7 +10773,7 @@ async function doUpdateSubdomain() {
     if (!subdomain) { statusEl.innerHTML = ru?'⚠ Введи имя':'⚠ Enter name'; statusEl.style.color='#c62828'; return; }
     if (!ip)        { statusEl.innerHTML = ru?'⚠ Введи IP':'⚠ Enter IP'; statusEl.style.color='#c62828'; return; }
 
-    statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Обновляем DNS...':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Updating DNS...'; statusEl.style.color='#f57f17';
+    statusEl.innerHTML = ru?'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Обновляем DNS...':'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Updating DNS...'; statusEl.style.color='#f57f17';
     try {
         const data = await callSubdomainApi({ action: 'set', nick: currentAccount.nick, subdomain, ip, record_type: recType });
         if (data.ok) {
@@ -10798,7 +10798,7 @@ async function doDeleteSubdomain() {
     if (!confirmed) return;
 
     const statusEl = document.getElementById('sd-status-view');
-    if (statusEl) { statusEl.innerHTML = ru?'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Удаляем...':'<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">Deleting...'; statusEl.style.color='#f57f17'; }
+    if (statusEl) { statusEl.innerHTML = ru?'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Удаляем...':'<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Deleting...'; statusEl.style.color='#f57f17'; }
     _sdModalLocked = true;
     try {
         const data = await callSubdomainApi({ action: 'delete', nick: currentAccount.nick });
@@ -10815,7 +10815,7 @@ async function doDeleteSubdomain() {
             const loadingEl = document.getElementById('sd-loading');
             if (viewEl)    viewEl.style.display    = 'none';
             if (createEl)  createEl.style.display  = 'none';
-            if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color='#f57f17'; loadingEl.innerHTML='<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;">'+(ru?'Загружаем...':'Loading...'); }
+            if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color='#f57f17'; loadingEl.innerHTML='<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>'+(ru?'Загружаем...':'Loading...'); }
             await loadCurrentSubdomain(true); // force=true — игнорируем viewAlreadyShown guard
             const createStatus = document.getElementById('sd-status-create');
             if (createStatus) { createStatus.innerHTML = ru?'✓ Поддомен удалён. Создай новый.':'✓ Deleted. Create a new one.'; createStatus.style.color='#2e7d32'; }
