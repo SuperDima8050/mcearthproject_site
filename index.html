@@ -6202,44 +6202,18 @@
             const { count: totalCount, error: countErr } = await sbClient.from('reports')
                 .select('*', { count: 'exact', head: true });
 
-            // DEBUG: смотрим ВСЕ записи без фильтра по статусу
-            const { data: allData, error: allErr } = await sbClient.from('reports')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(20);
-
             const { data, error } = await sbClient.from('reports')
                 .select('*')
                 .in('status', statusFilter)
                 .order('created_at', { ascending: false })
                 .limit(100);
 
-            // Показываем диагностику если ничего нет
-            if (error || !data || data.length === 0) {
-                const isDarkMode = document.body.classList.contains('dark-theme');
-                const bg = isDarkMode ? '#1a1a1a' : '#fffbe6';
-                const border = isDarkMode ? '#555' : '#8b7355';
-                const col = isDarkMode ? '#e0e0e0' : '#3e2723';
-                let debugHtml = '<div style="font-family:monospace;font-size:0.75rem;background:' + bg + ';border:2px solid ' + border + ';border-radius:4px;padding:12px;margin-bottom:10px;color:' + col + ';word-break:break-all;">';
-                debugHtml += '<b>DEBUG INFO</b><br>';
-                debugHtml += '• filter: <b>' + JSON.stringify(statusFilter) + '</b><br>';
-                debugHtml += '• filtered query error: <b>' + (error ? error.message : 'none') + '</b><br>';
-                debugHtml += '• filtered results count: <b>' + (data ? data.length : 'null') + '</b><br>';
-                debugHtml += '• allData error: <b>' + (allErr ? allErr.message : 'none') + '</b><br>';
-                debugHtml += '• allData count (no filter): <b>' + (allData ? allData.length : 'null') + '</b><br>';
-                if (allData && allData.length > 0) {
-                    debugHtml += '• statuses in DB: <b>' + [...new Set(allData.map(r => r.status))].join(', ') + '</b><br>';
-                    debugHtml += '• columns: <b>' + Object.keys(allData[0]).join(', ') + '</b><br>';
-                    debugHtml += '• sample row: <b>' + JSON.stringify(allData[0]).substring(0, 200) + '</b>';
-                } else {
-                    debugHtml += '• <span style="color:#c62828;">Таблица пуста или RLS блокирует</span>';
-                }
-                debugHtml += '</div>';
-                if (!data || data.length === 0) {
-                    container.innerHTML = debugHtml + '<div class="news-empty"><i class="fas fa-flag"></i><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
-                } else {
-                    container.innerHTML = debugHtml + '<div class="news-empty"><i class="fas fa-exclamation-triangle" style="color:#c62828;"></i><p style="color:#c62828;">' + error.message + '</p></div>';
-                }
+            if (error) {
+                container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle" style="color:#c62828;font-size:2rem;display:block;margin-bottom:10px;"></i><p style="color:#c62828;">' + error.message + '</p></div>';
+                return;
+            }
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="news-empty"><i class="fas fa-flag"></i><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
                 return;
             }
             container.innerHTML = '';
