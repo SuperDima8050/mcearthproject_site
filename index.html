@@ -5794,6 +5794,11 @@
             requestAnimationFrame(function() {
                 window.mcRteCreate('nedit-content', ru2edit ? 'Текст (RU)...' : 'Content (RU)...', '90px');
                 window.mcRteCreate('nedit-content-en', ru2edit ? 'Текст (EN)...' : 'Content (EN)...', '90px');
+                // Set value properly (textarea was pre-filled with escaped HTML, RTE needs raw HTML)
+                if(window.mcRteSetValue){
+                    window.mcRteSetValue('nedit-content', news.content||'');
+                    window.mcRteSetValue('nedit-content-en', news.content_en||'');
+                }
             });
             document.getElementById('nedit-save-btn').addEventListener('click', async () => {
                 const statusEl = document.getElementById('nedit-status');
@@ -8647,7 +8652,7 @@
                     }
                     showReportModal('buildplate', bp.id, bp.name, bp.author, bp.image_url || null);
                 });
-                if (editBtn) editBtn.addEventListener('click', () => editBuildplate(bp.id, bp.name));
+                if (editBtn) editBtn.addEventListener('click', () => editBuildplate(bp.id, bp.name, bp.description||''));
             });
             setTimeout(attachRefBadges, 150);
             setTimeout(updateFavoriteButtons, 200);
@@ -8828,7 +8833,7 @@
         }
         window.downloadImage = downloadImage;
 
-        async function editBuildplate(id, currentName) {
+        async function editBuildplate(id, currentName, currentDesc) {
             const ru = currentLang === 'ru';
             const isDark = document.body.classList.contains('dark-theme');
             const ex = document.getElementById('bp-edit-modal'); if (ex) ex.remove();
@@ -8846,6 +8851,10 @@
                         <div class="bp-form-row" style="margin-bottom:14px;">
                             <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New name'}</label>
                             <input id="bp-edit-name" style="${inputStyle}" maxlength="100" value="${currentName.replace(/"/g,'&quot;')}" />
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:14px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Описание' : 'Description'}</label>
+                            <textarea id="bp-edit-desc" style="${inputStyle}height:80px;resize:vertical;" maxlength="2000"></textarea>
                         </div>
                         <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
                         <div style="display:flex;gap:10px;">
@@ -8865,7 +8874,10 @@
             const modal = document.getElementById('bp-edit-modal-content');
             const header = modal.querySelector('.modal-header');
             makeDraggable(modal, header);
-            
+            requestAnimationFrame(function(){
+                window.mcRteCreate('bp-edit-desc', ru?'Описание билдплейта...':'Buildplate description...','80px');
+                if(currentDesc) window.mcRteSetValue('bp-edit-desc', currentDesc);
+            });
             const nameInput = document.getElementById('bp-edit-name');
             nameInput.focus(); nameInput.select();
             document.getElementById('bp-edit-save-btn').addEventListener('click', async () => {
@@ -8875,11 +8887,12 @@
                 if (containsProfanity(newName)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
                 try {
-                    const { error } = await sbClient.from('buildplates').update({ name: newName }).eq('id', id);
+                    const newDesc=(window.mcRteGetValue?window.mcRteGetValue('bp-edit-desc'):(document.getElementById('bp-edit-desc')||{}).value||'').trim();
+                    const { error } = await sbClient.from('buildplates').update({ name: newName, description: newDesc||null }).eq('id', id);
                     if (error) throw error;
                     // Update cache
                     const idx = _bpAllData.findIndex(b => String(b.id) === String(id));
-                    if (idx !== -1) _bpAllData[idx].name = newName;
+                    if (idx !== -1) { _bpAllData[idx].name = newName; _bpAllData[idx].description = newDesc||null; }
                     overlay.remove();
                     // Update card name
                     const nameEl = document.querySelector(`#bp-card-${id} .bp-card-name`);
@@ -9983,7 +9996,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                     }
                 });
                 if (deleteBtn) deleteBtn.addEventListener('click', () => deleteGalleryPhoto(photo.id, photo.image_path, deleteBtn));
-                if (editBtn) editBtn.addEventListener('click', () => editGalleryPhoto(photo.id, photo.title || ''));
+                if (editBtn) editBtn.addEventListener('click', () => editGalleryPhoto(photo.id, photo.title || '', photo.description||''));
 
                 grid.appendChild(card);
             });
@@ -10106,7 +10119,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             }
         }
 
-        async function editGalleryPhoto(id, currentTitle) {
+        async function editGalleryPhoto(id, currentTitle, currentDesc) {
             const ru = currentLang === 'ru';
             const isDark = document.body.classList.contains('dark-theme');
             const ex = document.getElementById('gl-edit-modal'); if (ex) ex.remove();
@@ -10124,6 +10137,10 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         <div class="bp-form-row" style="margin-bottom:14px;">
                             <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New title'}</label>
                             <input id="gl-edit-title" style="${inputStyle}" maxlength="200" value="${(currentTitle||'').replace(/"/g,'&quot;')}" />
+                        </div>
+                        <div class="bp-form-row" style="margin-bottom:14px;">
+                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Описание' : 'Description'}</label>
+                            <textarea id="gl-edit-desc" style="${inputStyle}height:80px;resize:vertical;" maxlength="2000"></textarea>
                         </div>
                         <div class="bp-form-row" style="margin-bottom:14px;">
                             <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заменить изображение (опционально)' : 'Replace image (optional)'}</label>
@@ -10163,6 +10180,10 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const modal = document.getElementById('gl-edit-modal-content');
             const header = modal.querySelector('.modal-header');
             makeDraggable(modal, header);
+            requestAnimationFrame(function(){
+                window.mcRteCreate('gl-edit-desc', ru?'Описание фото...':'Photo description...','80px');
+                if(currentDesc) window.mcRteSetValue('gl-edit-desc', currentDesc);
+            });
 
             // Добавляем drag & drop для изображения
             const dragContainer = modal.querySelector('.drag-drop-container');
@@ -10265,10 +10286,11 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 if (containsProfanity(newTitle)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
                 try {
-                    const { error } = await sbClient.from('gallery').update({ title: newTitle }).eq('id', id);
+                    const newDesc=(window.mcRteGetValue?window.mcRteGetValue('gl-edit-desc'):(document.getElementById('gl-edit-desc')||{}).value||'').trim();
+                    const { error } = await sbClient.from('gallery').update({ title: newTitle, description: newDesc||null }).eq('id', id);
                     if (error) throw error;
                     // Update cache
-                    if (_galleryCache) { const idx = _galleryCache.findIndex(p => String(p.id) === String(id)); if (idx !== -1) _galleryCache[idx].title = newTitle; }
+                    if (_galleryCache) { const idx = _galleryCache.findIndex(p => String(p.id) === String(id)); if (idx !== -1) { _galleryCache[idx].title = newTitle; _galleryCache[idx].description = newDesc||null; } }
                     overlay.remove();
                     const nameEl = document.querySelector(`#gallery-card-${id} .bp-card-name`);
                     if (nameEl) nameEl.textContent = newTitle;
