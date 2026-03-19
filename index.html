@@ -10983,156 +10983,126 @@ async function doDeleteSubdomain() {
     }
 }
 
-// ═══════════════════════════════════════════════
-//   MINI RICH TEXT EDITOR  (mcRte*)
-// ═══════════════════════════════════════════════
-(function() {
-    var RTE_COLORS = [
-        { hex: '#ffffff', label: 'Белый' },
-        { hex: '#ffeb3b', label: 'Жёлтый' },
-        { hex: '#ff9800', label: 'Оранжевый' },
-        { hex: '#f44336', label: 'Красный' },
-        { hex: '#e91e63', label: 'Розовый' },
-        { hex: '#9c27b0', label: 'Фиолетовый' },
-        { hex: '#2196f3', label: 'Синий' },
-        { hex: '#00bcd4', label: 'Бирюзовый' },
-        { hex: '#4caf50', label: 'Зелёный' },
-        { hex: '#6b8e23', label: 'Оливковый' },
-        { hex: '#795548', label: 'Коричневый' },
-        { hex: '#9e9e9e', label: 'Серый' },
-        { hex: '#3e2723', label: 'Тёмный' },
-        { hex: '#000000', label: 'Чёрный' },
-    ];
-
-    function buildToolbar(editorId) {
-        var ru = (window.currentLang === 'ru');
-        var colors = RTE_COLORS.map(function(c) {
-            return '<span class="mc-rte-color-dot" style="background:' + c.hex + ';" title="' + c.label + '" ' +
-                'onmousedown="event.preventDefault();window.mcRteColor('' + editorId + '','' + c.hex + '')"></span>';
-        }).join('');
-        return '<div class="mc-rte-toolbar" id="tb-' + editorId + '">' +
-            '<button class="mc-rte-btn" title="' + (ru?'Жирный':'Bold') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','bold')"><b>B</b></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Курсив':'Italic') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','italic')"><i style="font-style:italic">I</i></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Подчёркнутый':'Underline') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','underline')"><u>U</u></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Зачёркнутый':'Strikethrough') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','strikeThrough')"><s>S</s></button>' +
-            '<div class="mc-rte-sep"></div>' +
-            '<button class="mc-rte-btn" title="' + (ru?'По левому':'Left') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','justifyLeft')"><i class="fas fa-align-left" style="font-size:0.6rem;"></i></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'По центру':'Center') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','justifyCenter')"><i class="fas fa-align-center" style="font-size:0.6rem;"></i></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'По правому':'Right') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','justifyRight')"><i class="fas fa-align-right" style="font-size:0.6rem;"></i></button>' +
-            '<div class="mc-rte-sep"></div>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Список':'List') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','insertUnorderedList')"><i class="fas fa-list-ul" style="font-size:0.6rem;"></i></button>' +
-            '<div class="mc-rte-sep"></div>' +
-            colors +
-            '<div class="mc-rte-sep"></div>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Убрать форматирование':'Clear fmt') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','removeFormat')"><i class="fas fa-eraser" style="font-size:0.6rem;"></i></button>' +
-        '</div>';
-    }
-
-    window.mcRteCmd = function(editorId, cmd) {
-        var el = document.getElementById(editorId);
-        if (!el) return;
-        el.focus();
-        document.execCommand(cmd, false, null);
-        window.mcRteUpdateBtnStates(editorId);
-    };
-
-    window.mcRteColor = function(editorId, color) {
-        var el = document.getElementById(editorId);
-        if (!el) return;
-        el.focus();
-        document.execCommand('foreColor', false, color);
-    };
-
-    window.mcRteUpdateBtnStates = function(editorId) {
-        var tb = document.getElementById('tb-' + editorId);
-        if (!tb) return;
-        var cmds = ['bold','italic','underline','strikeThrough'];
-        var btns = tb.querySelectorAll('.mc-rte-btn');
-        cmds.forEach(function(cmd, i) {
-            if (btns[i]) btns[i].classList.toggle('active', !!document.queryCommandState(cmd));
-        });
-    };
-
-    window.mcRteCreate = function(textareaId, placeholder, minHeight) {
-        var ta = document.getElementById(textareaId);
-        if (!ta || ta._rteCreated) return;
-        ta._rteCreated = true;
-        var ru = (window.currentLang === 'ru');
-        var editorId = 'rte-' + textareaId;
-        var wrap = document.createElement('div');
-        wrap.className = 'mc-rte-wrap';
-        wrap.id = 'rtewrap-' + textareaId;
-        wrap.innerHTML = buildToolbar(editorId);
-        var editor = document.createElement('div');
-        editor.className = 'mc-rte-editor';
-        editor.id = editorId;
-        editor.contentEditable = 'true';
-        editor.setAttribute('data-placeholder', placeholder || (ru ? 'Введи текст...' : 'Enter text...'));
-        if (minHeight) editor.style.minHeight = minHeight;
-        if (ta.value) editor.innerHTML = ta.value;
-        wrap.appendChild(editor);
-        editor.addEventListener('input', function() {
-            ta.value = editor.innerHTML;
-            window.mcRteUpdateBtnStates(editorId);
-        });
-        editor.addEventListener('keyup', function() { window.mcRteUpdateBtnStates(editorId); });
-        editor.addEventListener('mouseup', function() { window.mcRteUpdateBtnStates(editorId); });
-        editor.addEventListener('focus', function() { window.mcRteUpdateBtnStates(editorId); });
-        ta.style.display = 'none';
-        ta.parentNode.insertBefore(wrap, ta);
-        return editorId;
-    };
-
-    window.mcRteGetValue = function(textareaId) {
-        var editorId = 'rte-' + textareaId;
-        var editor = document.getElementById(editorId);
-        var ta = document.getElementById(textareaId);
-        if (editor) {
-            var v = editor.innerHTML;
-            if (/^(<br\s*\/?>|<div><br\s*\/?>?<\/div>)*$/i.test(v.trim())) v = '';
-            if (ta) ta.value = v;
-            return v;
-        }
-        return ta ? ta.value : '';
-    };
-
-    window.mcRteClear = function(textareaId) {
-        var editorId = 'rte-' + textareaId;
-        var editor = document.getElementById(editorId);
-        var ta = document.getElementById(textareaId);
-        if (editor) editor.innerHTML = '';
-        if (ta) ta.value = '';
-    };
-
-    window.mcRteSetValue = function(textareaId, html) {
-        var editorId = 'rte-' + textareaId;
-        var editor = document.getElementById(editorId);
-        var ta = document.getElementById(textareaId);
-        if (editor) editor.innerHTML = html || '';
-        if (ta) ta.value = html || '';
-    };
-
-    // Auto-init static textareas when DOM is ready
-    function autoInit() {
-        ['bp-description', 'gallery-description'].forEach(function(id) {
-            var ta = document.getElementById(id);
-            if (ta && !ta._rteCreated) {
-                var ru = (window.currentLang === 'ru');
-                window.mcRteCreate(id,
-                    id === 'bp-description'
-                        ? (ru ? 'Расскажи о своём билдплейте...' : 'Tell about your buildplate...')
-                        : (ru ? 'Расскажи о своём скриншоте...' : 'Tell about your screenshot...'),
-                    '80px'
-                );
-            }
-        });
-    }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', autoInit);
-    } else {
-        autoInit();
-    }
 })();
 </script>
+
+<script>
+(function(){
+var COLORS=['#ffffff','#ffeb3b','#ff9800','#f44336','#e91e63','#9c27b0','#2196f3','#00bcd4','#4caf50','#6b8e23','#795548','#9e9e9e','#3e2723','#000000'];
+var CLABELS=['Белый','Жёлтый','Оранжевый','Красный','Розовый','Фиолетовый','Синий','Бирюзовый','Зелёный','Оливковый','Коричневый','Серый','Тёмный','Чёрный'];
+
+function buildToolbar(eid){
+  var ru=window.currentLang==='ru';
+  var h='<div class="mc-rte-toolbar" id="tb-'+eid+'">';
+  [{cmd:'bold',html:'<b>B</b>',tip:ru?'Жирный':'Bold'},
+   {cmd:'italic',html:'<i style="font-style:italic">I</i>',tip:ru?'Курсив':'Italic'},
+   {cmd:'underline',html:'<u>U</u>',tip:ru?'Подч.':'Underline'},
+   {cmd:'strikeThrough',html:'<s>S</s>',tip:ru?'Зачёрк.':'Strike'}
+  ].forEach(function(b){
+    h+='<button class="mc-rte-btn" title="'+b.tip+'" data-eid="'+eid+'" data-cmd="'+b.cmd+'">'+b.html+'</button>';
+  });
+  h+='<span class="mc-rte-sep"></span>';
+  [{cmd:'justifyLeft',icon:'fa-align-left'},{cmd:'justifyCenter',icon:'fa-align-center'},{cmd:'justifyRight',icon:'fa-align-right'}].forEach(function(b){
+    h+='<button class="mc-rte-btn" data-eid="'+eid+'" data-cmd="'+b.cmd+'"><i class="fas '+b.icon+'" style="font-size:10px"></i></button>';
+  });
+  h+='<span class="mc-rte-sep"></span>';
+  h+='<button class="mc-rte-btn" data-eid="'+eid+'" data-cmd="insertUnorderedList"><i class="fas fa-list-ul" style="font-size:10px"></i></button>';
+  h+='<span class="mc-rte-sep"></span>';
+  COLORS.forEach(function(col,i){
+    h+='<span class="mc-rte-color-dot" style="background:'+col+'" title="'+CLABELS[i]+'" data-eid="'+eid+'" data-color="'+col+'"></span>';
+  });
+  h+='<span class="mc-rte-sep"></span>';
+  h+='<button class="mc-rte-btn" title="'+(ru?'Убрать форматирование':'Clear')+'" data-eid="'+eid+'" data-cmd="removeFormat"><i class="fas fa-eraser" style="font-size:10px"></i></button>';
+  h+='</div>';
+  return h;
+}
+
+document.addEventListener('mousedown', function(e){
+  var btn = e.target.closest('.mc-rte-btn');
+  var dot = e.target.closest('.mc-rte-color-dot');
+  if(btn && btn.dataset.eid){
+    e.preventDefault();
+    var ed=document.getElementById(btn.dataset.eid);
+    if(ed){ed.focus();document.execCommand(btn.dataset.cmd,false,null);updateStates(btn.dataset.eid);}
+  }
+  if(dot && dot.dataset.eid){
+    e.preventDefault();
+    var ed=document.getElementById(dot.dataset.eid);
+    if(ed){ed.focus();document.execCommand('foreColor',false,dot.dataset.color);}
+  }
+});
+
+function updateStates(eid){
+  var tb=document.getElementById('tb-'+eid);
+  if(!tb)return;
+  var btns=tb.querySelectorAll('.mc-rte-btn[data-cmd]');
+  btns.forEach(function(b){
+    var a=['bold','italic','underline','strikeThrough'];
+    if(a.indexOf(b.dataset.cmd)>=0) b.classList.toggle('active',!!document.queryCommandState(b.dataset.cmd));
+  });
+}
+
+window.mcRteCreate=function(taId,placeholder,minH){
+  var ta=document.getElementById(taId);
+  if(!ta||ta._rteCreated)return;
+  ta._rteCreated=true;
+  var eid='rte-'+taId;
+  var wrap=document.createElement('div');
+  wrap.className='mc-rte-wrap';
+  wrap.id='rtewrap-'+taId;
+  wrap.innerHTML=buildToolbar(eid);
+  var ed=document.createElement('div');
+  ed.className='mc-rte-editor';
+  ed.id=eid;
+  ed.contentEditable='true';
+  ed.setAttribute('data-placeholder',placeholder||(window.currentLang==='ru'?'Введи текст...':'Enter text...'));
+  if(minH)ed.style.minHeight=minH;
+  if(ta.value)ed.innerHTML=ta.value;
+  wrap.appendChild(ed);
+  function sync(){ta.value=ed.innerHTML;updateStates(eid);}
+  ed.addEventListener('input',sync);
+  ed.addEventListener('keyup',function(){updateStates(eid);});
+  ed.addEventListener('mouseup',function(){updateStates(eid);});
+  ta.style.display='none';
+  ta.parentNode.insertBefore(wrap,ta);
+};
+
+window.mcRteGetValue=function(taId){
+  var ed=document.getElementById('rte-'+taId);
+  var ta=document.getElementById(taId);
+  if(ed){var v=ed.innerHTML;if(/^(<br\/?>|<div><br\/?>?<\/div>)*$/i.test(v.trim()))v='';if(ta)ta.value=v;return v;}
+  return ta?ta.value:'';
+};
+
+window.mcRteClear=function(taId){
+  var ed=document.getElementById('rte-'+taId);
+  var ta=document.getElementById(taId);
+  if(ed)ed.innerHTML='';
+  if(ta)ta.value='';
+};
+
+window.mcRteSetValue=function(taId,html){
+  var ed=document.getElementById('rte-'+taId);
+  var ta=document.getElementById(taId);
+  if(ed)ed.innerHTML=html||'';
+  if(ta)ta.value=html||'';
+};
+
+function autoInit(){
+  var ru=window.currentLang==='ru';
+  var cfg=[
+    {id:'bp-description',    ph:ru?'Расскажи о своём билдплейте...':'Tell about your buildplate...',    h:'80px'},
+    {id:'gallery-description',ph:ru?'Расскажи о своём скриншоте...':'Tell about your screenshot...',  h:'80px'}
+  ];
+  cfg.forEach(function(x){
+    var ta=document.getElementById(x.id);
+    if(ta&&!ta._rteCreated)window.mcRteCreate(x.id,x.ph,x.h);
+  });
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',autoInit);
+else autoInit();
+})();
+</script>
+
 </body>
 </html>
