@@ -1519,13 +1519,6 @@
             box-shadow: 0 3px 0 #5a4a3a;
         }
         .bp-dots-btn:hover { background: #e8dfc0; transform: translateY(-1px); }
-        body.dark-theme .bp-dots-btn {
-            background: #2a2a2a;
-            border-color: #4a4a4a;
-            color: #e0e0e0;
-            box-shadow: 0 3px 0 #111;
-        }
-        body.dark-theme .bp-dots-btn:hover { background: #3a3a3a; }
         .bp-dots-dropdown {
             display: none;
             position: absolute;
@@ -4653,92 +4646,7 @@
                 height: 16px !important;
             }
         }
-    
-        /* ─── MINI RICH TEXT EDITOR ─── */
-        .mc-rte-wrap {
-            width: 100%;
-            border: 3px solid #8b7355;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 4px;
-            box-sizing: border-box;
-        }
-        body.dark-theme .mc-rte-wrap { border-color: #555; }
-        .mc-rte-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 2px;
-            padding: 4px 6px;
-            background: #e8dfc0;
-            border-bottom: 2px solid #8b7355;
-        }
-        body.dark-theme .mc-rte-toolbar { background: #222; border-bottom-color: #444; }
-        .mc-rte-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 26px;
-            height: 26px;
-            padding: 0 4px;
-            background: #f5eed9;
-            border: 2px solid #8b7355;
-            border-radius: 2px;
-            cursor: pointer;
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: #3e2723;
-            transition: all 0.1s;
-            line-height: 1;
-        }
-        .mc-rte-btn:hover { background: #d4c9a8; }
-        .mc-rte-btn.active { background: #6b8e23; border-color: #4a6010; color: #fff; }
-        body.dark-theme .mc-rte-btn { background: #2a2a2a; border-color: #555; color: #ddd; }
-        body.dark-theme .mc-rte-btn:hover { background: #3a3a3a; }
-        body.dark-theme .mc-rte-btn.active { background: #4a6d23; border-color: #3a5010; color: #fff; }
-        .mc-rte-sep {
-            width: 1px;
-            height: 20px;
-            background: #8b7355;
-            margin: 0 3px;
-            flex-shrink: 0;
-        }
-        body.dark-theme .mc-rte-sep { background: #444; }
-        .mc-rte-color-dot {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border-radius: 2px;
-            border: 2px solid rgba(0,0,0,0.25);
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: transform 0.1s;
-        }
-        .mc-rte-color-dot:hover { transform: scale(1.25); border-color: rgba(0,0,0,0.5); }
-        .mc-rte-editor {
-            width: 100%;
-            min-height: 90px;
-            padding: 10px 12px;
-            background: #f5eed9;
-            color: #3e2723;
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            outline: none;
-            box-sizing: border-box;
-            overflow-y: auto;
-            line-height: 1.6;
-            word-break: break-word;
-        }
-        body.dark-theme .mc-rte-editor { background: #1a1a1a; color: #e0e0e0; }
-        .mc-rte-editor:empty::before {
-            content: attr(data-placeholder);
-            color: #9e9e9e;
-            pointer-events: none;
-        }
-        .mc-rte-editor ul { padding-left: 1.4em; margin: 4px 0; }
-</style>
+    </style>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
@@ -5287,11 +5195,6 @@
                     
                     <input type="hidden" id="bp-author" />
 
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label data-ru="Описание (необязательно)" data-en="Description (optional)">Описание (необязательно)</label>
-                        <textarea id="bp-description" style="width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:#f5eed9;color:#3e2723;font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;height:80px;resize:vertical;" maxlength="2000" placeholder="Расскажи о своём билдплейте..."></textarea>
-                    </div>
-
                     <div class="bp-form-row">
                         <label data-ru="Скриншот" data-en="Screenshot">Скриншот</label>
                         <label class="bp-file-label buildplate-upload" id="bp-image-label-wrap" for="bp-image-input">
@@ -5441,10 +5344,6 @@
                                    data-placeholder-ru="Мой крутой скриншот"
                                    data-placeholder-en="My cool screenshot"
                                    placeholder="Мой крутой скриншот" />
-                        </div>
-                        <div class="bp-form-row" style="margin-bottom:10px;">
-                            <label data-ru="Описание (необязательно)" data-en="Description (optional)">Описание (необязательно)</label>
-                            <textarea id="gallery-description" style="width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:#f5eed9;color:#3e2723;font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;height:80px;resize:vertical;" maxlength="2000" placeholder="Расскажи о своём скриншоте..."></textarea>
                         </div>
                         <div class="bp-form-row">
                             <label data-ru="Фото (PNG / JPG / WEBP)" data-en="Photo (PNG / JPG / WEBP)">Фото (PNG / JPG / WEBP)</label>
@@ -5777,7 +5676,7 @@
                         <textarea id="nedit-content-en" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content_en||'').replace(/</g,'&lt;')}</textarea>
                     </div>
                     <div id="nedit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <div style="display:flex;gap:10px;">
                         <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
                         </button>
@@ -5789,18 +5688,12 @@
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
-            // Init RTE editors for edit modal
-            var ru2edit = currentLang === 'ru';
-            requestAnimationFrame(function() {
-                window.mcRteCreate('nedit-content', ru2edit ? 'Текст (RU)...' : 'Content (RU)...', '90px');
-                window.mcRteCreate('nedit-content-en', ru2edit ? 'Текст (EN)...' : 'Content (EN)...', '90px');
-            });
             document.getElementById('nedit-save-btn').addEventListener('click', async () => {
                 const statusEl = document.getElementById('nedit-status');
                 const title = document.getElementById('nedit-title').value.trim();
                 const titleEn = document.getElementById('nedit-title-en').value.trim();
-                const content = (window.mcRteGetValue ? window.mcRteGetValue('nedit-content') : document.getElementById('nedit-content').value).trim();
-                const contentEn = (window.mcRteGetValue ? window.mcRteGetValue('nedit-content-en') : document.getElementById('nedit-content-en').value).trim();
+                const content = document.getElementById('nedit-content').value.trim();
+                const contentEn = document.getElementById('nedit-content-en').value.trim();
                 if (!title || !content) { statusEl.innerHTML = ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Заголовок и текст обязательны!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Title and content required!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(title) || containsProfanity(titleEn) || containsProfanity(content) || containsProfanity(contentEn)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
@@ -5906,33 +5799,32 @@
             const ex = document.getElementById('news-admin-modal'); if (ex) ex.remove();
             const overlay = document.createElement('div');
             overlay.className = 'bp-modal-overlay'; overlay.id = 'news-admin-modal';
-            const isDark = document.body.classList.contains('dark-theme');
-            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            const inputStyle = 'width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:#f5eed9;color:#3e2723;font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;';
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:520px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:${isDark?'#81c784':'#4a5d23'};margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
+                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
                     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:rgba(107,142,35,0.1);border-radius:3px;border:2px solid #8b7355;">
                         <i class="fas fa-user" style="color:#6b8e23;"></i>
-                        <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:${isDark?'#e0e0e0':'#3e2723'};">${currentAccount.nick}${currentAccount.verified ? ' <span class=\"verified-badge\" title=\"Верифицирован\"><i class=\"fas fa-check\"></i></span>' : ''}</span>
+                        <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:#3e2723;">${currentAccount.nick}${currentAccount.verified ? ' <span class=\"verified-badge\" title=\"Верифицирован\"><i class=\"fas fa-check\"></i></span>' : ''}</span>
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#c8c8c8':'#3e2723'}">${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
+                        <label>${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
                         <input id="nadmin-title" style="${inputStyle}" maxlength="200" />
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#c8c8c8':'#3e2723'}">${ru ? 'Заголовок (EN)' : 'Title (EN)'}</label>
+                        <label>${ru ? 'Заголовок (EN)' : 'Title (EN)'}</label>
                         <input id="nadmin-title-en" style="${inputStyle}" maxlength="200" />
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#c8c8c8':'#3e2723'}">${ru ? 'Текст (RU)' : 'Content (RU)'}</label>
+                        <label>${ru ? 'Текст (RU)' : 'Content (RU)'}</label>
                         <textarea id="nadmin-content" style="${inputStyle}height:100px;resize:vertical;" maxlength="5000"></textarea>
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#c8c8c8':'#3e2723'}">${ru ? 'Текст (EN)' : 'Content (EN)'}</label>
+                        <label>${ru ? 'Текст (EN)' : 'Content (EN)'}</label>
                         <textarea id="nadmin-content-en" style="${inputStyle}height:100px;resize:vertical;" maxlength="5000"></textarea>
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#c8c8c8':'#3e2723'}">${ru ? '🖼️ Изображение (необязательно)' : '🖼️ Image (optional)'}</label>
+                        <label>${ru ? '🖼️ Изображение (необязательно)' : '🖼️ Image (optional)'}</label>
                         <label class="bp-file-label news-upload" id="nadmin-image-wrap" for="nadmin-image-input" style="cursor:pointer;">
                             <i class="fas fa-image" style="color:#6b8e23;font-size:1.3rem;"></i>
                             <span id="nadmin-image-label">${ru ? 'Выбери или перетащи сюда...' : 'Choose or drag here...'}</span>
@@ -5958,20 +5850,14 @@
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
-            // Init RTE editors after modal is in DOM
-            var ru2 = currentLang === 'ru';
-            requestAnimationFrame(function() {
-                window.mcRteCreate('nadmin-content', ru2 ? 'Текст новости (RU)...' : 'News body (RU)...', '100px');
-                window.mcRteCreate('nadmin-content-en', ru2 ? 'Текст новости (EN)...' : 'News body (EN)...', '100px');
-            });
         }
 
         async function submitNews() {
             const ru = currentLang === 'ru';
             const title = document.getElementById('nadmin-title').value.trim();
             const titleEn = document.getElementById('nadmin-title-en').value.trim();
-            const content = (window.mcRteGetValue ? window.mcRteGetValue('nadmin-content') : document.getElementById('nadmin-content').value).trim();
-            const contentEn = (window.mcRteGetValue ? window.mcRteGetValue('nadmin-content-en') : document.getElementById('nadmin-content-en').value).trim();
+            const content = document.getElementById('nadmin-content').value.trim();
+            const contentEn = document.getElementById('nadmin-content-en').value.trim();
             const imageFile = document.getElementById('nadmin-image-input')?.files[0] || null;
             const statusEl = document.getElementById('nadmin-status');
 
@@ -6097,8 +5983,6 @@
 
         function clearBuildplateForm() {
             document.getElementById('bp-name').value = '';
-            if (window.mcRteClear) window.mcRteClear('bp-description');
-            else { const d = document.getElementById('bp-description'); if(d) d.value=''; }
             document.getElementById('bp-image-input').value = '';
             document.getElementById('bp-world-input').value = '';
             document.getElementById('bp-image-name').textContent = '';
@@ -6109,8 +5993,6 @@
 
         function clearGalleryForm() {
             document.getElementById('gallery-title').value = '';
-            if (window.mcRteClear) window.mcRteClear('gallery-description');
-            else { const d = document.getElementById('gallery-description'); if(d) d.value=''; }
             document.getElementById('gallery-image-input-1').value = '';
             document.getElementById('gallery-image-name-1').textContent = '';
             document.getElementById('gallery-status').innerHTML = '';
@@ -6120,8 +6002,8 @@
         function clearNewsForm() {
             document.getElementById('nadmin-title').value = '';
             document.getElementById('nadmin-title-en').value = '';
-            if (window.mcRteClear) { window.mcRteClear('nadmin-content'); window.mcRteClear('nadmin-content-en'); }
-            else { document.getElementById('nadmin-content').value = ''; document.getElementById('nadmin-content-en').value = ''; }
+            document.getElementById('nadmin-content').value = '';
+            document.getElementById('nadmin-content-en').value = '';
             document.getElementById('nadmin-image-input').value = '';
             document.getElementById('nadmin-image-name').textContent = '';
             document.getElementById('nadmin-status').innerHTML = '';
@@ -8330,13 +8212,11 @@
                 const { data: imgData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 const { data: worldData } = sbClient.storage.from('buildplates').getPublicUrl(worldPath);
 
-                const bpDesc = (window.mcRteGetValue ? window.mcRteGetValue('bp-description') : (document.getElementById('bp-description')?.value || '')).trim();
                 const { data: inserted, error: dbError } = await sbClient.from('buildplates').insert([{
                     name: name,
                     author: author,
                     image_url: imgData.publicUrl,
                     world_url: worldData.publicUrl,
-                    ...(bpDesc ? { description: bpDesc } : {}),
                     created_at: new Date().toISOString()
                 }]).select();
                 if (dbError) throw new Error(parseSbError(dbError, ru));
@@ -9699,13 +9579,11 @@ uploadedImages.push({
                 showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем в базу данных...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving to database...'}`, 85);
 
                 // Создаем запись в базе данных для фото
-const glDesc = (window.mcRteGetValue ? window.mcRteGetValue('gallery-description') : (document.getElementById('gallery-description')?.value || '')).trim();
 const { error: insertErr } = await sbClient.from('gallery').insert([{
     title,
     author: currentAccount.nick,
     image_url: uploadedImages[0].url,
     image_path: uploadedImages[0].path,
-    ...(glDesc ? { description: glDesc } : {}),
     likes: 0,
     dislikes: 0,
 }]);
@@ -10391,45 +10269,35 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
     <script>
     // === Compass Sprite Animation ===
     (function() {
+        const COMPASS_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png';
         const FRAME_COUNT = 32;
         const COLS = 10;
-        const DEFAULT_SIZE = 48;
-        const FPS = 16;
-
-        function getFrameSize(el) {
-            // Read background-size from inline style or computed style
-            const raw = el.style.backgroundSize || getComputedStyle(el).backgroundSize || '';
-            const w = parseFloat(raw);
-            if (!isNaN(w) && w > 0) return Math.round(w / COLS);
-            return DEFAULT_SIZE;
-        }
+        const SIZE = 48;
+        const FPS = 16; // smooth rotation
 
         function animateCompass(el) {
-            // Kill any existing interval on this element
-            if (el._compassIntervalId) { clearInterval(el._compassIntervalId); el._compassIntervalId = null; }
             let frame = 0;
             const id = setInterval(() => {
                 if (!document.contains(el)) { clearInterval(id); return; }
-                const size = getFrameSize(el);
                 const col = frame % COLS;
                 const row = Math.floor(frame / COLS);
-                el.style.backgroundPosition = (-col * size) + 'px ' + (-row * size) + 'px';
+                el.style.backgroundPosition = (-col * SIZE) + 'px ' + (-row * SIZE) + 'px';
                 frame = (frame + 1) % FRAME_COUNT;
             }, Math.round(1000 / FPS));
             el._compassIntervalId = id;
         }
 
-        // Observe DOM — handles dynamically injected compass-loaders (innerHTML replacements)
+        // Observe DOM for new compass-loader elements
         const observer = new MutationObserver(mutations => {
             mutations.forEach(m => {
                 m.addedNodes.forEach(node => {
                     if (!node.querySelectorAll) return;
-                    // Check the node itself
-                    if (node.classList && node.classList.contains('compass-loader')) {
+                    node.querySelectorAll('.compass-loader').forEach(el => {
+                        if (!el._compassIntervalId) animateCompass(el);
+                    });
+                    if (node.classList && node.classList.contains('compass-loader') && !node._compassIntervalId) {
                         animateCompass(node);
                     }
-                    // Check descendants
-                    node.querySelectorAll('.compass-loader').forEach(el => animateCompass(el));
                 });
             });
         });
@@ -10437,12 +10305,10 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 
         // Animate any already-in-DOM compasses on load
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.compass-loader').forEach(el => animateCompass(el));
+            document.querySelectorAll('.compass-loader').forEach(el => {
+                if (!el._compassIntervalId) animateCompass(el);
+            });
         });
-        // Also run immediately in case DOM is already ready
-        if (document.readyState !== 'loading') {
-            document.querySelectorAll('.compass-loader').forEach(el => animateCompass(el));
-        }
     })();
     </script>
 
@@ -10982,157 +10848,6 @@ async function doDeleteSubdomain() {
         if (statusEl) { statusEl.textContent = e.message||String(e); statusEl.style.color='#c62828'; }
     }
 }
-
-// ═══════════════════════════════════════════════
-//   MINI RICH TEXT EDITOR  (mcRte*)
-// ═══════════════════════════════════════════════
-(function() {
-    var RTE_COLORS = [
-        { hex: '#ffffff', label: 'Белый' },
-        { hex: '#ffeb3b', label: 'Жёлтый' },
-        { hex: '#ff9800', label: 'Оранжевый' },
-        { hex: '#f44336', label: 'Красный' },
-        { hex: '#e91e63', label: 'Розовый' },
-        { hex: '#9c27b0', label: 'Фиолетовый' },
-        { hex: '#2196f3', label: 'Синий' },
-        { hex: '#00bcd4', label: 'Бирюзовый' },
-        { hex: '#4caf50', label: 'Зелёный' },
-        { hex: '#6b8e23', label: 'Оливковый' },
-        { hex: '#795548', label: 'Коричневый' },
-        { hex: '#9e9e9e', label: 'Серый' },
-        { hex: '#3e2723', label: 'Тёмный' },
-        { hex: '#000000', label: 'Чёрный' },
-    ];
-
-    function buildToolbar(editorId) {
-        var ru = (window.currentLang === 'ru');
-        var colors = RTE_COLORS.map(function(c) {
-            return '<span class="mc-rte-color-dot" style="background:' + c.hex + ';" title="' + c.label + '" ' +
-                'onmousedown="event.preventDefault();window.mcRteColor('' + editorId + '','' + c.hex + '')"></span>';
-        }).join('');
-        return '<div class="mc-rte-toolbar" id="tb-' + editorId + '">' +
-            '<button class="mc-rte-btn" title="' + (ru?'Жирный':'Bold') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','bold')"><b>B</b></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Курсив':'Italic') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','italic')"><i style="font-style:italic">I</i></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Подчёркнутый':'Underline') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','underline')"><u>U</u></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Зачёркнутый':'Strikethrough') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','strikeThrough')"><s>S</s></button>' +
-            '<div class="mc-rte-sep"></div>' +
-            '<button class="mc-rte-btn" title="' + (ru?'По левому':'Left') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','justifyLeft')"><i class="fas fa-align-left" style="font-size:0.6rem;"></i></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'По центру':'Center') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','justifyCenter')"><i class="fas fa-align-center" style="font-size:0.6rem;"></i></button>' +
-            '<button class="mc-rte-btn" title="' + (ru?'По правому':'Right') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','justifyRight')"><i class="fas fa-align-right" style="font-size:0.6rem;"></i></button>' +
-            '<div class="mc-rte-sep"></div>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Список':'List') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','insertUnorderedList')"><i class="fas fa-list-ul" style="font-size:0.6rem;"></i></button>' +
-            '<div class="mc-rte-sep"></div>' +
-            colors +
-            '<div class="mc-rte-sep"></div>' +
-            '<button class="mc-rte-btn" title="' + (ru?'Убрать форматирование':'Clear fmt') + '" onmousedown="event.preventDefault();window.mcRteCmd('' + editorId + '','removeFormat')"><i class="fas fa-eraser" style="font-size:0.6rem;"></i></button>' +
-        '</div>';
-    }
-
-    window.mcRteCmd = function(editorId, cmd) {
-        var el = document.getElementById(editorId);
-        if (!el) return;
-        el.focus();
-        document.execCommand(cmd, false, null);
-        window.mcRteUpdateBtnStates(editorId);
-    };
-
-    window.mcRteColor = function(editorId, color) {
-        var el = document.getElementById(editorId);
-        if (!el) return;
-        el.focus();
-        document.execCommand('foreColor', false, color);
-    };
-
-    window.mcRteUpdateBtnStates = function(editorId) {
-        var tb = document.getElementById('tb-' + editorId);
-        if (!tb) return;
-        var cmds = ['bold','italic','underline','strikeThrough'];
-        var btns = tb.querySelectorAll('.mc-rte-btn');
-        cmds.forEach(function(cmd, i) {
-            if (btns[i]) btns[i].classList.toggle('active', !!document.queryCommandState(cmd));
-        });
-    };
-
-    window.mcRteCreate = function(textareaId, placeholder, minHeight) {
-        var ta = document.getElementById(textareaId);
-        if (!ta || ta._rteCreated) return;
-        ta._rteCreated = true;
-        var ru = (window.currentLang === 'ru');
-        var editorId = 'rte-' + textareaId;
-        var wrap = document.createElement('div');
-        wrap.className = 'mc-rte-wrap';
-        wrap.id = 'rtewrap-' + textareaId;
-        wrap.innerHTML = buildToolbar(editorId);
-        var editor = document.createElement('div');
-        editor.className = 'mc-rte-editor';
-        editor.id = editorId;
-        editor.contentEditable = 'true';
-        editor.setAttribute('data-placeholder', placeholder || (ru ? 'Введи текст...' : 'Enter text...'));
-        if (minHeight) editor.style.minHeight = minHeight;
-        if (ta.value) editor.innerHTML = ta.value;
-        wrap.appendChild(editor);
-        editor.addEventListener('input', function() {
-            ta.value = editor.innerHTML;
-            window.mcRteUpdateBtnStates(editorId);
-        });
-        editor.addEventListener('keyup', function() { window.mcRteUpdateBtnStates(editorId); });
-        editor.addEventListener('mouseup', function() { window.mcRteUpdateBtnStates(editorId); });
-        editor.addEventListener('focus', function() { window.mcRteUpdateBtnStates(editorId); });
-        ta.style.display = 'none';
-        ta.parentNode.insertBefore(wrap, ta);
-        return editorId;
-    };
-
-    window.mcRteGetValue = function(textareaId) {
-        var editorId = 'rte-' + textareaId;
-        var editor = document.getElementById(editorId);
-        var ta = document.getElementById(textareaId);
-        if (editor) {
-            var v = editor.innerHTML;
-            if (/^(<br\s*\/?>|<div><br\s*\/?>?<\/div>)*$/i.test(v.trim())) v = '';
-            if (ta) ta.value = v;
-            return v;
-        }
-        return ta ? ta.value : '';
-    };
-
-    window.mcRteClear = function(textareaId) {
-        var editorId = 'rte-' + textareaId;
-        var editor = document.getElementById(editorId);
-        var ta = document.getElementById(textareaId);
-        if (editor) editor.innerHTML = '';
-        if (ta) ta.value = '';
-    };
-
-    window.mcRteSetValue = function(textareaId, html) {
-        var editorId = 'rte-' + textareaId;
-        var editor = document.getElementById(editorId);
-        var ta = document.getElementById(textareaId);
-        if (editor) editor.innerHTML = html || '';
-        if (ta) ta.value = html || '';
-    };
-
-    // Auto-init static textareas when DOM is ready
-    function autoInit() {
-        ['bp-description', 'gallery-description'].forEach(function(id) {
-            var ta = document.getElementById(id);
-            if (ta && !ta._rteCreated) {
-                var ru = (window.currentLang === 'ru');
-                window.mcRteCreate(id,
-                    id === 'bp-description'
-                        ? (ru ? 'Расскажи о своём билдплейте...' : 'Tell about your buildplate...')
-                        : (ru ? 'Расскажи о своём скриншоте...' : 'Tell about your screenshot...'),
-                    '80px'
-                );
-            }
-        });
-    }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', autoInit);
-    } else {
-        autoInit();
-    }
-})();
 </script>
 </body>
 </html>
