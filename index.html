@@ -10269,35 +10269,45 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
     <script>
     // === Compass Sprite Animation ===
     (function() {
-        const COMPASS_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png';
         const FRAME_COUNT = 32;
         const COLS = 10;
-        const SIZE = 48;
-        const FPS = 16; // smooth rotation
+        const DEFAULT_SIZE = 48;
+        const FPS = 16;
+
+        function getFrameSize(el) {
+            // Read background-size from inline style or computed style
+            const raw = el.style.backgroundSize || getComputedStyle(el).backgroundSize || '';
+            const w = parseFloat(raw);
+            if (!isNaN(w) && w > 0) return Math.round(w / COLS);
+            return DEFAULT_SIZE;
+        }
 
         function animateCompass(el) {
+            // Kill any existing interval on this element
+            if (el._compassIntervalId) { clearInterval(el._compassIntervalId); el._compassIntervalId = null; }
             let frame = 0;
             const id = setInterval(() => {
                 if (!document.contains(el)) { clearInterval(id); return; }
+                const size = getFrameSize(el);
                 const col = frame % COLS;
                 const row = Math.floor(frame / COLS);
-                el.style.backgroundPosition = (-col * SIZE) + 'px ' + (-row * SIZE) + 'px';
+                el.style.backgroundPosition = (-col * size) + 'px ' + (-row * size) + 'px';
                 frame = (frame + 1) % FRAME_COUNT;
             }, Math.round(1000 / FPS));
             el._compassIntervalId = id;
         }
 
-        // Observe DOM for new compass-loader elements
+        // Observe DOM — handles dynamically injected compass-loaders (innerHTML replacements)
         const observer = new MutationObserver(mutations => {
             mutations.forEach(m => {
                 m.addedNodes.forEach(node => {
                     if (!node.querySelectorAll) return;
-                    node.querySelectorAll('.compass-loader').forEach(el => {
-                        if (!el._compassIntervalId) animateCompass(el);
-                    });
-                    if (node.classList && node.classList.contains('compass-loader') && !node._compassIntervalId) {
+                    // Check the node itself
+                    if (node.classList && node.classList.contains('compass-loader')) {
                         animateCompass(node);
                     }
+                    // Check descendants
+                    node.querySelectorAll('.compass-loader').forEach(el => animateCompass(el));
                 });
             });
         });
@@ -10305,10 +10315,12 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 
         // Animate any already-in-DOM compasses on load
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.compass-loader').forEach(el => {
-                if (!el._compassIntervalId) animateCompass(el);
-            });
+            document.querySelectorAll('.compass-loader').forEach(el => animateCompass(el));
         });
+        // Also run immediately in case DOM is already ready
+        if (document.readyState !== 'loading') {
+            document.querySelectorAll('.compass-loader').forEach(el => animateCompass(el));
+        }
     })();
     </script>
 
