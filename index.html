@@ -1082,7 +1082,7 @@
 
         .nav-tab {
             flex: 1;
-            padding: 12px 8px;
+            padding: 8px 6px;
             border: 3px solid #8b7355;
             border-bottom: none;
             border-right: none;
@@ -1127,8 +1127,8 @@
         }
 
         .nav-icon img {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             object-fit: contain;
             image-rendering: pixelated;
             filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
@@ -1317,18 +1317,24 @@
         }
 
         .news-author {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-            margin-top: 5px;
-            font-weight: 600;
+            font-size: 0.82rem;
+            color: #fff;
+            font-weight: 700;
+            font-family: 'Minecraft', sans-serif;
+            background: rgba(0,0,0,0.45);
+            border: 1.5px solid rgba(255,255,255,0.25);
+            border-radius: 3px;
+            padding: 3px 8px;
+            margin-top: 4px;
+            width: fit-content;
+            backdrop-filter: blur(4px);
         }
-
         .news-author i {
-            color: rgba(255, 255, 255, 0.8);
+            color: #81c784;
+            font-size: 0.75rem;
         }
 
         .verified-badge {
@@ -4582,12 +4588,15 @@
             }
 
             .nav-tab {
-                font-size: 0.68rem;
-                padding: 10px 4px;
+                font-size: 0.62rem;
+                padding: 6px 3px;
             }
-
             .nav-icon {
-                font-size: 1.1rem;
+                font-size: 0.9rem;
+            }
+            .nav-icon img {
+                width: 20px !important;
+                height: 20px !important;
             }
         }
         
@@ -8557,7 +8566,7 @@
                     }
                     <div class="bp-card-body">
                         <div class="bp-card-name">${escapeHtml(bp.name)}</div>
-                        ${bp.description ? `<div class="bp-card-desc">${bp.description.replace(/<[^>]*>/g,'')}</div>` : ''}
+                        ${bp.description ? `<div class="bp-card-desc">${bp.description}</div>` : ''}
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
@@ -9912,7 +9921,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         : `<div class="bp-card-img-placeholder">🖼️</div>`}
                     <div class="bp-card-body">
                         <div class="bp-card-name">${escapeHtml(photo.title || (ru ? 'Без названия' : 'Untitled'))}</div>
-                        ${photo.description ? `<div class="bp-card-desc">${photo.description.replace(/<[^>]*>/g,'')}</div>` : ''}
+                        ${photo.description ? `<div class="bp-card-desc">${photo.description}</div>` : ''}
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
