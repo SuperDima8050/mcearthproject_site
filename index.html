@@ -4954,7 +4954,23 @@
                         </a>
                     </div>
                 </div>
-            </div>
+
+                <div class="author-card">
+                    <div class="author-name">RedHattedFox</div>
+                    <div class="author-role" data-ru="Модератор" data-en="Moderator">
+                        Модератор
+                    </div>
+                    <div class="author-links">
+                        <a href="https://discord.com/users/866673988604526605" class="link" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>@redhattedfox</span>
+                        </a>
+                        <a href="https://github.com/UsernameAdamGits" class="link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>github.com/UsernameAdamGits</span>
+                        </a>
+                    </div>
+                </div>
         </div>
             
         <div class="section">
@@ -5489,20 +5505,6 @@
                 <p data-ru="Загружая контент, вы подтверждаете что он принадлежит вам. Администрация вправе удалить контент, нарушающий правила." data-en="By uploading content you confirm it belongs to you. Administration may remove content that violates the rules.">Загружая контент, вы подтверждаете что он принадлежит вам. Администрация вправе удалить контент, нарушающий правила.</p>
             </div>
             <button onclick="hidePrivacyModal()" style="margin-top:20px;width:100%;font-family:'Minecraft',sans-serif;font-size:0.82rem;padding:10px;border:3px solid #8b7355;border-radius:2px;background:linear-gradient(180deg,#a89060,#7a6040);color:#fff;cursor:pointer;box-shadow:0 4px 0 #4a3820;" data-ru="Закрыть" data-en="Close">Закрыть</button>
-        </div>
-    </div>
-
-    
-    <div class="cookie-banner" id="cookie-banner">
-        <div class="cookie-banner-text">
-            <div class="cookie-banner-title" id="cookie-banner-title-el"><img id="cookie-icon-banner" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/cookie_item.png" alt="cookie" style="width:24px;height:24px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"><span data-ru="Уведомление о Cookie" data-en="Cookie Notice">Уведомление о Cookie</span></div>
-            <div class="cookie-banner-desc" data-ru="Мы используем cookies для сохранения сессии, лайков и настроек. Без них сайт не будет работать правильно." data-en="We use cookies to save your session, likes and preferences. Without them the site won't work correctly.">
-                We use cookies to save your session, likes and preferences. Without them the site won't work correctly.
-            </div>
-        </div>
-        <div class="cookie-banner-btns">
-            <button class="cookie-accept-btn" onclick="acceptCookies()" data-ru="✔ Принять все" data-en="✔ Accept All">✔ Accept All</button>
-            <button class="cookie-decline-btn" onclick="declineCookies()" data-ru="Только нужные" data-en="Essential Only">Essential Only</button>
         </div>
     </div>
 
@@ -6186,10 +6188,11 @@
                 .in('status', statusFilter)
                 .order('created_at', { ascending: false })
                 .limit(100);
-            if (error || !data || data.length === 0) {
-                container.innerHTML = '<div class="news-empty"><i class="fas fa-flag"></i><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
+            if (error) {
+                container.innerHTML = `<div class="news-empty"><i class="fas fa-flag"></i><p style="color:#c62828;">Ошибка: ${error.message}</p><p style="font-size:0.75rem;color:#888;margin-top:8px;">Добавь в Supabase SQL Editor:<br><code style="background:#1a1a1a;color:#8bc34a;padding:4px 8px;border-radius:2px;font-size:0.7rem;">ALTER TABLE reports ENABLE ROW LEVEL SECURITY;<br>CREATE POLICY "admin_read" ON reports FOR SELECT USING (true);<br>CREATE POLICY "anon_insert" ON reports FOR INSERT WITH CHECK (true);</code></p></div>`;
                 return;
             }
+            if (!data || data.length === 0) {
             container.innerHTML = '';
             const lastSeenRep = parseInt(localStorage.getItem('reports_last_seen') || '0', 10);
             data.forEach(rep => {
@@ -10867,6 +10870,17 @@ async function doDeleteSubdomain() {
         if (statusEl) { statusEl.textContent = e.message||String(e); statusEl.style.color='#c62828'; }
     }
 }
-</script>
+    <div class="cookie-banner" id="cookie-banner">
+        <div class="cookie-banner-text">
+            <div class="cookie-banner-title" id="cookie-banner-title-el"><img id="cookie-icon-banner" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/cookie_item.png" alt="cookie" style="width:24px;height:24px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"><span data-ru="Уведомление о Cookie" data-en="Cookie Notice">Уведомление о Cookie</span></div>
+            <div class="cookie-banner-desc" data-ru="Мы используем cookies для сохранения сессии, лайков и настроек. Без них сайт не будет работать правильно." data-en="We use cookies to save your session, likes and preferences. Without them the site won't work correctly.">
+                We use cookies to save your session, likes and preferences. Without them the site won't work correctly.
+            </div>
+        </div>
+        <div class="cookie-banner-btns">
+            <button class="cookie-accept-btn" onclick="acceptCookies()" data-ru="✔ Принять все" data-en="✔ Accept All">✔ Accept All</button>
+            <button class="cookie-decline-btn" onclick="declineCookies()" data-ru="Только нужные" data-en="Essential Only">Essential Only</button>
+        </div>
+    </div>
 </body>
 </html>
