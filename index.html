@@ -6196,20 +6196,33 @@
                 container.innerHTML = '<div class="news-empty"><span style="display:flex;align-items:center;justify-content:center;width:2.4rem;height:2.4rem;background:#8b7355;border:3px solid #5a4a3a;border-radius:3px;margin:0 auto 12px;box-shadow:0 3px 0 #3e2723;"><i class="fas fa-lock" style="font-size:1.1rem;color:#fff;"></i></span><p>Access denied</p></div>';
                 return;
             }
-            container.innerHTML = '<div class="news-loading"><div class="compass-loader"></div><p>Загрузка...</p></div>';
+            container.innerHTML = '<div class="news-loading"><div class="compass-loader"></div><p>' + (ru ? 'Загрузка...' : 'Loading...') + '</p></div>';
             const statusFilter = reportsCurrentFilter === 'pending' ? ['pending'] : ['approved', 'rejected'];
+
+            // Сначала проверяем — есть ли вообще хоть что-то в таблице (без фильтра по статусу)
+            const { count: totalCount, error: countErr } = await sbClient.from('reports')
+                .select('*', { count: 'exact', head: true });
+
             const { data, error } = await sbClient.from('reports')
                 .select('*')
                 .in('status', statusFilter)
                 .order('created_at', { ascending: false })
                 .limit(100);
+
+            const sqlPolicy = '<code style="display:block;margin-top:6px;font-size:0.72rem;font-family:monospace;background:rgba(0,0,0,0.12);padding:6px 8px;border-radius:3px;word-break:break-all;user-select:all;">GRANT SELECT ON reports TO anon, authenticated;<br>CREATE POLICY "select_reports" ON reports FOR SELECT USING (true);</code>';
+
             if (error) {
-                const sqlHint = '<code style="font-size:0.75rem;font-family:monospace;background:rgba(0,0,0,0.1);padding:2px 6px;border-radius:3px;word-break:break-all;">CREATE POLICY admin_select_reports ON reports FOR SELECT USING (true);</code>';
-                container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle" style="color:#c62828;"></i><p style="color:#c62828;font-size:0.82rem;margin-bottom:8px;">' + error.message + '</p><p style="font-size:0.75rem;color:#5a4a3a;">' + (ru ? 'Добавь в Supabase SQL Editor:' : 'Run in Supabase SQL Editor:') + '</p>' + sqlHint + '</div>';
+                container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle" style="color:#c62828;font-size:2rem;display:block;margin-bottom:10px;"></i><p style="color:#c62828;font-size:0.82rem;font-weight:700;margin-bottom:6px;">' + error.message + '</p><p style="font-size:0.75rem;color:#5a4a3a;">' + (ru ? 'Выполни в Supabase → SQL Editor:' : 'Run in Supabase → SQL Editor:') + sqlPolicy + '</p></div>';
                 return;
             }
+
+            // Supabase молча вернул [] из-за RLS — показываем диагностику
             if (!data || data.length === 0) {
-                container.innerHTML = '<div class="news-empty"><i class="fas fa-flag"></i><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
+                const rlsBlocked = !countErr && totalCount === 0 && !error;
+                const hint = rlsBlocked
+                    ? '<p style="font-size:0.75rem;color:#c62828;margin-top:8px;">⚠ ' + (ru ? 'Скорее всего RLS блокирует SELECT. Выполни в Supabase → SQL Editor:' : 'Likely RLS is blocking SELECT. Run in Supabase → SQL Editor:') + sqlPolicy + '</p>'
+                    : '';
+                container.innerHTML = '<div class="news-empty"><i class="fas fa-flag"></i><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p>' + hint + '</div>';
                 return;
             }
             container.innerHTML = '';
