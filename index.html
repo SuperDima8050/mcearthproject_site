@@ -1561,6 +1561,20 @@
             background: #ffebee;
             color: #922b21;
         }
+        body.dark-theme .bp-dots-btn {
+            background: #2a2a2a;
+            border-color: #555;
+            color: #e0e0e0;
+            box-shadow: 0 3px 0 #111;
+        }
+        body.dark-theme .bp-dots-btn:hover {
+            background: #333;
+        }
+        body.dark-theme .bp-dots-dropdown {
+            background: #1e1e1e;
+            border-color: #444;
+            box-shadow: 0 6px 0 #111, 0 8px 20px rgba(0,0,0,0.5);
+        }
         body.dark-theme .bp-dots-item {
             background: #2a2a2a;
             color: #e0e0e0;
@@ -5655,7 +5669,7 @@
             const overlay = document.createElement('div');
             overlay.id = 'news-edit-modal';
             overlay.className = 'bp-modal-overlay';
-            const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:520px;">
                     <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
@@ -5799,13 +5813,14 @@
             const ex = document.getElementById('news-admin-modal'); if (ex) ex.remove();
             const overlay = document.createElement('div');
             overlay.className = 'bp-modal-overlay'; overlay.id = 'news-admin-modal';
-            const inputStyle = 'width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:#f5eed9;color:#3e2723;font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;';
+            const isDark = document.body.classList.contains('dark-theme');
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:520px;">
                     <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
-                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:rgba(107,142,35,0.1);border-radius:3px;border:2px solid #8b7355;">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:rgba(107,142,35,0.1);border-radius:3px;border:2px solid ${isDark?'#555':'#8b7355'};">
                         <i class="fas fa-user" style="color:#6b8e23;"></i>
-                        <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:#3e2723;">${currentAccount.nick}${currentAccount.verified ? ' <span class=\"verified-badge\" title=\"Верифицирован\"><i class=\"fas fa-check\"></i></span>' : ''}</span>
+                        <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:${isDark?'#e0e0e0':'#3e2723'};">${currentAccount.nick}${currentAccount.verified ? ' <span class=\"verified-badge\" title=\"Верифицирован\"><i class=\"fas fa-check\"></i></span>' : ''}</span>
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
                         <label>${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
@@ -10279,9 +10294,13 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             let frame = 0;
             const id = setInterval(() => {
                 if (!document.contains(el)) { clearInterval(id); return; }
+                const bgSize = el.style.backgroundSize || getComputedStyle(el).backgroundSize;
+                const sizeMatch = bgSize.match(/^([\d.]+)px/);
+                const totalWidth = sizeMatch ? parseFloat(sizeMatch[1]) : 480;
+                const frameSize = totalWidth / COLS;
                 const col = frame % COLS;
                 const row = Math.floor(frame / COLS);
-                el.style.backgroundPosition = (-col * SIZE) + 'px ' + (-row * SIZE) + 'px';
+                el.style.backgroundPosition = (-col * frameSize) + 'px ' + (-row * frameSize) + 'px';
                 frame = (frame + 1) % FRAME_COUNT;
             }, Math.round(1000 / FPS));
             el._compassIntervalId = id;
