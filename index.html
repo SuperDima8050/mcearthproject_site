@@ -6203,7 +6203,12 @@
                 .in('status', statusFilter)
                 .order('created_at', { ascending: false })
                 .limit(100);
-            if (error || !data || data.length === 0) {
+            if (error) {
+                const sqlHint = '<code style="font-size:0.75rem;font-family:monospace;background:rgba(0,0,0,0.1);padding:2px 6px;border-radius:3px;word-break:break-all;">CREATE POLICY admin_select_reports ON reports FOR SELECT USING (true);</code>';
+                container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle" style="color:#c62828;"></i><p style="color:#c62828;font-size:0.82rem;margin-bottom:8px;">' + error.message + '</p><p style="font-size:0.75rem;color:#5a4a3a;">' + (ru ? 'Добавь в Supabase SQL Editor:' : 'Run in Supabase SQL Editor:') + '</p>' + sqlHint + '</div>';
+                return;
+            }
+            if (!data || data.length === 0) {
                 container.innerHTML = '<div class="news-empty"><i class="fas fa-flag"></i><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
                 return;
             }
