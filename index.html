@@ -7347,6 +7347,8 @@
         }
 
         let currentAccount = null; // { nick, email, verified, email_verified, avatar_url }
+        window.currentAccount = null;
+        window.currentAccount = null; // exposed for applyProtectedBlur
         let authMode = 'login'; // 'login' | 'register'
 
         function generateToken(len = 48) {
@@ -7612,6 +7614,8 @@
 
         function setLoggedIn(nick, verified, avatarUrl, email, emailVerified, joinDate) {
             currentAccount = { nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null };
+            window.currentAccount = currentAccount;
+            window.currentAccount = currentAccount;
             loadUserVotes(nick);
             document.getElementById('bp-author').value = nick;
             document.getElementById('bp-auth-form').style.display = 'none';
@@ -7723,7 +7727,7 @@
         }
 
         function doLogout() {
-            currentAccount = null;
+            currentAccount = null; window.currentAccount = null;
             document.getElementById('bp-author').value = '';
             document.getElementById('bp-auth-form').style.display = 'block';
             document.getElementById('bp-logged-in-box').style.display = 'none';
