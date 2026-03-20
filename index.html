@@ -5400,10 +5400,9 @@
         <!-- GALLERY TAB -->
         <div id="gallery-tab" class="tab-content">
             <div class="section">
-                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:15px;">
-                    <h2 class="section-title" data-icon="paint_item.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;flex:1;min-width:160px;"><span data-ru="Галерея" data-en="Gallery">Галерея</span></h2>
-                    <button class="copy-btn" onclick="loadGallery()" style="font-size:0.8rem;padding:8px 12px;white-space:nowrap;flex-shrink:0;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"><span data-ru="Обновить" data-en="Refresh">Обновить</span></button>
-                </div>
+                <h2 class="section-title" data-icon="paint_item.png">
+                    <span data-ru="Галерея" data-en="Gallery">Галерея</span>
+                </h2>
 
                 <!-- Upload card -->
                 <div class="bp-upload-card" id="gallery-upload-section">
@@ -5499,6 +5498,7 @@
                     <button class="bp-filter-mine-btn" id="gallery-filter-favorites"
                             data-ru="Избранное" data-en="Favorites"
                             onclick="toggleGalleryFilterFavorites()"><img class="mce-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/health_icon.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;"><span data-ru="Избранное" data-en="Favorites">Избранное</span></button>
+                    <button class="bp-filter-mine-btn" onclick="_galleryCache=null;loadGallery();"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;"><span data-ru="Обновить" data-en="Refresh">Обновить</span></button>
                     <span class="bp-results-count" id="gallery-count"></span>
                 </div>
 
@@ -7797,7 +7797,7 @@
                 avatarImg.src = avatarUrl; avatarImg.style.display = 'block'; avatarPh.style.display = 'none';
             } else {
                 avatarImg.style.display = 'none'; avatarPh.style.display = 'flex';
-                avatarPh.innerHTML = '<i class="fas fa-user"></i>';
+                avatarPh.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;">';
             }
             window._safeLocalSet('bp_session', JSON.stringify({ nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null }));
 
