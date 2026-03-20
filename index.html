@@ -8124,7 +8124,7 @@
                     </div>
                     <div id="reset-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;"></div>
                     <div class="bp-modal-btns">
-                        <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doResetPassword('${resetToken}')">
+                        <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doResetPassword('${resetToken}', '${nick}')">
                             <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
                         </button>
                     </div>
@@ -8133,7 +8133,7 @@
             document.getElementById('reset-pass-input').focus();
         }
 
-        async function doResetPassword(resetToken) {
+        async function doResetPassword(resetToken, nick) {
             const ru = currentLang === 'ru';
             const pass = document.getElementById('reset-pass-input').value;
             const pass2 = document.getElementById('reset-pass2-input').value;
@@ -8143,7 +8143,8 @@
             statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...';
             statusEl.style.color = '#f57f17';
             try {
-                const hash = await hashPassword(pass, currentAccount.nick);
+                // Используем nick из параметра (не currentAccount — при сбросе пользователь не залогинен)
+                const hash = await hashPassword(pass, nick);
                 const { error } = await sbClient.from('accounts')
                     .update({ password_hash: hash, reset_token: null, reset_token_expires: null })
                     .eq('reset_token', resetToken);
