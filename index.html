@@ -7805,7 +7805,7 @@
                 avatarImg.src = avatarUrl; avatarImg.style.display = 'block'; avatarPh.style.display = 'none';
             } else {
                 avatarImg.style.display = 'none'; avatarPh.style.display = 'flex';
-                avatarPh.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;">';
+                avatarPh.innerHTML = '<i class="fas fa-user"></i>';
             }
             window._safeLocalSet('bp_session', JSON.stringify({ nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null }));
 
