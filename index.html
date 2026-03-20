@@ -11046,7 +11046,8 @@ async function loadCurrentSubdomain(force = false) {
         }
 
         function _otpauthUri(nick, secret) {
-            return `otpauth://totp/Revival%20MCEarth:${encodeURIComponent(nick)}?secret=${secret}&issuer=Revival%20MCEarth&algorithm=SHA1&digits=6&period=30`;
+            const icon = encodeURIComponent('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico');
+            return `otpauth://totp/Project%20Earth:${encodeURIComponent(nick)}?secret=${secret}&issuer=Project%20Earth&algorithm=SHA1&digits=6&period=30&image=${icon}`;
         }
 
         let overlay_mfa_secret = null;
