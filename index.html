@@ -5712,6 +5712,8 @@
 
         async function deleteNews(newsId, newsItemEl) {
             const ru = currentLang === 'ru';
+            const isAdm = await checkNewsAdmin();
+            if (!isAdm) { showInfoBanner(ru ? 'Нет прав!' : 'No permission!', 'error'); return; }
             const isAdmin = await checkNewsAdmin();
             if (!isAdmin) {
                 showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> У тебя нет прав удалять новости!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> You have no permission to delete news!', 'error');
@@ -6315,19 +6317,19 @@
                     ${isRepNew ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png" class="news-new-badge" style="position:absolute;top:8px;right:8px;z-index:10;width:24px;height:24px;image-rendering:pixelated;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));" title=\"Новое\" alt=\"new\">' : ''}
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
                         <div>
-                            <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:${isDarkMode ? '#8bc34a' : '#4a5d23'};">${reasonLabels[rep.reason] || rep.reason}</span>
+                            <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:${isDarkMode ? '#8bc34a' : '#4a5d23'};">${reasonLabels[rep.reason] || escapeHtml(String(rep.reason || ""))}</span>
                             <span style="font-family:Minecraft,sans-serif;font-size:0.72rem;color:${dateColor};margin-left:8px;">${date}</span>
                         </div>
                         <span style="font-family:Minecraft,sans-serif;font-size:0.75rem;font-weight:700;color:${statusColors[rep.status]};background:${isDarkMode ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'};padding:3px 9px;border-radius:10px;border:1px solid ${statusColors[rep.status]}44;display:inline-flex;align-items:center;gap:4px;">${statusLabels[rep.status]}</span>
                     </div>
                     <div style="font-family:Minecraft,sans-serif;font-size:0.82rem;margin-bottom:5px;color:${textColor};display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-                        ${iPost} <b>${ru ? 'Пост:' : 'Post:'}</b>&nbsp;<span style="color:${subColor}">${rep.post_title || rep.post_id}</span>
+                        ${iPost} <b>${ru ? 'Пост:' : 'Post:'}</b>&nbsp;<span style="color:${subColor}">${escapeHtml(String(rep.post_title || rep.post_id || ""))}</span>
                         ${rep.post_author ? `&nbsp;${iAuthor}&nbsp;<b>${ru ? 'Автор:' : 'Author:'}</b>&nbsp;<span style="color:${subColor}">${rep.post_author}</span>` : ''}
                     </div>
                     <div style="font-family:Minecraft,sans-serif;font-size:0.82rem;margin-bottom:6px;color:${textColor};display:flex;align-items:center;gap:6px;">
-                        ${iReporter} <b>${ru ? 'От:' : 'Reporter:'}</b>&nbsp;<span style="color:${subColor}">${rep.reporter_nick}</span>
+                        ${iReporter} <b>${ru ? 'От:' : 'Reporter:'}</b>&nbsp;<span style="color:${subColor}">${escapeHtml(String(rep.reporter_nick || ""))}</span>
                     </div>
-                    ${rep.details ? `<div style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${subColor};margin-bottom:6px;background:${isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'};padding:7px 10px;border-radius:4px;border-left:3px solid ${isDarkMode ? '#3a5c3a' : '#6b8e23'};">💬 ${rep.details}</div>` : ''}
+                    ${rep.details ? `<div style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${subColor};margin-bottom:6px;background:${isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'};padding:7px 10px;border-radius:4px;border-left:3px solid ${isDarkMode ? '#3a5c3a' : '#6b8e23'};">💬 ${escapeHtml(String(rep.details || ""))}</div>` : ''}
                     ${imgPreview}
                     ${actionBtns}`;
                 container.appendChild(card);
@@ -6336,6 +6338,9 @@
 
         window.resolveReport = async function(reportId, postType, postId, imageUrlEnc, postAuthorEnc, action, banUser) {
             const ru = currentLang === 'ru';
+            // Проверка прав модератора
+            const isAdm = await checkNewsAdmin();
+            if (!isAdm) { showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Нет прав!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> No permission!', 'error'); return; }
             const imageUrl = decodeURIComponent(imageUrlEnc);
             const postAuthor = decodeURIComponent(postAuthorEnc);
             const confirmMsg = banUser
@@ -6355,6 +6360,10 @@
                         if (toRemove.length) await sbClient.storage.from('buildplates').remove(toRemove).catch(() => {});
                     }
                     await sbClient.from('buildplates').delete().eq('id', postId);
+                } else if (postType === 'gallery') {
+                    const { data: ph } = await sbClient.from('gallery').select('image_path').eq('id', postId).single();
+                    if (ph && ph.image_path) await sbClient.storage.from('gallery').remove([ph.image_path]).catch(() => {});
+                    await sbClient.from('gallery').delete().eq('id', postId);
                 }
                 if (imageUrl && postType === 'news' && imageUrl.includes('supabase')) {
                     try {
