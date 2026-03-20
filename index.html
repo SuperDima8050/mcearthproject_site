@@ -7836,6 +7836,41 @@
 
             const limitPanel = document.getElementById('bp-daily-limit');
             if (limitPanel) { limitPanel.style.display = 'flex'; updateDailyLimitUI(); startLimitTimer(); }
+
+            // Realtime ban kick — подписываемся на изменения своего аккаунта
+            if (sbClient) {
+                // Отписываемся от предыдущей подписки если была
+                try { sbClient.channel('ban-watch').unsubscribe(); } catch(e) {}
+                sbClient
+                    .channel('ban-watch')
+                    .on('postgres_changes', {
+                        event: 'UPDATE',
+                        schema: 'public',
+                        table: 'accounts',
+                        filter: `nick=eq.${nick}`
+                    }, (payload) => {
+                        if (payload.new && payload.new.banned === true) {
+                            // Показываем экран бана и кикаем
+                            const ru = currentLang === 'ru';
+                            const overlay = document.createElement('div');
+                            overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:999999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;';
+                            overlay.innerHTML = `
+                                <div style="background:#1a0000;border:4px solid #c62828;border-radius:4px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 8px 0 #7f0000;">
+                                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:48px;height:48px;image-rendering:pixelated;margin-bottom:16px;">
+                                    <div style="font-family:'MinecraftTen','Minecraft',sans-serif;font-size:1.2rem;color:#ff4444;margin-bottom:12px;text-shadow:0 2px 0 #7f0000;">${ru ? 'АККАУНТ ЗАБЛОКИРОВАН' : 'ACCOUNT BANNED'}</div>
+                                    <div style="font-family:'Minecraft','NotoSans',sans-serif;font-size:0.82rem;color:#ffaaaa;line-height:1.7;margin-bottom:20px;">${ru ? 'Твой аккаунт был заблокирован модератором.' : 'Your account has been banned by a moderator.'}</div>
+                                    <button onclick="location.reload()" style="font-family:'Minecraft',sans-serif;font-size:0.82rem;padding:10px 24px;background:linear-gradient(180deg,#c62828,#8b1a1a);color:#fff;border:3px solid #7f0000;border-radius:2px;cursor:pointer;box-shadow:0 4px 0 #4a0000;">${ru ? 'ОК' : 'OK'}</button>
+                                </div>`;
+                            document.body.appendChild(overlay);
+                            // Кикаем через 100мс чтобы overlay успел показаться
+                            setTimeout(() => {
+                                doLogout();
+                                window._safeLocalSet('bp_session', '');
+                            }, 100);
+                        }
+                    })
+                    .subscribe();
+            }
         }
 
 
