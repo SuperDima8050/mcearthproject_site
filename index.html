@@ -7664,7 +7664,7 @@
             try {
                 const { data, error } = await sbClient
                     .from('accounts')
-                    .select('nick, password_hash, verified, avatar_url, email, email_verified, banned, mfa_enabled, mfa_secret')
+                    .select('nick, password_hash, verified, avatar_url, email, email_verified, banned')
                     .ilike('nick', nick)
                     .limit(1);
                 if (error) throw error;
@@ -7774,6 +7774,15 @@
                         showMfaVerifyModal(acc, ru);
                         return;
                     }
+                    // Проверяем 2FA отдельным запросом (колонки могут не существовать)
+                    try {
+                        const { data: mfaData } = await sbClient.from('accounts').select('mfa_enabled, mfa_secret').ilike('nick', nick).limit(1);
+                        if (mfaData && mfaData[0] && mfaData[0].mfa_enabled && mfaData[0].mfa_secret) {
+                            showAuthStatus('info', ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Требуется код 2FA...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>2FA code required...');
+                            showMfaVerifyModal({ ...acc, mfa_enabled: mfaData[0].mfa_enabled, mfa_secret: mfaData[0].mfa_secret }, ru);
+                            return;
+                        }
+                    } catch(_mfaErr) { /* колонки ещё не созданы — пропускаем 2FA */ }
                     showAuthStatus('ok', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Вход выполнен!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Logged in!');
                     await recordReferral(acc.nick);
                     setLoggedIn(acc.nick, acc.verified, acc.avatar_url, acc.email, acc.email_verified, acc.created_at);
@@ -8296,10 +8305,15 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             // Восстанавливаем сессию после инициализации sbClient
-            try {
-                const s = JSON.parse(localStorage.getItem('bp_session') || 'null');
-                if (s && s.nick) setLoggedIn(s.nick, s.verified, s.avatar_url || null, s.email || null, s.email_verified || false, s.join_date || null);
-            } catch(e) {}
+            (async () => {
+                try {
+                    const raw = localStorage.getItem('bp_session');
+                    if (raw) {
+                        const s = (typeof _decryptSession === 'function') ? await _decryptSession(raw) : JSON.parse(raw);
+                        if (s && s.nick) setLoggedIn(s.nick, s.verified, s.avatar_url || null, s.email || null, s.email_verified || false, s.join_date || null);
+                    }
+                } catch(e) {}
+            })();
 
             if (sbClient) {
                 checkUrlTokens();
