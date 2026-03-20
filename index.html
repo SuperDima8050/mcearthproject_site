@@ -5249,6 +5249,10 @@
                                     <i class="fas fa-key"></i>
                                     <span data-ru="Пароль" data-en="Password">Пароль</span>
                                 </button>
+                                <button class="bp-profile-btn" onclick="showMfaModal()" id="btn-mfa">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span data-ru="2FA" data-en="2FA">2FA</span>
+                                </button>
                                 <button class="bp-profile-btn" onclick="showSubdomainModal()" id="btn-subdomain">
                                     <i class="fas fa-network-wired"></i>
                                     <span data-ru="Поддомен" data-en="Subdomain">Поддомен</span>
@@ -7660,7 +7664,7 @@
             try {
                 const { data, error } = await sbClient
                     .from('accounts')
-                    .select('nick, password_hash, verified, avatar_url, email, email_verified, banned')
+                    .select('nick, password_hash, verified, avatar_url, email, email_verified, banned, mfa_enabled, mfa_secret')
                     .ilike('nick', nick)
                     .limit(1);
                 if (error) throw error;
@@ -7763,6 +7767,11 @@
                         showAuthStatus('err', ru
                             ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Сначала подтверди email! Проверь почту.'
                             : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Please verify your email first! Check your inbox.');
+                        return;
+                    }
+                    if (acc.mfa_enabled && acc.mfa_secret) {
+                        showAuthStatus('info', ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Требуется код 2FA...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>2FA code required...');
+                        showMfaVerifyModal(acc, ru);
                         return;
                     }
                     showAuthStatus('ok', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Вход выполнен!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Logged in!');
@@ -10962,6 +10971,250 @@ async function loadCurrentSubdomain(force = false) {
         if (loadingEl) { loadingEl.textContent = '⚠ ' + (e.message || String(e)); loadingEl.style.color = '#c62828'; }
     }
 }
+
+
+        // ═══════════════════════════════════════════════════════════════
+        //  MFA / TOTP  —  pure WebCrypto implementation (no external lib)
+        // ═══════════════════════════════════════════════════════════════
+
+        function _b32Decode(base32) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+            let bits = 0, value = 0;
+            const output = [];
+            for (const ch of base32.replace(/=+$/, '').toUpperCase()) {
+                const idx = alphabet.indexOf(ch);
+                if (idx === -1) continue;
+                value = (value << 5) | idx;
+                bits += 5;
+                if (bits >= 8) { bits -= 8; output.push((value >> bits) & 0xff); }
+            }
+            return new Uint8Array(output);
+        }
+
+        function _b32Encode(bytes) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+            let bits = 0, value = 0, out = '';
+            for (const b of bytes) {
+                value = (value << 8) | b; bits += 8;
+                while (bits >= 5) { bits -= 5; out += alphabet[(value >> bits) & 31]; }
+            }
+            if (bits > 0) out += alphabet[(value << (5 - bits)) & 31];
+            while (out.length % 8) out += '=';
+            return out;
+        }
+
+        function _generateTotpSecret() {
+            const bytes = crypto.getRandomValues(new Uint8Array(20));
+            return _b32Encode(bytes);
+        }
+
+        async function _totpCode(secretB32, timeStep) {
+            const key = _b32Decode(secretB32);
+            const counter = Math.floor((timeStep || Math.floor(Date.now() / 1000)) / 30);
+            const counterBuf = new ArrayBuffer(8);
+            const view = new DataView(counterBuf);
+            view.setUint32(4, counter, false);
+            const cryptoKey = await crypto.subtle.importKey('raw', key, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+            const sig = await crypto.subtle.sign('HMAC', cryptoKey, counterBuf);
+            const hash = new Uint8Array(sig);
+            const offset = hash[19] & 0x0f;
+            const code = ((hash[offset] & 0x7f) << 24) | (hash[offset+1] << 16) | (hash[offset+2] << 8) | hash[offset+3];
+            return String(code % 1000000).padStart(6, '0');
+        }
+
+        async function _verifyTotp(secretB32, inputCode) {
+            const now = Math.floor(Date.now() / 1000);
+            for (const delta of [-30, 0, 30]) {
+                const code = await _totpCode(secretB32, now + delta);
+                if (code === inputCode.replace(/\s/g, '')) return true;
+            }
+            return false;
+        }
+
+        function _otpauthUri(nick, secret) {
+            return `otpauth://totp/Revival%20MCEarth:${encodeURIComponent(nick)}?secret=${secret}&issuer=Revival%20MCEarth&algorithm=SHA1&digits=6&period=30`;
+        }
+
+        let overlay_mfa_secret = null;
+
+        function showMfaModal() {
+            const ru = currentLang === 'ru';
+            const ex = document.getElementById('bp-mfa-modal'); if (ex) ex.remove();
+            const isDark = document.body.classList.contains('dark-theme');
+            const overlay = document.createElement('div');
+            overlay.className = 'bp-modal-overlay'; overlay.id = 'bp-mfa-modal';
+            overlay.innerHTML = `<div class="bp-modal" style="max-width:360px;">
+                <h3 style="cursor:move;user-select:none;display:flex;align-items:center;">
+                    <i class="fas fa-shield-alt" style="margin-right:8px;"></i>
+                    ${ru ? 'Двухфакторная аутентификация' : 'Two-Factor Authentication'}
+                    <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru?'⠿ тащи':'⠿ drag'}</span>
+                </h3>
+                <div id="mfa-modal-body" style="text-align:center;padding:4px 0;">
+                    <div class="compass-loader" style="width:24px;height:24px;background-size:140px 56px;display:inline-block;margin:20px auto;"></div>
+                </div>
+                <div id="mfa-modal-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;text-align:center;"></div>
+                <div class="bp-modal-btns">
+                    <button class="bp-submit-btn" id="mfa-action-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;display:none;"></button>
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-mfa-modal').remove()">
+                        ${ru ? 'Закрыть' : 'Close'}
+                    </button>
+                </div>
+            </div>`;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
+            _mfaLoadStatus(ru, isDark);
+        }
+
+        async function _mfaLoadStatus(ru, isDark) {
+            const body = document.getElementById('mfa-modal-body');
+            const actionBtn = document.getElementById('mfa-action-btn');
+            const statusEl = document.getElementById('mfa-modal-status');
+            if (!body || !currentAccount) return;
+            try {
+                const { data, error } = await sbClient.from('accounts').select('mfa_enabled, mfa_secret').ilike('nick', currentAccount.nick).limit(1);
+                if (error) throw error;
+                const row = data && data[0];
+                const enabled = row && row.mfa_enabled;
+                if (enabled) {
+                    body.innerHTML = `
+                        <div style="padding:14px 0 8px;">
+                            <span style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;background:#2e7d32;border:2px solid #1b5e20;border-radius:3px;"><i class="fas fa-shield-alt" style="font-size:20px;color:#fff;"></i></span>
+                        </div>
+                        <div style="font-size:0.9rem;font-weight:700;color:${isDark?'#a5d6a7':'#2e7d32'};margin-bottom:6px;">${ru?'2FA включена ✓':'2FA Enabled ✓'}</div>
+                        <div style="font-size:0.75rem;opacity:0.7;margin-bottom:4px;">${ru?'Ваш аккаунт защищён TOTP-кодом.':'Your account is protected with a TOTP code.'}</div>`;
+                    actionBtn.style.display = 'block';
+                    actionBtn.style.background = 'linear-gradient(180deg,#c62828,#8b0000)';
+                    actionBtn.style.borderColor = '#600';
+                    actionBtn.style.boxShadow = '0 5px 0 #400';
+                    actionBtn.innerHTML = `<i class="fas fa-times"></i> ${ru?'Отключить 2FA':'Disable 2FA'}`;
+                    actionBtn.onclick = () => _mfaDisable(ru, isDark);
+                } else {
+                    const secret = _generateTotpSecret();
+                    overlay_mfa_secret = secret;
+                    const uri = _otpauthUri(currentAccount.nick, secret);
+                    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(uri)}`;
+                    const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#3a3a3a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.2em;outline:none;text-align:center;margin-top:8px;`;
+                    body.innerHTML = `
+                        <div style="font-size:0.8rem;opacity:0.75;margin-bottom:10px;text-align:left;">${ru?'Отсканируй QR-код в Google Authenticator / Authy:':'Scan QR code in Google Authenticator / Authy:'}</div>
+                        <div style="background:#fff;display:inline-block;padding:6px;border-radius:3px;border:2px solid ${isDark?'#555':'#8b7355'};margin-bottom:10px;">
+                            <img src="${qrUrl}" width="180" height="180" alt="QR" style="display:block;image-rendering:pixelated;" />
+                        </div>
+                        <div style="font-size:0.72rem;opacity:0.6;margin-bottom:4px;text-align:left;">${ru?'Или введи секрет вручную:':'Or enter manually:'}</div>
+                        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;background:${isDark?'#2a2a2a':'#ede5cc'};border:2px solid ${isDark?'#444':'#8b7355'};border-radius:2px;padding:7px 10px;margin-bottom:12px;word-break:break-all;text-align:left;">${secret}</div>
+                        <div style="font-size:0.8rem;opacity:0.75;margin-bottom:4px;text-align:left;">${ru?'Введи 6-значный код для подтверждения:':'Enter the 6-digit code to confirm:'}</div>
+                        <input type="text" id="mfa-setup-code" inputmode="numeric" maxlength="6" placeholder="000000" style="${inputStyle}" oninput="this.value=this.value.replace(/[^0-9]/g,'')" onkeydown="if(event.key==='Enter')document.getElementById('mfa-action-btn').click()" />`;
+                    actionBtn.style.display = 'block';
+                    actionBtn.innerHTML = `<i class="fas fa-check"></i> ${ru?'Включить 2FA':'Enable 2FA'}`;
+                    actionBtn.onclick = () => _mfaEnable(ru, secret);
+                    setTimeout(() => document.getElementById('mfa-setup-code')?.focus(), 100);
+                }
+            } catch(e) {
+                body.innerHTML = `<div style="color:#c62828;font-size:0.82rem;padding:12px 0;">${e.message||e}</div>`;
+            }
+        }
+
+        async function _mfaEnable(ru, secret) {
+            const statusEl = document.getElementById('mfa-modal-status');
+            const actionBtn = document.getElementById('mfa-action-btn');
+            const code = (document.getElementById('mfa-setup-code')?.value || '').trim();
+            if (!code || code.length !== 6) { statusEl.innerHTML = `<span style="color:#c62828;">${ru?'⚠ Введи 6-значный код':'⚠ Enter 6-digit code'}</span>`; return; }
+            if (actionBtn) actionBtn.disabled = true;
+            statusEl.innerHTML = `<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>${ru?'Проверяем...':'Verifying...'}`;
+            const ok = await _verifyTotp(secret, code);
+            if (!ok) {
+                statusEl.innerHTML = `<span style="color:#c62828;">✗ ${ru?'Неверный код. Проверь время на устройстве.':'Wrong code. Check device time.'}</span>`;
+                if (actionBtn) actionBtn.disabled = false; return;
+            }
+            const { error } = await sbClient.from('accounts').update({ mfa_enabled: true, mfa_secret: secret }).ilike('nick', currentAccount.nick);
+            if (error) { statusEl.innerHTML = `<span style="color:#c62828;">${error.message}</span>`; if (actionBtn) actionBtn.disabled = false; return; }
+            document.getElementById('bp-mfa-modal')?.remove();
+            showInfoBanner(`<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ${ru?'2FA успешно включена!':'2FA enabled successfully!'}`, 'success');
+        }
+
+        async function _mfaDisable(ru, isDark) {
+            const statusEl = document.getElementById('mfa-modal-status');
+            const actionBtn = document.getElementById('mfa-action-btn');
+            const body = document.getElementById('mfa-modal-body');
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#3a3a3a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.2em;outline:none;text-align:center;margin-top:8px;`;
+            body.innerHTML += `
+                <div style="font-size:0.8rem;opacity:0.75;margin:12px 0 4px;text-align:left;">${ru?'Введи код из приложения для подтверждения:':'Enter your app code to confirm:'}</div>
+                <input type="text" id="mfa-disable-code" inputmode="numeric" maxlength="6" placeholder="000000" style="${inputStyle}" oninput="this.value=this.value.replace(/[^0-9]/g,'')" onkeydown="if(event.key==='Enter')document.getElementById('mfa-action-btn').click()" />`;
+            actionBtn.innerHTML = `<i class="fas fa-lock-open"></i> ${ru?'Подтвердить отключение':'Confirm Disable'}`;
+            actionBtn.onclick = async () => {
+                const code = (document.getElementById('mfa-disable-code')?.value||'').trim();
+                if (!code || code.length !== 6) { statusEl.innerHTML=`<span style="color:#c62828;">${ru?'⚠ Введи код':'⚠ Enter code'}</span>`; return; }
+                actionBtn.disabled = true;
+                statusEl.innerHTML = `<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>${ru?'Проверяем...':'Verifying...'}`;
+                const { data } = await sbClient.from('accounts').select('mfa_secret').ilike('nick', currentAccount.nick).limit(1);
+                const secret = data && data[0] && data[0].mfa_secret;
+                if (!secret) { statusEl.innerHTML=`<span style="color:#c62828;">${ru?'Ошибка секрета':'Secret error'}</span>`; actionBtn.disabled=false; return; }
+                const ok = await _verifyTotp(secret, code);
+                if (!ok) { statusEl.innerHTML=`<span style="color:#c62828;">✗ ${ru?'Неверный код':'Wrong code'}</span>`; actionBtn.disabled=false; return; }
+                const { error } = await sbClient.from('accounts').update({ mfa_enabled: false, mfa_secret: null }).ilike('nick', currentAccount.nick);
+                if (error) { statusEl.innerHTML=`<span style="color:#c62828;">${error.message}</span>`; actionBtn.disabled=false; return; }
+                document.getElementById('bp-mfa-modal')?.remove();
+                showInfoBanner(`<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ${ru?'2FA отключена.':'2FA disabled.'}`, 'success');
+            };
+            setTimeout(() => document.getElementById('mfa-disable-code')?.focus(), 50);
+        }
+
+        function showMfaVerifyModal(acc, ru) {
+            const isDark = document.body.classList.contains('dark-theme');
+            const ex = document.getElementById('bp-mfa-verify-modal'); if (ex) ex.remove();
+            const overlay = document.createElement('div');
+            overlay.className = 'bp-modal-overlay'; overlay.id = 'bp-mfa-verify-modal';
+            const inputStyle = `width:100%;padding:12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#3a3a3a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:0.25em;outline:none;text-align:center;`;
+            overlay.innerHTML = `
+                <div class="bp-modal" style="max-width:320px;">
+                    <h3 style="cursor:move;user-select:none;display:flex;align-items:center;">
+                        <i class="fas fa-shield-alt" style="margin-right:8px;"></i>
+                        ${ru ? 'Проверка 2FA' : '2FA Verification'}
+                        <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru?'⠿ тащи':'⠿ drag'}</span>
+                    </h3>
+                    <div style="font-size:0.82rem;opacity:0.75;margin-bottom:14px;">${ru?'Введи 6-значный код из Google Authenticator / Authy:':'Enter the 6-digit code from Google Authenticator / Authy:'}</div>
+                    <input type="text" id="mfa-verify-code" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" style="${inputStyle}" oninput="this.value=this.value.replace(/[^0-9]/g,'')" onkeydown="if(event.key==='Enter')document.getElementById('mfa-verify-btn').click()" />
+                    <div id="mfa-verify-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:8px;text-align:center;"></div>
+                    <div class="bp-modal-btns">
+                        <button id="mfa-verify-btn" class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doMfaVerifyLogin()">
+                            <i class="fas fa-unlock-alt"></i> ${ru?'Войти':'Login'}
+                        </button>
+                        <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-mfa-verify-modal').remove();showAuthStatus('','');">
+                            ${ru?'Отмена':'Cancel'}
+                        </button>
+                    </div>
+                </div>`;
+            overlay._pendingAcc = acc;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target === overlay) { overlay.remove(); showAuthStatus('',''); } });
+            makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
+            setTimeout(() => document.getElementById('mfa-verify-code')?.focus(), 100);
+        }
+
+        async function doMfaVerifyLogin() {
+            const ru = currentLang === 'ru';
+            const overlay = document.getElementById('bp-mfa-verify-modal');
+            if (!overlay) return;
+            const acc = overlay._pendingAcc;
+            const code = (document.getElementById('mfa-verify-code')?.value || '').trim();
+            const statusEl = document.getElementById('mfa-verify-status');
+            const btn = document.getElementById('mfa-verify-btn');
+            if (!code || code.length !== 6) { statusEl.innerHTML = `<span style="color:#c62828;">${ru?'⚠ Введи 6-значный код':'⚠ Enter 6-digit code'}</span>`; return; }
+            if (btn) btn.disabled = true;
+            statusEl.innerHTML = `<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>${ru?'Проверяем...':'Verifying...'}`;
+            const ok = await _verifyTotp(acc.mfa_secret, code);
+            if (!ok) {
+                statusEl.innerHTML = `<span style="color:#c62828;">✗ ${ru?'Неверный код. Попробуй ещё раз.':'Wrong code. Try again.'}</span>`;
+                if (btn) btn.disabled = false;
+                document.getElementById('mfa-verify-code').value = '';
+                document.getElementById('mfa-verify-code').focus();
+                return;
+            }
+            overlay.remove();
+            showAuthStatus('ok', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Вход выполнен!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Logged in!');
+            await recordReferral(acc.nick);
+            setLoggedIn(acc.nick, acc.verified, acc.avatar_url, acc.email, acc.email_verified, acc.created_at);
+        }
 
 function updateSdPreview() {
     const val  = (document.getElementById('sd-name')?.value || '').toLowerCase().trim();
