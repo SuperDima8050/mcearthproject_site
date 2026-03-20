@@ -1724,6 +1724,37 @@
             font-size: 0.85rem;
             color: #ffa040;
         }
+        /* Announcement banner */
+        #announcement-banner {
+            display: none;
+            padding: 10px 16px;
+            margin-bottom: 14px;
+            border-radius: 4px;
+            border: 2px solid #4caf50;
+            background: linear-gradient(135deg, #1a2e1a 0%, #1e3a1e 100%);
+            box-shadow: 0 3px 10px rgba(76,175,80,0.25);
+            text-align: center;
+            position: relative;
+        }
+        #announcement-banner.active { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        #announcement-banner .ann-icon {
+            width: 20px; height: 20px;
+            image-rendering: pixelated; object-fit: contain; flex-shrink: 0;
+        }
+        #announcement-banner .ann-text {
+            font-family: 'Minecraft', 'NotoSans', sans-serif;
+            font-size: 0.88rem;
+            color: #a5d6a7;
+            font-weight: 600;
+            flex: 1;
+            min-width: 0;
+        }
+        body.dark-theme #announcement-banner {
+            background: linear-gradient(135deg, #0d1f0d 0%, #112211 100%);
+            border-color: #66bb6a;
+        }
+        body.dark-theme #announcement-banner .ann-text { color: #c8e6c9; }
+
         body.dark-theme .nav-tab.active {
             color: white;
             background: linear-gradient(180deg, #7cb342 0%, #558b2f 100%);
@@ -4744,6 +4775,12 @@
 
         
         <div id="home-tab" class="tab-content active">
+        <!-- Announcement Banner -->
+        <div id="announcement-banner">
+            <img class="ann-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="">
+            <span class="ann-text" id="announcement-text"></span>
+        </div>
+
         <!-- Maintenance Mode Banner -->
         <div id="maintenance-banner">
             <div class="maintenance-title">
@@ -6974,12 +7011,57 @@
         // Run after sbClient is ready
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(checkMaintenanceMode, 500);
+            setTimeout(checkAnnouncement, 600);
         });
         // Also run immediately if DOM already loaded
         if (document.readyState !== 'loading') {
             setTimeout(checkMaintenanceMode, 500);
+            setTimeout(checkAnnouncement, 600);
         }
         // === END MAINTENANCE MODE ===
+
+        // === ANNOUNCEMENT BANNER ===
+        // SQL: INSERT INTO site_settings VALUES ('announcement', '') ON CONFLICT (key) DO NOTHING;
+        // Чтобы показать плашку: UPDATE site_settings SET value='Текст сообщения' WHERE key='announcement';
+        // Чтобы скрыть: UPDATE site_settings SET value='' WHERE key='announcement';
+        async function checkAnnouncement() {
+            if (!sbClient) return;
+            try {
+                const { data, error } = await sbClient
+                    .from('site_settings')
+                    .select('value')
+                    .eq('key', 'announcement')
+                    .single();
+                if (error) return;
+                applyAnnouncement(data ? data.value : '');
+
+                sbClient
+                    .channel('site_settings_announcement')
+                    .on('postgres_changes', {
+                        event: 'UPDATE',
+                        schema: 'public',
+                        table: 'site_settings',
+                        filter: 'key=eq.announcement'
+                    }, (payload) => {
+                        applyAnnouncement(payload.new ? payload.new.value : '');
+                    })
+                    .subscribe();
+            } catch(e) {}
+        }
+
+        function applyAnnouncement(text) {
+            const banner = document.getElementById('announcement-banner');
+            const textEl = document.getElementById('announcement-text');
+            if (!banner || !textEl) return;
+            if (text && text.trim()) {
+                textEl.textContent = text.trim();
+                banner.classList.add('active');
+            } else {
+                banner.classList.remove('active');
+                textEl.textContent = '';
+            }
+        }
+        // === END ANNOUNCEMENT BANNER ===
 
 
         document.getElementById('bp-image-input').addEventListener('change', function() {
