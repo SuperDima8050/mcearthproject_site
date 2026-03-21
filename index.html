@@ -4892,7 +4892,7 @@
                         <h3 data-ru="Получи приглашение" data-en="Get Invitation">
                             Получи приглашение
                         </h3>
-                        <p id="tailscale-protected" data-ru="Напиши администратору @Kostyaniche или @Projech Earth в личные сообщения для получения приглашения в сеть Tailscale. После принятия приглашения ты сможешь подключиться к серверу."
+                        <p id="tailscale-info" data-ru="Напиши администратору @Kostyaniche или @Projech Earth в личные сообщения для получения приглашения в сеть Tailscale. После принятия приглашения ты сможешь подключиться к серверу."
                            data-en="Send a private message to the administrator @Kostyaniche or @Project Earth to receive an invitation to the Tailscale network. Once you accept the invitation, you can connect to the server.">
                             Напиши администратору @Kostyaniche или @Project Earth в личные сообщения для получения приглашения в сеть Tailscale. После принятия приглашения ты сможешь подключиться к 
                 </p>
@@ -4931,7 +4931,7 @@
                 <span data-ru="Создатели" data-en="Creators">Создатели</span>
             </h2>
             <div class="authors">
-                <div class="author-card" id="author-superdima" data-protected="true">
+                <div class="author-card" id="author-superdima">
                     <div class="author-name">SuperDima8050</div>
                     <div class="author-role" data-ru="Модератор | Разработчик | Создатель сайта" 
                          data-en="Moderator | Developer | Website Creator">
@@ -4953,7 +4953,7 @@
                     </div>
                 </div>
 
-                <div class="author-card" id="author-kostyaniche" data-protected="true">
+                <div class="author-card" id="author-kostyaniche">
                     <div class="author-name">Kostyaniche</div>
                     <div class="author-role" data-ru="Модератор | Гл. Разработчик | Хост" 
                          data-en="Moderator | Lead Developer | Host">
@@ -10626,17 +10626,7 @@ function applyProtectedBlur() {
         }
     });
 
-    // Tailscale paragraph
-    const tp = document.getElementById('tailscale-protected');
-    if (tp) {
-        if (loggedIn) {
-            tp.style.filter = '';
-            tp.style.userSelect = '';
-        } else {
-            tp.style.filter = 'blur(5px)';
-            tp.style.userSelect = 'none';
-        }
-    }
+    // Tailscale paragraph — blur removed
 }
 
 // Run on page load + on login/logout
