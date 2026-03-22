@@ -5537,6 +5537,7 @@
                                 </div>
                                 <div style="flex:1;min-width:0;overflow:hidden;">
                                     <div class="bp-logged-in-name" id="bp-logged-in-name"></div>
+                                    <div id="bp-profile-badges" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:4px;"></div>
                                     <div id="bp-email-verified-badge" style="display:none;margin-top:4px;" class="bp-email-text"></div>
                                     <div id="bp-join-date" style="display:none;font-size:0.72rem;font-weight:600;margin-top:3px;opacity:0.75;"></div>
                                 </div>
@@ -12010,31 +12011,42 @@ async function doDeleteSubdomain() {
             toast.style.transform = 'translateX(-50%) translateY(40px)';
             setTimeout(() => toast.remove(), 400);
         }, 4000);
-        // Also inject badge near nick everywhere it appears
-        applySecretBadgeToDOM();
+        // Update profile badges row
+        updateProfileBadges();
     }
 
     function applySecretBadgeToDOM() {
+        // Nothing here - badges shown via updateProfileBadges()
+    }
+
+    function updateProfileBadges() {
         const ru = window.currentLang === 'ru';
-        const badgeHtml = `<img src="${SECRET_BASE}muddy_pig_mob.gif" width="22" height="22"
-            style="image-rendering:pixelated;vertical-align:middle;margin-left:4px;"
-            title="${ru ? 'Секретный значок — Muddy Pig 🐷' : 'Secret badge — Muddy Pig 🐷'}" />`;
-        // Add after verified badge in profile
-        const vbadge = document.getElementById('bp-email-verified-badge');
-        if (vbadge && !document.getElementById('secret-muddy-badge')) {
-            const el = document.createElement('span');
-            el.id = 'secret-muddy-badge';
-            el.innerHTML = badgeHtml;
-            vbadge.parentNode.insertBefore(el, vbadge.nextSibling);
+        const badgesEl = document.getElementById('bp-profile-badges');
+        if (!badgesEl) return;
+        badgesEl.innerHTML = '';
+        // 1. Referral badge
+        if (window.currentAccount && sbClient) {
+            sbClient.from('referrals').select('id').eq('referrer_nick', window.currentAccount.nick).then(({ data }) => {
+                const count = (data || []).length;
+                if (count >= 1) {
+                    const html = getRefBadgeHTML(count, false);
+                    const span = document.createElement('span');
+                    span.innerHTML = html;
+                    badgesEl.appendChild(span.firstChild);
+                }
+            }).catch(()=>{});
         }
-        // Add after logged-in name
-        const nameEl = document.getElementById('bp-logged-in-name');
-        if (nameEl && !nameEl.querySelector('.secret-muddy-inline')) {
-            const sp = document.createElement('span');
-            sp.className = 'secret-muddy-inline';
-            sp.innerHTML = badgeHtml;
-            nameEl.appendChild(sp);
-        }
+        // 2. Secret muddy pig badge
+        try {
+            if (localStorage.getItem('secret_muddy_pig') === '1') {
+                const img = document.createElement('img');
+                img.src = SECRET_BASE + 'muddy_pig_mob.gif';
+                img.width = 22; img.height = 22;
+                img.style.cssText = 'image-rendering:pixelated;vertical-align:middle;';
+                img.title = ru ? 'Секретный значок — Muddy Pig 🐷' : 'Secret badge — Muddy Pig 🐷';
+                badgesEl.appendChild(img);
+            }
+        } catch(e) {}
     }
 
     // On page load: re-apply if already unlocked
@@ -12042,20 +12054,23 @@ async function doDeleteSubdomain() {
         try {
             if (localStorage.getItem('secret_muddy_pig') === '1') {
                 unlocked = true;
-                applySecretBadgeToDOM();
             }
         } catch(e) {}
+        updateProfileBadges();
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', checkPersisted);
     else checkPersisted();
     // Also re-apply after login
-    const _origSetLoggedIn = window.setLoggedIn;
-    if (typeof _origSetLoggedIn === 'function') {
-        window.setLoggedIn = function() {
-            _origSetLoggedIn.apply(this, arguments);
-            setTimeout(checkPersisted, 300);
-        };
-    }
+    // Hook setLoggedIn to refresh badges after login
+    setTimeout(function() {
+        const _orig = window.setLoggedIn;
+        if (typeof _orig === 'function') {
+            window.setLoggedIn = function() {
+                _orig.apply(this, arguments);
+                setTimeout(updateProfileBadges, 500);
+            };
+        }
+    }, 100);
 })();
 
 </script>
