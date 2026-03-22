@@ -12025,14 +12025,20 @@ async function doDeleteSubdomain() {
         }
     });
 
+    function _syncSecretBadgeToDB() {
+        if (window.sbClient && window.currentAccount) {
+            window.sbClient.from('accounts')
+                .update({ secret_badges: 'muddy_pig' })
+                .ilike('nick', window.currentAccount.nick)
+                .then(({ error }) => { if (error) console.warn('Badge save error:', error); })
+                .catch(()=>{});
+        }
+    }
+
     function showSecretBadge() {
         const ru = window.currentLang === 'ru';
-        // Save to localStorage so it persists
         window._safeLocalSet('secret_muddy_pig', '1');
-        // Save to DB so others can see it
-        if (window.sbClient && window.currentAccount) {
-            window.sbClient.from('accounts').update({ secret_badges: 'muddy_pig' }).ilike('nick', window.currentAccount.nick).catch(()=>{});
-        }
+        _syncSecretBadgeToDB();
         // Show toast
         const toast = document.createElement('div');
         toast.style.cssText = `
@@ -12107,6 +12113,8 @@ async function doDeleteSubdomain() {
         try {
             if (localStorage.getItem('secret_muddy_pig') === '1') {
                 unlocked = true;
+                // Sync to DB in case it wasn't saved (e.g. was logged out when unlocked)
+                setTimeout(_syncSecretBadgeToDB, 1000);
             }
         } catch(e) {}
         updateProfileBadges();
@@ -12121,6 +12129,7 @@ async function doDeleteSubdomain() {
             window.setLoggedIn = function() {
                 _orig.apply(this, arguments);
                 setTimeout(updateProfileBadges, 500);
+                setTimeout(_syncSecretBadgeToDB, 1000);
             };
         }
     }, 100);
