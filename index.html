@@ -7419,6 +7419,9 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         const MAINTENANCE_TABS = ['news', 'buildplates', 'gallery', 'reports', 'leaderboard'];
 
         function applyMaintenanceMode(isActive) {
+            // Admins bypass maintenance mode completely
+            if (isActive && window._isNewsAdmin) return;
+
             const banner = document.getElementById('maintenance-banner');
             if (banner) {
                 banner.classList.toggle('active', isActive);
@@ -8308,6 +8311,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             _encryptSession({ nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null }).then(enc => window._safeLocalSet('bp_session', enc));
 
             checkNewsAdmin().then(isAdm => {
+                window._isNewsAdmin = !!isAdm; // used by maintenance bypass
                 const rTab = document.getElementById('reports-nav-tab');
                 const gTab = document.getElementById('gallery-nav-tab');
                 const mobileRow = document.getElementById('nav-reports-row');
