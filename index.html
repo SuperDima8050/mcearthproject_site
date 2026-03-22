@@ -3411,6 +3411,106 @@
         }
 
 
+
+        /* ── Leaderboard ── */
+        .lb-section { margin-bottom: 28px; }
+        .lb-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+            border-bottom: 3px solid #8b7355;
+        }
+        .lb-tab {
+            padding: 8px 16px;
+            font-family: Minecraft, sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #d4c5a0;
+            border: 3px solid #8b7355;
+            border-bottom: none;
+            border-right: none;
+            cursor: pointer;
+            color: #3e2723;
+            transition: all 0.15s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .lb-tab:first-child { border-radius: 4px 0 0 0; border-left: 3px solid #8b7355; }
+        .lb-tab:last-child { border-radius: 0 4px 0 0; }
+        .lb-tab.active { background: #6b8e23; color: #fff; border-color: #4a6010; }
+        body.dark-theme .lb-tab { background: #2a2a2a; color: #e0e0e0; border-color: #444; }
+        body.dark-theme .lb-tab.active { background: #4a6d23; border-color: #3a5010; color: #fff; }
+        .lb-list { display: flex; flex-direction: column; gap: 6px; }
+        .lb-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #f5eed9;
+            border: 2px solid #c8b090;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+        .lb-row:hover { border-color: #6b8e23; transform: translateX(3px); }
+        body.dark-theme .lb-row { background: #1e1e1e; border-color: #333; }
+        body.dark-theme .lb-row:hover { border-color: #4a6d23; }
+        .lb-rank {
+            font-family: Minecraft, sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            min-width: 28px;
+            text-align: center;
+        }
+        .lb-rank-1 { color: #f4b400; }
+        .lb-rank-2 { color: #9e9e9e; }
+        .lb-rank-3 { color: #a0522d; }
+        .lb-rank-other { color: #8b7355; font-size: 0.8rem; }
+        body.dark-theme .lb-rank-other { color: #666; }
+        .lb-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 2px solid #8b7355;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #c8b090;
+            display: flex; align-items: center; justify-content: center;
+        }
+        body.dark-theme .lb-avatar { border-color: #444; background: #333; }
+        .lb-avatar img { width:100%; height:100%; object-fit:cover; }
+        .lb-avatar i { font-size: 1rem; color: #8b7355; }
+        body.dark-theme .lb-avatar i { color: #555; }
+        .lb-name {
+            font-family: Minecraft, sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #3e2723;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        body.dark-theme .lb-name { color: #e0e0e0; }
+        .lb-score {
+            font-family: Minecraft, sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #4a5d23;
+            display: flex; align-items: center; gap: 5px;
+            flex-shrink: 0;
+        }
+        body.dark-theme .lb-score { color: #81c784; }
+        .lb-empty {
+            text-align: center;
+            padding: 40px 0;
+            font-family: Minecraft, sans-serif;
+            font-size: 0.85rem;
+            color: #8b7355;
+        }
+        .lb-loading { text-align:center; padding: 30px 0; }
+
         /* ── Player Profile Modal ── */
         .player-author-link {
             cursor: pointer;
@@ -5083,7 +5183,8 @@
             <button class="nav-tab active" onclick="switchTab('home')" data-ru="Главная" data-en="Home"><span class="nav-icon"><img src="shop_icon.png" alt="Home"></span><span data-ru="Главная" data-en="Home">Главная</span></button>
             <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
             <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
-            <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery" style="border-right:3px solid #8b7355;border-radius:0 4px 0 0;"><span class="nav-icon"><img src="paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
+            <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
+            <button class="nav-tab" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Топ" data-en="Top"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Top"></span><span data-ru="Топ" data-en="Top">Топ</span></button>
             <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
         <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
@@ -5697,6 +5798,31 @@
         
 
         
+        <div id="leaderboard-tab" class="tab-content">
+            <div class="section">
+                <h2 class="section-title" data-icon="challenges_icon.png">
+                    <span data-ru="Таблица лидеров" data-en="Leaderboard">Таблица лидеров</span>
+                </h2>
+                <div class="lb-tabs">
+                    <button class="lb-tab active" id="lb-tab-likes" onclick="lbSwitch('likes')">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span data-ru="По лайкам" data-en="By likes">По лайкам</span>
+                    </button>
+                    <button class="lb-tab" id="lb-tab-downloads" onclick="lbSwitch('downloads')">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png" style="width:14px;height:14px;image-rendering:pixelated;">
+                        <span data-ru="По скачиваниям" data-en="By downloads">По скачиваниям</span>
+                    </button>
+                    <button class="lb-tab" id="lb-tab-referrals" onclick="lbSwitch('referrals')">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/health_icon.png" style="width:14px;height:14px;image-rendering:pixelated;">
+                        <span data-ru="По рефераллам" data-en="By referrals">По рефераллам</span>
+                    </button>
+                </div>
+                <div id="lb-list" class="lb-list">
+                    <div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div></div>
+                </div>
+            </div>
+        </div>
+
         <div id="reports-tab" class="tab-content">
             <div class="section">
                 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
@@ -12007,6 +12133,151 @@ async function doDeleteSubdomain() {
         if (statusEl) { statusEl.textContent = e.message||String(e); statusEl.style.color='#c62828'; }
     }
 }
+
+// ══════════════════════════════════════════
+//   LEADERBOARD
+// ══════════════════════════════════════════
+(function(){
+    var _lbMode = 'likes';
+    var _lbCache = {};
+    var _lbAvatarCache = {};
+
+    var RANK_ICONS = ['https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_rare_1_icon.png','https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_uncommon_2_icon.png','https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_oobe_3_icon.png'];
+
+    function fmtNum(n){ return n>=1000?(n/1000).toFixed(1)+'K':String(n||0); }
+
+    window.lbSwitch = function(mode) {
+        _lbMode = mode;
+        document.querySelectorAll('.lb-tab').forEach(function(b){
+            b.classList.toggle('active', b.id === 'lb-tab-' + mode);
+        });
+        renderLb(mode);
+    };
+
+    async function loadLb(mode) {
+        if (_lbCache[mode]) return _lbCache[mode];
+        var ru = window.currentLang === 'ru';
+        var data = [];
+
+        if (mode === 'likes') {
+            // Sum likes from buildplates + gallery per author
+            var [bpRes, glRes] = await Promise.all([
+                sbClient.from('buildplates').select('author,likes'),
+                sbClient.from('gallery').select('author,likes')
+            ]);
+            var map = {};
+            (bpRes.data||[]).concat(glRes.data||[]).forEach(function(r){
+                if (!r.author) return;
+                var k = r.author.toLowerCase();
+                map[k] = { nick: r.author, score: (map[k]?map[k].score:0) + (r.likes||0) };
+            });
+            data = Object.values(map).sort(function(a,b){return b.score-a.score;}).slice(0,20);
+        } else if (mode === 'downloads') {
+            var res = await sbClient.from('buildplates').select('author,downloads');
+            var map = {};
+            (res.data||[]).forEach(function(r){
+                if (!r.author) return;
+                var k = r.author.toLowerCase();
+                map[k] = { nick: r.author, score: (map[k]?map[k].score:0) + (r.downloads||0) };
+            });
+            data = Object.values(map).sort(function(a,b){return b.score-a.score;}).slice(0,20);
+        } else if (mode === 'referrals') {
+            var res = await sbClient.from('referrals').select('referrer_nick');
+            var map = {};
+            (res.data||[]).forEach(function(r){
+                if (!r.referrer_nick) return;
+                var k = r.referrer_nick.toLowerCase();
+                map[k] = { nick: r.referrer_nick, score: (map[k]?map[k].score:0) + 1 };
+            });
+            data = Object.values(map).sort(function(a,b){return b.score-a.score;}).slice(0,20);
+        }
+
+        // Filter out zero scores
+        data = data.filter(function(d){ return d.score > 0; });
+
+        // Load avatars + verified
+        if (data.length) {
+            var nicks = data.map(function(d){ return d.nick; });
+            var accRes = await sbClient.from('accounts').select('nick,avatar_url,verified').in('nick', nicks);
+            (accRes.data||[]).forEach(function(a){
+                var k = a.nick.toLowerCase();
+                _lbAvatarCache[k] = { avatar: a.avatar_url, verified: a.verified };
+            });
+        }
+
+        _lbCache[mode] = data;
+        return data;
+    }
+
+    async function renderLb(mode) {
+        var listEl = document.getElementById('lb-list');
+        if (!listEl) return;
+        var ru = window.currentLang === 'ru';
+        listEl.innerHTML = '<div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div></div>';
+
+        try {
+            var data = await loadLb(mode);
+            if (!data.length) {
+                listEl.innerHTML = '<div class="lb-empty">' + (ru?'Пока нет данных':'No data yet') + '</div>';
+                return;
+            }
+
+            listEl.innerHTML = '';
+            data.forEach(function(entry, idx) {
+                var rankNum = idx + 1;
+                var rankHtml;
+                if (rankNum <= 3) {
+                    rankHtml = '<span class="lb-rank"><img src="' + RANK_ICONS[idx] + '" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;" title="#' + rankNum + '"></span>';
+                } else {
+                    rankHtml = '<span class="lb-rank lb-rank-other">#' + rankNum + '</span>';
+                }
+
+                var accInfo = _lbAvatarCache[(entry.nick||'').toLowerCase()] || {};
+                var avatarHtml = accInfo.avatar
+                    ? '<img src="' + accInfo.avatar + '" alt="">'
+                    : '<i class="fas fa-user"></i>';
+                var verifiedHtml = accInfo.verified
+                    ? '<span class="verified-badge" style="width:14px;height:14px;margin-left:3px;"><i class="fas fa-check" style="font-size:8px;"></i></span>'
+                    : '';
+
+                var scoreIcon = '';
+                if (mode === 'likes') scoreIcon = '<i class="fas fa-thumbs-up" style="font-size:0.7rem;opacity:0.7;"></i>';
+                else if (mode === 'downloads') scoreIcon = '<img src="' + 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png' + '" style="width:12px;height:12px;image-rendering:pixelated;">';
+                else scoreIcon = '<img src="' + 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/health_icon.png' + '" style="width:12px;height:12px;image-rendering:pixelated;">';
+
+                // Referral mob badge
+                var refBadge = '';
+                if (mode === 'referrals' && typeof getRefBadgeHTML === 'function') {
+                    refBadge = getRefBadgeHTML(entry.score);
+                }
+
+                var row = document.createElement('div');
+                row.className = 'lb-row';
+                row.innerHTML = rankHtml +
+                    '<div class="lb-avatar">' + avatarHtml + '</div>' +
+                    '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + '</span>' +
+                    '<span class="lb-score">' + scoreIcon + ' ' + fmtNum(entry.score) + '</span>';
+
+                row.addEventListener('click', function(){
+                    var tabMode = (mode === 'referrals') ? 'buildplates' : mode === 'downloads' ? 'buildplates' : 'buildplates';
+                    openPlayerProfile(entry.nick, tabMode);
+                });
+                listEl.appendChild(row);
+            });
+        } catch(e) {
+            if (listEl) listEl.innerHTML = '<div class="lb-empty" style="color:#c62828;">' + (e.message||'Error') + '</div>';
+        }
+    }
+
+    // Load when tab is opened
+    var _origSwitch = window.switchTab;
+    window.switchTab = function(tabName) {
+        if (typeof _origSwitch === 'function') _origSwitch(tabName);
+        if (tabName === 'leaderboard' && !_lbCache[_lbMode]) {
+            renderLb(_lbMode);
+        }
+    };
+})();
 </script>
 </body>
 </html>
