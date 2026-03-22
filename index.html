@@ -5184,11 +5184,11 @@
             <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
             <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
             <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
-            <button class="nav-tab" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Топ" data-en="Top"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Top"></span><span data-ru="Топ" data-en="Top">Топ</span></button>
             <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
-        <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
-            <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+        <div class="nav-tabs-reports-row" id="nav-reports-row">
+            <button class="nav-tab nav-tab-reports-mobile" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
+            <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" style="display:none;" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
         </div>
 
@@ -6919,7 +6919,12 @@
                 el.classList.add('notranslate');
             });
         }
-        document.addEventListener('DOMContentLoaded', markNoTranslate);
+        document.addEventListener('DOMContentLoaded', function(){
+    // Always show the second nav row (has leaderboard + maybe reports)
+    const row = document.getElementById('nav-reports-row');
+    if (row) row.style.display = '';
+});
+document.addEventListener('DOMContentLoaded', markNoTranslate);
         // Повторно помечаем после динамического рендера (карточки, новости и т.д.)
         const _noTranslateObserver = new MutationObserver(() => markNoTranslate());
         document.addEventListener('DOMContentLoaded', () => {
@@ -8307,20 +8312,21 @@
                 const mobileRTab = document.getElementById('reports-nav-tab-mobile');
                 const isMobile = window.innerWidth <= 768;
 
+                // Leaderboard row is ALWAYS visible (has Лидеры button)
+                if (mobileRow) mobileRow.style.display = 'block';
+
                 if (isAdm) {
-                    // На мобильном — показываем нижнюю строку
+                    // Show reports button in the row (mobile always, desktop in main nav)
                     if (isMobile) {
-                        if (mobileRow) mobileRow.style.display = 'block';
                         if (mobileRTab) mobileRTab.style.display = '';
                         if (rTab) rTab.style.display = 'none';
                     } else {
-                        // На десктопе — показываем в основном ряду
                         if (rTab) rTab.style.display = '';
-                        if (mobileRow) mobileRow.style.display = 'none';
+                        if (mobileRTab) mobileRTab.style.display = 'none';
                     }
                 } else {
                     if (rTab) rTab.style.display = 'none';
-                    if (mobileRow) mobileRow.style.display = 'none';
+                    if (mobileRTab) mobileRTab.style.display = 'none';
                 }
 
                 if (gTab) {
@@ -8412,7 +8418,9 @@
             const rTab = document.getElementById('reports-nav-tab');
             if (rTab) rTab.style.display = 'none';
             const mobileRow = document.getElementById('nav-reports-row');
-            if (mobileRow) mobileRow.style.display = 'none';
+            if (mobileRow) mobileRow.style.display = 'block';
+            const mobileRTabLo = document.getElementById('reports-nav-tab-mobile');
+            if (mobileRTabLo) mobileRTabLo.style.display = 'none';
             const gTab = document.getElementById('gallery-nav-tab');
             if (gTab) { gTab.style.borderRight = '3px solid #8b7355'; gTab.style.borderRadius = '0 4px 0 0'; }
             const refBlock = document.getElementById('ref-profile-block');
