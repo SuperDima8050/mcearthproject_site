@@ -10986,7 +10986,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             // Load everything in parallel
             try {
                 // 1. Account info (avatar, verified)
-                sbClient.from('accounts').select('nick,avatar_url,verified').ilike('nick', nick).limit(1).then(({data}) => {
+                sbClient.from('accounts').select('nick,avatar_url,verified,secret_badges').ilike('nick', nick).limit(1).then(({data}) => {
                     if (data && data[0]) {
                         const acc = data[0];
                         if (acc.avatar_url) {
@@ -11011,13 +11011,11 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                                 if (vb) vb.insertAdjacentHTML('afterend', getRefBadgeHTML(refCount));
                             }
                         }).catch(()=>{});
-                        // Secret muddy pig badge — show if viewing own profile
+                        // Secret muddy pig badge — show for anyone who has it
                         try {
                             const ru2 = window.currentLang === 'ru';
                             const SECRET_BASE2 = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/secret-badges/';
-                            if (localStorage.getItem('secret_muddy_pig') === '1' && 
-                                window.currentAccount && 
-                                window.currentAccount.nick.toLowerCase() === acc.nick.toLowerCase()) {
+                            if (acc.secret_badges && acc.secret_badges.includes('muddy_pig')) {
                                 const vb2 = document.getElementById('pp-verified-badge');
                                 if (vb2) {
                                     const img = document.createElement('img');
@@ -12022,6 +12020,10 @@ async function doDeleteSubdomain() {
         const ru = window.currentLang === 'ru';
         // Save to localStorage so it persists
         window._safeLocalSet('secret_muddy_pig', '1');
+        // Save to DB so others can see it
+        if (window.sbClient && window.currentAccount) {
+            window.sbClient.from('accounts').update({ secret_badges: 'muddy_pig' }).ilike('nick', window.currentAccount.nick).catch(()=>{});
+        }
         // Show toast
         const toast = document.createElement('div');
         toast.style.cssText = `
