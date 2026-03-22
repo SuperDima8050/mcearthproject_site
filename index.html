@@ -11957,6 +11957,107 @@ async function doDeleteSubdomain() {
         if (statusEl) { statusEl.textContent = e.message||String(e); statusEl.style.color='#c62828'; }
     }
 }
+// ── Secret Easter Egg: type "earth" ──
+(function(){
+    const SECRET_BASE = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/secret-badges/';
+    const TARGET = 'earth';
+    let buf = '';
+    let unlocked = false;
+
+    document.addEventListener('keydown', function(e) {
+        // Ignore if typing in input/textarea
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+        buf += e.key.toLowerCase();
+        if (buf.length > TARGET.length) buf = buf.slice(-TARGET.length);
+        if (buf === TARGET && !unlocked) {
+            unlocked = true;
+            showSecretBadge();
+        }
+    });
+
+    function showSecretBadge() {
+        const ru = window.currentLang === 'ru';
+        // Save to localStorage so it persists
+        window._safeLocalSet('secret_muddy_pig', '1');
+        // Show toast
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(40px);
+            background:#2a2a2a;border:3px solid #6b8e23;border-radius:4px;
+            padding:14px 20px;z-index:999999;display:flex;align-items:center;gap:12px;
+            box-shadow:0 8px 0 #111,0 12px 30px rgba(0,0,0,0.6);
+            font-family:Minecraft,sans-serif;color:#fff;
+            opacity:0;transition:opacity 0.3s,transform 0.3s;
+        `;
+        toast.innerHTML = `
+            <img src="${SECRET_BASE}muddy_pig_mob.gif" width="40" height="40" style="image-rendering:pixelated;">
+            <div>
+                <div style="font-size:0.85rem;font-weight:700;color:#81c784;margin-bottom:3px;">
+                    ${ru ? '🐷 Секретный значок разблокирован!' : '🐷 Secret badge unlocked!'}
+                </div>
+                <div style="font-size:0.72rem;color:#aaa;">
+                    ${ru ? 'Muddy Pig — знаток Project Earth' : 'Muddy Pig — true Project Earth fan'}
+                </div>
+            </div>
+        `;
+        document.body.appendChild(toast);
+        requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+        });
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(-50%) translateY(40px)';
+            setTimeout(() => toast.remove(), 400);
+        }, 4000);
+        // Also inject badge near nick everywhere it appears
+        applySecretBadgeToDOM();
+    }
+
+    function applySecretBadgeToDOM() {
+        const ru = window.currentLang === 'ru';
+        const badgeHtml = `<img src="${SECRET_BASE}muddy_pig_mob.gif" width="22" height="22"
+            style="image-rendering:pixelated;vertical-align:middle;margin-left:4px;"
+            title="${ru ? 'Секретный значок — Muddy Pig 🐷' : 'Secret badge — Muddy Pig 🐷'}" />`;
+        // Add after verified badge in profile
+        const vbadge = document.getElementById('bp-email-verified-badge');
+        if (vbadge && !document.getElementById('secret-muddy-badge')) {
+            const el = document.createElement('span');
+            el.id = 'secret-muddy-badge';
+            el.innerHTML = badgeHtml;
+            vbadge.parentNode.insertBefore(el, vbadge.nextSibling);
+        }
+        // Add after logged-in name
+        const nameEl = document.getElementById('bp-logged-in-name');
+        if (nameEl && !nameEl.querySelector('.secret-muddy-inline')) {
+            const sp = document.createElement('span');
+            sp.className = 'secret-muddy-inline';
+            sp.innerHTML = badgeHtml;
+            nameEl.appendChild(sp);
+        }
+    }
+
+    // On page load: re-apply if already unlocked
+    function checkPersisted() {
+        try {
+            if (localStorage.getItem('secret_muddy_pig') === '1') {
+                unlocked = true;
+                applySecretBadgeToDOM();
+            }
+        } catch(e) {}
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', checkPersisted);
+    else checkPersisted();
+    // Also re-apply after login
+    const _origSetLoggedIn = window.setLoggedIn;
+    if (typeof _origSetLoggedIn === 'function') {
+        window.setLoggedIn = function() {
+            _origSetLoggedIn.apply(this, arguments);
+            setTimeout(checkPersisted, 300);
+        };
+    }
+})();
+
 </script>
 </body>
 </html>
