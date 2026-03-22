@@ -10855,11 +10855,12 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 return;
             }
             gridEl.innerHTML = '';
-            const myNick = (currentAccount && currentAccount.nick || '').toLowerCase();
+            const myNick = (window.currentAccount && window.currentAccount.nick || '').toLowerCase();
             items.forEach(item => {
                 const name = escapeHtml(mode==='buildplates'?(item.name||''):(item.title||''));
                 const imgUrl = item.image_url || '';
-                const isMine = myNick && (item.author||'').toLowerCase() === myNick;
+                const profileNick = (window._ppNick || '').toLowerCase();
+                const isMine = !!myNick && myNick === profileNick && myNick === (item.author||'').toLowerCase();
                 const div = document.createElement('div');
                 div.className = 'pp-thumb';
 
