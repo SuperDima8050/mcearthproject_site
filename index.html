@@ -3410,6 +3410,289 @@
             font-size: 9px;
         }
 
+
+        /* ── Player Profile Modal ── */
+        .player-author-link {
+            cursor: pointer;
+            text-decoration: underline dotted;
+            text-underline-offset: 2px;
+            transition: opacity 0.15s;
+        }
+        .player-author-link:hover { opacity: 0.7; }
+
+        /* TikTok-style profile box */
+        .pp-modal-box {
+            background: var(--pp-bg, #f5eed9);
+            border: 4px solid #8b7355;
+            border-radius: 6px;
+            max-width: 480px;
+            width: calc(100vw - 32px);
+            overflow: hidden;
+            box-shadow: 0 10px 0 #5a4a3a, 0 16px 40px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+            margin: auto;
+        }
+        body.dark-theme .pp-modal-box { --pp-bg: #1e1e1e; border-color: #3a3a3a; box-shadow: 0 10px 0 #0a0a0a, 0 16px 40px rgba(0,0,0,0.7); }
+
+        /* Banner */
+        .pp-banner {
+            height: 90px;
+            background: #8b7355;
+            position: relative;
+            cursor: move;
+            overflow: visible;
+        }
+        .pp-banner-bg {
+            position: absolute; inset: 0;
+            background-size: cover;
+            background-position: center;
+            filter: blur(18px) brightness(0.55) saturate(1.4);
+            transform: scale(1.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        body.dark-theme .pp-banner { background: #2a2a2a; }
+        .pp-drag-hint {
+            position: absolute;
+            top: 8px; right: 10px;
+            font-family: Minecraft, sans-serif;
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.4);
+        }
+        .pp-close-btn {
+            position: absolute;
+            top: 8px; left: 10px;
+            width: 26px; height: 26px;
+            background: rgba(0,0,0,0.35);
+            border: none;
+            border-radius: 50%;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s;
+        }
+        .pp-close-btn:hover { background: rgba(0,0,0,0.6); }
+
+        /* Avatar */
+        .pp-avatar-wrap {
+            position: absolute;
+            bottom: -34px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 68px; height: 68px;
+            border-radius: 50%;
+            border: 4px solid var(--pp-bg, #f5eed9);
+            overflow: hidden;
+            background: #c8b090;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        body.dark-theme .pp-avatar-wrap { border-color: #1e1e1e; background: #2a2a2a; }
+        .pp-avatar-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+        .pp-avatar-ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; color:#8b7355; }
+        body.dark-theme .pp-avatar-ph { color:#555; }
+
+        /* Header info */
+        .pp-header {
+            padding: 44px 16px 14px;
+            text-align: center;
+            border-bottom: 2px solid rgba(139,115,85,0.2);
+        }
+        .pp-nick {
+            font-family: Minecraft, sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #3e2723;
+            letter-spacing: 0.5px;
+        }
+        body.dark-theme .pp-nick { color: #e0e0e0; }
+        .pp-verified { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; background:#1da1f2; border-radius:50%; margin-left:5px; vertical-align:middle; }
+        .pp-verified i { color:#fff; font-size:9px; }
+
+        /* Stats row */
+        .pp-stats {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            padding: 12px 0;
+            border-bottom: 2px solid rgba(139,115,85,0.2);
+        }
+        .pp-stat {
+            flex: 1;
+            text-align: center;
+            padding: 4px 8px;
+            border-right: 1px solid rgba(139,115,85,0.2);
+        }
+        .pp-stat:last-child { border-right: none; }
+        .pp-stat-val {
+            font-family: Minecraft, sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #4a5d23;
+            line-height: 1.2;
+        }
+        body.dark-theme .pp-stat-val { color: #81c784; }
+        .pp-stat-label {
+            font-family: Minecraft, sans-serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #8b7355;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        body.dark-theme .pp-stat-label { color: #666; }
+
+        /* Mode toggle */
+        .pp-tabs {
+            display: flex;
+            border-bottom: 2px solid rgba(139,115,85,0.2);
+        }
+        .pp-tab {
+            flex: 1;
+            padding: 9px 4px;
+            font-family: Minecraft, sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #8b7355;
+            border-bottom: 3px solid transparent;
+            transition: all 0.15s;
+        }
+        .pp-tab.active { color: #4a5d23; border-bottom-color: #4a5d23; }
+        body.dark-theme .pp-tab { color: #555; }
+        body.dark-theme .pp-tab.active { color: #81c784; border-bottom-color: #81c784; }
+        .pp-tab:hover { background: rgba(107,142,35,0.07); }
+
+        /* Grid */
+        .pp-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            max-height: 320px;
+            overflow-y: auto;
+            background: rgba(139,115,85,0.1);
+        }
+        .pp-grid::-webkit-scrollbar { width: 4px; }
+        .pp-grid::-webkit-scrollbar-track { background: transparent; }
+        .pp-grid::-webkit-scrollbar-thumb { background: #8b7355; border-radius: 2px; }
+        .pp-thumb {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: #e0d5b0;
+            cursor: pointer;
+        }
+        body.dark-theme .pp-thumb { background: #222; }
+        .pp-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition: transform 0.2s; }
+        .pp-thumb:hover img { transform: scale(1.06); }
+        .pp-thumb-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: flex-end;
+            padding: 5px;
+        }
+        .pp-thumb:hover .pp-thumb-overlay { opacity: 1; }
+        .pp-thumb-name {
+            font-family: Minecraft, sans-serif;
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: #fff;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.3;
+            flex: 1;
+        }
+        .pp-thumb-dots {
+            position: absolute;
+            top: 4px; right: 4px;
+            width: 22px; height: 22px;
+            background: rgba(0,0,0,0.55);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0;
+            transition: opacity 0.15s, background 0.15s;
+            z-index: 5;
+        }
+        .pp-thumb:hover .pp-thumb-dots { opacity: 1; }
+        .pp-thumb-dots:hover { background: rgba(0,0,0,0.8); }
+        .pp-thumb-menu {
+            position: fixed;
+            background: #f5eed9;
+            border: 2px solid #8b7355;
+            border-radius: 3px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+            min-width: 160px;
+            z-index: 200000;
+            display: none;
+            overflow: hidden;
+        }
+        body.dark-theme .pp-thumb-menu { background: #2a2a2a; border-color: #444; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }
+        .pp-thumb-menu.open { display: block; }
+        .pp-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 9px 12px;
+            background: none;
+            border: none;
+            color: #3e2723;
+            font-family: Minecraft, sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            transition: background 0.1s;
+            white-space: nowrap;
+        }
+        .pp-menu-item:hover { background: #e8dfc0; }
+        .pp-menu-item.danger { color: #c62828; }
+        .pp-menu-item.danger:hover { background: #fde0e0; }
+        body.dark-theme .pp-menu-item { color: #e0e0e0; }
+        body.dark-theme .pp-menu-item:hover { background: #3a3a3a; }
+        body.dark-theme .pp-menu-item.danger { color: #ef9a9a; }
+        body.dark-theme .pp-menu-item.danger:hover { background: #4a2c2a; }
+        .pp-thumb-ph {
+            width:100%; height:100%;
+            display:flex; align-items:center; justify-content:center;
+            font-size:2rem;
+        }
+        .pp-empty {
+            grid-column: 1/-1;
+            text-align:center;
+            padding: 30px 0;
+            font-family: Minecraft, sans-serif;
+            font-size: 0.8rem;
+            color: #8b7355;
+            font-weight: 700;
+        }
+
+        /* player-profile-empty kept for loading spinner */
+        .player-profile-empty {
+            text-align: center;
+            padding: 30px 0;
+            font-family: 'Minecraft', sans-serif;
+            font-size: 0.82rem;
+            color: #8b7355;
+            font-weight: 700;
+        }
         body.dark-theme .bp-card-author,
         body.dark-theme .bp-card-date {
             color: #999;
@@ -8638,7 +8921,7 @@
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
-                                <span>${escapeHtml(bp.author || (currentLang === 'ru' ? 'Неизвестно' : 'Unknown'))}${_bpVerifiedMap[authorLower] ? `<span class="verified-badge" title="${currentLang === 'ru' ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
+                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(bp.author||'')}','buildplates')">${escapeHtml(bp.author || (currentLang === 'ru' ? 'Неизвестно' : 'Unknown'))}${_bpVerifiedMap[authorLower] ? `<span class="verified-badge" title="${currentLang === 'ru' ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
                             </div>
                             <div class="bp-card-date">
                                 <i class="fas fa-calendar-alt"></i>
@@ -10029,7 +10312,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
-                                <span>${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? `<span class="verified-badge" title="${ru ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
+                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(photo.author||'')}','gallery')">${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? `<span class="verified-badge" title="${ru ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
                             </div>
                             <div class="bp-card-date">
                                 <i class="fas fa-calendar-alt"></i>
@@ -10425,6 +10708,261 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             titleInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gl-edit-save-btn').click(); });
         }
         window.editGalleryPhoto = editGalleryPhoto;
+
+        // ── Player Profile Modal ──
+        // ── TikTok-style Player Profile ──
+        window._ppData = {}; // cache per nick
+
+        function _ppCloseAllMenus() {
+            document.querySelectorAll('.pp-thumb-menu.open').forEach(m => m.classList.remove('open'));
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.pp-thumb-dots') && !e.target.closest('.pp-thumb-menu')) _ppCloseAllMenus();
+        });
+
+        function _ppBuildMenu(item, mode, isMine, div) {
+            const ru = currentLang === 'ru';
+            const imgUrl = item.image_url || '';
+            const name = mode==='buildplates'?(item.name||''):(item.title||'');
+            const ICO = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/';
+            const menu = document.createElement('div');
+            menu.className = 'pp-thumb-menu';
+
+            const addItem = (iconHtml, label, cls, fn) => {
+                const btn = document.createElement('button');
+                btn.className = 'pp-menu-item' + (cls?' '+cls:'');
+                btn.innerHTML = iconHtml + ' ' + label;
+                btn.addEventListener('click', e => { e.stopPropagation(); _ppCloseAllMenus(); fn(); });
+                menu.appendChild(btn);
+            };
+            const mcIcon = (file) => `<img src="${ICO}${file}" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;">`;
+            const faIcon = (cls) => `<i class="fas ${cls}" style="width:14px;text-align:center;"></i>`;
+
+            // Download image
+            if (imgUrl) addItem(mcIcon('map_icon.png'), ru?'Скачать картинку':'Download image', '', () => downloadImage(imgUrl, name));
+
+            // Download world (buildplates only)
+            if (mode==='buildplates' && item.world_url) addItem(faIcon('fa-cube'), ru?'Скачать мир':'Download world', '', () => {
+                if (!currentAccount) { showInfoBanner(ru?'Войди чтобы скачать!':'Login to download!','error'); return; }
+                downloadWorld(item.world_url, name, {});
+            });
+
+            // Share
+            addItem(faIcon('fa-share-alt'), ru?'Поделиться':'Share', '', () => {
+                const url = window.location.href;
+                if (navigator.share) navigator.share({ title: name, url }).catch(()=>{});
+                else { navigator.clipboard.writeText(url).catch(()=>{}); showInfoBanner(ru?'Ссылка скопирована!':'Link copied!','success'); }
+            });
+
+            // Favorite (buildplates)
+            if (mode==='buildplates') addItem(mcIcon('health_icon.png'), ru?'В избранное':'Favorite', '', () => {
+                handleBpFavorite(item.id, { dataset: { bpFavorite: item.id } });
+            });
+
+            if (isMine) {
+                addItem(faIcon('fa-pen'), ru?'Изменить':'Edit', '', () => {
+                    if (mode==='buildplates') editBuildplate(item.id, item.name, item.description||'');
+                    else editGalleryPhoto(item.id, item.title||'', item.description||'');
+                });
+                addItem(faIcon('fa-trash'), ru?'Удалить':'Delete', 'danger', () => {
+                    if (mode==='buildplates') deleteBuildplate(item.id, null);
+                    else deleteGalleryPhoto(item.id, item.image_path, null);
+                });
+            } else {
+                addItem(faIcon('fa-flag'), ru?'Пожаловаться':'Report', 'danger', () => {
+                    if (!currentAccount) { showInfoBanner(ru?'Войди чтобы пожаловаться!':'Login to report!','error'); return; }
+                    showReportModal(mode==='buildplates'?'buildplate':'gallery', item.id, name, item.author, imgUrl||null);
+                });
+            }
+            return menu;
+        }
+
+        function _ppRenderGrid(items, mode, gridEl) {
+            if (!items.length) {
+                gridEl.innerHTML = `<div class="pp-empty">${currentLang==='ru'?'Ничего нет':'Nothing here'}</div>`;
+                return;
+            }
+            gridEl.innerHTML = '';
+            const myNick = (currentAccount && currentAccount.nick || '').toLowerCase();
+            items.forEach(item => {
+                const name = escapeHtml(mode==='buildplates'?(item.name||''):(item.title||''));
+                const imgUrl = item.image_url || '';
+                const isMine = myNick && (item.author||'').toLowerCase() === myNick;
+                const div = document.createElement('div');
+                div.className = 'pp-thumb';
+
+                if (imgUrl) {
+                    div.innerHTML = `<img src="${imgUrl}" alt="${name}" loading="lazy" style="pointer-events:none;">
+                        <button class="pp-thumb-dots" title="...">&#8943;</button>
+                        <div class="pp-thumb-overlay" style="pointer-events:none;"><div class="pp-thumb-name">${name}</div></div>`;
+                    div.addEventListener('click', (e) => {
+                        if (!e.target.closest('.pp-thumb-dots') && !e.target.closest('.pp-thumb-menu'))
+                            openGalleryLightbox(imgUrl, '.pp-thumb img');
+                    });
+                } else {
+                    div.innerHTML = `<div class="pp-thumb-ph"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/${mode==='buildplates'?'buildplate_icon.png':'paint_item.png'}" style="width:32px;height:32px;image-rendering:pixelated;opacity:0.4;"></div>
+                        <button class="pp-thumb-dots" title="...">&#8943;</button>
+                        <div class="pp-thumb-overlay"><div class="pp-thumb-name">${name}</div></div>`;
+                }
+
+                const menu = _ppBuildMenu(item, mode, isMine, div);
+                document.body.appendChild(menu);
+
+                const dotsBtn = div.querySelector('.pp-thumb-dots');
+                dotsBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const wasOpen = menu.classList.contains('open');
+                    _ppCloseAllMenus();
+                    if (!wasOpen) {
+                        const r = dotsBtn.getBoundingClientRect();
+                        menu.style.display = 'block';
+                        const mh = menu.offsetHeight;
+                        menu.style.display = '';
+                        const spaceAbove = r.top;
+                        const spaceBelow = window.innerHeight - r.bottom;
+                        if (spaceAbove > spaceBelow) {
+                            menu.style.top = (r.top - mh - 4) + 'px';
+                        } else {
+                            menu.style.top = (r.bottom + 4) + 'px';
+                        }
+                        menu.style.left = Math.min(r.left, window.innerWidth - 170) + 'px';
+                        menu.classList.add('open');
+                    }
+                });
+
+                gridEl.appendChild(div);
+            });
+        }
+
+        window.openPlayerProfile = async function(nick, startMode) {
+            if (!nick) return;
+            const ru = currentLang === 'ru';
+            const ex = document.getElementById('player-profile-modal');
+            if (ex) ex.remove();
+
+            const overlay = document.createElement('div');
+            overlay.className = 'bp-modal-overlay';
+            overlay.id = 'player-profile-modal';
+            overlay.innerHTML = `<div class="pp-modal-box" id="pp-box">
+                <div class="pp-banner" id="pp-banner">
+                    <div class="pp-banner-bg" id="pp-banner-bg"></div>
+                    <button class="pp-close-btn" id="pp-close"><i class="fas fa-times"></i></button>
+                    <span class="pp-drag-hint">⠿ ${ru?'тащи':'drag'}</span>
+                    <div class="pp-avatar-wrap" id="pp-avatar">
+                        <div class="pp-avatar-ph" id="pp-avatar-ph"><i class="fas fa-user"></i></div>
+                    </div>
+                </div>
+                <div class="pp-header">
+                    <div class="pp-nick" id="pp-nick">${escapeHtml(nick)}<span id="pp-verified-badge"></span></div>
+                </div>
+                <div class="pp-stats">
+                    <div class="pp-stat">
+                        <div class="pp-stat-val" id="pp-stat-posts">—</div>
+                        <div class="pp-stat-label">${ru?'Постов':'Posts'}</div>
+                    </div>
+                    <div class="pp-stat">
+                        <div class="pp-stat-val" id="pp-stat-likes">—</div>
+                        <div class="pp-stat-label">${ru?'Лайков':'Likes'}</div>
+                    </div>
+                    <div class="pp-stat">
+                        <div class="pp-stat-val" id="pp-stat-dl">—</div>
+                        <div class="pp-stat-label">${ru?'Скачиваний':'Downloads'}</div>
+                    </div>
+                </div>
+                <div class="pp-tabs" id="pp-tabs">
+                    <button class="pp-tab${startMode==='buildplates'?' active':''}" id="pp-tab-bp" onclick="window._ppSwitch('buildplates')">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> Buildplates
+                    </button>
+                    <button class="pp-tab${startMode==='gallery'?' active':''}" id="pp-tab-gl" onclick="window._ppSwitch('gallery')">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ${ru?'Галерея':'Gallery'}
+                    </button>
+                </div>
+                <div class="pp-grid" id="pp-grid">
+                    <div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>
+                </div>
+            </div>`;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target===overlay) overlay.remove(); });
+            document.getElementById('pp-close').addEventListener('click', () => overlay.remove());
+            const box = document.getElementById('pp-box');
+            const banner = document.getElementById('pp-banner');
+            makeDraggable(box, banner);
+
+            const gridEl = document.getElementById('pp-grid');
+            window._ppNick = nick;
+            window._ppMode = startMode;
+
+            window._ppSwitch = function(mode) {
+                window._ppMode = mode;
+                document.getElementById('pp-tab-bp').classList.toggle('active', mode==='buildplates');
+                document.getElementById('pp-tab-gl').classList.toggle('active', mode==='gallery');
+                gridEl.innerHTML = `<div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>`;
+                _ppLoadGrid(window._ppNick, mode, gridEl);
+            };
+
+            // Load everything in parallel
+            try {
+                // 1. Account info (avatar, verified)
+                sbClient.from('accounts').select('nick,avatar_url,verified').ilike('nick', nick).limit(1).then(({data}) => {
+                    if (data && data[0]) {
+                        const acc = data[0];
+                        if (acc.avatar_url) {
+                            const img = document.createElement('img');
+                            img.src = acc.avatar_url;
+                            img.alt = nick;
+                            const ph = document.getElementById('pp-avatar-ph');
+                            if (ph) ph.replaceWith(img);
+                            // Set banner bg as blurred avatar
+                            const bg = document.getElementById('pp-banner-bg');
+                            if (bg) bg.style.backgroundImage = 'url(' + acc.avatar_url + ')';
+                        }
+                        if (acc.verified) {
+                            const vb = document.getElementById('pp-verified-badge');
+                            if (vb) vb.innerHTML = `<span class="pp-verified"><i class="fas fa-check"></i></span>`;
+                        }
+                    }
+                }).catch(()=>{});
+
+                // 2. BP stats
+                const [bpRes, glRes] = await Promise.all([
+                    sbClient.from('buildplates').select('id,name,image_url,likes,downloads,created_at').ilike('author',nick).order('created_at',{ascending:false}).limit(100),
+                    sbClient.from('gallery').select('id,title,image_url,likes,created_at').ilike('author',nick).order('created_at',{ascending:false}).limit(100)
+                ]);
+                const bpItems = bpRes.data || [];
+                const glItems = glRes.data || [];
+                // Debug
+                if (bpRes.error) console.warn('BP error:', bpRes.error);
+                if (glRes.error) console.warn('GL error:', glRes.error);
+
+                window._ppCache = { buildplates: bpItems, gallery: glItems };
+
+                const totalPosts = bpItems.length + glItems.length;
+                const totalLikes = [...bpItems, ...glItems].reduce((s,i)=>s+(i.likes||0),0);
+                const totalDl = bpItems.reduce((s,i)=>s+(i.downloads||0),0);
+
+                const fmtNum = n => n >= 1000 ? (n/1000).toFixed(1)+'K' : String(n);
+                const ps = document.getElementById('pp-stat-posts');
+                const ls = document.getElementById('pp-stat-likes');
+                const ds = document.getElementById('pp-stat-dl');
+                if (ps) ps.textContent = fmtNum(totalPosts);
+                if (ls) ls.textContent = fmtNum(totalLikes);
+                if (ds) ds.textContent = fmtNum(totalDl);
+
+                // Render initial tab
+                _ppLoadGrid(nick, startMode, gridEl);
+
+            } catch(e) {
+                gridEl.innerHTML = `<div class="pp-empty" style="color:#c62828;">${e.message||'Error'}</div>`;
+            }
+        };
+
+        function _ppLoadGrid(nick, mode, gridEl) {
+            if (window._ppCache) {
+                _ppRenderGrid(window._ppCache[mode]||[], mode, gridEl);
+                return;
+            }
+            gridEl.innerHTML = `<div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>`;
+        }
 
         // Обработчик для report-img-input
         window._reportImgChanged = function(input) {
