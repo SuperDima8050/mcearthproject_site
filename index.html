@@ -9434,24 +9434,24 @@
             const votes = window._sbVotes || {};
             if (!votes.bp_favorites) votes.bp_favorites = {};
             const isFavorited = votes.bp_favorites[String(id)] === true;
-            const emptyIcon = favoriteBtn.querySelector('.favorite-icon-empty');
-            const filledIcon = favoriteBtn.querySelector('.favorite-icon-filled');
-            const text = favoriteBtn.querySelector('.favorite-text');
+            const emptyIcon = favoriteBtn && favoriteBtn.querySelector ? favoriteBtn.querySelector('.favorite-icon-empty') : null;
+            const filledIcon = favoriteBtn && favoriteBtn.querySelector ? favoriteBtn.querySelector('.favorite-icon-filled') : null;
+            const text = favoriteBtn && favoriteBtn.querySelector ? favoriteBtn.querySelector('.favorite-text') : null;
             const ru = currentLang === 'ru';
             try {
                 if (isFavorited) {
                     if (sbClient) await sbClient.from('user_favorites').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id));
                     delete votes.bp_favorites[String(id)];
-                    emptyIcon.style.display = 'inline';
-                    filledIcon.style.display = 'none';
-                    text.textContent = ru ? 'В избранное' : 'Favorite';
+                    if (emptyIcon) emptyIcon.style.display = 'inline';
+                    if (filledIcon) filledIcon.style.display = 'none';
+                    if (text) text.textContent = ru ? 'В избранное' : 'Favorite';
                     showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Удалено из избранного' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Removed from favorites', 'success');
                 } else {
                     if (sbClient) await sbClient.from('user_favorites').upsert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id) }], { onConflict: 'nick,item_type,item_id' });
                     votes.bp_favorites[String(id)] = true;
-                    emptyIcon.style.display = 'none';
-                    filledIcon.style.display = 'inline';
-                    text.textContent = ru ? 'Удалить из избранного' : 'Remove from favorite';
+                    if (emptyIcon) emptyIcon.style.display = 'none';
+                    if (filledIcon) filledIcon.style.display = 'inline';
+                    if (text) text.textContent = ru ? 'Удалить из избранного' : 'Remove from favorite';
                     showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Добавлено в избранное' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Added to favorites', 'success');
                 }
                 window._sbVotes = votes;
@@ -9469,24 +9469,24 @@
             const votes = window._sbVotes || {};
             if (!votes.gallery_favorites) votes.gallery_favorites = {};
             const isFavorited = votes.gallery_favorites[String(id)] === true;
-            const emptyIcon = favoriteBtn.querySelector('.favorite-icon-empty');
-            const filledIcon = favoriteBtn.querySelector('.favorite-icon-filled');
-            const text = favoriteBtn.querySelector('.favorite-text');
+            const emptyIcon = favoriteBtn && favoriteBtn.querySelector ? favoriteBtn.querySelector('.favorite-icon-empty') : null;
+            const filledIcon = favoriteBtn && favoriteBtn.querySelector ? favoriteBtn.querySelector('.favorite-icon-filled') : null;
+            const text = favoriteBtn && favoriteBtn.querySelector ? favoriteBtn.querySelector('.favorite-text') : null;
             const ru = currentLang === 'ru';
             try {
                 if (isFavorited) {
                     if (sbClient) await sbClient.from('user_favorites').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id));
                     delete votes.gallery_favorites[String(id)];
-                    emptyIcon.style.display = 'inline';
-                    filledIcon.style.display = 'none';
+                    if (emptyIcon) emptyIcon.style.display = 'inline';
+                    if (filledIcon) filledIcon.style.display = 'none';
                     text.textContent = ru ? 'В избранное' : 'Favorite';
                     showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Удалено из избранного' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Removed from favorites', 'success');
                 } else {
                     if (sbClient) await sbClient.from('user_favorites').upsert([{ nick: currentAccount.nick, item_type: 'gallery', item_id: String(id) }], { onConflict: 'nick,item_type,item_id' });
                     votes.gallery_favorites[String(id)] = true;
-                    emptyIcon.style.display = 'none';
-                    filledIcon.style.display = 'inline';
-                    text.textContent = ru ? 'Удалить из избранного' : 'Remove from favorite';
+                    if (emptyIcon) emptyIcon.style.display = 'none';
+                    if (filledIcon) filledIcon.style.display = 'inline';
+                    if (text) text.textContent = ru ? 'Удалить из избранного' : 'Remove from favorite';
                     showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Добавлено в избранное' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Added to favorites', 'success');
                 }
                 window._sbVotes = votes;
@@ -10796,9 +10796,12 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 else { navigator.clipboard.writeText(url).catch(()=>{}); showInfoBanner(ru?'Ссылка скопирована!':'Link copied!','success'); }
             });
 
-            // Favorite (buildplates)
+            // Favorite
             if (mode==='buildplates') addItem(mcIcon('health_icon.png'), ru?'В избранное':'Favorite', '', () => {
-                handleBpFavorite(item.id, { dataset: { bpFavorite: item.id } });
+                handleBpFavorite(item.id, null);
+            });
+            if (mode==='gallery') addItem(mcIcon('health_icon.png'), ru?'В избранное':'Favorite', '', () => {
+                handleGalleryFavorite(item.id, null);
             });
 
             if (isMine) {
