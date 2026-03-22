@@ -10934,6 +10934,14 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                             const vb = document.getElementById('pp-verified-badge');
                             if (vb) vb.innerHTML = `<span class="pp-verified"><i class="fas fa-check"></i></span>`;
                         }
+                        // Fetch referral count and show badge
+                        sbClient.from('referrals').select('id').eq('referrer_nick', acc.nick).then(({ data: refs }) => {
+                            const refCount = (refs || []).length;
+                            if (refCount >= 1) {
+                                const vb = document.getElementById('pp-verified-badge');
+                                if (vb) vb.insertAdjacentHTML('afterend', getRefBadgeHTML(refCount));
+                            }
+                        }).catch(()=>{});
                     }
                 }).catch(()=>{});
 
