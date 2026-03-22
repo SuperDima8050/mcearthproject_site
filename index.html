@@ -6316,11 +6316,11 @@
                 }
             }
 
-            showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Публикуем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Publishing...'}`, 25);
+            showNewsStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Публикуем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Publishing...'}`, 25);
 
             let imageUrl = null;
             if (imageFile) {
-                showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 50);
+                showNewsStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 50);
                 const ext = imageFile.name.split('.').pop().toLowerCase();
                 const imagePath = 'news/' + Date.now() + '_' + Math.random().toString(36).slice(2,8) + '.' + ext;
                 const { error: imgError } = await sbClient.storage
@@ -6332,7 +6332,7 @@
                 }
                 const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 imageUrl = urlData.publicUrl;
-                showNewsStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'}`, 75);
+                showNewsStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'}`, 75);
             }
 
             const { error } = await sbClient.from('news').insert([{
@@ -8728,7 +8728,7 @@
 
             submitBtn.disabled = true;
             showBpStatus('', '');
-            showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 10);
+            showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 10);
 
             // === Модерация ===
             const bpModResult = await moderateImage(imageFile);
@@ -8739,7 +8739,7 @@
             }
             // === /Модерация ===
 
-            showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 25);
+            showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 25);
 
             let imagePath, worldPath;
 
@@ -8753,7 +8753,7 @@
                     .upload(imagePath, imageFile, { cacheControl: '3600', upsert: false });
                 if (imgError) throw new Error(parseSbError(imgError, ru));
 
-                showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем world файл...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading world file...'}`, 50);
+                showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем world файл...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading world file...'}`, 50);
 
                 worldPath = `worlds/${timestamp}_${safeName}_world`;
                 const { error: worldError } = await sbClient.storage
@@ -8761,7 +8761,7 @@
                     .upload(worldPath, worldFile, { cacheControl: '3600', upsert: false });
                 if (worldError) throw new Error(parseSbError(worldError, ru));
 
-                showBpStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем запись...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving record...'}`, 75);
+                showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем запись...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving record...'}`, 75);
 
                 const { data: imgData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 const { data: worldData } = sbClient.storage.from('buildplates').getPublicUrl(worldPath);
@@ -10142,7 +10142,7 @@
             }
 
             submitBtn.disabled = true;
-            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 5);
+            showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 5);
 
             // === Модерация ===
             const modResult = await moderateImage(imageFile);
@@ -10153,7 +10153,7 @@
             }
             // === /Модерация ===
 
-            showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 10);
+            showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 10);
 
             try {
                 const ts = Date.now();
@@ -10164,7 +10164,7 @@
 const ext = imageFile.name.split('.').pop().toLowerCase();
 const imagePath = `gallery/${safeName}_${ts}.${ext}`;
 
-showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 50);
+showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 50);
 
 const { error: uploadErr } = await sbClient.storage
     .from('buildplates')
@@ -10177,7 +10177,7 @@ uploadedImages.push({
     path: imagePath
 });
 
-                showStatus('loading', `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png" style="width:32px;height:32px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;">${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем в базу данных...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving to database...'}`, 85);
+                showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем в базу данных...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving to database...'}`, 85);
 
                 // Создаем запись в базе данных для фото
 const { error: insertErr } = await sbClient.from('gallery').insert([{
@@ -11011,6 +11011,24 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                                 if (vb) vb.insertAdjacentHTML('afterend', getRefBadgeHTML(refCount));
                             }
                         }).catch(()=>{});
+                        // Secret muddy pig badge — show if viewing own profile
+                        try {
+                            const ru2 = window.currentLang === 'ru';
+                            const SECRET_BASE2 = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/secret-badges/';
+                            if (localStorage.getItem('secret_muddy_pig') === '1' && 
+                                window.currentAccount && 
+                                window.currentAccount.nick.toLowerCase() === acc.nick.toLowerCase()) {
+                                const vb2 = document.getElementById('pp-verified-badge');
+                                if (vb2) {
+                                    const img = document.createElement('img');
+                                    img.src = SECRET_BASE2 + 'muddy_pig_mob.gif';
+                                    img.width = 22; img.height = 22;
+                                    img.style.cssText = 'image-rendering:pixelated;vertical-align:middle;margin-left:4px;';
+                                    img.title = ru2 ? 'Секретный значок — Muddy Pig 🐷' : 'Secret badge — Muddy Pig 🐷';
+                                    vb2.parentNode.insertBefore(img, vb2.nextSibling);
+                                }
+                            }
+                        } catch(e) {}
                     }
                 }).catch(()=>{});
 
