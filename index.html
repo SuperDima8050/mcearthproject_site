@@ -499,7 +499,7 @@
 
         body.dark-theme .section-title {
             color: #81c784;
-            border-bottom-color: #1a1a1a;
+            border-bottom-color: #444;
         }
 
         body.dark-theme .language-switcher {
@@ -1051,7 +1051,7 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
-            border-top: none;
+            border-top: 2px solid #c8b090;
             border-radius: 0 0 4px 4px;
             overflow: hidden;
             margin-top: 0px;
@@ -1664,6 +1664,7 @@
 
         body.dark-theme .nav-tabs-reports-row {
             border-color: #3a3a3a;
+            border-top-color: #444;
         }
 
         body.dark-theme .nav-tab {
@@ -3441,6 +3442,8 @@
         .lb-tab.active { background: #6b8e23; color: #fff; border-color: #4a6010; }
         body.dark-theme .lb-tab { background: #2a2a2a; color: #e0e0e0; border-color: #444; }
         body.dark-theme .lb-tab.active { background: #4a6d23; border-color: #3a5010; color: #fff; }
+        body.dark-theme #lb-referrals-row { border-bottom-color: #444; border-left-color: #444; border-right-color: #444; }
+        body.dark-theme #lb-referrals-row .lb-tab { border-left-color: #444 !important; border-right-color: #444 !important; }
         .lb-list { display: flex; flex-direction: column; gap: 6px; }
         .lb-row {
             display: flex;
@@ -5813,7 +5816,7 @@
                         <span data-ru="По скачиваниям" data-en="By downloads">По скачиваниям</span>
                     </button>
                 </div>
-                <div class="lb-tabs" style="margin-bottom:16px;">
+                <div class="lb-tabs" id="lb-referrals-row" style="margin-bottom:16px;">
                     <button class="lb-tab" id="lb-tab-referrals" onclick="lbSwitch('referrals')" style="flex:1;border-left:3px solid #8b7355;border-radius:0;justify-content:center;">
                         <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/health_icon.png" style="width:14px;height:14px;image-rendering:pixelated;">
                         <span data-ru="По рефераллам" data-en="By referrals">По рефераллам</span>
