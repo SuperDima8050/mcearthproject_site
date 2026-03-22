@@ -10797,12 +10797,23 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             });
 
             // Favorite
-            if (mode==='buildplates') addItem(mcIcon('health_icon.png'), ru?'В избранное':'Favorite', '', () => {
-                handleBpFavorite(item.id, null);
-            });
-            if (mode==='gallery') addItem(mcIcon('health_icon.png'), ru?'В избранное':'Favorite', '', () => {
-                handleGalleryFavorite(item.id, null);
-            });
+            // Favorite — build button exactly like in cards (with empty/filled icons + text)
+            {
+                const votes = window._sbVotes || {};
+                const isFavNow = mode==='buildplates'
+                    ? (votes.bp_favorites && votes.bp_favorites[String(item.id)] === true)
+                    : (votes.gallery_favorites && votes.gallery_favorites[String(item.id)] === true);
+                const favBtn = document.createElement('button');
+                favBtn.className = 'pp-menu-item';
+                favBtn.innerHTML = `<img src="${ICO}health_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;" class="favorite-icon-empty"${isFavNow?' style="display:none;"':''}> <img src="${ICO}health_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;filter:grayscale(100%);${!isFavNow?'display:none;':''}" class="favorite-icon-filled"> <span class="favorite-text">${isFavNow ? (ru?'Удалить из избранного':'Remove from favorites') : (ru?'В избранное':'Favorite')}</span>`;
+                favBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    _ppCloseAllMenus();
+                    if (mode==='buildplates') handleBpFavorite(item.id, favBtn);
+                    else handleGalleryFavorite(item.id, favBtn);
+                });
+                menu.appendChild(favBtn);
+            }
 
             if (isMine) {
                 addItem(faIcon('fa-pen'), ru?'Изменить':'Edit', '', () => {
