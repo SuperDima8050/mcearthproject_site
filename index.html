@@ -10832,7 +10832,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             }
 
             if (isMine) {
-                addItem(faIcon('fa-pen'), ru?'Изменить':'Edit', '', () => {
+                addItem(mcIcon('writetable_book_icon.png'), ru?'Изменить':'Edit', '', () => {
                     if (mode==='buildplates') editBuildplate(item.id, item.name, item.description||'');
                     else editGalleryPhoto(item.id, item.title||'', item.description||'');
                 });
