@@ -3544,6 +3544,32 @@
         body.dark-theme .pp-stat-label { color: #666; }
 
         /* Mode toggle */
+        .pp-search-wrap {
+            padding: 8px 10px 4px;
+            border-bottom: 2px solid rgba(139,115,85,0.15);
+        }
+        .pp-search {
+            width: 100%;
+            padding: 7px 10px 7px 32px;
+            border: 2px solid #8b7355;
+            border-radius: 2px;
+            background: #f5eed9;
+            color: #3e2723;
+            font-family: Minecraft, sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            outline: none;
+            box-sizing: border-box;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238b7355' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 9px center;
+            background-size: 14px;
+        }
+        .pp-search::placeholder { color: #a89070; }
+        .pp-search:focus { border-color: #6b8e23; }
+        body.dark-theme .pp-search { background-color: #1a1a1a; border-color: #555; color: #e0e0e0; }
+        body.dark-theme .pp-search::placeholder { color: #666; }
+        body.dark-theme .pp-search:focus { border-color: #81c784; }
         .pp-tabs {
             display: flex;
             border-bottom: 2px solid rgba(139,115,85,0.2);
@@ -7604,11 +7630,13 @@
         const REF_MOB_BASE = `https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/ref-badges/`;
 
         function getRefBadgeHTML(count, large = false) {
+            const ru = window.currentLang === 'ru';
+            const refs = ru ? 'рефералов' : 'referrals';
             const size = large ? '40px' : '24px';
-            if (count >= 200) return `<img class="ref-mob-badge" src="${REF_MOB_BASE}jolly_llama_mob.gif" width="${size}" height="${size}" title="${count} рефералов — Jolly Llama 🦙✨" />`;
-            if (count >= 100) return `<img class="ref-mob-badge" src="${REF_MOB_BASE}furnace_golem_mob.gif" width="${size}" height="${size}" title="${count} рефералов — Furnace Golem 🔥" />`;
-            if (count >= 10)  return `<img class="ref-mob-badge" src="${REF_MOB_BASE}horned_sheep_mob.gif" width="${size}" height="${size}" title="${count} рефералов — Horned Sheep 🐑" />`;
-            if (count >= 1)   return `<img class="ref-mob-badge" src="${REF_MOB_BASE}rabbit_mob.gif" width="${size}" height="${size}" title="${count} рефералов — Rabbit 🐰" />`;
+            if (count >= 200) return `<img class="ref-mob-badge" src="${REF_MOB_BASE}jolly_llama_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Джолли Лама':'Jolly Llama'} 🦙✨" />`;
+            if (count >= 100) return `<img class="ref-mob-badge" src="${REF_MOB_BASE}furnace_golem_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Печной Голем':'Furnace Golem'} 🔥" />`;
+            if (count >= 10)  return `<img class="ref-mob-badge" src="${REF_MOB_BASE}horned_sheep_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Рогатая Овца':'Horned Sheep'} 🐑" />`;
+            if (count >= 1)   return `<img class="ref-mob-badge" src="${REF_MOB_BASE}rabbit_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Кролик':'Rabbit'} 🐰" />`;
             return '';
         }
 
@@ -7676,7 +7704,7 @@
                     tiersHTML += `<div class="ref-xp-tier-connector${connFilled ? ' filled' : ''}"></div>`;
                 }
                 tiersHTML += `
-                    <div class="ref-xp-tier-item ${isEarned ? 'earned' : 'locked'}" title="${ru ? tier.nameRu : tier.nameEn}: ${tier.threshold}+ ${ru ? 'рефералов' : 'refs'}">
+                    <div class="ref-xp-tier-item ${isEarned ? 'earned' : 'locked'}" title="${ru ? tier.nameRu : tier.nameEn}: ${tier.threshold}+ ${ru ? 'рефералов' : 'referrals'}">
                         <img src="${REF_MOB_BASE}${tier.mob}" alt="${ru ? tier.nameRu : tier.nameEn}">
                         <div class="ref-xp-tier-thresh${isEarned ? ' earned' : ''}">${tier.threshold}+</div>
                     </div>`;
@@ -10848,6 +10876,17 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             });
         }
 
+        window._ppFilter = function(query) {
+            const q = query.trim().toLowerCase();
+            const mode = window._ppMode || 'buildplates';
+            const items = (window._ppCache || {})[mode] || [];
+            const filtered = q ? items.filter(i => {
+                const name = (mode==='buildplates' ? (i.name||'') : (i.title||'')).toLowerCase();
+                return name.includes(q);
+            }) : items;
+            _ppRenderGrid(filtered, mode, document.getElementById('pp-grid'));
+        };
+
         window.openPlayerProfile = async function(nick, startMode) {
             if (!nick) return;
             const ru = currentLang === 'ru';
@@ -10891,6 +10930,9 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ${ru?'Галерея':'Gallery'}
                     </button>
                 </div>
+                <div class="pp-search-wrap">
+                    <input class="pp-search" id="pp-search" type="text" placeholder="${ru?'Поиск...':'Search...'}" oninput="window._ppFilter(this.value)" autocomplete="off" />
+                </div>
                 <div class="pp-grid" id="pp-grid">
                     <div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>
                 </div>
@@ -10910,6 +10952,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 window._ppMode = mode;
                 document.getElementById('pp-tab-bp').classList.toggle('active', mode==='buildplates');
                 document.getElementById('pp-tab-gl').classList.toggle('active', mode==='gallery');
+                const srch = document.getElementById('pp-search');
+                if (srch) srch.value = '';
                 gridEl.innerHTML = `<div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>`;
                 _ppLoadGrid(window._ppNick, mode, gridEl);
             };
