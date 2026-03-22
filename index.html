@@ -6373,18 +6373,28 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(a.href);
-                // Increment download counter
+                // Increment download counter — direct update, no rpc
                 if (bpId && sbClient) {
-                    sbClient.rpc('increment_downloads', { bp_id: bpId }).catch(() => {
-                        // fallback: manual increment
-                        sbClient.from('buildplates').select('downloads').eq('id', bpId).single().then(({ data }) => {
-                            if (data) sbClient.from('buildplates').update({ downloads: (data.downloads || 0) + 1 }).eq('id', bpId).catch(()=>{});
-                        }).catch(()=>{});
-                    });
+                    (async () => {
+                        try {
+                            const { data: cur } = await sbClient.from('buildplates').select('downloads').eq('id', bpId).single();
+                            await sbClient.from('buildplates').update({ downloads: (cur?.downloads || 0) + 1 }).eq('id', bpId);
+                        } catch(e2) { /* silent */ }
+                    })();
                     // Update cache
                     if (typeof _bpAllData !== 'undefined') {
                         const idx = _bpAllData.findIndex(b => String(b.id) === String(bpId));
                         if (idx !== -1) _bpAllData[idx].downloads = (_bpAllData[idx].downloads || 0) + 1;
+                    }
+                    // Update profile modal stat if open
+                    if (window._ppCache && window._ppCache.buildplates) {
+                        const pi = window._ppCache.buildplates.findIndex(b => String(b.id) === String(bpId));
+                        if (pi !== -1) window._ppCache.buildplates[pi].downloads = (window._ppCache.buildplates[pi].downloads || 0) + 1;
+                        const dlEl = document.getElementById('pp-stat-dl');
+                        if (dlEl) {
+                            const total = window._ppCache.buildplates.reduce((s,i) => s+(i.downloads||0), 0);
+                            dlEl.textContent = total >= 1000 ? (total/1000).toFixed(1)+'K' : String(total);
+                        }
                     }
                 }
             } catch(e) {
