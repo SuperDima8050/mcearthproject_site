@@ -1666,7 +1666,8 @@
             border-color: #3a3a3a;
             border-top-color: #444;
         }
-        body.dark-theme #nav-reports-sep { background: #444; }
+        .nav-sep-line { background: #c8b090; }
+        body.dark-theme .nav-sep-line { background: #444; }
 
         body.dark-theme .nav-tab {
             color: #e0e0e0;
@@ -5192,7 +5193,7 @@
         </div>
         <div class="nav-tabs-reports-row" id="nav-reports-row">
             <button class="nav-tab nav-tab-reports-mobile" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
-            <div id="nav-reports-sep" style="display:none;height:2px;background:#c8b090;margin:0;"></div>
+            <div id="nav-reports-sep" class="nav-sep-line" style="display:none;height:2px;margin:0;"></div>
             <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" style="display:none;" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
         </div>
