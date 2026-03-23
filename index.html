@@ -12496,12 +12496,29 @@ async function doDeleteSubdomain() {
 #mw-feed::-webkit-scrollbar-track { background: #0a0604; }
 #mw-feed::-webkit-scrollbar-thumb { background: #2a1808; }
 
-.mw-row { display: flex; gap: 0; align-items: flex-end; }
+.mw-row { display: flex; gap: 6px; align-items: flex-end; }
 .mw-row.user { flex-direction: row-reverse; }
+
+.mw-avatar {
+    width: 32px; height: 32px;
+    flex-shrink: 0;
+    image-rendering: pixelated;
+    border: 2px solid #3a2408;
+    border-bottom-color: #180e04;
+    border-right-color: #180e04;
+    background: #0a0602;
+    align-self: flex-end;
+}
+.mw-row.user .mw-avatar {
+    border-color: #1e3c14;
+    border-bottom-color: #0c1808;
+    border-right-color: #0c1808;
+    background: #0a1008;
+}
 
 .mw-bubble-wrap {
     display: flex; flex-direction: column; gap: 3px;
-    max-width: 92%;
+    max-width: calc(92% - 38px);
     margin: 0 2px;
 }
 .mw-row.user .mw-bubble-wrap { align-items: flex-end; }
@@ -12690,7 +12707,7 @@ window.mwToggle=function(){
                     (function(){
                     const row=document.createElement('div');
                     row.className='mw-row bot';
-                    row.innerHTML='<div class="mw-bubble-wrap"><div class="mw-sender">Merl</div><div class="mw-bubble" style="display:flex;align-items:center;gap:8px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:20px;height:20px;image-rendering:pixelated;flex-shrink:0;" alt=""><span>Чтобы общаться со мной — войди в аккаунт! Кнопка входа вверху страницы.</span></div></div>';
+                    row.innerHTML='<img class="mw-avatar" src="'+AVATAR+'" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div><div class="mw-bubble" style="display:flex;align-items:center;gap:8px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:20px;height:20px;image-rendering:pixelated;flex-shrink:0;" alt=""><span>Чтобы общаться со мной — войди в аккаунт! Кнопка входа вверху страницы.</span></div></div>';
                     $('mw-feed').appendChild(row);
                     const f=$('mw-feed'); if(f)f.scrollTop=f.scrollHeight;
                 })();
@@ -12775,6 +12792,8 @@ function addUser(txt){
 function addBot(txt, isErr=false){
     const row=document.createElement('div');
     row.className='mw-row bot';
+    const av=document.createElement('img');
+    av.className='mw-avatar'; av.src=AVATAR; av.alt='Merl';
     const bub=document.createElement('div');
     bub.className='mw-bubble'+(isErr?' err':'');
     bub.textContent=txt;
@@ -12783,7 +12802,7 @@ function addBot(txt, isErr=false){
     const sender=document.createElement('div');
     sender.className='mw-sender'; sender.textContent='Merl';
     wrap.appendChild(sender); wrap.appendChild(bub);
-    row.appendChild(wrap);
+    row.appendChild(av); row.appendChild(wrap);
     $('mw-feed').appendChild(row);
     scrollFeed();
     return bub;
@@ -12793,7 +12812,7 @@ function addTyping(){
     const id='mwt'+(++tc);
     const row=document.createElement('div');
     row.className='mw-row bot'; row.id=id;
-    row.innerHTML=`<div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
+    row.innerHTML=`<img class="mw-avatar" src="${AVATAR}" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
         <div class="mw-bubble"><div class="mw-dots"><span></span><span></span><span></span></div></div></div>`;
     $('mw-feed').appendChild(row); scrollFeed(); return id;
 }
