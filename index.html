@@ -12433,6 +12433,8 @@ async function doDeleteSubdomain() {
     flex-shrink: 0;
     position: relative;
     min-height: 88px;
+    cursor: move;
+    user-select: none;
 }
 #mw-char {
     width: 88px; height: 88px;
@@ -12653,6 +12655,7 @@ async function doDeleteSubdomain() {
             </div>
         </div>
         <button id="mw-x" onclick="mwToggle()">✕</button>
+        <span id="mw-drag-hint" style="position:absolute;bottom:5px;right:36px;font-size:6px;opacity:0.35;font-family:'Minecraft',monospace;letter-spacing:.05em;pointer-events:none;">⠿ тащи</span>
     </div>
 
     <!-- Feed -->
@@ -12855,6 +12858,69 @@ function startCyc(){
 }
 function stopCyc(){ if(timer){clearInterval(timer);timer=null;} }
 function esc(t){ const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
+
+// Drag logic for mw-panel
+(function(){
+    const panel=$('mw-panel');
+    const head=document.getElementById('mw-head');
+    if(!panel||!head) return;
+    let dragging=false, ox=0, oy=0;
+    head.addEventListener('mousedown',function(e){
+        if(e.target.id==='mw-x') return;
+        dragging=true;
+        const r=panel.getBoundingClientRect();
+        ox=e.clientX-r.left; oy=e.clientY-r.top;
+        panel.style.transition='none';
+        document.body.style.userSelect='none';
+    });
+    document.addEventListener('mousemove',function(e){
+        if(!dragging) return;
+        let x=e.clientX-ox, y=e.clientY-oy;
+        const pw=panel.offsetWidth, ph=panel.offsetHeight;
+        x=Math.max(0,Math.min(window.innerWidth-pw,x));
+        y=Math.max(0,Math.min(window.innerHeight-ph,y));
+        panel.style.right='auto'; panel.style.bottom='auto';
+        panel.style.left=x+'px'; panel.style.top=y+'px';
+    });
+    document.addEventListener('mouseup',function(){
+        if(!dragging) return;
+        dragging=false;
+        panel.style.transition='';
+        document.body.style.userSelect='';
+    });
+    // Touch support
+    head.addEventListener('touchstart',function(e){
+        if(e.target.id==='mw-x') return;
+        const t=e.touches[0];
+        dragging=true;
+        const r=panel.getBoundingClientRect();
+        ox=t.clientX-r.left; oy=t.clientY-r.top;
+        panel.style.transition='none';
+    },{passive:true});
+    document.addEventListener('touchmove',function(e){
+        if(!dragging) return;
+        const t=e.touches[0];
+        let x=t.clientX-ox, y=t.clientY-oy;
+        const pw=panel.offsetWidth, ph=panel.offsetHeight;
+        x=Math.max(0,Math.min(window.innerWidth-pw,x));
+        y=Math.max(0,Math.min(window.innerHeight-ph,y));
+        panel.style.right='auto'; panel.style.bottom='auto';
+        panel.style.left=x+'px'; panel.style.top=y+'px';
+    },{passive:true});
+    document.addEventListener('touchend',function(){
+        dragging=false; panel.style.transition='';
+    });
+})();
+
+// Update drag hint language
+(function(){
+    const hint=document.getElementById('mw-drag-hint');
+    if(!hint) return;
+    function upd(){ const ru=document.documentElement.lang!=='en'; hint.textContent='⠿ '+(ru?'тащи':'drag'); }
+    upd();
+    const obs=new MutationObserver(upd);
+    obs.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+})();
 })();
 </script>
 </body>
