@@ -12419,6 +12419,7 @@ async function doDeleteSubdomain() {
 @media (max-width: 400px) {
     #mw-panel { width: calc(100vw - 16px); right: 8px; bottom: 96px; }
     #mw-btn   { right: 14px; bottom: 14px; }
+    #mw-anim  { display: none !important; }
 }
 
 /* Header — character + name only */
@@ -12440,13 +12441,25 @@ async function doDeleteSubdomain() {
     overflow: hidden;
 }
 #mw-anim {
+    position: fixed;
+    bottom: 100px;
+    right: 328px; /* panel width (320) + gap (8) */
+    width: 96px; height: 96px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    transition: opacity .2s;
+    z-index: 99996;
+    pointer-events: none;
+    display: none; /* скрыт пока панель закрыта */
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+}
+#mw-avatar-static {
     position: absolute;
     bottom: 0; left: 50%;
     transform: translateX(-50%);
     width: 96px; height: 96px;
     object-fit: contain;
     image-rendering: pixelated;
-    transition: opacity .2s;
 }
 #mw-anim.fade { opacity: 0; }
 #mw-title {
@@ -12616,6 +12629,9 @@ async function doDeleteSubdomain() {
 #mw-go svg { transition: transform .14s cubic-bezier(.3,1.5,.5,1); display: block; }
 </style>
 
+<!-- Merl side animation (outside panel) -->
+<img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
+
 <!-- FAB -->
 <div id="mw-btn" onclick="mwToggle()" title="Merl">
     <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png" alt="Merl">
@@ -12627,7 +12643,7 @@ async function doDeleteSubdomain() {
     <!-- Header -->
     <div id="mw-head">
         <div id="mw-char">
-            <img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
+            <img id="mw-avatar-static" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png" alt="">
         </div>
         <div id="mw-title">
             <div id="mw-name">MERL</div>
@@ -12678,18 +12694,20 @@ const ANIMS = {
     celebrate: 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_celebrate_animation.png',
 };
 const ANIM_MAP = {
-    celebrate: ['отлично','супер','молодец','ура','здорово','класс','круто','победа','успех','получилось','работает'],
-    encourage: ['попробуй','удачи','помогу','справишься','вперёд'],
-    greet:     ['привет','здравствуй','добрый','хай','hello','hi '],
+    celebrate: ['отлично','супер','молодец','ура','здорово','класс','круто','победа','успех','получилось','работает','awesome','great','nice','yay','congrats','works','done'],
+    encourage: ['попробуй','удачи','помогу','справишься','вперёд','try','good luck','help','you can','go ahead'],
+    greet:     ['привет','здравствуй','добрый','хай','hello','hi ','hey'],
 };
 
-const SYS = `Ты — Merl, помощник сайта Revival Minecraft Earth (mcearthproject.qzz.io).
-Создана командой SuperDima8050. Дружелюбная, немного игривая.
-Отвечай ТОЛЬКО по-русски, кратко — 2-3 предложения максимум.
-О проекте: возрождение Minecraft Earth через Vienna Docker. На сайте: buildplates, галерея, аккаунты, рефералы, лидерборд.
-Buildplate — карты из MCEarth, можно скачать и лайкнуть. Рефералы — приглашай друзей, получай очки.
-Если спрашивают кто создал — "Меня создала команда SuperDima8050 💫".
-Не выдумывай детали которых не знаешь.`;
+const SYS = `You are Merl, assistant of the Revival Minecraft Earth website (mcearthproject.qzz.io).
+Created by the team SuperDima8050. Friendly, a little playful.
+IMPORTANT: Always reply in the SAME language the user writes in. If they write in Russian — reply in Russian. If they write in English — reply in English.
+Keep answers short — 2-3 sentences max.
+IMPORTANT: Never merge words together. Always put a space between words and after punctuation.
+About the project: revival of Minecraft Earth via Vienna Docker. The site has: buildplates, gallery, accounts, referrals, leaderboard.
+Buildplate — maps from MCEarth, can be downloaded and liked. Referrals — invite friends, earn points.
+If asked who created you — in Russian say "Меня создала команда SuperDima8050 💫", in English say "I was created by the SuperDima8050 team 💫".
+Do not make up details you don't know.`;
 
 let open=false, busy=false, first=true, hist=[], timer=null, idx=0;
 const cyc=['greet','converse','encourage','celebrate'];
@@ -12698,6 +12716,8 @@ const $=id=>document.getElementById(id);
 window.mwToggle=function(){
     open=!open;
     $('mw-panel').classList.toggle('open',open);
+    const anim=$('mw-anim');
+    if(anim) anim.style.display=open?'block':'none';
     if(open){
         if(first){
             first=false;
