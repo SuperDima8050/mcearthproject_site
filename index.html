@@ -12477,6 +12477,8 @@ async function doDeleteSubdomain() {
     text-shadow: 3px 3px 0 #000;
     letter-spacing: .12em;
     line-height: 1;
+    display: flex;
+    align-items: center;
 }
 #mw-online {
     display: flex; align-items: center; gap: 5px;
@@ -12648,14 +12650,13 @@ async function doDeleteSubdomain() {
             <img id="mw-avatar-static" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
         </div>
         <div id="mw-title">
-            <div id="mw-name">MERL</div>
+            <div id="mw-name">MERL<span id="mw-drag-hint" style="margin-left:auto;font-size:6px;opacity:0.35;font-family:'Minecraft',monospace;letter-spacing:.05em;font-weight:400;">⠿ тащи</span></div>
             <div id="mw-online">
                 <div id="mw-online-dot"></div>
                 <span id="mw-status">онлайн</span>
             </div>
         </div>
         <button id="mw-x" onclick="mwToggle()">✕</button>
-        <span id="mw-drag-hint" style="position:absolute;bottom:5px;right:36px;font-size:6px;opacity:0.35;font-family:'Minecraft',monospace;letter-spacing:.05em;pointer-events:none;">⠿ тащи</span>
     </div>
 
     <!-- Feed -->
