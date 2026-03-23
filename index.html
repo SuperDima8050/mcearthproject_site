@@ -12352,5 +12352,470 @@ async function doDeleteSubdomain() {
     };
 })();
 </script>
+
+<!-- ── MERL WIDGET ── -->
+<style>
+/* FAB */
+#mw-btn {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    width: 68px; height: 68px;
+    background: #1a1208;
+    border: 3px solid #6b4f10;
+    border-bottom: 3px solid #2a1800;
+    border-right: 3px solid #2a1800;
+    cursor: pointer;
+    z-index: 99998;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.8);
+    transition: border-color .12s, transform .1s;
+    image-rendering: pixelated;
+}
+#mw-btn:hover { border-color: #e0b040; transform: scale(1.06); }
+#mw-btn:active { transform: scale(0.94); }
+#mw-btn img {
+    width: 52px; height: 52px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    display: block;
+}
+#mw-btn-dot {
+    position: absolute;
+    top: -4px; right: -4px;
+    width: 14px; height: 14px;
+    background: #5a9e3a;
+    border: 2px solid #0e0a04;
+    animation: mw-pulse 2s steps(1) infinite;
+}
+@keyframes mw-pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* Panel */
+#mw-panel {
+    position: fixed;
+    bottom: 100px; right: 20px;
+    width: 320px;
+    background: #0f0a04;
+    border: 3px solid #6b4f10;
+    border-bottom: 3px solid #2a1800;
+    border-right: 3px solid #2a1800;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.9);
+    display: flex; flex-direction: column;
+    z-index: 99997;
+    max-height: 540px;
+    transform-origin: bottom right;
+    transform: scale(.8) translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .18s cubic-bezier(.3,1.3,.5,1), opacity .14s;
+    font-family: 'Minecraft', 'NotoSans', monospace;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+}
+#mw-panel.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+}
+@media (max-width: 400px) {
+    #mw-panel { width: calc(100vw - 16px); right: 8px; bottom: 96px; }
+    #mw-btn   { right: 14px; bottom: 14px; }
+}
+
+/* Header — character + name only */
+#mw-head {
+    display: flex;
+    align-items: flex-end;
+    background: #1a0f06;
+    border-bottom: 3px solid #3a2408;
+    gap: 0;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+    min-height: 88px;
+}
+#mw-char {
+    width: 88px; height: 88px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+#mw-anim {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 96px; height: 96px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    transition: opacity .2s;
+}
+#mw-anim.fade { opacity: 0; }
+#mw-title {
+    flex: 1;
+    padding: 18px 10px 16px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+#mw-name {
+    font-size: 16px;
+    color: #e8b830;
+    text-shadow: 3px 3px 0 #000;
+    letter-spacing: .12em;
+    line-height: 1;
+}
+#mw-online {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 8px; color: #5ac050; letter-spacing: .06em;
+}
+#mw-online-dot {
+    width: 8px; height: 8px;
+    background: #5ac050;
+    animation: mw-pulse 2.2s steps(1) infinite;
+}
+#mw-x {
+    position: absolute; top: 8px; right: 10px;
+    background: none; border: none;
+    color: #4a3010; font-size: 18px;
+    cursor: pointer; font-family: 'Minecraft', monospace;
+    line-height: 1; padding: 2px 5px; z-index: 2;
+    -webkit-font-smoothing: none;
+}
+#mw-x:hover { color: #e8b830; }
+
+/* Messages */
+#mw-feed {
+    flex: 1; min-height: 0;
+    overflow-y: auto;
+    padding: 12px 10px;
+    display: flex; flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #2a1808 #0a0604;
+}
+#mw-feed::-webkit-scrollbar { width: 4px; }
+#mw-feed::-webkit-scrollbar-track { background: #0a0604; }
+#mw-feed::-webkit-scrollbar-thumb { background: #2a1808; }
+
+.mw-row { display: flex; gap: 0; align-items: flex-end; }
+.mw-row.user { flex-direction: row-reverse; }
+
+.mw-bubble-wrap {
+    display: flex; flex-direction: column; gap: 3px;
+    max-width: 92%;
+    margin: 0 2px;
+}
+.mw-row.user .mw-bubble-wrap { align-items: flex-end; }
+
+.mw-sender {
+    font-size: 7px; letter-spacing: .07em;
+    color: #4a3010; padding: 0 3px;
+}
+.mw-row.user .mw-sender { color: #3a5018; }
+
+.mw-bubble {
+    padding: 8px 11px;
+    font-size: 9px;
+    line-height: 1.8;
+    letter-spacing: .02em;
+    word-break: break-word;
+    white-space: pre-wrap;
+    position: relative;
+}
+.mw-row.bot .mw-bubble {
+    background: #1c1208;
+    border: 2px solid #3a2408;
+    border-bottom-color: #180e04;
+    border-right-color: #180e04;
+    color: #e0c898;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+}
+.mw-row.user .mw-bubble {
+    background: #122010;
+    border: 2px solid #1e3c14;
+    border-bottom-color: #0c1808;
+    border-right-color: #0c1808;
+    color: #a0d870;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+}
+.mw-bubble.err { border-color: #501010 !important; color: #e87070 !important; }
+
+/* Typing */
+.mw-dots {
+    display: flex; gap: 4px; align-items: center;
+    padding: 10px 14px;
+}
+.mw-dots span {
+    width: 7px; height: 7px;
+    background: #b89030;
+    animation: mw-dot 1s steps(1) infinite;
+}
+.mw-dots span:nth-child(2) { animation-delay: .33s; }
+.mw-dots span:nth-child(3) { animation-delay: .66s; }
+@keyframes mw-dot { 0%,100%{opacity:.15} 50%{opacity:1} }
+
+/* Input */
+#mw-bar {
+    display: flex;
+    border-top: 3px solid #2a1808;
+    flex-shrink: 0;
+}
+#mw-inp {
+    flex: 1;
+    background: #0a0602;
+    border: none; outline: none;
+    color: #e0c898;
+    font-family: 'Minecraft','NotoSans',monospace;
+    font-size: 9px;
+    padding: 11px 12px;
+    letter-spacing: .03em;
+    -webkit-font-smoothing: none;
+}
+#mw-inp::placeholder { color: #2e1c08; }
+#mw-inp:focus { background: #0e0a04; box-shadow: inset 0 0 0 1px #3a2808; }
+#mw-go {
+    width: 50px;
+    background: #1e4208;
+    border: none;
+    border-left: 2px solid #0a1e04;
+    border-top: 2px solid #2e6010;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    transition: background .1s;
+    overflow: hidden;
+}
+#mw-go::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(100,200,40,.10) 0%, transparent 60%);
+    pointer-events: none;
+}
+#mw-go:hover { background: #2a5a0c; }
+#mw-go:hover svg { transform: translateX(2px) translateY(-2px); }
+#mw-go:active { background: #162e06; }
+#mw-go:active svg { transform: translateX(3px) translateY(-3px) scale(.9); }
+#mw-go:disabled { background: #121a08; cursor: default; opacity: .4; }
+#mw-go svg { transition: transform .14s cubic-bezier(.3,1.5,.5,1); display: block; }
+</style>
+
+<!-- FAB -->
+<div id="mw-btn" onclick="mwToggle()" title="Merl">
+    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png" alt="Merl">
+    <div id="mw-btn-dot"></div>
+</div>
+
+<!-- Panel -->
+<div id="mw-panel">
+    <!-- Header -->
+    <div id="mw-head">
+        <div id="mw-char">
+            <img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
+        </div>
+        <div id="mw-title">
+            <div id="mw-name">MERL</div>
+            <div id="mw-online">
+                <div id="mw-online-dot"></div>
+                <span id="mw-status">онлайн</span>
+            </div>
+        </div>
+        <button id="mw-x" onclick="mwToggle()">✕</button>
+    </div>
+
+    <!-- Feed -->
+    <div id="mw-feed"></div>
+
+    <!-- Input -->
+    <div id="mw-bar">
+        <input id="mw-inp" placeholder="Спроси что-нибудь..." maxlength="400"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();mwSend();}">
+        <button id="mw-go" onclick="mwSend()">
+            <svg width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+                <!-- pixel right arrow -->
+                <rect x="8"  y="4"  width="2" height="2" fill="#90e040"/>
+                <rect x="10" y="5"  width="2" height="2" fill="#a0f050"/>
+                <rect x="12" y="6"  width="2" height="2" fill="#b8ff60"/>
+                <rect x="2"  y="7"  width="10" height="2" fill="#90e040"/>
+                <rect x="12" y="7"  width="2" height="2" fill="#d0ff80"/>
+                <rect x="10" y="9"  width="2" height="2" fill="#a0f050"/>
+                <rect x="8"  y="10" width="2" height="2" fill="#90e040"/>
+                <!-- highlight tip -->
+                <rect x="13" y="7"  width="1" height="1" fill="#ffffff" opacity=".5"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const KEY   = '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';
+const API   = 'https://api.groq.com/openai/v1/chat/completions';
+const MODEL = 'llama-3.3-70b-versatile';
+const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png';
+
+const ANIMS = {
+    greet:     'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png',
+    converse:  'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_converse_animation.png',
+    encourage: 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_encourage_animation.png',
+    celebrate: 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_celebrate_animation.png',
+};
+const ANIM_MAP = {
+    celebrate: ['отлично','супер','молодец','ура','здорово','класс','круто','победа','успех','получилось','работает'],
+    encourage: ['попробуй','удачи','помогу','справишься','вперёд'],
+    greet:     ['привет','здравствуй','добрый','хай','hello','hi '],
+};
+
+const SYS = `Ты — Merl, помощник сайта Revival Minecraft Earth (mcearthproject.qzz.io).
+Создана командой SuperDima8050. Дружелюбная, немного игривая.
+Отвечай ТОЛЬКО по-русски, кратко — 2-3 предложения максимум.
+О проекте: возрождение Minecraft Earth через Vienna Docker. На сайте: buildplates, галерея, аккаунты, рефералы, лидерборд.
+Buildplate — карты из MCEarth, можно скачать и лайкнуть. Рефералы — приглашай друзей, получай очки.
+Если спрашивают кто создал — "Меня создала команда SuperDima8050 💫".
+Не выдумывай детали которых не знаешь.`;
+
+let open=false, busy=false, first=true, hist=[], timer=null, idx=0;
+const cyc=['greet','converse','encourage','celebrate'];
+const $=id=>document.getElementById(id);
+
+window.mwToggle=function(){
+    open=!open;
+    $('mw-panel').classList.toggle('open',open);
+    if(open){
+        if(first){
+            first=false;
+            setAnim('greet');
+            setTimeout(()=>{
+                if(!window.currentAccount){
+                    (function(){
+                    const row=document.createElement('div');
+                    row.className='mw-row bot';
+                    row.innerHTML='<div class="mw-bubble-wrap"><div class="mw-sender">Merl</div><div class="mw-bubble" style="display:flex;align-items:center;gap:8px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:20px;height:20px;image-rendering:pixelated;flex-shrink:0;" alt=""><span>Чтобы общаться со мной — войди в аккаунт! Кнопка входа вверху страницы.</span></div></div>';
+                    $('mw-feed').appendChild(row);
+                    const f=$('mw-feed'); if(f)f.scrollTop=f.scrollHeight;
+                })();
+                    $('mw-inp').disabled=true;
+                    $('mw-go').disabled=true;
+                    $('mw-inp').placeholder='Нужен аккаунт...';
+                } else {
+                    addBot('Привет, '+window.currentAccount.nick+'! Я Merl 🌿 Спроси меня всё о Revival Minecraft Earth!');
+                    startCyc();
+                }
+            },300);
+        }
+        setTimeout(()=>{ const i=$('mw-inp'); if(i&&!i.disabled)i.focus(); },180);
+    } else { stopCyc(); }
+};
+
+window.mwSend=async function(){
+    if(busy) return;
+    if(!window.currentAccount){
+        $('mw-inp').disabled=true; $('mw-go').disabled=true; return;
+    }
+    const inp=$('mw-inp');
+    const txt=inp.value.trim();
+    if(!txt) return;
+    inp.value='';
+    addUser(txt);
+    hist.push({role:'user',content:txt});
+
+    busy=true; $('mw-go').disabled=true;
+    stopCyc(); setAnim('converse'); setSt('думает…',true);
+    const tid=addTyping();
+
+    try{
+        const res=await fetch(API,{
+            method:'POST',
+            headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+            body:JSON.stringify({model:MODEL,max_tokens:350,stream:true,
+                messages:[{role:'system',content:SYS},...hist]})
+        });
+        if(!res.ok){const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||'HTTP '+res.status);}
+        const reader=res.body.getReader(), dec=new TextDecoder();
+        let full='';
+        removeEl(tid);
+        const bub=addBot('');
+        while(true){
+            const {done,value}=await reader.read();
+            if(done) break;
+            for(const line of dec.decode(value,{stream:true}).split('\n')){
+                if(!line.startsWith('data:')) continue;
+                const j=line.slice(5).trim();
+                if(j==='[DONE]') break;
+                try{ const d=JSON.parse(j).choices?.[0]?.delta?.content; if(d){full+=d;bub.textContent=full;scrollFeed();} }catch(_){}
+            }
+        }
+        hist.push({role:'assistant',content:full});
+        if(hist.length>20) hist=hist.slice(-20);
+        const lc=full.toLowerCase();
+        let an='converse';
+        for(const[k,ws]of Object.entries(ANIM_MAP)) if(ws.some(w=>lc.includes(w))){an=k;break;}
+        setAnim(an);
+        setTimeout(()=>{setAnim('converse');startCyc();},3500);
+    }catch(err){
+        removeEl(tid);
+        addBot('⚠ '+err.message, true);
+        setAnim('encourage');
+        setTimeout(startCyc,3000);
+    }
+    busy=false; $('mw-go').disabled=false; setSt('онлайн',false);
+};
+
+function addUser(txt){
+    const row=document.createElement('div');
+    row.className='mw-row user';
+    row.innerHTML=`
+        <div class="mw-bubble-wrap">
+            <div class="mw-sender">Вы</div>
+            <div class="mw-bubble">${esc(txt)}</div>
+        </div>`;
+    $('mw-feed').appendChild(row);
+    scrollFeed();
+}
+function addBot(txt, isErr=false){
+    const row=document.createElement('div');
+    row.className='mw-row bot';
+    const bub=document.createElement('div');
+    bub.className='mw-bubble'+(isErr?' err':'');
+    bub.textContent=txt;
+    const wrap=document.createElement('div');
+    wrap.className='mw-bubble-wrap';
+    const sender=document.createElement('div');
+    sender.className='mw-sender'; sender.textContent='Merl';
+    wrap.appendChild(sender); wrap.appendChild(bub);
+    row.appendChild(wrap);
+    $('mw-feed').appendChild(row);
+    scrollFeed();
+    return bub;
+}
+let tc=0;
+function addTyping(){
+    const id='mwt'+(++tc);
+    const row=document.createElement('div');
+    row.className='mw-row bot'; row.id=id;
+    row.innerHTML=`<div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
+        <div class="mw-bubble"><div class="mw-dots"><span></span><span></span><span></span></div></div></div>`;
+    $('mw-feed').appendChild(row); scrollFeed(); return id;
+}
+function removeEl(id){ const e=$(id); if(e)e.remove(); }
+function scrollFeed(){ const f=$('mw-feed'); if(f)f.scrollTop=f.scrollHeight; }
+function setSt(t,busy){
+    const s=$('mw-status'),d=$('mw-online-dot');
+    if(s)s.textContent=t;
+    if(d)d.style.background=busy?'#d09020':'#5ac050';
+}
+function setAnim(k){
+    const img=$('mw-anim'); if(!img) return;
+    img.classList.add('fade');
+    setTimeout(()=>{ img.src=ANIMS[k]||ANIMS.converse; img.classList.remove('fade'); },180);
+}
+function startCyc(){
+    stopCyc();
+    timer=setInterval(()=>{ if(busy)return; idx=(idx+1)%cyc.length; setAnim(cyc[idx]); },4000);
+}
+function stopCyc(){ if(timer){clearInterval(timer);timer=null;} }
+function esc(t){ const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
+})();
+</script>
 </body>
 </html>
