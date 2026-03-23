@@ -5371,7 +5371,7 @@
                             <i class="fab fa-discord"></i>
                             <span>@superdima8050</span>
                         </a>
-                        <a href="https://github.com/Project Earth" class="link" target="_blank">
+                        <a href="https://github.com/SuperDima8050" class="link" target="_blank">
                             <i class="fab fa-github"></i>
                             <span>github.com/SuperDima8050</span>
                         </a>
@@ -12433,8 +12433,6 @@ async function doDeleteSubdomain() {
     flex-shrink: 0;
     position: relative;
     min-height: 88px;
-    cursor: move;
-    user-select: none;
 }
 #mw-char {
     width: 88px; height: 88px;
@@ -12477,8 +12475,6 @@ async function doDeleteSubdomain() {
     text-shadow: 3px 3px 0 #000;
     letter-spacing: .12em;
     line-height: 1;
-    display: flex;
-    align-items: center;
 }
 #mw-online {
     display: flex; align-items: center; gap: 5px;
@@ -12638,7 +12634,7 @@ async function doDeleteSubdomain() {
 
 <!-- FAB -->
 <div id="mw-btn" onclick="mwToggle()" title="Merl">
-    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png" alt="Merl">
+    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png" alt="Merl">
     <div id="mw-btn-dot"></div>
 </div>
 
@@ -12647,10 +12643,10 @@ async function doDeleteSubdomain() {
     <!-- Header -->
     <div id="mw-head">
         <div id="mw-char">
-            <img id="mw-avatar-static" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
+            <img id="mw-avatar-static" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png" alt="">
         </div>
         <div id="mw-title">
-            <div id="mw-name">MERL<span id="mw-drag-hint" style="margin-left:auto;font-size:6px;opacity:0.35;font-family:'Minecraft',monospace;letter-spacing:.05em;font-weight:400;">⠿ тащи</span></div>
+            <div id="mw-name">MERL</div>
             <div id="mw-online">
                 <div id="mw-online-dot"></div>
                 <span id="mw-status">онлайн</span>
@@ -12689,7 +12685,7 @@ async function doDeleteSubdomain() {
 const KEY   = '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';
 const API   = 'https://api.groq.com/openai/v1/chat/completions';
 const MODEL = 'llama-3.3-70b-versatile';
-const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png';
+const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png';
 
 const ANIMS = {
     greet:     'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png',
@@ -12698,22 +12694,20 @@ const ANIMS = {
     celebrate: 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_celebrate_animation.png',
 };
 const ANIM_MAP = {
-    celebrate: ['отлично','супер','молодец','ура','здорово','класс','круто','победа','успех','получилось','работает','awesome','great','nice','yay','congrats','works','done'],
-    encourage: ['попробуй','удачи','помогу','справишься','вперёд','try','good luck','help','you can','go ahead'],
-    greet:     ['привет','здравствуй','добрый','хай','hello','hi ','hey'],
+    celebrate: ['отлично','супер','молодец','ура!','здорово!','класс!','круто!','победа','успех!','получилось','работает!','awesome','great job','yay','congrats','it works','all done'],
+    encourage: ['попробуй','удачи!','помогу тебе','справишься','вперёд!','try it','good luck','i can help','you can do','go ahead'],
+    greet:     ['здравствуй','добрый день','добрый вечер','доброе утро','рад тебя видеть','nice to meet'],
 };
 
-const SYS = `You are Merl, assistant of the Revival Minecraft Earth website (mcearthproject.qzz.io).
-Created by the team Project Earth. Friendly, a little playful.
-IMPORTANT: Always reply in the SAME language the user writes in. If they write in Russian — reply in Russian. If they write in English — reply in English.
-Keep answers short — 2-3 sentences max.
-IMPORTANT: Never merge words together. Always put a space between words and after punctuation.
-About the project: revival of Minecraft Earth via Vienna Docker. The site has: buildplates, gallery, accounts, referrals, leaderboard.
-Buildplate — maps from MCEarth, can be downloaded and liked. Referrals — invite friends, earn points.
-If asked who created you — in Russian say "Меня создала команда Project Earth 💫", in English say "I was created by the Project Earth team 💫".
-Do not make up details you don't know.`;
+const SYS = `Ты — Merl, помощник сайта Revival Minecraft Earth (mcearthproject.qzz.io).
+Создана командой SuperDima8050. Дружелюбная, немного игривая.
+Отвечай ТОЛЬКО по-русски, кратко — 2-3 предложения максимум.
+О проекте: возрождение Minecraft Earth через Vienna Docker. На сайте: buildplates, галерея, аккаунты, рефералы, лидерборд.
+Buildplate — карты из MCEarth, можно скачать и лайкнуть. Рефералы — приглашай друзей, получай очки.
+Если спрашивают кто создал — "Меня создала команда SuperDima8050 💫".
+Не выдумывай детали которых не знаешь.`;
 
-let open=false, busy=false, first=true, hist=[], timer=null, idx=0, curAnim='greet';
+let open=false, busy=false, first=true, hist=[], timer=null, idx=0;
 const cyc=['greet','converse','encourage','celebrate'];
 const $=id=>document.getElementById(id);
 
@@ -12731,7 +12725,7 @@ window.mwToggle=function(){
                     (function(){
                     const row=document.createElement('div');
                     row.className='mw-row bot';
-                    row.innerHTML='<img class="mw-avatar" src="'+ANIMS.greet+'" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div><div class="mw-bubble" style="display:flex;align-items:center;gap:8px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:20px;height:20px;image-rendering:pixelated;flex-shrink:0;" alt=""><span>Чтобы общаться со мной — войди в аккаунт! Кнопка входа вверху страницы.</span></div></div>';
+                    row.innerHTML='<img class="mw-avatar" src="'+AVATAR+'" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div><div class="mw-bubble" style="display:flex;align-items:center;gap:8px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:20px;height:20px;image-rendering:pixelated;flex-shrink:0;" alt=""><span>Чтобы общаться со мной — войди в аккаунт! Кнопка входа вверху страницы.</span></div></div>';
                     $('mw-feed').appendChild(row);
                     const f=$('mw-feed'); if(f)f.scrollTop=f.scrollHeight;
                 })();
@@ -12761,7 +12755,7 @@ window.mwSend=async function(){
     hist.push({role:'user',content:txt});
 
     busy=true; $('mw-go').disabled=true;
-    setAnim('converse'); setSt('думает…',true);
+    stopCyc(); setAnim('converse'); setSt('думает…',true);
     const tid=addTyping();
 
     try{
@@ -12790,9 +12784,13 @@ window.mwSend=async function(){
         if(hist.length>20) hist=hist.slice(-20);
         const lc=full.toLowerCase();
         let an='converse';
-        for(const[k,ws]of Object.entries(ANIM_MAP)) if(ws.some(w=>lc.includes(w))){an=k;break;}
+        // Проверяем в нужном порядке: greet → encourage → celebrate
+        // celebrate последним — он самый редкий и "сильный"
+        if(ANIM_MAP.greet.some(w=>lc.includes(w))) an='greet';
+        if(ANIM_MAP.encourage.some(w=>lc.includes(w))) an='encourage';
+        if(ANIM_MAP.celebrate.some(w=>lc.includes(w))) an='celebrate';
         setAnim(an);
-        setTimeout(()=>{ startCyc(); },1000);
+        setTimeout(()=>{ startCyc(); },2000);
     }catch(err){
         removeEl(tid);
         addBot('⚠ '+err.message, true);
@@ -12817,7 +12815,7 @@ function addBot(txt, isErr=false){
     const row=document.createElement('div');
     row.className='mw-row bot';
     const av=document.createElement('img');
-    av.className='mw-avatar'; av.src=ANIMS[curAnim]||ANIMS.converse; av.alt='Merl';
+    av.className='mw-avatar'; av.src=AVATAR; av.alt='Merl';
     const bub=document.createElement('div');
     bub.className='mw-bubble'+(isErr?' err':'');
     bub.textContent=txt;
@@ -12836,7 +12834,7 @@ function addTyping(){
     const id='mwt'+(++tc);
     const row=document.createElement('div');
     row.className='mw-row bot'; row.id=id;
-    row.innerHTML=`<img class="mw-avatar" src="${ANIMS[curAnim]||ANIMS.converse}" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
+    row.innerHTML=`<img class="mw-avatar" src="${AVATAR}" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
         <div class="mw-bubble"><div class="mw-dots"><span></span><span></span><span></span></div></div></div>`;
     $('mw-feed').appendChild(row); scrollFeed(); return id;
 }
@@ -12848,7 +12846,6 @@ function setSt(t,busy){
     if(d)d.style.background=busy?'#d09020':'#5ac050';
 }
 function setAnim(k){
-    curAnim=k;
     const img=$('mw-anim'); if(!img) return;
     img.classList.add('fade');
     setTimeout(()=>{ img.src=ANIMS[k]||ANIMS.converse; img.classList.remove('fade'); },180);
@@ -12859,69 +12856,6 @@ function startCyc(){
 }
 function stopCyc(){ if(timer){clearInterval(timer);timer=null;} }
 function esc(t){ const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
-
-// Drag logic for mw-panel
-(function(){
-    const panel=$('mw-panel');
-    const head=document.getElementById('mw-head');
-    if(!panel||!head) return;
-    let dragging=false, ox=0, oy=0;
-    head.addEventListener('mousedown',function(e){
-        if(e.target.id==='mw-x') return;
-        dragging=true;
-        const r=panel.getBoundingClientRect();
-        ox=e.clientX-r.left; oy=e.clientY-r.top;
-        panel.style.transition='none';
-        document.body.style.userSelect='none';
-    });
-    document.addEventListener('mousemove',function(e){
-        if(!dragging) return;
-        let x=e.clientX-ox, y=e.clientY-oy;
-        const pw=panel.offsetWidth, ph=panel.offsetHeight;
-        x=Math.max(0,Math.min(window.innerWidth-pw,x));
-        y=Math.max(0,Math.min(window.innerHeight-ph,y));
-        panel.style.right='auto'; panel.style.bottom='auto';
-        panel.style.left=x+'px'; panel.style.top=y+'px';
-    });
-    document.addEventListener('mouseup',function(){
-        if(!dragging) return;
-        dragging=false;
-        panel.style.transition='';
-        document.body.style.userSelect='';
-    });
-    // Touch support
-    head.addEventListener('touchstart',function(e){
-        if(e.target.id==='mw-x') return;
-        const t=e.touches[0];
-        dragging=true;
-        const r=panel.getBoundingClientRect();
-        ox=t.clientX-r.left; oy=t.clientY-r.top;
-        panel.style.transition='none';
-    },{passive:true});
-    document.addEventListener('touchmove',function(e){
-        if(!dragging) return;
-        const t=e.touches[0];
-        let x=t.clientX-ox, y=t.clientY-oy;
-        const pw=panel.offsetWidth, ph=panel.offsetHeight;
-        x=Math.max(0,Math.min(window.innerWidth-pw,x));
-        y=Math.max(0,Math.min(window.innerHeight-ph,y));
-        panel.style.right='auto'; panel.style.bottom='auto';
-        panel.style.left=x+'px'; panel.style.top=y+'px';
-    },{passive:true});
-    document.addEventListener('touchend',function(){
-        dragging=false; panel.style.transition='';
-    });
-})();
-
-// Update drag hint language
-(function(){
-    const hint=document.getElementById('mw-drag-hint');
-    if(!hint) return;
-    function upd(){ const ru=document.documentElement.lang!=='en'; hint.textContent='⠿ '+(ru?'тащи':'drag'); }
-    upd();
-    const obs=new MutationObserver(upd);
-    obs.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
-})();
 })();
 </script>
 </body>
