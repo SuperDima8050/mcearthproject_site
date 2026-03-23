@@ -12643,7 +12643,7 @@ async function doDeleteSubdomain() {
     <!-- Header -->
     <div id="mw-head">
         <div id="mw-char">
-            <img id="mw-avatar-static" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png" alt="">
+            <img id="mw-avatar-static" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
         </div>
         <div id="mw-title">
             <div id="mw-name">MERL</div>
@@ -12707,7 +12707,7 @@ Buildplate — карты из MCEarth, можно скачать и лайкн�
 Если спрашивают кто создал — "Меня создала команда SuperDima8050 💫".
 Не выдумывай детали которых не знаешь.`;
 
-let open=false, busy=false, first=true, hist=[], timer=null, idx=0;
+let open=false, busy=false, first=true, hist=[], timer=null, idx=0, curAnim='greet';
 const cyc=['greet','converse','encourage','celebrate'];
 const $=id=>document.getElementById(id);
 
@@ -12725,7 +12725,7 @@ window.mwToggle=function(){
                     (function(){
                     const row=document.createElement('div');
                     row.className='mw-row bot';
-                    row.innerHTML='<img class="mw-avatar" src="'+AVATAR+'" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div><div class="mw-bubble" style="display:flex;align-items:center;gap:8px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:20px;height:20px;image-rendering:pixelated;flex-shrink:0;" alt=""><span>Чтобы общаться со мной — войди в аккаунт! Кнопка входа вверху страницы.</span></div></div>';
+                    row.innerHTML='<img class="mw-avatar" src="'+ANIMS.greet+'" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div><div class="mw-bubble" style="display:flex;align-items:center;gap:8px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:20px;height:20px;image-rendering:pixelated;flex-shrink:0;" alt=""><span>Чтобы общаться со мной — войди в аккаунт! Кнопка входа вверху страницы.</span></div></div>';
                     $('mw-feed').appendChild(row);
                     const f=$('mw-feed'); if(f)f.scrollTop=f.scrollHeight;
                 })();
@@ -12815,7 +12815,7 @@ function addBot(txt, isErr=false){
     const row=document.createElement('div');
     row.className='mw-row bot';
     const av=document.createElement('img');
-    av.className='mw-avatar'; av.src=AVATAR; av.alt='Merl';
+    av.className='mw-avatar'; av.src=ANIMS[curAnim]||ANIMS.converse; av.alt='Merl';
     const bub=document.createElement('div');
     bub.className='mw-bubble'+(isErr?' err':'');
     bub.textContent=txt;
@@ -12834,7 +12834,7 @@ function addTyping(){
     const id='mwt'+(++tc);
     const row=document.createElement('div');
     row.className='mw-row bot'; row.id=id;
-    row.innerHTML=`<img class="mw-avatar" src="${AVATAR}" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
+    row.innerHTML=`<img class="mw-avatar" src="${ANIMS[curAnim]||ANIMS.converse}" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
         <div class="mw-bubble"><div class="mw-dots"><span></span><span></span><span></span></div></div></div>`;
     $('mw-feed').appendChild(row); scrollFeed(); return id;
 }
@@ -12846,6 +12846,7 @@ function setSt(t,busy){
     if(d)d.style.background=busy?'#d09020':'#5ac050';
 }
 function setAnim(k){
+    curAnim=k;
     const img=$('mw-anim'); if(!img) return;
     img.classList.add('fade');
     setTimeout(()=>{ img.src=ANIMS[k]||ANIMS.converse; img.classList.remove('fade'); },180);
