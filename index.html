@@ -94,12 +94,24 @@
 
     
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-57182TBTK3"></script>
+    <!-- Consent Mode v2: default denied BEFORE gtag loads -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage:              'denied',
+        ad_user_data:            'denied',
+        ad_personalization:      'denied',
+        analytics_storage:       'denied',
+        functionality_storage:   'denied',
+        personalization_storage: 'denied',
+        security_storage:        'granted',
+        wait_for_update:         500
+      });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-57182TBTK3"></script>
+    <script>
       gtag('js', new Date());
-
       gtag('config', 'G-57182TBTK3');
     </script>
 
@@ -9907,11 +9919,31 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
         function acceptCookies() {
             saveCookieConsent({ essential: true, functional: true, analytics: true });
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    ad_storage:              'granted',
+                    ad_user_data:            'granted',
+                    ad_personalization:      'granted',
+                    analytics_storage:       'granted',
+                    functionality_storage:   'granted',
+                    personalization_storage: 'granted'
+                });
+            }
             hideCookieBanner();
         }
 
         function declineCookies() {
             saveCookieConsent({ essential: true, functional: false, analytics: false });
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    ad_storage:              'denied',
+                    ad_user_data:            'denied',
+                    ad_personalization:      'denied',
+                    analytics_storage:       'denied',
+                    functionality_storage:   'denied',
+                    personalization_storage: 'denied'
+                });
+            }
             hideCookieBanner();
         }
 
@@ -9919,6 +9951,23 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const banner = document.getElementById('cookie-banner');
             if (banner) { banner.classList.remove('show'); }
         }
+
+        // Restore Consent Mode v2 state from localStorage on page load
+        (function restoreConsentFromStorage() {
+            const prefs = getCookieConsent();
+            if (!prefs) return; // No saved choice — keep defaults (denied)
+            if (typeof gtag !== 'function') return;
+            const analyticsGranted  = prefs.analytics  !== false ? 'granted' : 'denied';
+            const functionalGranted = prefs.functional !== false ? 'granted' : 'denied';
+            gtag('consent', 'update', {
+                ad_storage:              analyticsGranted,
+                ad_user_data:            analyticsGranted,
+                ad_personalization:      analyticsGranted,
+                analytics_storage:       analyticsGranted,
+                functionality_storage:   functionalGranted,
+                personalization_storage: functionalGranted
+            });
+        })();
 
         function showCookieBanner() {
             const banner = document.getElementById('cookie-banner');
