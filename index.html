@@ -12761,7 +12761,7 @@ window.mwSend=async function(){
     hist.push({role:'user',content:txt});
 
     busy=true; $('mw-go').disabled=true;
-    stopCyc(); setAnim('converse'); setSt('думает…',true);
+    setAnim('converse'); setSt('думает…',true);
     const tid=addTyping();
 
     try{
@@ -12792,7 +12792,7 @@ window.mwSend=async function(){
         let an='converse';
         for(const[k,ws]of Object.entries(ANIM_MAP)) if(ws.some(w=>lc.includes(w))){an=k;break;}
         setAnim(an);
-        setTimeout(()=>{setAnim('converse');startCyc();},3500);
+        setTimeout(()=>{ startCyc(); },1000);
     }catch(err){
         removeEl(tid);
         addBot('⚠ '+err.message, true);
@@ -12855,7 +12855,7 @@ function setAnim(k){
 }
 function startCyc(){
     stopCyc();
-    timer=setInterval(()=>{ if(busy)return; idx=(idx+1)%cyc.length; setAnim(cyc[idx]); },4000);
+    timer=setInterval(()=>{ idx=(idx+1)%cyc.length; setAnim(cyc[idx]); },2500);
 }
 function stopCyc(){ if(timer){clearInterval(timer);timer=null;} }
 function esc(t){ const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
