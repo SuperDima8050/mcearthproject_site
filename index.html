@@ -12634,7 +12634,7 @@ async function doDeleteSubdomain() {
 
 <!-- FAB -->
 <div id="mw-btn" onclick="mwToggle()" title="Merl">
-    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png" alt="Merl">
+    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png" alt="Merl">
     <div id="mw-btn-dot"></div>
 </div>
 
@@ -12685,7 +12685,7 @@ async function doDeleteSubdomain() {
 const KEY   = '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';
 const API   = 'https://api.groq.com/openai/v1/chat/completions';
 const MODEL = 'llama-3.3-70b-versatile';
-const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar.png';
+const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png';
 
 const ANIMS = {
     greet:     'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png',
@@ -12707,7 +12707,7 @@ Buildplate — карты из MCEarth, можно скачать и лайкн�
 Если спрашивают кто создал — "Меня создала команда SuperDima8050 💫".
 Не выдумывай детали которых не знаешь.`;
 
-let open=false, busy=false, first=true, hist=[], timer=null, idx=0, curAnim='greet';
+let open=false, busy=false, first=true, hist=[], timer=null, idx=0, curAnim='greet', msgIdx=0;
 const cyc=['greet','converse','encourage','celebrate'];
 const $=id=>document.getElementById(id);
 
@@ -12815,7 +12815,7 @@ function addBot(txt, isErr=false){
     const row=document.createElement('div');
     row.className='mw-row bot';
     const av=document.createElement('img');
-    av.className='mw-avatar'; av.src=ANIMS[curAnim]||ANIMS.converse; av.alt='Merl';
+    av.className='mw-avatar'; av.src=ANIMS[cyc[msgIdx%cyc.length]]; msgIdx++; av.alt='Merl';
     const bub=document.createElement('div');
     bub.className='mw-bubble'+(isErr?' err':'');
     bub.textContent=txt;
@@ -12834,7 +12834,7 @@ function addTyping(){
     const id='mwt'+(++tc);
     const row=document.createElement('div');
     row.className='mw-row bot'; row.id=id;
-    row.innerHTML=`<img class="mw-avatar" src="${ANIMS[curAnim]||ANIMS.converse}" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
+    row.innerHTML=`<img class="mw-avatar" src="${ANIMS[cyc[msgIdx%cyc.length]]}" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div>
         <div class="mw-bubble"><div class="mw-dots"><span></span><span></span><span></span></div></div></div>`;
     $('mw-feed').appendChild(row); scrollFeed(); return id;
 }
