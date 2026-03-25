@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <title>Revival Minecraft Earth</title>
-    <link rel="icon" type="image/png" id="mw-favicon" href="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico">
+    <link rel="icon" type="image/png" href="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico">
     <style>
         /* Minecraft Five — основной шрифт */
         @font-face {
@@ -6193,9 +6193,7 @@
             setTimeout(attachRefBadges, 100);
             // Mark all current news as seen
             localStorage.setItem('news_last_seen', Date.now().toString());
-            // Restore normal favicon when user views news
-            const _fav = document.getElementById('mw-favicon');
-            if (_fav) _fav.href = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico';
+
         }
 
         async function loadNews() {
@@ -6209,15 +6207,7 @@
                 _newsCache = result[0].data || [];
                 _newsIsAdmin = result[1];
                 renderNews(_newsCache, _newsIsAdmin);
-                // Favicon badge if there are unread news
-                (function(){
-                    const lastSeen = parseInt(localStorage.getItem('news_last_seen') || '0', 10);
-                    const hasUnread = (_newsCache||[]).some(n => new Date(n.created_at).getTime() > lastSeen);
-                    const fav = document.getElementById('mw-favicon');
-                    if (fav && hasUnread) {
-                        fav.href = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon_notify.ico';
-                    }
-                })();
+
             } catch(e) { document.getElementById('news-container').innerHTML = ''; }
         }
 
