@@ -1658,6 +1658,26 @@
             background-position: 0px 0px;
             margin-bottom: 12px;
         }
+        .bp-loading,
+        .news-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px;
+            color: #5a4a3a;
+            width: 100%;
+        }
+        .news-loading p, .bp-loading p {
+            font-family: Minecraft, sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+            color: #5a4a3a;
+        }
+        body.dark-theme .news-loading p,
+        body.dark-theme .bp-loading p { color: #b0b0b0; }
         .bp-loading .compass-loader,
         .news-loading .compass-loader {
             margin-bottom: 12px;
@@ -6177,7 +6197,7 @@
 
         async function loadNews() {
             if (!sbClient) return;
-            document.getElementById('news-container').innerHTML = '<div class="news-loading"><div class="compass-loader"></div></div>';
+            document.getElementById('news-container').innerHTML = '<div class="news-loading"><div class="compass-loader"></div><p>' + (currentLang === 'ru' ? 'Загрузка...' : 'Loading...') + '</p></div>';
             try {
                 const result = await Promise.all([
                     sbClient.from('news').select('*').order('created_at', { ascending: false }).limit(50),
