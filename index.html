@@ -12892,7 +12892,7 @@ window.mwSend=async function(){
     try{
         const res=await fetch(API,{
             method:'POST',
-            headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+            headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://mcearthproject.qzz.io','X-Title':'Revival Minecraft Earth'},
             body:JSON.stringify({model:MODEL,max_tokens:800,stream:true,
                 messages:[{role:'system',content:SYS},...hist]})
         });
