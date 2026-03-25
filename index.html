@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <title>Revival Minecraft Earth</title>
-    <link rel="icon" type="image/png" href="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico">
+    <link rel="icon" type="image/png" id="mw-favicon" href="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico">
     <style>
         /* Minecraft Five — основной шрифт */
         @font-face {
@@ -6193,6 +6193,9 @@
             setTimeout(attachRefBadges, 100);
             // Mark all current news as seen
             localStorage.setItem('news_last_seen', Date.now().toString());
+            // Restore normal favicon when user views news
+            const _fav = document.getElementById('mw-favicon');
+            if (_fav) _fav.href = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico';
         }
 
         async function loadNews() {
@@ -6206,6 +6209,15 @@
                 _newsCache = result[0].data || [];
                 _newsIsAdmin = result[1];
                 renderNews(_newsCache, _newsIsAdmin);
+                // Favicon badge if there are unread news
+                (function(){
+                    const lastSeen = parseInt(localStorage.getItem('news_last_seen') || '0', 10);
+                    const hasUnread = (_newsCache||[]).some(n => new Date(n.created_at).getTime() > lastSeen);
+                    const fav = document.getElementById('mw-favicon');
+                    if (fav && hasUnread) {
+                        fav.href = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon_notify.ico';
+                    }
+                })();
             } catch(e) { document.getElementById('news-container').innerHTML = ''; }
         }
 
@@ -12794,6 +12806,43 @@ window.mwToggle=function(){
                     $('mw-inp').placeholder='Нужен аккаунт...';
                 } else {
                     addBot('Привет, '+window.currentAccount.nick+'! Я Merl 👋 Спроси меня всё о Revival Minecraft Earth!');
+                    // Render random quick questions
+                    (function(){
+                        const ALL_Q = [
+                            'Как скачать Revival Minecraft Earth?',
+                            'Что такое buildplate?',
+                            'Как зарегистрироваться?',
+                            'Как работает реферальная система?',
+                            'Что такое Vienna Docker?',
+                            'Как попасть в таблицу лидеров?',
+                            'Как поставить лайк на buildplate?',
+                            'Что такое галерея на сайте?',
+                            'Можно ли играть на iOS?',
+                            'Как поделиться buildplate?',
+                            'Откуда взялся этот проект?',
+                            'Что произошло с оригинальной Minecraft Earth?',
+                            'Как загрузить скриншот в галерею?',
+                            'Что дают рефералы?',
+                            'Как создать субдомен?',
+                        ];
+                        const shuffled = ALL_Q.slice().sort(()=>Math.random()-.5).slice(0,4);
+                        const bar = document.createElement('div');
+                        bar.id = 'mw-quick';
+                        bar.style.cssText = 'padding:7px 10px 5px;display:flex;flex-wrap:wrap;gap:5px;border-bottom:1px solid #241508;flex-shrink:0;background:#110a04;';
+                        shuffled.forEach(q => {
+                            const btn = document.createElement('button');
+                            btn.className = 'mw-qbtn';
+                            btn.textContent = q;
+                            btn.style.cssText = 'background:#221408;border:1px solid #4a2e10;color:#b08040;font-family:Minecraft,monospace;font-size:7px;padding:4px 8px;cursor:pointer;letter-spacing:.03em;transition:all .1s;';
+                            btn.onmouseenter = () => { btn.style.background='#2e1c0a'; btn.style.borderColor='#e8b830'; btn.style.color='#e8b830'; };
+                            btn.onmouseleave = () => { btn.style.background='#221408'; btn.style.borderColor='#4a2e10'; btn.style.color='#b08040'; };
+                            btn.onclick = () => { const i=$('mw-inp'); if(i){i.value=q;} mwSend(); bar.remove(); };
+                            bar.appendChild(btn);
+                        });
+                        // Insert before feed
+                        const feed = $('mw-feed');
+                        if (feed) feed.parentNode.insertBefore(bar, feed);
+                    })();
                     startCyc();
                 }
             },300);
