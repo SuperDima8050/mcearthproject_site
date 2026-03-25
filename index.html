@@ -1343,6 +1343,24 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
+        .news-source {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 4px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: Minecraft, sans-serif;
+        }
+        .news-source a {
+            color: #9e9e9e;
+            text-decoration: none;
+            opacity: 0.75;
+            transition: opacity 0.15s;
+        }
+        .news-source a:hover { opacity: 1; text-decoration: underline; }
+        .news-source i { color: #888; font-size: 0.72rem; }
+
         .verified-badge {
             display: inline-flex;
             align-items: center;
@@ -6081,6 +6099,14 @@
                     const verifiedBadge = news.author_verified ? '<span class="verified-badge"><i class="fas fa-check"></i></span>' : '';
                     authorHTML = `<div class="news-author"><i class="fas fa-user"></i><span>${news.author}${verifiedBadge}</span></div>`;
                 }
+                let sourceHTML = '';
+                if (news.source_url) {
+                    try {
+                        const u = new URL(news.source_url);
+                        const label = u.hostname.replace(/^www\./, '');
+                        sourceHTML = `<div class="news-source"><i class="fas fa-link"></i><a href="${news.source_url}" target="_blank" rel="noopener noreferrer">${label}</a></div>`;
+                    } catch(e) {}
+                }
                 newsItem.innerHTML = `
                     ${isNew ? `<img src="${NEW_ICON_URL}" class="news-new-badge" title="Новое" alt="new">` : ''}
                     <div class="news-content-wrapper">
@@ -6088,6 +6114,7 @@
                             <h3 class="news-title">${ru ? (news.title || 'Без названия') : (news.title_en || news.title || 'Untitled')}</h3>
                             <div class="news-date"><i class="fas fa-clock"></i><span>${ru ? formattedDateRu : formattedDateEn}</span></div>
                             ${authorHTML}
+                            ${sourceHTML}
                         </div>
                         <div class="news-content">${makeLinksClickable(ru ? (news.content || '') : (news.content_en || news.content || ''))}</div>
                         <div class="news-footer">
@@ -6224,6 +6251,10 @@
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Текст (EN)' : 'Content (EN)'}</label>
                         <textarea id="nedit-content-en" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content_en||'').replace(/</g,'&lt;')}</textarea>
                     </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">Источник (ссылка, необязательно)</label>
+                        <input id="nedit-source" style="${inputStyle}" maxlength="500" placeholder="https://..." value="${(news.source_url||'').replace(/"/g,'&quot;')}" />
+                    </div>
                     <div id="nedit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
                     <div style="display:flex;gap:10px;">
                         <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
@@ -6247,7 +6278,9 @@
                 if (containsProfanity(title) || containsProfanity(titleEn) || containsProfanity(content) || containsProfanity(contentEn)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
                 try {
-                    const { error } = await sbClient.from('news').update({ title, title_en: titleEn||title, content, content_en: contentEn||content }).eq('id', news.id);
+                    const sourceEditRaw = (document.getElementById('nedit-source')?.value || '').trim();
+                    const sourceEdit = sourceEditRaw && (sourceEditRaw.startsWith('http://') || sourceEditRaw.startsWith('https://')) ? sourceEditRaw : (sourceEditRaw ? 'https://' + sourceEditRaw : null);
+                    const { error } = await sbClient.from('news').update({ title, title_en: titleEn||title, content, content_en: contentEn||content, source_url: sourceEdit||null }).eq('id', news.id);
                     if (error) throw error;
                     if (_newsCache) { const idx = _newsCache.findIndex(n => String(n.id) === String(news.id)); if (idx !== -1) { _newsCache[idx].title = title; _newsCache[idx].title_en = titleEn||title; _newsCache[idx].content = content; _newsCache[idx].content_en = contentEn||content; } }
                     overlay.remove();
@@ -6374,6 +6407,10 @@
                         <textarea id="nadmin-content-en" style="${inputStyle}height:100px;resize:vertical;" maxlength="5000"></textarea>
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label>Источник (ссылка, необязательно)</label>
+                        <input id="nadmin-source" style="${inputStyle}" maxlength="500" placeholder="https://github.com/..." />
+                    </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
                         <label>${ru ? '🖼️ Изображение (необязательно)' : '🖼️ Image (optional)'}</label>
                         <label class="bp-file-label news-upload" id="nadmin-image-wrap" for="nadmin-image-input" style="cursor:pointer;">
                             <i class="fas fa-image" style="color:#6b8e23;font-size:1.3rem;"></i>
@@ -6481,10 +6518,13 @@
                 showNewsStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'}`, 75);
             }
 
+            const sourceUrlRaw = (document.getElementById('nadmin-source')?.value || '').trim();
+            const sourceUrl = sourceUrlRaw && (sourceUrlRaw.startsWith('http://') || sourceUrlRaw.startsWith('https://')) ? sourceUrlRaw : (sourceUrlRaw ? 'https://' + sourceUrlRaw : null);
             const { error } = await sbClient.from('news').insert([{
                 title, title_en: titleEn || title,
                 content, content_en: contentEn || content,
                 image_url: imageUrl || null,
+                source_url: sourceUrl || null,
                 author: currentAccount.nick,
                 author_verified: currentAccount.verified || false,
                 likes: 0, dislikes: 0
