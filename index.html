@@ -5876,7 +5876,7 @@
                     </button>
                 </div>
                 <div id="lb-list" class="lb-list">
-                    <div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div></div>
+                    <div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div><p data-ru="Загрузка..." data-en="Loading..." style="margin-top:8px;font-size:0.75rem;opacity:0.6;">Загрузка...</p></div>
                 </div>
             </div>
         </div>
@@ -6566,7 +6566,7 @@
             const ru = currentLang === 'ru';
             const btn = event && event.currentTarget ? event.currentTarget : null;
             const origHTML = btn ? btn.innerHTML : null;
-            if (btn) { btn.disabled = true; btn.innerHTML = '<div class="compass-loader" style="width:24px;height:24px;background-size:240px 96px;margin:0 auto;"></div>'; }
+            if (btn) { btn.disabled = true; btn.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:6px;"><div class="compass-loader" style="width:20px;height:20px;background-size:200px 80px;"></div><span>'+(currentLang==='ru'?'Загрузка...':'Loading...')+'</span></div>'; }
             try {
                 const resp = await fetch(url);
                 if (!resp.ok) throw new Error('HTTP ' + resp.status);
@@ -12346,7 +12346,7 @@ async function doDeleteSubdomain() {
         var listEl = document.getElementById('lb-list');
         if (!listEl) return;
         var ru = window.currentLang === 'ru';
-        listEl.innerHTML = '<div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div></div>';
+        listEl.innerHTML = '<div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div><p style="margin-top:8px;font-size:0.75rem;opacity:0.6;">'+(ru?'Загрузка...':'Loading...')+'</p></div>';
 
         try {
             var data = await loadLb(mode);
