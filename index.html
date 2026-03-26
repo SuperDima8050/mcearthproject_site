@@ -12512,7 +12512,6 @@ async function doDeleteSubdomain() {
     width: 96px; height: 96px;
     object-fit: contain;
     image-rendering: pixelated;
-    transition: opacity .2s;
 }
 #mw-anim.fade { opacity: 0; }
 #mw-title {
@@ -12981,9 +12980,9 @@ function setSt(t,busy){
 }
 function setAnim(k){
     curAnim=k;
-    const img=$('mw-avatar-static'); if(!img) return;
-    img.style.opacity='0';
-    setTimeout(()=>{ img.src=ANIMS[k]||ANIMS.converse; img.style.opacity='1'; },180);
+    const img=$('mw-anim'); if(!img) return;
+    img.classList.add('fade');
+    setTimeout(()=>{ img.src=ANIMS[k]||ANIMS.converse; img.classList.remove('fade'); },180);
 }
 function startCyc(){
     stopCyc();
