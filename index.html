@@ -12746,7 +12746,13 @@ async function doDeleteSubdomain() {
 'use strict';
 const KEY   = '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';
 const API   = 'https://openrouter.ai/api/v1/chat/completions';
-const MODEL = 'meta-llama/llama-3.3-70b-instruct:free';
+const MODELS = [
+    'meta-llama/llama-3.3-70b-instruct:free',
+    'google/gemma-3-27b-it:free',
+    'deepseek/deepseek-chat-v3-0324:free',
+    'mistralai/mistral-7b-instruct:free',
+    'qwen/qwen3-8b:free',
+];
 const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png';
 
 const ANIMS = {
@@ -12889,44 +12895,52 @@ window.mwSend=async function(){
     stopCyc(); setAnim('converse'); setSt('думает…',true);
     const tid=addTyping();
 
-    try{
-        const res=await fetch(API,{
-            method:'POST',
-            headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://mcearthproject.qzz.io','X-Title':'Revival Minecraft Earth'},
-            body:JSON.stringify({model:MODEL,max_tokens:800,stream:true,
-                messages:[{role:'system',content:SYS},...hist]})
-        });
-        if(!res.ok){const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||'HTTP '+res.status);}
-        const reader=res.body.getReader(), dec=new TextDecoder();
-        let full='';
-        removeEl(tid);
-        const bub=addBot('');
-        while(true){
-            const {done,value}=await reader.read();
-            if(done) break;
-            for(const line of dec.decode(value,{stream:true}).split('\n')){
-                if(!line.startsWith('data:')) continue;
-                const j=line.slice(5).trim();
-                if(j==='[DONE]') break;
-                try{ const d=JSON.parse(j).choices?.[0]?.delta?.content; if(d){full+=d;bub.textContent=full;scrollFeed();} }catch(_){}
+    let full='', success=false;
+    for(let mi=0; mi<MODELS.length; mi++){
+        const model=MODELS[mi];
+        try{
+            const res=await fetch(API,{
+                method:'POST',
+                headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://mcearthproject.qzz.io','X-Title':'Revival Minecraft Earth'},
+                body:JSON.stringify({model:model,max_tokens:800,stream:true,
+                    messages:[{role:'system',content:SYS},...hist]})
+            });
+            if(!res.ok){const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||'HTTP '+res.status);}
+            const reader=res.body.getReader(), dec=new TextDecoder();
+            full='';
+            removeEl(tid);
+            const bub=addBot('');
+            while(true){
+                const {done,value}=await reader.read();
+                if(done) break;
+                for(const line of dec.decode(value,{stream:true}).split('\n')){
+                    if(!line.startsWith('data:')) continue;
+                    const j=line.slice(5).trim();
+                    if(j==='[DONE]') break;
+                    try{ const d=JSON.parse(j).choices?.[0]?.delta?.content; if(d){full+=d;bub.textContent=full;scrollFeed();} }catch(_){}
+                }
             }
+            if(!full) throw new Error('empty response');
+            success=true;
+            break;
+        }catch(err){
+            if(mi<MODELS.length-1){ continue; } // пробуем следующую модель
+            removeEl(tid);
+            addBot('⚠ Все модели недоступны. Попробуй позже.', true);
+            setAnim('encourage');
+            setTimeout(startCyc,3000);
         }
+    }
+    if(success){
         hist.push({role:'assistant',content:full});
         if(hist.length>20) hist=hist.slice(-20);
         const lc=full.toLowerCase();
         let an='converse';
-        // Проверяем в нужном порядке: greet → encourage → celebrate
-        // celebrate последним — он самый редкий и "сильный"
         if(ANIM_MAP.greet.some(w=>lc.includes(w))) an='greet';
         if(ANIM_MAP.encourage.some(w=>lc.includes(w))) an='encourage';
         if(ANIM_MAP.celebrate.some(w=>lc.includes(w))) an='celebrate';
         setAnim(an);
         setTimeout(()=>{ startCyc(); },2000);
-    }catch(err){
-        removeEl(tid);
-        addBot('⚠ '+err.message, true);
-        setAnim('encourage');
-        setTimeout(startCyc,3000);
     }
     busy=false; $('mw-go').disabled=false; setSt('онлайн',false);
 };
