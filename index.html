@@ -10734,6 +10734,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 grid.appendChild(card);
             });
             setTimeout(updateFavoriteButtons, 200);
+            setTimeout(attachRefBadges, 250);
         }
 
         async function handleGalleryLike(id, likeBtn, dislikeBtn) {
