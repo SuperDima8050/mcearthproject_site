@@ -3496,6 +3496,18 @@
         body.dark-theme .lb-tab.active { background: #4a6d23; border-color: #3a5010; color: #fff; }
         body.dark-theme #lb-referrals-row { border-bottom-color: #444; border-left-color: #444; border-right-color: #444; }
         body.dark-theme #lb-referrals-row .lb-tab { border-left-color: #444 !important; border-right-color: #444 !important; }
+        .lb-pagination { 
+            display: flex; 
+            gap: 8px; 
+            align-items: center; 
+            justify-content: center;
+            margin-top: 16px;
+            padding: 8px;
+        }
+        .lb-pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         .lb-list { display: flex; flex-direction: column; gap: 6px; }
         .lb-row {
             display: flex;
@@ -5875,6 +5887,16 @@
                 </div>
                 <div id="lb-list" class="lb-list">
                     <div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div><p data-ru="Загрузка..." data-en="Loading..." style="margin-top:8px;font-size:0.75rem;opacity:0.6;">Загрузка...</p></div>
+                </div>
+                <!-- Pagination controls -->
+                <div id="lb-pagination" class="lb-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
+                    <button class="copy-btn" id="lb-prev-page" onclick="lbChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="lb-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
+                    <button class="copy-btn" id="lb-next-page" onclick="lbChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -12275,6 +12297,10 @@ async function doDeleteSubdomain() {
     var _lbMode = 'likes';
     var _lbCache = {};
     var _lbAvatarCache = {};
+    var _lbCurrentPage = 1;
+    var _lbItemsPerPage = 10;
+    var _lbCacheTimestamp = {};
+    var _lbCacheExpiry = 5 * 60 * 1000; // 5 минут
 
     var RANK_ICONS = ['https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_rare_1_icon.png','https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_uncommon_2_icon.png','https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_oobe_3_icon.png'];
 
@@ -12289,7 +12315,12 @@ async function doDeleteSubdomain() {
     };
 
     async function loadLb(mode) {
-        if (_lbCache[mode]) return _lbCache[mode];
+        // Проверяем кэш с учётом времени
+        var now = Date.now();
+        if (_lbCache[mode] && _lbCacheTimestamp[mode] && (now - _lbCacheTimestamp[mode]) < _lbCacheExpiry) {
+            return _lbCache[mode];
+        }
+        
         var ru = window.currentLang === 'ru';
         var data = [];
 
@@ -12340,6 +12371,7 @@ async function doDeleteSubdomain() {
         }
 
         _lbCache[mode] = data;
+        _lbCacheTimestamp[mode] = Date.now(); // Сохраняем время кэширования
         return data;
     }
 
@@ -12353,15 +12385,25 @@ async function doDeleteSubdomain() {
             var data = await loadLb(mode);
             if (!data.length) {
                 listEl.innerHTML = '<div class="lb-empty">' + (ru?'Пока нет данных':'No data yet') + '</div>';
+                document.getElementById('lb-pagination').style.display = 'none';
                 return;
             }
 
+            // Сбрасываем страницу при смене режима
+            _lbCurrentPage = 1;
+
+            // Вычисляем пагинацию
+            var totalPages = Math.ceil(data.length / _lbItemsPerPage);
+            var startIndex = (_lbCurrentPage - 1) * _lbItemsPerPage;
+            var endIndex = startIndex + _lbItemsPerPage;
+            var pageData = data.slice(startIndex, endIndex);
+
             listEl.innerHTML = '';
-            data.forEach(function(entry, idx) {
-                var rankNum = idx + 1;
+            pageData.forEach(function(entry, idx) {
+                var rankNum = startIndex + idx + 1; // Глобальный ранг
                 var rankHtml;
                 if (rankNum <= 3) {
-                    rankHtml = '<span class="lb-rank"><img src="' + RANK_ICONS[idx] + '" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;" title="#' + rankNum + '"></span>';
+                    rankHtml = '<span class="lb-rank"><img src="' + RANK_ICONS[rankNum-1] + '" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;" title="#' + rankNum + '"></span>';
                 } else {
                     rankHtml = '<span class="lb-rank lb-rank-other">#' + rankNum + '</span>';
                 }
@@ -12398,10 +12440,46 @@ async function doDeleteSubdomain() {
                 });
                 listEl.appendChild(row);
             });
+
+            // Обновляем контролы пагинации
+            updatePaginationControls(totalPages);
         } catch(e) {
             if (listEl) listEl.innerHTML = '<div class="lb-empty" style="color:#c62828;">' + (e.message||'Error') + '</div>';
         }
     }
+
+    // Функция обновления контролов пагинации
+    function updatePaginationControls(totalPages) {
+        var paginationEl = document.getElementById('lb-pagination');
+        var pageInfoEl = document.getElementById('lb-page-info');
+        var prevBtn = document.getElementById('lb-prev-page');
+        var nextBtn = document.getElementById('lb-next-page');
+
+        if (!paginationEl || totalPages <= 1) {
+            if (paginationEl) paginationEl.style.display = 'none';
+            return;
+        }
+
+        paginationEl.style.display = 'flex';
+        if (pageInfoEl) pageInfoEl.textContent = _lbCurrentPage + ' / ' + totalPages;
+        
+        if (prevBtn) prevBtn.disabled = _lbCurrentPage === 1;
+        if (nextBtn) nextBtn.disabled = _lbCurrentPage === totalPages;
+    }
+
+    // Функция смены страницы
+    window.lbChangePage = function(direction) {
+        var data = _lbCache[_lbMode];
+        if (!data) return;
+
+        var totalPages = Math.ceil(data.length / _lbItemsPerPage);
+        var newPage = _lbCurrentPage + direction;
+
+        if (newPage < 1 || newPage > totalPages) return;
+
+        _lbCurrentPage = newPage;
+        renderLb(_lbMode);
+    };
 
     // Load when tab is opened
     var _origSwitch = window.switchTab;
