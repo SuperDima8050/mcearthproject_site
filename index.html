@@ -5859,7 +5859,7 @@
                 <h2 class="section-title" data-icon="challenges_icon.png">
                     <span data-ru="Таблица лидеров" data-en="Leaderboard">Таблица лидеров</span>
                 </h2>
-                <div class="lb-tabs" style="margin-bottom:0;border-bottom:none;">
+                <div class="lb-tabs" id="lb-referrals-row" style="margin-bottom:16px;">
                     <button class="lb-tab active" id="lb-tab-likes" onclick="lbSwitch('likes')">
                         <i class="fas fa-thumbs-up"></i>
                         <span data-ru="По лайкам" data-en="By likes">По лайкам</span>
@@ -5868,9 +5868,7 @@
                         <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png" style="width:14px;height:14px;image-rendering:pixelated;">
                         <span data-ru="По скачиваниям" data-en="By downloads">По скачиваниям</span>
                     </button>
-                </div>
-                <div class="lb-tabs" id="lb-referrals-row" style="margin-bottom:16px;">
-                    <button class="lb-tab" id="lb-tab-referrals" onclick="lbSwitch('referrals')" style="flex:1;border-left:3px solid #8b7355;border-radius:0;justify-content:center;">
+                    <button class="lb-tab" id="lb-tab-referrals" onclick="lbSwitch('referrals')">
                         <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/health_icon.png" style="width:14px;height:14px;image-rendering:pixelated;">
                         <span data-ru="По рефераллам" data-en="By referrals">По рефераллам</span>
                     </button>
