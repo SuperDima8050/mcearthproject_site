@@ -3508,6 +3508,54 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+        .bp-pagination { 
+            display: flex; 
+            gap: 8px; 
+            align-items: center; 
+            justify-content: center;
+            margin-top: 16px;
+            padding: 8px;
+        }
+        .bp-pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .gallery-pagination { 
+            display: flex; 
+            gap: 8px; 
+            align-items: center; 
+            justify-content: center;
+            margin-top: 16px;
+            padding: 8px;
+        }
+        .gallery-pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .news-pagination { 
+            display: flex; 
+            gap: 8px; 
+            align-items: center; 
+            justify-content: center;
+            margin-top: 16px;
+            padding: 8px;
+        }
+        .news-pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pp-pagination { 
+            display: flex; 
+            gap: 8px; 
+            align-items: center; 
+            justify-content: center;
+            margin-top: 16px;
+            padding: 0 20px;
+        }
+        .pp-pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         .lb-list { display: flex; flex-direction: column; gap: 6px; }
         .lb-row {
             display: flex;
@@ -5619,6 +5667,16 @@
                         <p data-ru="Нет новостей" data-en="No news">Нет новостей</p>
                     </div>
                 </div>
+                <!-- Pagination controls for news -->
+                <div id="news-pagination" class="news-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
+                    <button class="copy-btn" id="news-prev-page" onclick="newsChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="news-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
+                    <button class="copy-btn" id="news-next-page" onclick="newsChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -5861,6 +5919,16 @@
                         <p data-ru="Загрузка..." data-en="Loading...">Загрузка...</p>
                     </div>
                 </div>
+                <!-- Pagination controls for buildplates -->
+                <div id="bp-pagination" class="bp-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
+                    <button class="copy-btn" id="bp-prev-page" onclick="bpChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="bp-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
+                    <button class="copy-btn" id="bp-next-page" onclick="bpChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -6028,6 +6096,16 @@
 
                 <!-- Photo grid -->
                 <div id="gallery-gallery"></div>
+                <!-- Pagination controls for gallery -->
+                <div id="gallery-pagination" class="gallery-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
+                    <button class="copy-btn" id="gallery-prev-page" onclick="galleryChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="gallery-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
+                    <button class="copy-btn" id="gallery-next-page" onclick="galleryChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -6108,19 +6186,31 @@
         let _newsCache = null;
         let _newsIsAdmin = false;
         let _lastRefCount = 0;
+        
+        // News pagination variables
+        let _newsCurrentPage = 1;
+        let _newsItemsPerPage = 5; // По 5 новостей на странице
 
         function renderNews(newsArray, isAdmin) {
             const newsContainer = document.getElementById('news-container');
             if (!newsContainer) return;
             if (!newsArray || newsArray.length === 0) {
                 newsContainer.innerHTML = `<div class="news-empty"><i class="fas fa-newspaper"></i><p>${currentLang === 'ru' ? 'Нет новостей' : 'No news'}</p></div>`;
+                document.getElementById('news-pagination').style.display = 'none';
                 return;
             }
+
+            // Применяем пагинацию
+            const totalPages = Math.ceil(newsArray.length / _newsItemsPerPage);
+            const startIndex = (_newsCurrentPage - 1) * _newsItemsPerPage;
+            const endIndex = startIndex + _newsItemsPerPage;
+            const pageData = newsArray.slice(startIndex, endIndex);
+
             newsContainer.innerHTML = '';
             const userLikes = window._sbVotes?.news_likes || JSON.parse(localStorage.getItem('userLikes') || '{}');
             const lastSeenNews = parseInt(localStorage.getItem('news_last_seen') || '0', 10);
             const NEW_ICON_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png';
-            newsArray.forEach(news => {
+            pageData.forEach(news => {
                 const newsItem = document.createElement('div');
                 newsItem.className = 'news-item';
                 newsItem.dataset.newsId = news.id;
@@ -6213,8 +6303,42 @@
             setTimeout(attachRefBadges, 100);
             // Mark all current news as seen
             localStorage.setItem('news_last_seen', Date.now().toString());
-
+            
+            // Обновляем контролы пагинации
+            updateNewsPaginationControls(totalPages);
         }
+
+        // Функция обновления контролов пагинации news
+        function updateNewsPaginationControls(totalPages) {
+            const paginationEl = document.getElementById('news-pagination');
+            const pageInfoEl = document.getElementById('news-page-info');
+            const prevBtn = document.getElementById('news-prev-page');
+            const nextBtn = document.getElementById('news-next-page');
+
+            if (!paginationEl || totalPages <= 1) {
+                if (paginationEl) paginationEl.style.display = 'none';
+                return;
+            }
+
+            paginationEl.style.display = 'flex';
+            if (pageInfoEl) pageInfoEl.textContent = _newsCurrentPage + ' / ' + totalPages;
+            
+            if (prevBtn) prevBtn.disabled = _newsCurrentPage === 1;
+            if (nextBtn) nextBtn.disabled = _newsCurrentPage === totalPages;
+        }
+
+        // Функция смены страницы news
+        window.newsChangePage = function(direction) {
+            if (!_newsCache) return;
+
+            const totalPages = Math.ceil(_newsCache.length / _newsItemsPerPage);
+            const newPage = _newsCurrentPage + direction;
+
+            if (newPage < 1 || newPage > totalPages) return;
+
+            _newsCurrentPage = newPage;
+            renderNews(_newsCache, _newsIsAdmin);
+        };
 
         async function loadNews() {
             if (!sbClient) return;
@@ -9114,6 +9238,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         let _bpFilterMine = false;
         let _bpFilterFavorites = false;
         let _bpSearchTimer = null;
+        
+        // Buildplates pagination variables
+        let _bpCurrentPage = 1;
+        let _bpItemsPerPage = 12; // По 12 buildplates на странице (3x4 сетка)
 
         function toggleFilterMine() {
             _bpFilterMine = !_bpFilterMine;
@@ -9135,6 +9263,9 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const sortVal = document.getElementById('bp-sort')?.value || 'newest';
             const gallery = document.getElementById('bp-gallery');
             const countEl = document.getElementById('bp-results-count');
+
+            // Сбрасываем страницу при изменении фильтров
+            _bpCurrentPage = 1;
 
             const myPosts = JSON.parse(localStorage.getItem('bp_my_posts') || '[]');
             const myIds = myPosts.map(p => String(p.id));
@@ -9176,13 +9307,79 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
             if (filtered.length === 0) {
                 gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-search"></i><p>${ru ? 'Ничего не найдено' : 'Nothing found'}</p></div>`;
+                document.getElementById('bp-pagination').style.display = 'none';
                 return;
             }
 
+            // Применяем пагинацию
+            const totalPages = Math.ceil(filtered.length / _bpItemsPerPage);
+            const startIndex = (_bpCurrentPage - 1) * _bpItemsPerPage;
+            const endIndex = startIndex + _bpItemsPerPage;
+            const pageData = filtered.slice(startIndex, endIndex);
+
             gallery.innerHTML = '<div class="bp-grid"></div>';
             const grid = gallery.querySelector('.bp-grid');
-            renderBpCards(filtered, grid, myIds, myNicks);
+            renderBpCards(pageData, grid, myIds, myNicks);
+            
+            // Обновляем контролы пагинации
+            updateBpPaginationControls(totalPages);
         }
+
+        // Функция обновления контролов пагинации buildplates
+        function updateBpPaginationControls(totalPages) {
+            const paginationEl = document.getElementById('bp-pagination');
+            const pageInfoEl = document.getElementById('bp-page-info');
+            const prevBtn = document.getElementById('bp-prev-page');
+            const nextBtn = document.getElementById('bp-next-page');
+
+            if (!paginationEl || totalPages <= 1) {
+                if (paginationEl) paginationEl.style.display = 'none';
+                return;
+            }
+
+            paginationEl.style.display = 'flex';
+            if (pageInfoEl) pageInfoEl.textContent = _bpCurrentPage + ' / ' + totalPages;
+            
+            if (prevBtn) prevBtn.disabled = _bpCurrentPage === 1;
+            if (nextBtn) nextBtn.disabled = _bpCurrentPage === totalPages;
+        }
+
+        // Функция смены страницы buildplates
+        window.bpChangePage = function(direction) {
+            if (!_bpAllData) return;
+
+            // Сначала получаем отфильтрованные данные
+            const searchVal = (document.getElementById('bp-search')?.value || '').toLowerCase().trim();
+            const myPosts = JSON.parse(localStorage.getItem('bp_my_posts') || '[]');
+            const myIds = myPosts.map(p => String(p.id));
+            const myNicks = [...new Set(myPosts.map(p => (p.author || '').toLowerCase()).filter(Boolean))];
+            if (currentAccount) myNicks.push(currentAccount.nick.toLowerCase());
+
+            let filtered = _bpAllData.filter(bp => {
+                if (_bpFilterMine) {
+                    const isMine = myIds.includes(String(bp.id)) || (bp.author && myNicks.includes(bp.author.toLowerCase()));
+                    if (!isMine) return false;
+                }
+                if (_bpFilterFavorites) {
+                    const bpFavs = window._sbVotes?.bp_favorites || {};
+                    if (!bpFavs[String(bp.id)]) return false;
+                }
+                if (searchVal) {
+                    const nameMatch = (bp.name || '').toLowerCase().includes(searchVal);
+                    const authorMatch = (bp.author || '').toLowerCase().includes(searchVal);
+                    if (!nameMatch && !authorMatch) return false;
+                }
+                return true;
+            });
+
+            const totalPages = Math.ceil(filtered.length / _bpItemsPerPage);
+            const newPage = _bpCurrentPage + direction;
+
+            if (newPage < 1 || newPage > totalPages) return;
+
+            _bpCurrentPage = newPage;
+            applyBpFilters();
+        };
 
         function renderBpCards(data, grid, myIds, myNicks) {
             const bpLikes = window._sbVotes?.bp_likes || JSON.parse(localStorage.getItem('bp_likes') || '{}');
@@ -10208,6 +10405,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         let _gallerySecretMap = {};
         let _galleryFilterMine = false;
         let _galleryFilterFavorites = false;
+        
+        // Gallery pagination variables
+        let _galleryCurrentPage = 1;
+        let _galleryItemsPerPage = 12; // По 12 фото на странице (3x4 сетка)
 
         // Update gallery auth state based on buildplates login
         function updateGalleryAuthState() {
@@ -10552,6 +10753,9 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const sort = document.getElementById('gallery-sort')?.value || 'newest';
             const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
 
+            // Сбрасываем страницу при изменении фильтров
+            _galleryCurrentPage = 1;
+
             let filtered = _galleryCache.filter(p => {
                 if (_galleryFilterMine) {
                     const isMine = myNick && (p.author||'').toLowerCase() === myNick;
@@ -10577,11 +10781,76 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const gallery = document.getElementById('gallery-gallery');
             if (filtered.length === 0) {
                 gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-image"></i><p>${currentLang === 'ru' ? 'Ничего не найдено' : 'Nothing found'}</p></div>`;
+                document.getElementById('gallery-pagination').style.display = 'none';
                 return;
             }
+
+            // Применяем пагинацию
+            const totalPages = Math.ceil(filtered.length / _galleryItemsPerPage);
+            const startIndex = (_galleryCurrentPage - 1) * _galleryItemsPerPage;
+            const endIndex = startIndex + _galleryItemsPerPage;
+            const pageData = filtered.slice(startIndex, endIndex);
+
             gallery.innerHTML = '<div class="bp-grid"></div>';
-            renderGalleryCards(filtered, gallery.querySelector('.bp-grid'));
+            renderGalleryCards(pageData, gallery.querySelector('.bp-grid'));
+            
+            // Обновляем контролы пагинации
+            updateGalleryPaginationControls(totalPages);
         }
+
+        // Функция обновления контролов пагинации gallery
+        function updateGalleryPaginationControls(totalPages) {
+            const paginationEl = document.getElementById('gallery-pagination');
+            const pageInfoEl = document.getElementById('gallery-page-info');
+            const prevBtn = document.getElementById('gallery-prev-page');
+            const nextBtn = document.getElementById('gallery-next-page');
+
+            if (!paginationEl || totalPages <= 1) {
+                if (paginationEl) paginationEl.style.display = 'none';
+                return;
+            }
+
+            paginationEl.style.display = 'flex';
+            if (pageInfoEl) pageInfoEl.textContent = _galleryCurrentPage + ' / ' + totalPages;
+            
+            if (prevBtn) prevBtn.disabled = _galleryCurrentPage === 1;
+            if (nextBtn) nextBtn.disabled = _galleryCurrentPage === totalPages;
+        }
+
+        // Функция смены страницы gallery
+        window.galleryChangePage = function(direction) {
+            if (!_galleryCache) return;
+
+            // Сначала получаем отфильтрованные данные
+            const query = (document.getElementById('gallery-search')?.value || '').toLowerCase().trim();
+            const sort = document.getElementById('gallery-sort')?.value || 'newest';
+            const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
+
+            let filtered = _galleryCache.filter(p => {
+                if (_galleryFilterMine) {
+                    const isMine = myNick && (p.author||'').toLowerCase() === myNick;
+                    if (!isMine) return false;
+                }
+                if (_galleryFilterFavorites) {
+                    const glFavs = window._sbVotes?.gallery_favorites || {};
+                    if (!glFavs[String(p.id)]) return false;
+                }
+                return !query || (p.title||'').toLowerCase().includes(query) || (p.author||'').toLowerCase().includes(query);
+            });
+
+            if (sort === 'oldest') filtered = [...filtered].sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
+            else if (sort === 'liked') filtered = [...filtered].sort((a,b) => (b.likes||0) - (a.likes||0));
+            else if (sort === 'rating') filtered = [...filtered].sort((a,b) => ((b.likes||0)-(b.dislikes||0)) - ((a.likes||0)-(a.dislikes||0)));
+            else filtered = [...filtered].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+            const totalPages = Math.ceil(filtered.length / _galleryItemsPerPage);
+            const newPage = _galleryCurrentPage + direction;
+
+            if (newPage < 1 || newPage > totalPages) return;
+
+            _galleryCurrentPage = newPage;
+            filterGallery();
+        };
 
         function renderGalleryGrid(data) {
             const gallery = document.getElementById('gallery-gallery');
@@ -11052,6 +11321,10 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         // ── Player Profile Modal ──
         // ── TikTok-style Player Profile ──
         window._ppData = {}; // cache per nick
+        
+        // Player profile pagination variables
+        let _ppCurrentPage = 1;
+        let _ppItemsPerPage = 12; // По 12 элементов на странице
 
         function _ppCloseAllMenus() {
             document.querySelectorAll('.pp-thumb-menu.open').forEach(m => m.classList.remove('open'));
@@ -11134,14 +11407,22 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         function _ppRenderGrid(items, mode, gridEl) {
             if (!items.length) {
                 gridEl.innerHTML = `<div class="pp-empty">${currentLang==='ru'?'Ничего нет':'Nothing here'}</div>`;
+                document.getElementById('pp-pagination').style.display = 'none';
                 return;
             }
+
+            // Применяем пагинацию
+            const totalPages = Math.ceil(items.length / _ppItemsPerPage);
+            const startIndex = (_ppCurrentPage - 1) * _ppItemsPerPage;
+            const endIndex = startIndex + _ppItemsPerPage;
+            const pageData = items.slice(startIndex, endIndex);
+
             gridEl.innerHTML = '';
             const myNick = (window.currentAccount && window.currentAccount.nick || '').toLowerCase();
             const profileNick = (window._ppNick || '').toLowerCase();
             // All items on this profile page belong to profileNick — isMine = viewing own profile
             const isOwnProfile = !!myNick && myNick === profileNick;
-            items.forEach(item => {
+            pageData.forEach(item => {
                 const name = escapeHtml(mode==='buildplates'?(item.name||''):(item.title||''));
                 const imgUrl = item.image_url || '';
                 const isMine = isOwnProfile;
@@ -11190,12 +11471,49 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 
                 gridEl.appendChild(div);
             });
+            
+            // Обновляем контролы пагинации
+            updatePpPaginationControls(totalPages);
         }
+
+        // Функция обновления контролов пагинации player profile
+        function updatePpPaginationControls(totalPages) {
+            const paginationEl = document.getElementById('pp-pagination');
+            const pageInfoEl = document.getElementById('pp-page-info');
+            const prevBtn = document.getElementById('pp-prev-page');
+            const nextBtn = document.getElementById('pp-next-page');
+
+            if (!paginationEl || totalPages <= 1) {
+                if (paginationEl) paginationEl.style.display = 'none';
+                return;
+            }
+
+            paginationEl.style.display = 'flex';
+            if (pageInfoEl) pageInfoEl.textContent = _ppCurrentPage + ' / ' + totalPages;
+            
+            if (prevBtn) prevBtn.disabled = _ppCurrentPage === 1;
+            if (nextBtn) nextBtn.disabled = _ppCurrentPage === totalPages;
+        }
+
+        // Функция смены страницы player profile
+        window.ppChangePage = function(direction) {
+            if (!window._ppCache || !window._ppMode) return;
+
+            const items = window._ppCache[window._ppMode] || [];
+            const totalPages = Math.ceil(items.length / _ppItemsPerPage);
+            const newPage = _ppCurrentPage + direction;
+
+            if (newPage < 1 || newPage > totalPages) return;
+
+            _ppCurrentPage = newPage;
+            _ppRenderGrid(items, window._ppMode, document.getElementById('pp-grid'));
+        };
 
         window._ppFilter = function(query) {
             const q = query.trim().toLowerCase();
             const mode = window._ppMode || 'buildplates';
             const items = (window._ppCache || {})[mode] || [];
+            _ppCurrentPage = 1; // Сбрасываем страницу при поиске
             const filtered = q ? items.filter(i => {
                 const name = (mode==='buildplates' ? (i.name||'') : (i.title||'')).toLowerCase();
                 return name.includes(q);
@@ -11252,6 +11570,16 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 <div class="pp-grid" id="pp-grid">
                     <div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>
                 </div>
+                <!-- Pagination controls for player profile -->
+                <div id="pp-pagination" class="pp-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;padding:0 20px;">
+                    <button class="copy-btn" id="pp-prev-page" onclick="ppChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="pp-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
+                    <button class="copy-btn" id="pp-next-page" onclick="ppChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target===overlay) overlay.remove(); });
@@ -11266,6 +11594,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 
             window._ppSwitch = function(mode) {
                 window._ppMode = mode;
+                _ppCurrentPage = 1; // Сбрасываем страницу при переключении режима
                 document.getElementById('pp-tab-bp').classList.toggle('active', mode==='buildplates');
                 document.getElementById('pp-tab-gl').classList.toggle('active', mode==='gallery');
                 const srch = document.getElementById('pp-search');
