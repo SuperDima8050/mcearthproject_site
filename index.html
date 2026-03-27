@@ -5264,13 +5264,6 @@
             <div class="maintenance-desc">
                 <span data-ru="Некоторые разделы сайта временно недоступны. Мы уже работаем над этим!" data-en="Some sections are temporarily unavailable. We are working on it!">Некоторые разделы сайта временно недоступны. Мы уже работаем над этим!</span>
             </div>
-            <!-- Leaders tab accessible during maintenance -->
-            <div style="margin-top:12px;text-align:center;">
-                <button class="copy-btn" onclick="switchTab('leaderboard')" style="background:linear-gradient(180deg,#4caf50,#388e3c);border-color:#2e7d32;box-shadow:0 4px 0 #1b5e20;" data-ru-disabled="Лидеры (недоступно во время тех. работ)" data-en-disabled="Leaders (unavailable during maintenance)">
-                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:6px;">
-                    <span data-ru="Лидеры (доступно во время тех. работ)" data-en="Leaders (available during maintenance)">Лидеры (доступно во время тех. работ)</span>
-                </button>
-            </div>
         </div>
 
         <div class="discord-banner">
@@ -7533,39 +7526,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     }
                 });
             });
-
-            // Handle leaderboard button in maintenance banner separately
-            const maintenanceLeaderboardBtn = document.querySelector('#maintenance-banner button[onclick*="leaderboard"]');
-            if (maintenanceLeaderboardBtn) {
-                const btnText = maintenanceLeaderboardBtn.querySelector('span');
-                if (isActive) {
-                    maintenanceLeaderboardBtn.classList.add('nav-tab-disabled');
-                    maintenanceLeaderboardBtn.setAttribute('data-maintenance', 'true');
-                    maintenanceLeaderboardBtn._origOnclick = maintenanceLeaderboardBtn.getAttribute('onclick');
-                    maintenanceLeaderboardBtn.setAttribute('onclick', 'return false;');
-                    // Change text to disabled version
-                    if (btnText) {
-                        const ruText = maintenanceLeaderboardBtn.getAttribute('data-ru-disabled');
-                        const enText = maintenanceLeaderboardBtn.getAttribute('data-en-disabled');
-                        if (currentLang === 'en' && enText) btnText.textContent = enText;
-                        else if (ruText) btnText.textContent = ruText;
-                    }
-                } else {
-                    maintenanceLeaderboardBtn.classList.remove('nav-tab-disabled');
-                    if (maintenanceLeaderboardBtn._origOnclick) {
-                        maintenanceLeaderboardBtn.setAttribute('onclick', maintenanceLeaderboardBtn._origOnclick);
-                        delete maintenanceLeaderboardBtn._origOnclick;
-                    }
-                    maintenanceLeaderboardBtn.removeAttribute('data-maintenance');
-                    // Restore original text
-                    if (btnText) {
-                        const ruText = btnText.getAttribute('data-ru');
-                        const enText = btnText.getAttribute('data-en');
-                        if (currentLang === 'en' && enText) btnText.textContent = enText;
-                        else if (ruText) btnText.textContent = ruText;
-                    }
-                }
-            }
 
             // If maintenance is active and we're on a disabled tab, go to home
             if (isActive) {
