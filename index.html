@@ -12489,6 +12489,19 @@ async function doDeleteSubdomain() {
             renderLb(_lbMode);
         }
     };
+
+    // Глобальные функции для тестирования
+    window.testPagination = function() {
+        _lbItemsPerPage = 5;
+        renderLb(_lbMode);
+    };
+    
+    window.debugLeaderboard = function() {
+        console.log('Cache:', _lbCache);
+        console.log('Current page:', _lbCurrentPage);
+        console.log('Items per page:', _lbItemsPerPage);
+        console.log('Mode:', _lbMode);
+    };
 })();
 </script>
 
