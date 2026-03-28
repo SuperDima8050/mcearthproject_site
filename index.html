@@ -3852,6 +3852,7 @@
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             line-height: 1.3;
             flex: 1;
@@ -8324,6 +8325,32 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const nick = document.getElementById('bp-auth-nick').value.trim();
             const pass = document.getElementById('bp-auth-pass').value;
 
+            // Проверяем, вводил ли пользователь ключ аутентификации сегодня
+            const today = new Date().toDateString();
+            const lastAuthDate = localStorage.getItem('auth_key_today');
+            
+            if (lastAuthDate === today && nick && pass) {
+                // Если уже вводили сегодня, пропускаем проверку и сразу входим
+                showAuthStatus('ok', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Вход выполнен!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Logged in!');
+                
+                // Загружаем данные пользователя и входим
+                try {
+                    const { data, error } = await sbClient
+                        .from('accounts')
+                        .select('nick, verified, avatar_url, email, email_verified, created_at')
+                        .ilike('nick', nick)
+                        .limit(1);
+                    if (!error && data && data.length > 0) {
+                        const acc = data[0];
+                        await recordReferral(acc.nick);
+                        setLoggedIn(acc.nick, acc.verified, acc.avatar_url, acc.email, acc.email_verified, acc.created_at);
+                        return;
+                    }
+                } catch(e) {
+                    // Если ошибка, продолжаем обычную аутентификацию
+                }
+            }
+
             if (!nick) { showAuthStatus('err', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Введи никнейм!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Enter nickname!'); return; }
             if (containsProfanity(nick)) { showAuthStatus('err', profanityError(ru)); return; }
             if (!pass || pass.length < 4) { showAuthStatus('err', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Пароль минимум 4 символа!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Password min 4 chars!'); return; }
@@ -8491,6 +8518,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             currentAccount = { nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null };
             window.currentAccount = currentAccount;
             window.currentAccount = currentAccount;
+            
+            // Сохраняем ключ аутентификации на сегодня
+            const today = new Date().toDateString();
+            localStorage.setItem('auth_key_today', today);
+            
             loadUserVotes(nick);
             document.getElementById('bp-author').value = nick;
             document.getElementById('bp-auth-form').style.display = 'none';
@@ -8561,6 +8593,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 } else {
                     if (rTab) rTab.style.display = 'none';
                     if (mobileRTab) mobileRTab.style.display = 'none';
+                    const navSep = document.getElementById('nav-reports-sep');
+                    if (navSep) navSep.style.display = 'none';
                 }
 
                 if (gTab) {
