@@ -1049,7 +1049,6 @@
             display: flex;
             gap: 0;
             margin-bottom: 0;
-            border-bottom: 3px solid #8b7355;
             padding-bottom: 0px;
             justify-content: stretch;
             width: 100%;
@@ -1060,13 +1059,15 @@
         }
 
         .nav-tabs-reports-row {
+            border-radius: 0 0 4px 4px;
+            overflow: hidden;
+            margin-top: 0px;
+        }
+        .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
             border-top: 2px solid #c8b090;
-            border-radius: 0 0 4px 4px;
-            overflow: hidden;
-            margin-top: 0px;
         }
 
         .nav-tab-reports-mobile {
@@ -10094,8 +10095,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (tabName === 'gallery') localStorage.setItem('gallery_last_seen', Date.now().toString());
             if (tabName === 'reports') localStorage.setItem('reports_last_seen', Date.now().toString());
             _origTabSwitch(tabName);
-            // Применяем иконки к секциям которые могли не иметь их при ините
-            setTimeout(() => { if (typeof applyMceIcons === 'function') applyMceIcons(); }, 30);
+
         };
 
         const origSwitchTab = window.switchTab;
