@@ -378,6 +378,12 @@
             }
         }
 
+        /* Убираем серую полоску (outline) со всех кнопок и инпутов */
+        input:focus, button:focus, select:focus, textarea:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
         body::before {
             content: '';
             position: fixed;
@@ -9898,10 +9904,23 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'dislike');
                     }
                     console.log('Adding like to user_votes');
-                    const { error: upsertError } = await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id), vote: 'like' }], { onConflict: 'nick,item_type,item_id' });
-                    if (upsertError) {
-                        console.error('Upsert error:', upsertError);
-                        throw upsertError;
+                    // Сначала удаляем старый лайк если есть
+                    await sbClient.from('user_votes').delete()
+                        .eq('nick', currentAccount.nick)
+                        .eq('item_type', 'bp')
+                        .eq('item_id', String(id));
+                    
+                    // Затем вставляем новый
+                    const { error: insertError } = await sbClient.from('user_votes').insert([{ 
+                        nick: currentAccount.nick, 
+                        item_type: 'bp', 
+                        item_id: String(id), 
+                        vote: 'like',
+                        created_at: new Date().toISOString()
+                    }]);
+                    if (insertError) {
+                        console.error('Insert error:', insertError);
+                        throw insertError;
                     }
                 }
 
@@ -9959,7 +9978,20 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         likeBtn.querySelector('.bp-like-count').textContent = newLikes;
                         await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'like');
                     }
-                    await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id), vote: 'dislike' }], { onConflict: 'nick,item_type,item_id' });
+                    // Сначала удаляем старый дизлайк если есть
+                    await sbClient.from('user_votes').delete()
+                        .eq('nick', currentAccount.nick)
+                        .eq('item_type', 'bp')
+                        .eq('item_id', String(id));
+                    
+                    // Затем вставляем новый
+                    await sbClient.from('user_votes').insert([{ 
+                        nick: currentAccount.nick, 
+                        item_type: 'bp', 
+                        item_id: String(id), 
+                        vote: 'dislike',
+                        created_at: new Date().toISOString()
+                    }]);
                 }
 
                 await sbClient.from('buildplates').update({ likes: newLikes, dislikes: newDislikes }).eq('id', id);
@@ -11154,7 +11186,20 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 } else {
                     await sbClient.from('gallery').update({ likes: count }).eq('id', id);
                 }
-                await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'gallery', item_id: String(id), vote: 'like' }], { onConflict: 'nick,item_type,item_id' });
+                // Сначала удаляем старый лайк если есть
+                await sbClient.from('user_votes').delete()
+                    .eq('nick', currentAccount.nick)
+                    .eq('item_type', 'gallery')
+                    .eq('item_id', String(id));
+                
+                // Затем вставляем новый
+                await sbClient.from('user_votes').insert([{ 
+                    nick: currentAccount.nick, 
+                    item_type: 'gallery', 
+                    item_id: String(id), 
+                    vote: 'like',
+                    created_at: new Date().toISOString()
+                }]);
             }
             if (countEl) countEl.textContent = count;
             if (dislikeCountEl) dislikeCountEl.textContent = dCount;
@@ -11195,7 +11240,20 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 } else {
                     await sbClient.from('gallery').update({ dislikes: count }).eq('id', id);
                 }
-                await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'gallery', item_id: String(id), vote: 'dislike' }], { onConflict: 'nick,item_type,item_id' });
+                // Сначала удаляем старый дизлайк если есть
+                await sbClient.from('user_votes').delete()
+                    .eq('nick', currentAccount.nick)
+                    .eq('item_type', 'gallery')
+                    .eq('item_id', String(id));
+                
+                // Затем вставляем новый
+                await sbClient.from('user_votes').insert([{ 
+                    nick: currentAccount.nick, 
+                    item_type: 'gallery', 
+                    item_id: String(id), 
+                    vote: 'dislike',
+                    created_at: new Date().toISOString()
+                }]);
             }
             if (countEl) countEl.textContent = count;
             if (likeCountEl) likeCountEl.textContent = lCount;
