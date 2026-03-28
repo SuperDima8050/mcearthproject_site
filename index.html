@@ -8147,7 +8147,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const params = new URLSearchParams(window.location.search);
             const ref = params.get('ref');
             if (ref) {
-                window._safeLocalSet('pending_referrer', ref);
+                try { localStorage.setItem('pending_referrer', ref); } catch(e) {}
                 const url = new URL(window.location.href);
                 url.searchParams.delete('ref');
                 window.history.replaceState({}, '', url.toString());
@@ -9233,7 +9233,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             el.style.display = (!type || !message) ? 'none' : '';
         }
 
-        let _bpAllData = [];
+        var _bpAllData = [];
         let _bpAvatarMap = {};
         let _bpVerifiedMap = {};
         let _bpSecretMap = {};
