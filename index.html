@@ -1073,7 +1073,13 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
-            border-top: none;
+            border-top: 3px solid #8b7355;
+        }
+        body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
+            border-bottom-color: #3a3a3a;
+            border-left-color: #3a3a3a;
+            border-right-color: #3a3a3a;
+            border-top-color: #3a3a3a;
         }
 
         .nav-tab-reports-mobile {
@@ -1092,9 +1098,12 @@
             }
         }
 
-        /* На мобильном — Reports из основного ряда скрыт */
+        /* На мобильном — Reports и Лидеры из основного ряда скрыты */
         @media (max-width: 768px) {
             #reports-nav-tab {
+                display: none;
+            }
+            #leaderboard-nav-tab {
                 display: none;
             }
         }
@@ -1721,7 +1730,13 @@
 
         body.dark-theme .nav-tabs-reports-row {
             border-color: #3a3a3a;
-            border-top-color: #555;
+            border-top-color: #3a3a3a;
+        }
+        body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
+            border-bottom-color: #3a3a3a;
+            border-left-color: #3a3a3a;
+            border-right-color: #3a3a3a;
+            border-top-color: #3a3a3a;
         }
         .nav-sep-line { background: #c8b090; }
         body.dark-theme .nav-sep-line { background: #444; }
@@ -5308,12 +5323,13 @@
             <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
             <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
             <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
-            <button class="nav-tab" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
             <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+            <button class="nav-tab" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
         </div>
         <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
             <div id="nav-reports-sep" class="nav-sep-line" style="display:none;height:4px;margin:0;"></div>
             <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" style="display:none;" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
+            <button class="nav-tab nav-tab-reports-mobile" id="leaderboard-nav-tab-mobile" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
         </div>
         </div>
 
