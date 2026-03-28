@@ -1058,6 +1058,7 @@
             padding-bottom: 0px;
             justify-content: stretch;
             width: 100%;
+            border-bottom: 3px solid #8b7355;
         }
 
         .nav-tabs-wrapper {
@@ -1074,19 +1075,25 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
-            border-top: 3px solid #8b7355;
+            border-top: none;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
             border-left-color: #3a3a3a;
             border-right-color: #3a3a3a;
-            border-top-color: #3a3a3a;
         }
 
         .nav-tab-reports-mobile {
             width: 100%;
             border: none !important;
             border-radius: 0 !important;
+            border-top: 1px solid #8b7355 !important;
+        }
+        .nav-tab-reports-mobile:first-of-type {
+            border-top: none !important;
+        }
+        body.dark-theme .nav-tab-reports-mobile {
+            border-top-color: #3a3a3a !important;
         }
 
         /* На десктопе — мобильная строка скрыта, Reports в основном ряду */
