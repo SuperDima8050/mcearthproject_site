@@ -9877,10 +9877,13 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 let newLikes = data.likes || 0;
                 let newDislikes = data.dislikes || 0;
 
+                console.log('handleBpLike - before:', { id, isLiked, isDisliked, newLikes, newDislikes });
+
                 if (isLiked) {
                     newLikes = Math.max(0, newLikes - 1);
                     delete window._sbVotes.bp_likes[id];
                     likeBtn.classList.remove('liked');
+                    console.log('Removing like from user_votes');
                     await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'like');
                 } else {
                     newLikes += 1;
@@ -9891,11 +9894,18 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         delete window._sbVotes.bp_dislikes[id];
                         dislikeBtn.classList.remove('disliked');
                         dislikeBtn.querySelector('.bp-dislike-count').textContent = newDislikes;
+                        console.log('Removing dislike from user_votes');
                         await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'dislike');
                     }
-                    await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id), vote: 'like' }], { onConflict: 'nick,item_type,item_id' });
+                    console.log('Adding like to user_votes');
+                    const { error: upsertError } = await sbClient.from('user_votes').upsert([{ nick: currentAccount.nick, item_type: 'bp', item_id: String(id), vote: 'like' }], { onConflict: 'nick,item_type,item_id' });
+                    if (upsertError) {
+                        console.error('Upsert error:', upsertError);
+                        throw upsertError;
+                    }
                 }
 
+                console.log('handleBpLike - after:', { newLikes, newDislikes });
                 await sbClient.from('buildplates').update({ likes: newLikes, dislikes: newDislikes }).eq('id', id);
                 window._safeLocalSet('bp_likes', JSON.stringify(window._sbVotes.bp_likes));
                 window._safeLocalSet('bp_dislikes', JSON.stringify(window._sbVotes.bp_dislikes));
