@@ -1062,6 +1062,7 @@
 
         .nav-tabs-wrapper {
             margin-bottom: 30px;
+            overflow-x: hidden;
         }
 
         .nav-tabs-reports-row {
@@ -4557,12 +4558,21 @@
             }
             /* Nav tabs overflow scroll */
             .nav-tabs {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                flex-wrap: nowrap;
+                overflow-x: hidden;
+                flex-wrap: wrap;
                 scrollbar-width: none;
             }
             .nav-tabs::-webkit-scrollbar { display: none; }
+            /* Leaderboard sub-tabs wrap on mobile */
+            .lb-tabs {
+                flex-wrap: wrap;
+            }
+            .lb-tab {
+                flex: 1 1 auto;
+                min-width: 0;
+                text-align: center;
+                justify-content: center;
+            }
             /* Ref link input */
             .ref-link-input {
                 min-width: 0;
