@@ -9867,9 +9867,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!window._sbVotes) {
                 window._sbVotes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
             }
-            const votes = window._sbVotes;
-            const isLiked = votes.bp_likes[id] === true;
-            const isDisliked = votes.bp_dislikes[id] === true;
+            const isLiked = window._sbVotes.bp_likes[id] === true;
+            const isDisliked = window._sbVotes.bp_dislikes[id] === true;
 
             try {
                 const { data, error } = await sbClient.from('buildplates').select('likes, dislikes').eq('id', id).single();
@@ -9880,16 +9879,16 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
                 if (isLiked) {
                     newLikes = Math.max(0, newLikes - 1);
-                    delete votes.bp_likes[id];
+                    delete window._sbVotes.bp_likes[id];
                     likeBtn.classList.remove('liked');
                     await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'like');
                 } else {
                     newLikes += 1;
-                    votes.bp_likes[id] = true;
+                    window._sbVotes.bp_likes[id] = true;
                     likeBtn.classList.add('liked');
                     if (isDisliked) {
                         newDislikes = Math.max(0, newDislikes - 1);
-                        delete votes.bp_dislikes[id];
+                        delete window._sbVotes.bp_dislikes[id];
                         dislikeBtn.classList.remove('disliked');
                         dislikeBtn.querySelector('.bp-dislike-count').textContent = newDislikes;
                         await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'dislike');
@@ -9898,9 +9897,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 }
 
                 await sbClient.from('buildplates').update({ likes: newLikes, dislikes: newDislikes }).eq('id', id);
-                window._sbVotes = votes;
-                window._safeLocalSet('bp_likes', JSON.stringify(votes.bp_likes));
-                window._safeLocalSet('bp_dislikes', JSON.stringify(votes.bp_dislikes));
+                window._safeLocalSet('bp_likes', JSON.stringify(window._sbVotes.bp_likes));
+                window._safeLocalSet('bp_dislikes', JSON.stringify(window._sbVotes.bp_dislikes));
                 likeBtn.querySelector('.bp-like-count').textContent = newLikes;
             } catch (err) {
                 console.error('Like error:', err);
@@ -9925,9 +9923,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!window._sbVotes) {
                 window._sbVotes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
             }
-            const votes = window._sbVotes;
-            const isLiked = votes.bp_likes[id] === true;
-            const isDisliked = votes.bp_dislikes[id] === true;
+            const isLiked = window._sbVotes.bp_likes[id] === true;
+            const isDisliked = window._sbVotes.bp_dislikes[id] === true;
 
             try {
                 const { data, error } = await sbClient.from('buildplates').select('likes, dislikes').eq('id', id).single();
@@ -9938,16 +9935,16 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
                 if (isDisliked) {
                     newDislikes = Math.max(0, newDislikes - 1);
-                    delete votes.bp_dislikes[id];
+                    delete window._sbVotes.bp_dislikes[id];
                     dislikeBtn.classList.remove('disliked');
                     await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'dislike');
                 } else {
                     newDislikes += 1;
-                    votes.bp_dislikes[id] = true;
+                    window._sbVotes.bp_dislikes[id] = true;
                     dislikeBtn.classList.add('disliked');
                     if (isLiked) {
                         newLikes = Math.max(0, newLikes - 1);
-                        delete votes.bp_likes[id];
+                        delete window._sbVotes.bp_likes[id];
                         likeBtn.classList.remove('liked');
                         likeBtn.querySelector('.bp-like-count').textContent = newLikes;
                         await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'like');
@@ -9956,9 +9953,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 }
 
                 await sbClient.from('buildplates').update({ likes: newLikes, dislikes: newDislikes }).eq('id', id);
-                window._sbVotes = votes;
-                window._safeLocalSet('bp_likes', JSON.stringify(votes.bp_likes));
-                window._safeLocalSet('bp_dislikes', JSON.stringify(votes.bp_dislikes));
+                window._safeLocalSet('bp_likes', JSON.stringify(window._sbVotes.bp_likes));
+                window._safeLocalSet('bp_dislikes', JSON.stringify(window._sbVotes.bp_dislikes));
                 dislikeBtn.querySelector('.bp-dislike-count').textContent = newDislikes;
             } catch (err) {
                 console.error('Dislike error:', err);
@@ -11126,9 +11122,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             if (!window._sbVotes) {
                 window._sbVotes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
             }
-            const votes = window._sbVotes;
-            const wasLiked = votes.gallery_likes[id] === true;
-            const wasDisliked = votes.gallery_dislikes[id] === true;
+            const wasLiked = window._sbVotes.gallery_likes[id] === true;
+            const wasDisliked = window._sbVotes.gallery_dislikes[id] === true;
             likeBtn.disabled = true; dislikeBtn.disabled = true;
 
             const countEl = likeBtn.querySelector('.gl-like-count');
@@ -11137,13 +11132,13 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             let dCount = parseInt(dislikeCountEl?.textContent || '0');
 
             if (wasLiked) {
-                delete votes.gallery_likes[id]; likeBtn.classList.remove('liked'); count = Math.max(0, count - 1);
+                delete window._sbVotes.gallery_likes[id]; likeBtn.classList.remove('liked'); count = Math.max(0, count - 1);
                 await sbClient.from('gallery').update({ likes: count }).eq('id', id);
                 await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id)).eq('vote', 'like');
             } else {
-                votes.gallery_likes[id] = true; likeBtn.classList.add('liked'); count++;
+                window._sbVotes.gallery_likes[id] = true; likeBtn.classList.add('liked'); count++;
                 if (wasDisliked) {
-                    delete votes.gallery_dislikes[id]; dislikeBtn?.classList.remove('disliked'); dCount = Math.max(0, dCount - 1);
+                    delete window._sbVotes.gallery_dislikes[id]; dislikeBtn?.classList.remove('disliked'); dCount = Math.max(0, dCount - 1);
                     await sbClient.from('gallery').update({ likes: count, dislikes: dCount }).eq('id', id);
                     await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id)).eq('vote', 'dislike');
                 } else {
@@ -11153,9 +11148,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             }
             if (countEl) countEl.textContent = count;
             if (dislikeCountEl) dislikeCountEl.textContent = dCount;
-            window._sbVotes = votes;
-            window._safeLocalSet('gallery_likes', JSON.stringify(votes.gallery_likes));
-            window._safeLocalSet('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
+            window._safeLocalSet('gallery_likes', JSON.stringify(window._sbVotes.gallery_likes));
+            window._safeLocalSet('gallery_dislikes', JSON.stringify(window._sbVotes.gallery_dislikes));
             likeBtn.disabled = false; dislikeBtn.disabled = false;
         }
 
@@ -11169,9 +11163,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             if (!window._sbVotes) {
                 window._sbVotes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
             }
-            const votes = window._sbVotes;
-            const wasDisliked = votes.gallery_dislikes[id] === true;
-            const wasLiked = votes.gallery_likes[id] === true;
+            const wasDisliked = window._sbVotes.gallery_dislikes[id] === true;
+            const wasLiked = window._sbVotes.gallery_likes[id] === true;
             dislikeBtn.disabled = true; likeBtn.disabled = true;
 
             const countEl = dislikeBtn.querySelector('.gl-dislike-count');
@@ -11180,13 +11173,13 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             let lCount = parseInt(likeCountEl?.textContent || '0');
 
             if (wasDisliked) {
-                delete votes.gallery_dislikes[id]; dislikeBtn.classList.remove('disliked'); count = Math.max(0, count - 1);
+                delete window._sbVotes.gallery_dislikes[id]; dislikeBtn.classList.remove('disliked'); count = Math.max(0, count - 1);
                 await sbClient.from('gallery').update({ dislikes: count }).eq('id', id);
                 await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id)).eq('vote', 'dislike');
             } else {
-                votes.gallery_dislikes[id] = true; dislikeBtn.classList.add('disliked'); count++;
+                window._sbVotes.gallery_dislikes[id] = true; dislikeBtn.classList.add('disliked'); count++;
                 if (wasLiked) {
-                    delete votes.gallery_likes[id]; likeBtn?.classList.remove('liked'); lCount = Math.max(0, lCount - 1);
+                    delete window._sbVotes.gallery_likes[id]; likeBtn?.classList.remove('liked'); lCount = Math.max(0, lCount - 1);
                     await sbClient.from('gallery').update({ dislikes: count, likes: lCount }).eq('id', id);
                     await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'gallery').eq('item_id', String(id)).eq('vote', 'like');
                 } else {
@@ -11196,9 +11189,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             }
             if (countEl) countEl.textContent = count;
             if (likeCountEl) likeCountEl.textContent = lCount;
-            window._sbVotes = votes;
-            window._safeLocalSet('gallery_likes', JSON.stringify(votes.gallery_likes));
-            window._safeLocalSet('gallery_dislikes', JSON.stringify(votes.gallery_dislikes));
+            window._safeLocalSet('gallery_likes', JSON.stringify(window._sbVotes.gallery_likes));
+            window._safeLocalSet('gallery_dislikes', JSON.stringify(window._sbVotes.gallery_dislikes));
             dislikeBtn.disabled = false; likeBtn.disabled = false;
         }
 
