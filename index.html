@@ -7742,14 +7742,22 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         // Чтобы показать плашку: UPDATE site_settings SET value='Текст сообщения' WHERE key='announcement';
         // Чтобы скрыть: UPDATE site_settings SET value='' WHERE key='announcement';
         async function checkAnnouncement() {
-            if (!sbClient) return;
+            console.log('[Announcement] Checking announcement...');
+            if (!sbClient) {
+                console.log('[Announcement] sbClient not ready');
+                return;
+            }
             try {
                 const { data, error } = await sbClient
                     .from('site_settings')
                     .select('value')
                     .eq('key', 'announcement')
                     .single();
-                if (error) return;
+                console.log('[Announcement] Data:', data, 'Error:', error);
+                if (error) {
+                    console.log('[Announcement] Error reading announcement:', error);
+                    return;
+                }
                 applyAnnouncement(data ? data.value : '');
 
                 sbClient
@@ -7760,20 +7768,30 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         table: 'site_settings',
                         filter: 'key=eq.announcement'
                     }, (payload) => {
+                        console.log('[Announcement] Realtime update:', payload);
                         applyAnnouncement(payload.new ? payload.new.value : '');
                     })
                     .subscribe();
-            } catch(e) {}
+            } catch(e) {
+                console.log('[Announcement] Exception:', e);
+            }
         }
 
         function applyAnnouncement(text) {
+            console.log('[Announcement] Applying announcement:', text);
             const banner = document.getElementById('announcement-banner');
             const textEl = document.getElementById('announcement-text');
-            if (!banner || !textEl) return;
+            console.log('[Announcement] Banner element:', banner, 'Text element:', textEl);
+            if (!banner || !textEl) {
+                console.log('[Announcement] Elements not found!');
+                return;
+            }
             if (text && text.trim()) {
+                console.log('[Announcement] Showing banner with text:', text.trim());
                 textEl.textContent = text.trim();
                 banner.classList.add('active');
             } else {
+                console.log('[Announcement] Hiding banner');
                 banner.classList.remove('active');
                 textEl.textContent = '';
             }
