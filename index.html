@@ -6209,7 +6209,7 @@
             const pageData = newsArray.slice(startIndex, endIndex);
 
             newsContainer.innerHTML = '';
-            const userLikes = window._sbVotes?.news_likes || JSON.parse(localStorage.getItem('userLikes') || '{}');
+            const userLikes = window._sbVotes?.news_likes || {};
             const lastSeenNews = parseInt(localStorage.getItem('news_last_seen') || '0', 10);
             const NEW_ICON_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png';
             pageData.forEach(news => {
@@ -8201,6 +8201,18 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         let currentAccount = null; // { nick, email, verified, email_verified, avatar_url }
         window.currentAccount = null;
         window.currentAccount = null; // exposed for applyProtectedBlur
+        
+        // Инициализируем хранилище голосов
+        window._sbVotes = {
+            bp_likes: {},
+            bp_dislikes: {},
+            gallery_likes: {},
+            gallery_dislikes: {},
+            bp_favorites: {},
+            gallery_favorites: {},
+            news_likes: {}
+        };
+        
         let authMode = 'login'; // 'login' | 'register'
 
         function generateToken(len = 48) {
@@ -9047,7 +9059,21 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     const raw = localStorage.getItem('bp_session');
                     if (raw) {
                         const s = (typeof _decryptSession === 'function') ? await _decryptSession(raw) : JSON.parse(raw);
-                        if (s && s.nick) setLoggedIn(s.nick, s.verified, s.avatar_url || null, s.email || null, s.email_verified || false, s.join_date || null);
+                        if (s && s.nick) {
+                            // Инициализируем _sbVotes перед загрузкой
+                            if (!window._sbVotes) {
+                                window._sbVotes = {
+                                    bp_likes: {},
+                                    bp_dislikes: {},
+                                    gallery_likes: {},
+                                    gallery_dislikes: {},
+                                    bp_favorites: {},
+                                    gallery_favorites: {},
+                                    news_likes: {}
+                                };
+                            }
+                            setLoggedIn(s.nick, s.verified, s.avatar_url || null, s.email || null, s.email_verified || false, s.join_date || null);
+                        }
                     }
                 } catch(e) {}
             })();
@@ -9418,8 +9444,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         };
 
         function renderBpCards(data, grid, myIds, myNicks) {
-            const bpLikes = window._sbVotes?.bp_likes || JSON.parse(localStorage.getItem('bp_likes') || '{}');
-            const bpDislikes = window._sbVotes?.bp_dislikes || JSON.parse(localStorage.getItem('bp_dislikes') || '{}');
+            const bpLikes = window._sbVotes?.bp_likes || {};
+            const bpDislikes = window._sbVotes?.bp_dislikes || {};
 
             const lastSeenBp = parseInt(localStorage.getItem('bp_last_seen') || '0', 10);
             data.forEach(bp => {
@@ -10918,8 +10944,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         }
 
         function renderGalleryCards(data, grid) {
-            const glLikes = window._sbVotes?.gallery_likes || JSON.parse(localStorage.getItem('gallery_likes') || '{}');
-            const glDislikes = window._sbVotes?.gallery_dislikes || JSON.parse(localStorage.getItem('gallery_dislikes') || '{}');
+            const glLikes = window._sbVotes?.gallery_likes || {};
+            const glDislikes = window._sbVotes?.gallery_dislikes || {};
             const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
 
             const lastSeenGl = parseInt(localStorage.getItem('gallery_last_seen') || '0', 10);
