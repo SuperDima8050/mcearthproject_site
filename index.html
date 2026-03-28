@@ -4566,6 +4566,10 @@
                 scrollbar-width: none;
             }
             .nav-tabs::-webkit-scrollbar { display: none; }
+            /* Remove bottom shadow on mobile tabs to avoid double-thick line between rows */
+            .nav-tabs .nav-tab {
+                box-shadow: none;
+            }
             /* Leaderboard sub-tabs wrap on mobile */
             .lb-tabs {
                 flex-wrap: wrap;
@@ -5686,9 +5690,9 @@
         
         <div id="news-tab" class="tab-content">
             <div class="section">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:15px;flex-wrap:nowrap;">
-                    <h2 class="section-title" data-icon="journal_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"><span data-ru="Новости проекта" data-en="Project News">Новости проекта</span></h2>
-                    <div style="display:flex;gap:6px;flex-shrink:0;align-items:center;flex-wrap:nowrap;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:15px;flex-wrap:wrap;">
+                    <h2 class="section-title" data-icon="journal_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;flex:1;min-width:200px;"><span data-ru="Новости проекта" data-en="Project News">Новости проекта</span></h2>
+                    <div style="display:flex;gap:6px;flex-shrink:0;align-items:center;">
                         <button class="copy-btn" onclick="loadNews()" style="font-size:0.8rem;padding:8px 12px;white-space:nowrap;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"><span data-ru="Обновить" data-en="Refresh">Обновить</span></button>
                         <button id="news-add-btn" class="copy-btn" onclick="showNewsAdminPanel()" style="font-size:0.8rem;padding:8px 14px;white-space:nowrap;display:none;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
