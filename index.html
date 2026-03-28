@@ -5299,10 +5299,10 @@
             <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
             <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
             <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
+            <button class="nav-tab" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
             <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
-        <div class="nav-tabs-reports-row" id="nav-reports-row">
-            <button class="nav-tab nav-tab-reports-mobile" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
+        <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
             <div id="nav-reports-sep" class="nav-sep-line" style="display:none;height:4px;margin:0;"></div>
             <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" style="display:none;" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
         </div>
@@ -6340,7 +6340,7 @@
             renderNews(_newsCache, _newsIsAdmin);
         };
 
-        async function loadNews() {
+        window.loadNews = async function loadNews() {
             if (!sbClient) return;
             document.getElementById('news-container').innerHTML = '<div class="news-loading"><div class="compass-loader"></div><p>' + (currentLang === 'ru' ? 'Загрузка...' : 'Loading...') + '</p></div>';
             try {
@@ -7632,7 +7632,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             console.error('Supabase init error:', e);
         }
 
-        if (typeof window.loadNews === 'function') window.loadNews();
+        // loadNews вызывается после инициализации sbClient
+        setTimeout(() => { if (typeof window.loadNews === 'function') window.loadNews(); }, 100);
 
         // === MAINTENANCE MODE ===
         // Reads `maintenance_mode` from Supabase table `site_settings` (key/value).
@@ -10093,6 +10094,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (tabName === 'gallery') localStorage.setItem('gallery_last_seen', Date.now().toString());
             if (tabName === 'reports') localStorage.setItem('reports_last_seen', Date.now().toString());
             _origTabSwitch(tabName);
+            // Применяем иконки к секциям которые могли не иметь их при ините
+            setTimeout(() => { if (typeof applyMceIcons === 'function') applyMceIcons(); }, 30);
         };
 
         const origSwitchTab = window.switchTab;
