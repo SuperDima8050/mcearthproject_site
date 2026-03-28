@@ -1784,9 +1784,9 @@
             padding: 10px 16px;
             margin-bottom: 14px;
             border-radius: 4px;
-            border: 2px solid #4caf50;
-            background: linear-gradient(135deg, #1a2e1a 0%, #1e3a1e 100%);
-            box-shadow: 0 3px 10px rgba(76,175,80,0.25);
+            border: 2px solid #66bb6a;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f1f8f1 100%);
+            box-shadow: 0 3px 10px rgba(76,175,80,0.2);
             text-align: center;
             position: relative;
         }
@@ -1798,16 +1798,17 @@
         #announcement-banner .ann-text {
             font-family: 'Minecraft', 'NotoSans', sans-serif;
             font-size: 0.88rem;
-            color: #a5d6a7;
+            color: #2e7d32;
             font-weight: 600;
             flex: 1;
             min-width: 0;
         }
         body.dark-theme #announcement-banner {
-            background: linear-gradient(135deg, #0d1f0d 0%, #112211 100%);
-            border-color: #66bb6a;
+            background: linear-gradient(135deg, #1a2e1a 0%, #1e3a1e 100%);
+            border-color: #4caf50;
+            box-shadow: 0 3px 10px rgba(76,175,80,0.25);
         }
-        body.dark-theme #announcement-banner .ann-text { color: #c8e6c9; }
+        body.dark-theme #announcement-banner .ann-text { color: #a5d6a7; }
 
         body.dark-theme .nav-tab.active {
             color: white;
@@ -5990,6 +5991,8 @@
             </div>
         </div>
         
+        <!-- Разделитель между секциями -->
+        <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(139,115,85,0.3),transparent);margin:20px 0;"></div>
 
         <!-- GALLERY TAB -->
         <div id="gallery-tab" class="tab-content">
@@ -7639,6 +7642,19 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         
         // checkAnnouncement вызывается после инициализации sbClient
         setTimeout(() => { if (typeof checkAnnouncement === 'function') checkAnnouncement(); }, 200);
+        
+        // Инициализируем window._sbVotes при загрузке страницы
+        if (!window._sbVotes) {
+            window._sbVotes = { 
+                bp_likes: {}, 
+                bp_dislikes: {}, 
+                gallery_likes: {}, 
+                gallery_dislikes: {}, 
+                bp_favorites: {}, 
+                gallery_favorites: {}, 
+                news_likes: {} 
+            };
+        }
 
         // === MAINTENANCE MODE ===
         // Reads `maintenance_mode` from Supabase table `site_settings` (key/value).
@@ -9447,8 +9463,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         };
 
         function renderBpCards(data, grid, myIds, myNicks) {
-            const bpLikes = window._sbVotes?.bp_likes || {};
-            const bpDislikes = window._sbVotes?.bp_dislikes || {};
+            const bpLikes = (window._sbVotes && window._sbVotes.bp_likes) ? window._sbVotes.bp_likes : {};
+            const bpDislikes = (window._sbVotes && window._sbVotes.bp_dislikes) ? window._sbVotes.bp_dislikes : {};
 
             const lastSeenBp = parseInt(localStorage.getItem('bp_last_seen') || '0', 10);
             data.forEach(bp => {
@@ -10955,8 +10971,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         }
 
         function renderGalleryCards(data, grid) {
-            const glLikes = window._sbVotes?.gallery_likes || {};
-            const glDislikes = window._sbVotes?.gallery_dislikes || {};
+            const glLikes = (window._sbVotes && window._sbVotes.gallery_likes) ? window._sbVotes.gallery_likes : {};
+            const glDislikes = (window._sbVotes && window._sbVotes.gallery_dislikes) ? window._sbVotes.gallery_dislikes : {};
             const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
 
             const lastSeenGl = parseInt(localStorage.getItem('gallery_last_seen') || '0', 10);
