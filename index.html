@@ -7747,6 +7747,18 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 console.log('[Announcement] sbClient not ready');
                 return;
             }
+            
+            // Сначала проверим доступ к таблице
+            try {
+                const { data: allData, error: allError } = await sbClient
+                    .from('site_settings')
+                    .select('*')
+                    .limit(5);
+                console.log('[Announcement] All site_settings:', allData, 'Error:', allError);
+            } catch(e) {
+                console.log('[Announcement] Error accessing site_settings:', e);
+            }
+            
             try {
                 const { data, error } = await sbClient
                     .from('site_settings')
@@ -7756,6 +7768,27 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 console.log('[Announcement] Data:', data, 'Error:', error);
                 if (error) {
                     console.log('[Announcement] Error reading announcement:', error);
+                    // Если нет записи, попробуем создать её
+                    if (error.code === 'PGRST116') {
+                        console.log('[Announcement] No announcement record, trying to create...');
+                        const { insertError } = await sbClient
+                            .from('site_settings')
+                            .insert({ key: 'announcement', value: '🎉 Тестовое объявление!' });
+                        if (insertError) {
+                            console.log('[Announcement] Insert error:', insertError);
+                        } else {
+                            console.log('[Announcement] Created announcement record, retrying...');
+                            // Повторная попытка чтения
+                            const { data: retryData, error: retryError } = await sbClient
+                                .from('site_settings')
+                                .select('value')
+                                .eq('key', 'announcement')
+                                .single();
+                            if (!retryError && retryData) {
+                                applyAnnouncement(retryData.value);
+                            }
+                        }
+                    }
                     return;
                 }
                 applyAnnouncement(data ? data.value : '');
@@ -9865,7 +9898,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             likeBtn.disabled = true;
             dislikeBtn.disabled = true;
 
-            const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+            // Инициализируем window._sbVotes если он undefined
+            if (!window._sbVotes) {
+                window._sbVotes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
+            }
+            const votes = window._sbVotes;
             const isLiked = votes.bp_likes[id] === true;
             const isDisliked = votes.bp_dislikes[id] === true;
 
@@ -9919,7 +9956,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             likeBtn.disabled = true;
             dislikeBtn.disabled = true;
 
-            const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+            // Инициализируем window._sbVotes если он undefined
+            if (!window._sbVotes) {
+                window._sbVotes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
+            }
+            const votes = window._sbVotes;
             const isLiked = votes.bp_likes[id] === true;
             const isDisliked = votes.bp_dislikes[id] === true;
 
@@ -11116,7 +11157,11 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы ставить лайки!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to like!', 'error');
                 return;
             }
-            const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+            // Инициализируем window._sbVotes если он undefined
+            if (!window._sbVotes) {
+                window._sbVotes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
+            }
+            const votes = window._sbVotes;
             const wasLiked = votes.gallery_likes[id] === true;
             const wasDisliked = votes.gallery_dislikes[id] === true;
             likeBtn.disabled = true; dislikeBtn.disabled = true;
@@ -11155,7 +11200,11 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы ставить лайки!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to like!', 'error');
                 return;
             }
-            const votes = window._sbVotes || { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {} };
+            // Инициализируем window._sbVotes если он undefined
+            if (!window._sbVotes) {
+                window._sbVotes = { bp_likes: {}, bp_dislikes: {}, gallery_likes: {}, gallery_dislikes: {}, bp_favorites: {}, gallery_favorites: {}, news_likes: {} };
+            }
+            const votes = window._sbVotes;
             const wasDisliked = votes.gallery_dislikes[id] === true;
             const wasLiked = votes.gallery_likes[id] === true;
             dislikeBtn.disabled = true; likeBtn.disabled = true;
