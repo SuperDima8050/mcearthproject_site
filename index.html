@@ -1058,7 +1058,6 @@
             padding-bottom: 0px;
             justify-content: stretch;
             width: 100%;
-            border-bottom: 3px solid #8b7355;
         }
 
         .nav-tabs-wrapper {
@@ -1075,19 +1074,20 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
-            border-top: none;
+            border-top: 3px solid #8b7355;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
             border-left-color: #3a3a3a;
             border-right-color: #3a3a3a;
+            border-top-color: #3a3a3a;
         }
 
         .nav-tab-reports-mobile {
             width: 100%;
             border: none !important;
             border-radius: 0 !important;
-            border-top: 1px solid #8b7355 !important;
+            border-top: 3px solid #8b7355 !important;
         }
         .nav-tab-reports-mobile:first-of-type {
             border-top: none !important;
@@ -1731,10 +1731,6 @@
         body.dark-theme #bp-limit-title { color: #8bc34a; }
         body.dark-theme #bp-limit-text { color: #b0b0b0; }
         body.dark-theme #bp-limit-reset { color: #666; }
-
-        body.dark-theme .nav-tabs {
-            border-bottom-color: #3a3a3a;
-        }
 
         body.dark-theme .nav-tabs-reports-row {
             border-color: #3a3a3a;
@@ -5690,14 +5686,13 @@
         
         <div id="news-tab" class="tab-content">
             <div class="section">
-                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:15px;">
-                    <h2 class="section-title" data-icon="journal_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;flex:1;min-width:160px;"><span data-ru="Новости проекта" data-en="Project News">Новости проекта</span></h2>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:15px;flex-wrap:nowrap;">
+                    <h2 class="section-title" data-icon="journal_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"><span data-ru="Новости проекта" data-en="Project News">Новости проекта</span></h2>
                     <div style="display:flex;gap:6px;flex-shrink:0;align-items:center;flex-wrap:nowrap;">
                         <button class="copy-btn" onclick="loadNews()" style="font-size:0.8rem;padding:8px 12px;white-space:nowrap;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"><span data-ru="Обновить" data-en="Refresh">Обновить</span></button>
-                        <button class="copy-btn" onclick="showNewsAdminPanel()" style="font-size:0.8rem;padding:8px 14px;white-space:nowrap;">
+                        <button id="news-add-btn" class="copy-btn" onclick="showNewsAdminPanel()" style="font-size:0.8rem;padding:8px 14px;white-space:nowrap;display:none;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
                         </button>
-
                     </div>
                 </div>
 
@@ -8651,6 +8646,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
                 if (isAdm) {
                     // Show reports button in the row (mobile always, desktop in main nav)
+                    const newsAddBtn = document.getElementById('news-add-btn');
+                    if (newsAddBtn) newsAddBtn.style.display = '';
                     if (isMobile) {
                         if (mobileRTab) mobileRTab.style.display = '';
                     const navSep = document.getElementById('nav-reports-sep');
@@ -8755,6 +8752,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             localStorage.removeItem('bp_session');
             const rTab = document.getElementById('reports-nav-tab');
             if (rTab) rTab.style.display = 'none';
+            const newsAddBtnLo = document.getElementById('news-add-btn');
+            if (newsAddBtnLo) newsAddBtnLo.style.display = 'none';
             const mobileRow = document.getElementById('nav-reports-row');
             if (mobileRow) mobileRow.style.display = 'block';
             const mobileRTabLo = document.getElementById('reports-nav-tab-mobile');
