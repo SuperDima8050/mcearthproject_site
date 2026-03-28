@@ -7742,55 +7742,14 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         // Чтобы показать плашку: UPDATE site_settings SET value='Текст сообщения' WHERE key='announcement';
         // Чтобы скрыть: UPDATE site_settings SET value='' WHERE key='announcement';
         async function checkAnnouncement() {
-            console.log('[Announcement] Checking announcement...');
-            if (!sbClient) {
-                console.log('[Announcement] sbClient not ready');
-                return;
-            }
-            
-            // Сначала проверим доступ к таблице
-            try {
-                const { data: allData, error: allError } = await sbClient
-                    .from('site_settings')
-                    .select('*')
-                    .limit(5);
-                console.log('[Announcement] All site_settings:', allData, 'Error:', allError);
-            } catch(e) {
-                console.log('[Announcement] Error accessing site_settings:', e);
-            }
-            
+            if (!sbClient) return;
             try {
                 const { data, error } = await sbClient
                     .from('site_settings')
                     .select('value')
                     .eq('key', 'announcement')
                     .single();
-                console.log('[Announcement] Data:', data, 'Error:', error);
-                if (error) {
-                    console.log('[Announcement] Error reading announcement:', error);
-                    // Если нет записи, попробуем создать её
-                    if (error.code === 'PGRST116') {
-                        console.log('[Announcement] No announcement record, trying to create...');
-                        const { insertError } = await sbClient
-                            .from('site_settings')
-                            .insert({ key: 'announcement', value: '🎉 Тестовое объявление!' });
-                        if (insertError) {
-                            console.log('[Announcement] Insert error:', insertError);
-                        } else {
-                            console.log('[Announcement] Created announcement record, retrying...');
-                            // Повторная попытка чтения
-                            const { data: retryData, error: retryError } = await sbClient
-                                .from('site_settings')
-                                .select('value')
-                                .eq('key', 'announcement')
-                                .single();
-                            if (!retryError && retryData) {
-                                applyAnnouncement(retryData.value);
-                            }
-                        }
-                    }
-                    return;
-                }
+                if (error) return;
                 applyAnnouncement(data ? data.value : '');
 
                 sbClient
@@ -7801,30 +7760,20 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         table: 'site_settings',
                         filter: 'key=eq.announcement'
                     }, (payload) => {
-                        console.log('[Announcement] Realtime update:', payload);
                         applyAnnouncement(payload.new ? payload.new.value : '');
                     })
                     .subscribe();
-            } catch(e) {
-                console.log('[Announcement] Exception:', e);
-            }
+            } catch(e) {}
         }
 
         function applyAnnouncement(text) {
-            console.log('[Announcement] Applying announcement:', text);
             const banner = document.getElementById('announcement-banner');
             const textEl = document.getElementById('announcement-text');
-            console.log('[Announcement] Banner element:', banner, 'Text element:', textEl);
-            if (!banner || !textEl) {
-                console.log('[Announcement] Elements not found!');
-                return;
-            }
+            if (!banner || !textEl) return;
             if (text && text.trim()) {
-                console.log('[Announcement] Showing banner with text:', text.trim());
                 textEl.textContent = text.trim();
                 banner.classList.add('active');
             } else {
-                console.log('[Announcement] Hiding banner');
                 banner.classList.remove('active');
                 textEl.textContent = '';
             }
@@ -11914,17 +11863,17 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 });
                 // Re-apply vote states on BP cards
                 document.querySelectorAll('[data-bp-like]').forEach(btn => {
-                    btn.classList.toggle('active', !!votes.bp_likes[btn.dataset.bpLike]);
+                    btn.classList.toggle('liked', !!votes.bp_likes[btn.dataset.bpLike]);
                 });
                 document.querySelectorAll('[data-bp-dislike]').forEach(btn => {
-                    btn.classList.toggle('active', !!votes.bp_dislikes[btn.dataset.bpDislike]);
+                    btn.classList.toggle('disliked', !!votes.bp_dislikes[btn.dataset.bpDislike]);
                 });
                 // Re-apply vote states on gallery cards
                 document.querySelectorAll('[data-gl-like]').forEach(btn => {
-                    btn.classList.toggle('active', !!votes.gallery_likes[btn.dataset.glLike]);
+                    btn.classList.toggle('liked', !!votes.gallery_likes[btn.dataset.glLike]);
                 });
                 document.querySelectorAll('[data-gl-dislike]').forEach(btn => {
-                    btn.classList.toggle('active', !!votes.gallery_dislikes[btn.dataset.glDislike]);
+                    btn.classList.toggle('disliked', !!votes.gallery_dislikes[btn.dataset.glDislike]);
                 });
             } catch(e) {
                 console.warn('loadUserVotes error:', e);
