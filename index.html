@@ -1106,12 +1106,15 @@
             }
         }
 
-        /* На мобильном — Reports и Лидеры из основного ряда скрыты */
+        /* На мобильном — Reports, Лидеры и Галерея из основного ряда скрыты */
         @media (max-width: 768px) {
             #reports-nav-tab {
                 display: none;
             }
             #leaderboard-nav-tab {
+                display: none;
+            }
+            #gallery-nav-tab {
                 display: none;
             }
         }
@@ -4562,7 +4565,7 @@
             /* Nav tabs overflow scroll */
             .nav-tabs {
                 overflow-x: hidden;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
                 scrollbar-width: none;
             }
             .nav-tabs::-webkit-scrollbar { display: none; }
@@ -5345,6 +5348,7 @@
         </div>
         <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
             <div id="nav-reports-sep" class="nav-sep-line" style="display:none;height:4px;margin:0;"></div>
+            <button class="nav-tab nav-tab-reports-mobile" id="gallery-nav-tab-mobile" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
             <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" style="display:none;" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
             <button class="nav-tab nav-tab-reports-mobile" id="leaderboard-nav-tab-mobile" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
         </div>
@@ -5692,7 +5696,7 @@
             <div class="section">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:15px;flex-wrap:wrap;">
                     <h2 class="section-title" data-icon="journal_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;flex:1;min-width:200px;"><span data-ru="Новости проекта" data-en="Project News">Новости проекта</span></h2>
-                    <div style="display:flex;gap:6px;flex-shrink:0;align-items:center;">
+                    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
                         <button class="copy-btn" onclick="loadNews()" style="font-size:0.8rem;padding:8px 12px;white-space:nowrap;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"><span data-ru="Обновить" data-en="Refresh">Обновить</span></button>
                         <button id="news-add-btn" class="copy-btn" onclick="showNewsAdminPanel()" style="font-size:0.8rem;padding:8px 14px;white-space:nowrap;display:none;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
