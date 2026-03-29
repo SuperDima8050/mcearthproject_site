@@ -3689,7 +3689,7 @@
             max-height: calc(100vh - 24px);
             overflow-y: auto;
         }
-        body.dark-theme .pp-modal-box { --pp-bg: #1e1e1e; border-color: #3a3a3a; box-shadow: 0 10px 0 #0a0a0a, 0 16px 40px rgba(0,0,0,0.7); }
+        body.dark-theme .pp-modal-box { --pp-bg: #1e1e1e; --pp-accent: #7cb342; border-color: #3a3a3a; box-shadow: 0 10px 0 #0a0a0a, 0 16px 40px rgba(0,0,0,0.7); }
 
         /* Banner */
         .pp-banner {
@@ -11805,6 +11805,9 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 </div>
                 <div class="pp-header">
                     <div class="pp-nick" id="pp-nick">${escapeHtml(nick)}<span id="pp-verified-badge"></span></div>
+                    <div style="text-align:center;padding:4px 0 0;font-family:Minecraft,sans-serif;font-size:0.7rem;color:#8b7355;letter-spacing:0.05em;">
+                        <i class="fas fa-calendar-alt" style="margin-right:4px;opacity:0.7;"></i>${ru?'С нами с':'Member since'} <span id="pp-joined" style="color:var(--pp-accent,#6b8e23);font-weight:700;">—</span>
+                    </div>
                 </div>
                 <div class="pp-stats">
                     <div class="pp-stat">
@@ -11870,9 +11873,18 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             // Load everything in parallel
             try {
                 // 1. Account info (avatar, verified)
-                sbClient.from('accounts').select('nick,avatar_url,verified,secret_badges').ilike('nick', nick).limit(1).then(({data}) => {
+                sbClient.from('accounts').select('nick,avatar_url,verified,secret_badges,created_at').ilike('nick', nick).limit(1).then(({data}) => {
                     if (data && data[0]) {
                         const acc = data[0];
+                        // Show joined date
+                        if (acc.created_at) {
+                            const joinedEl = document.getElementById('pp-joined');
+                            if (joinedEl) {
+                                const d = new Date(acc.created_at);
+                                const ru2 = window.currentLang === 'ru';
+                                joinedEl.textContent = d.toLocaleDateString(ru2 ? 'ru-RU' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+                            }
+                        }
                         if (acc.avatar_url) {
                             const img = document.createElement('img');
                             img.src = acc.avatar_url;
