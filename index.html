@@ -6332,6 +6332,7 @@
                                 <button class="dots-menu-btn" data-dots="true">&#8943;</button>
                                 <div class="dots-dropdown" id="dots-dd-${news.id}">
                                     <button class="dots-dropdown-item" data-share="true"><i class="fas fa-share-alt"></i> ${ru ? 'Поделиться' : 'Share'}</button>
+                                    ${news.image_url ? `<button class="dots-dropdown-item" data-download="true"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;"> ${ru ? 'Скачать картинку' : 'Download image'}</button>` : ''}
                                     ${!isAdmin ? `<button class="dots-dropdown-item danger" data-report="true"><i class="fas fa-flag"></i> ${ru ? 'Пожаловаться' : 'Report'}</button>` : ''}
                                     ${isAdmin ? `<button class="dots-dropdown-item danger" data-delete="true"><i class="fas fa-trash"></i> ${ru ? 'Удалить' : 'Delete'}</button>` : ''}
                                     ${isAdmin ? `<button class="dots-dropdown-item" data-edit-news="true"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<i class=\\'fas fa-pen\\'></i> ')"> ${ru ? 'Изменить' : 'Edit'}</button>` : ''}
@@ -6353,6 +6354,11 @@
                 if (shareBtn) shareBtn.addEventListener('click', () => {
                     newsItem.querySelector('.dots-dropdown')?.classList.remove('open');
                     handleNewsShare(news, shareBtn);
+                });
+                const dlBtn = newsItem.querySelector('[data-download="true"]');
+                if (dlBtn) dlBtn.addEventListener('click', () => {
+                    newsItem.querySelector('.dots-dropdown')?.classList.remove('open');
+                    downloadImage(news.image_url, (news.title || 'news-image').replace(/[^a-zа-яё0-9_\- ]/gi,'_'));
                 });
                 if (!isAdmin) {
                     const repBtn = newsItem.querySelector('[data-report="true"]');
