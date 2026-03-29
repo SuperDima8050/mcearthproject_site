@@ -11881,8 +11881,9 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                             const joinedEl = document.getElementById('pp-joined');
                             if (joinedEl) {
                                 const d = new Date(acc.created_at);
-                                const ru2 = window.currentLang === 'ru';
-                                joinedEl.textContent = d.toLocaleDateString(ru2 ? 'ru-RU' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+                                const lang = window.currentLang || document.documentElement.lang || 'ru';
+                                const locale = lang === 'ru' ? 'ru-RU' : 'en-US';
+                                joinedEl.textContent = d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
                             }
                         }
                         if (acc.avatar_url) {
