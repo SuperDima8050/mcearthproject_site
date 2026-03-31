@@ -1076,7 +1076,7 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
-            border-top: none;
+            border-top: 3px solid #8b7355;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
@@ -1745,12 +1745,13 @@
 
         body.dark-theme .nav-tabs-reports-row {
             border-color: #3a3a3a;
+            border-top-color: #3a3a3a;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
             border-left-color: #3a3a3a;
             border-right-color: #3a3a3a;
-            border-top: none;
+            border-top-color: #3a3a3a;
         }
         .nav-sep-line { background: #c8b090; }
         body.dark-theme .nav-sep-line { background: #444; }
@@ -13438,11 +13439,10 @@ const KEY   = 'sk-or-v1-9a7092305c897a3f5b75ffa54eab7890af702d12bc5a8c47d9bdf113
 const API   = 'https://openrouter.ai/api/v1/chat/completions';
 const MODELS = [
     'meta-llama/llama-3.3-70b-instruct:free',
-    'google/gemma-2-9b-it:free',
+    'google/gemma-3-27b-it:free',
+    'deepseek/deepseek-chat-v3-0324:free',
     'mistralai/mistral-7b-instruct:free',
-    'qwen/qwen-2.5-7b-instruct:free',
-    'microsoft/phi-3-mini-128k-instruct:free',
-    'deepseek/deepseek-r1-distill-llama-70b:free',
+    'qwen/qwen3-8b:free',
 ];
 const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png';
 
@@ -13590,7 +13590,6 @@ window.mwSend=async function(){
         try{
             const res=await fetch(API,{
                 method:'POST',
-                signal: AbortSignal.timeout(15000),
                 headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://mcearthproject.qzz.io','X-Title':'Revival Minecraft Earth'},
                 body:JSON.stringify({model:model,max_tokens:800,stream:true,
                     messages:[{role:'system',content:SYS},...hist]})
