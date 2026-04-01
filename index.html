@@ -1076,13 +1076,11 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
-            border-top: 3px solid #8b7355;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
             border-left-color: #3a3a3a;
             border-right-color: #3a3a3a;
-            border-top-color: #3a3a3a;
         }
 
         .nav-tab-reports-mobile {
@@ -4594,6 +4592,22 @@
             /* Remove bottom shadow on mobile tabs to avoid double-thick line between rows */
             .nav-tabs .nav-tab {
                 box-shadow: none;
+            }
+            /* Fix nav-tab text overflow (e.g. "Buildplates") on small screens */
+            .nav-tab {
+                padding: 10px 4px;
+            }
+            .nav-icon img {
+                width: 24px;
+                height: 24px;
+            }
+            .nav-tab > span:not(.nav-icon) {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 100%;
+                display: block;
+                font-size: 8px;
             }
             /* Leaderboard sub-tabs wrap on mobile */
             .lb-tabs {
@@ -13435,14 +13449,14 @@ async function doDeleteSubdomain() {
 <script>
 (function(){
 'use strict';
-const KEY   = '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';
-const API   = 'https://openrouter.ai/api/v1/chat/completions';
+const KEY   = '';
+const API   = 'https://api.pollinations.ai/v1/chat/completions';
 const MODELS = [
-    'meta-llama/llama-3.3-70b-instruct:free',
-    'google/gemma-3-27b-it:free',
-    'deepseek/deepseek-chat-v3-0324:free',
-    'mistralai/mistral-7b-instruct:free',
-    'qwen/qwen3-8b:free',
+    'openai',
+    'mistral',
+    'llama',
+    'deepseek',
+    'qwen-coder',
 ];
 const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png';
 
@@ -13588,9 +13602,11 @@ window.mwSend=async function(){
     for(let mi=0; mi<MODELS.length; mi++){
         const model=MODELS[mi];
         try{
+            const _hdrs={'Content-Type':'application/json'};
+            if(KEY) _hdrs['Authorization']='Bearer '+KEY;
             const res=await fetch(API,{
                 method:'POST',
-                headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://mcearthproject.qzz.io','X-Title':'Revival Minecraft Earth'},
+                headers:_hdrs,
                 body:JSON.stringify({model:model,max_tokens:800,stream:true,
                     messages:[{role:'system',content:SYS},...hist]})
             });
