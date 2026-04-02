@@ -8065,7 +8065,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const allowed = ['image/png','image/jpeg','image/gif','image/webp'];
             const labelSpan = document.getElementById('report-img-label');
             const input = document.getElementById('report-img-input');
-            const ru = window.currentLang === 'ru';
+            const ru = currentLang === 'ru';
             if (!allowed.includes(file.type)) {
                 if (labelSpan) labelSpan.innerHTML = ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Формат не поддерживается' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Unsupported format';
                 return;
@@ -8137,7 +8137,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         const REF_MOB_BASE = `https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/ref-badges/`;
 
         function getRefBadgeHTML(count, large = false) {
-            const ru = window.currentLang === 'ru';
+            const ru = currentLang === 'ru';
             const refs = ru ? 'рефералов' : 'referrals';
             const size = large ? '40px' : '24px';
             if (count >= 200) return `<img class="ref-mob-badge" src="${REF_MOB_BASE}jolly_llama_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Джолли Лама':'Jolly Llama'} 🦙✨" />`;
@@ -11887,7 +11887,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                             const joinedEl = document.getElementById('pp-joined');
                             if (joinedEl) {
                                 const d = new Date(acc.created_at);
-                                const lang = window.currentLang || document.documentElement.lang || 'ru';
+                                const lang = currentLang || document.documentElement.lang || 'ru';
                                 const locale = lang === 'ru' ? 'ru-RU' : 'en-US';
                                 joinedEl.textContent = d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
                             }
@@ -11916,7 +11916,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         }).catch(()=>{});
                         // Secret muddy pig badge — show for anyone who has it
                         try {
-                            const ru2 = window.currentLang === 'ru';
+                            const ru2 = currentLang === 'ru';
                             const SECRET_BASE2 = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/secret-badges/';
                             if (acc.secret_badges && acc.secret_badges.includes('muddy_pig')) {
                                 const vb2 = document.getElementById('pp-verified-badge');
@@ -12159,7 +12159,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 // ── PROTECTED AUTHORS BLUR ──
 function applyProtectedBlur() {
     const loggedIn = !!window.currentAccount;
-    const ru = window.currentLang === 'ru';
+    const ru = currentLang === 'ru';
 
     // Author cards
     document.querySelectorAll('[data-protected="true"]').forEach(card => {
@@ -12938,7 +12938,7 @@ async function doDeleteSubdomain() {
             return _lbCache[mode];
         }
         
-        var ru = window.currentLang === 'ru';
+        var ru = currentLang === 'ru';
         var data = [];
 
         if (mode === 'likes') {
@@ -12995,7 +12995,7 @@ async function doDeleteSubdomain() {
     async function renderLb(mode) {
         var listEl = document.getElementById('lb-list');
         if (!listEl) return;
-        var ru = window.currentLang === 'ru';
+        var ru = currentLang === 'ru';
         listEl.innerHTML = '<div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div><p style="margin-top:8px;font-size:0.75rem;opacity:0.6;">'+(ru?'Загрузка...':'Loading...')+'</p></div>';
 
         try {
@@ -13513,16 +13513,16 @@ window.mwToggle=function(){
                     (function(){
                     const row=document.createElement('div');
                     row.className='mw-row bot';
-                    const _ru=window.currentLang==='ru';
+                    const _ru=currentLang==='ru';
                     row.innerHTML='<img class="mw-avatar" src="'+ANIMS.greet+'" alt="Merl"><div class="mw-bubble-wrap"><div class="mw-sender">Merl</div><div class="mw-bubble" style="display:flex;align-items:center;gap:8px;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:20px;height:20px;image-rendering:pixelated;flex-shrink:0;" alt=""><span>'+(_ru?'Чтобы общаться со мной — войди в аккаунт! Кнопка входа вверху страницы.':'To chat with me — sign in to your account! The login button is at the top of the page.')+'</span></div></div>';
                     $('mw-feed').appendChild(row);
                     const f=$('mw-feed'); if(f)f.scrollTop=f.scrollHeight;
                 })();
                     $('mw-inp').disabled=true;
                     $('mw-go').disabled=true;
-                    $('mw-inp').placeholder=window.currentLang==='ru'?'Нужен аккаунт...':'Sign in required...';
+                    $('mw-inp').placeholder=currentLang==='ru'?'Нужен аккаунт...':'Sign in required...';
                 } else {
-                    addBot(window.currentLang==='ru'?'Привет, '+window.currentAccount.nick+'! Я Merl 👋 Спроси меня всё о Revival Minecraft Earth!':'Hey, '+window.currentAccount.nick+'! I\'m Merl 👋 Ask me anything about Revival Minecraft Earth!');
+                    addBot(currentLang==='ru'?'Привет, '+window.currentAccount.nick+'! Я Merl 👋 Спроси меня всё о Revival Minecraft Earth!':'Hey, '+window.currentAccount.nick+'! I\'m Merl 👋 Ask me anything about Revival Minecraft Earth!');
                     // Render random quick questions
                     (function(){
                         const ALL_Q_RU = [
@@ -13559,7 +13559,7 @@ window.mwToggle=function(){
                             'What do referrals give?',
                             'How to create a subdomain?',
                         ];
-                        const ALL_Q = window.currentLang==='ru' ? ALL_Q_RU : ALL_Q_EN;
+                        const ALL_Q = currentLang==='ru' ? ALL_Q_RU : ALL_Q_EN;
                         const shuffled = ALL_Q.slice().sort(()=>Math.random()-.5).slice(0,4);
                         const bar = document.createElement('div');
                         bar.id = 'mw-quick';
@@ -13599,7 +13599,7 @@ window.mwSend=async function(){
     hist.push({role:'user',content:txt});
 
     busy=true; $('mw-go').disabled=true;
-    stopCyc(); setAnim('converse'); setSt(window.currentLang==='ru'?'думает…':'thinking…',true);
+    stopCyc(); setAnim('converse'); setSt(currentLang==='ru'?'думает…':'thinking…',true);
     const tid=addTyping();
 
     let full='', success=false;
@@ -13630,7 +13630,7 @@ window.mwSend=async function(){
         success=true;
     }catch(err){
         removeEl(tid);
-        addBot('⚠ '+(window.currentLang==='ru'?'Сервис недоступен. Попробуй позже.':'Service unavailable. Try again later.'), true);
+        addBot('⚠ '+(currentLang==='ru'?'Сервис недоступен. Попробуй позже.':'Service unavailable. Try again later.'), true);
         setAnim('encourage');
         setTimeout(startCyc,3000);
     }
@@ -13645,7 +13645,7 @@ window.mwSend=async function(){
         setAnim(an);
         setTimeout(()=>{ startCyc(); },2000);
     }
-    busy=false; $('mw-go').disabled=false; setSt(window.currentLang==='ru'?'онлайн':'online',false);
+    busy=false; $('mw-go').disabled=false; setSt(currentLang==='ru'?'онлайн':'online',false);
 };
 
 function addUser(txt){
@@ -13653,7 +13653,7 @@ function addUser(txt){
     row.className='mw-row user';
     row.innerHTML=`
         <div class="mw-bubble-wrap">
-            <div class="mw-sender">${window.currentLang==='ru'?'Вы':'You'}</div>
+            <div class="mw-sender">${currentLang==='ru'?'Вы':'You'}</div>
             <div class="mw-bubble">${esc(txt)}</div>
         </div>`;
     $('mw-feed').appendChild(row);
