@@ -7769,8 +7769,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         // loadNews вызывается после инициализации sbClient
         setTimeout(() => { if (typeof window.loadNews === 'function') window.loadNews(); }, 100);
         
-        // checkAnnouncement вызывается после инициализации sbClient
-        setTimeout(() => { if (typeof checkAnnouncement === 'function') checkAnnouncement(); }, 200);
+        // checkAnnouncement вызывается через _runMaintenanceOnce
         
         // Инициализируем window._sbVotes при загрузке страницы
         if (!window._sbVotes) {
@@ -7919,14 +7918,18 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
         }
 
-        // Run after sbClient is ready
-        document.addEventListener('DOMContentLoaded', () => {
+        // Run after sbClient is ready — только один раз
+        let _maintChecked = false;
+        function _runMaintenanceOnce() {
+            if (_maintChecked) return;
+            _maintChecked = true;
             setTimeout(checkMaintenanceMode, 500);
             setTimeout(checkAnnouncement, 600);
-        });
-        if (document.readyState !== 'loading') {
-            setTimeout(checkMaintenanceMode, 500);
-            setTimeout(checkAnnouncement, 600);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', _runMaintenanceOnce);
+        } else {
+            _runMaintenanceOnce();
         }
         // === END MAINTENANCE MODE ===
 
