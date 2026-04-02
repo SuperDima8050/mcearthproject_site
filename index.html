@@ -6267,7 +6267,10 @@
 
         function makeLinksClickable(text) {
             if (!text) return '';
-            return text.replace(/(https?:\/\/[^\s<>"]+)/g, '<a href="$1" target="_blank" rel="noopener" style="color:#6b8e23;word-break:break-all;">$1</a>');
+            return text.replace(/(https?:\/\/([^\s<>"\/]+)(\/[^\s<>"]*)?)/g, (match, full, domain, path) => {
+                const label = path && path.length > 1 ? domain + path : domain;
+                return `<a href="${full}" target="_blank" rel="noopener" style="color:#6b8e23;text-decoration:underline dotted;word-break:break-all;">${label}</a>`;
+            });
         }
 
         let _newsCache = null;
@@ -7956,11 +7959,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const textEl = document.getElementById('announcement-text');
             if (!banner || !textEl) return;
             if (text && text.trim()) {
-                textEl.textContent = text.trim();
+                textEl.innerHTML = makeLinksClickable(text.trim());
                 banner.classList.add('active');
             } else {
                 banner.classList.remove('active');
-                textEl.textContent = '';
+                textEl.innerHTML = '';
             }
         }
         // === END ANNOUNCEMENT BANNER ===
@@ -13682,6 +13685,8 @@ window.mwSend=async function(){
             }
         }
         if(!full) throw new Error('empty response');
+        // Apply linkify after streaming done
+        if(typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(bub.textContent);
         success=true;
     }catch(err){
         removeEl(tid);
@@ -13721,7 +13726,8 @@ function addBot(txt, isErr=false){
     av.className='mw-avatar'; av.src=ANIMS[cyc[msgIdx%cyc.length]]; msgIdx++; av.alt='Merl';
     const bub=document.createElement('div');
     bub.className='mw-bubble'+(isErr?' err':'');
-    bub.textContent=txt;
+    if(!isErr && typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(txt);
+    else bub.textContent=txt;
     const wrap=document.createElement('div');
     wrap.className='mw-bubble-wrap';
     const sender=document.createElement('div');
