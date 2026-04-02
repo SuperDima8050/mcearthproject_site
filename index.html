@@ -1076,7 +1076,7 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
-            border-top: 3px solid #8b7355;
+            border-top: none;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
@@ -1118,6 +1118,10 @@
             }
             #gallery-nav-tab {
                 display: none;
+            }
+            /* Buildplates становится последним видимым — добавляем правую границу */
+            #buildplates-nav-tab {
+                border-right: 3px solid #8b7355 !important;
             }
         }
 
@@ -1745,13 +1749,12 @@
 
         body.dark-theme .nav-tabs-reports-row {
             border-color: #3a3a3a;
-            border-top-color: #3a3a3a;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
             border-left-color: #3a3a3a;
             border-right-color: #3a3a3a;
-            border-top-color: #3a3a3a;
+            border-top: none;
         }
         .nav-sep-line { background: #c8b090; }
         body.dark-theme .nav-sep-line { background: #444; }
@@ -5363,7 +5366,7 @@
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="switchTab('home')" data-ru="Главная" data-en="Home"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/shop_icon.png" alt="Home"></span><span data-ru="Главная" data-en="Home">Главная</span></button>
             <button class="nav-tab" onclick="switchTab('news')" data-ru="Новости" data-en="News"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="News"></span><span data-ru="Новости" data-en="News">Новости</span></button>
-            <button class="nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
+            <button class="nav-tab" id="buildplates-nav-tab" onclick="switchTab('buildplates')" data-ru="Buildplates" data-en="Buildplates"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" alt="Buildplates"></span><span data-ru="Buildplates" data-en="Buildplates">Buildplates</span></button>
             <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
             <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
             <button class="nav-tab" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
