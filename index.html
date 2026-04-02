@@ -1123,6 +1123,9 @@
             #buildplates-nav-tab {
                 border-right: 3px solid #8b7355 !important;
             }
+            body.dark-theme #buildplates-nav-tab {
+                border-right-color: #3a3a3a !important;
+            }
         }
 
         .nav-tab {
@@ -8728,7 +8731,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     if (isMobile) {
                         if (mobileRTab) mobileRTab.style.display = '';
                     const navSep = document.getElementById('nav-reports-sep');
-                    if (navSep) navSep.style.display = 'block';
+                    if (navSep) navSep.style.display = 'none';
                         if (rTab) rTab.style.display = 'none';
                     } else {
                         if (rTab) rTab.style.display = '';
