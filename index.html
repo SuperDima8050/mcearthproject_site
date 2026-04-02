@@ -1401,6 +1401,40 @@
         .news-source a:hover { opacity: 1; text-decoration: underline; }
         .news-source i { color: #888; font-size: 0.72rem; }
 
+        .news-tag {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 2px 8px;
+            font-family: Minecraft, sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            border-radius: 2px;
+            border-width: 2px;
+            border-style: solid;
+            text-transform: uppercase;
+        }
+        .news-tag-info       { color: #1565c0; background: #e3f2fd; border-color: #1565c0; }
+        .news-tag-update     { color: #2e7d32; background: #e8f5e9; border-color: #2e7d32; }
+        .news-tag-event      { color: #6a1a9a; background: #f3e5f5; border-color: #6a1a9a; }
+        .news-tag-important  { color: #c62828; background: #ffebee; border-color: #c62828; }
+        .news-tag-bugfix     { color: #e65100; background: #fff3e0; border-color: #e65100; }
+        .news-tag-community  { color: #00695c; background: #e0f2f1; border-color: #00695c; }
+        .news-tag-ad         { color: #f9a825; background: #fffde7; border-color: #f9a825; }
+        .news-tag-meme       { color: #c2185b; background: #fce4ec; border-color: #c2185b; }
+        .news-tag-guide      { color: #0277bd; background: #e1f5fe; border-color: #0277bd; }
+        .news-tag-security   { color: #4e342e; background: #efebe9; border-color: #4e342e; }
+        body.dark-theme .news-tag-info      { background: #0d2a4a; border-color: #42a5f5; color: #42a5f5; }
+        body.dark-theme .news-tag-update    { background: #1a3a1a; border-color: #66bb6a; color: #66bb6a; }
+        body.dark-theme .news-tag-event     { background: #2a1040; border-color: #ba68c8; color: #ba68c8; }
+        body.dark-theme .news-tag-important { background: #3a0a0a; border-color: #ef5350; color: #ef5350; }
+        body.dark-theme .news-tag-bugfix    { background: #3a1a00; border-color: #ffa726; color: #ffa726; }
+        body.dark-theme .news-tag-community { background: #002a26; border-color: #4db6ac; color: #4db6ac; }
+        body.dark-theme .news-tag-ad        { background: #2a2400; border-color: #fdd835; color: #fdd835; }
+        body.dark-theme .news-tag-meme      { background: #3a0020; border-color: #f48fb1; color: #f48fb1; }
+        body.dark-theme .news-tag-guide     { background: #002a3a; border-color: #4fc3f7; color: #4fc3f7; }
+        body.dark-theme .news-tag-security  { background: #1a1210; border-color: #a1887f; color: #a1887f; }
+
         .verified-badge {
             display: inline-flex;
             align-items: center;
@@ -6273,6 +6307,34 @@
             });
         }
 
+        const NEWS_TAGS = {
+            '':          { ru: '—',           en: '—',            css: '' },
+            'info':      { ru: 'Инфо',        en: 'Info',         css: 'news-tag-info' },
+            'update':    { ru: 'Обновление',  en: 'Update',       css: 'news-tag-update' },
+            'event':     { ru: 'Событие',     en: 'Event',        css: 'news-tag-event' },
+            'important': { ru: 'Важно',       en: 'Important',    css: 'news-tag-important' },
+            'bugfix':    { ru: 'Баг-фикс',    en: 'Bug Fix',      css: 'news-tag-bugfix' },
+            'community': { ru: 'Сообщество',  en: 'Community',    css: 'news-tag-community' },
+            'ad':        { ru: 'Реклама',     en: 'Ad',           css: 'news-tag-ad' },
+            'meme':      { ru: 'Мем',         en: 'Meme',         css: 'news-tag-meme' },
+            'guide':     { ru: 'Гайд',        en: 'Guide',        css: 'news-tag-guide' },
+            'security':  { ru: 'Безопасность',en: 'Security',     css: 'news-tag-security' },
+        };
+
+        function renderNewsTag(tag, ru) {
+            if (!tag || !NEWS_TAGS[tag] || !NEWS_TAGS[tag].css) return '';
+            const t = NEWS_TAGS[tag];
+            return `<span class="news-tag ${t.css}">${ru ? t.ru : t.en}</span>`;
+        }
+
+        function newsTagSelect(id, currentVal, style='') {
+            const ru = currentLang === 'ru';
+            const opts = Object.entries(NEWS_TAGS).map(([k, v]) =>
+                `<option value="${k}" ${currentVal===k?'selected':''}>${ru ? v.ru : v.en}</option>`
+            ).join('');
+            return `<select id="${id}" style="${style}">${opts}</select>`;
+        }
+
         let _newsCache = null;
         let _newsIsAdmin = false;
         let _lastRefCount = 0;
@@ -6334,6 +6396,7 @@
                         sourceHTML = `<div class="news-source"><i class="fas fa-link"></i><a href="${news.source_url}" target="_blank" rel="noopener noreferrer">${label}</a></div>`;
                     } catch(e) {}
                 }
+                const tagHTML = renderNewsTag(news.tag || '', ru);
                 newsItem.innerHTML = `
                     ${isNew ? `<img src="${NEW_ICON_URL}" class="news-new-badge" title="Новое" alt="new">` : ''}
                     <div class="news-content-wrapper">
@@ -6342,6 +6405,7 @@
                             <div class="news-date"><i class="fas fa-clock"></i><span>${ru ? formattedDateRu : formattedDateEn}</span></div>
                             ${authorHTML}
                             ${sourceHTML}
+                            ${tagHTML}
                         </div>
                         <div class="news-content">${makeLinksClickable(ru ? (news.content || '') : (news.content_en || news.content || ''))}</div>
                         <div class="news-footer">
@@ -6546,6 +6610,10 @@
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">Источник (ссылка, необязательно)</label>
                         <input id="nedit-source" style="${inputStyle}" maxlength="500" placeholder="https://..." value="${(news.source_url||'').replace(/"/g,'&quot;')}" />
                     </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Тип новости' : 'News type'}</label>
+                        ${newsTagSelect('nedit-tag', news.tag||'', inputStyle)}
+                    </div>
                     <div id="nedit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
                     <div style="display:flex;gap:10px;">
                         <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
@@ -6571,7 +6639,8 @@
                 try {
                     const sourceEditRaw = (document.getElementById('nedit-source')?.value || '').trim();
                     const sourceEdit = sourceEditRaw && (sourceEditRaw.startsWith('http://') || sourceEditRaw.startsWith('https://')) ? sourceEditRaw : (sourceEditRaw ? 'https://' + sourceEditRaw : null);
-                    const { error } = await sbClient.from('news').update({ title, title_en: titleEn||title, content, content_en: contentEn||content, source_url: sourceEdit||null }).eq('id', news.id);
+                    const tagEdit = document.getElementById('nedit-tag')?.value || null;
+                    const { error } = await sbClient.from('news').update({ title, title_en: titleEn||title, content, content_en: contentEn||content, source_url: sourceEdit||null, tag: tagEdit||null }).eq('id', news.id);
                     if (error) throw error;
                     if (_newsCache) { const idx = _newsCache.findIndex(n => String(n.id) === String(news.id)); if (idx !== -1) { _newsCache[idx].title = title; _newsCache[idx].title_en = titleEn||title; _newsCache[idx].content = content; _newsCache[idx].content_en = contentEn||content; } }
                     overlay.remove();
@@ -6702,6 +6771,10 @@
                         <input id="nadmin-source" style="${inputStyle}" maxlength="500" placeholder="https://github.com/..." />
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label>${ru ? 'Тип новости' : 'News type'}</label>
+                        ${newsTagSelect('nadmin-tag', '', inputStyle)}
+                    </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
                         <label>${ru ? '🖼️ Изображение (необязательно)' : '🖼️ Image (optional)'}</label>
                         <label class="bp-file-label news-upload" id="nadmin-image-wrap" for="nadmin-image-input" style="cursor:pointer;">
                             <i class="fas fa-image" style="color:#6b8e23;font-size:1.3rem;"></i>
@@ -6811,11 +6884,13 @@
 
             const sourceUrlRaw = (document.getElementById('nadmin-source')?.value || '').trim();
             const sourceUrl = sourceUrlRaw && (sourceUrlRaw.startsWith('http://') || sourceUrlRaw.startsWith('https://')) ? sourceUrlRaw : (sourceUrlRaw ? 'https://' + sourceUrlRaw : null);
+            const newsTag = document.getElementById('nadmin-tag')?.value || '';
             const { error } = await sbClient.from('news').insert([{
                 title, title_en: titleEn || title,
                 content, content_en: contentEn || content,
                 image_url: imageUrl || null,
                 source_url: sourceUrl || null,
+                tag: newsTag || null,
                 author: currentAccount.nick,
                 author_verified: currentAccount.verified || false,
                 likes: 0, dislikes: 0
