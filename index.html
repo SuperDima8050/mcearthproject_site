@@ -1076,6 +1076,7 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
+            border-top: none;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
@@ -1118,28 +1119,9 @@
             #gallery-nav-tab {
                 display: none;
             }
-            /* Убираем нижний бордер первого ряда — второй ряд даёт единственную линию */
-            .nav-tabs {
-                border-bottom: none;
-            }
-            /* Второй ряд — одна линия сверху как разделитель */
-            .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
-                border-top: 3px solid #8b7355;
-            }
-            body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
-                border-top: 3px solid #3a3a3a;
-            }
-            /* Убираем отрицательный отступ активной вкладки (он компенсировал border-bottom) */
-            .nav-tab.active {
-                margin-bottom: 0;
-                border-bottom: none;
-            }
             /* Buildplates становится последним видимым — добавляем правую границу */
             #buildplates-nav-tab {
                 border-right: 3px solid #8b7355 !important;
-            }
-            body.dark-theme #buildplates-nav-tab {
-                border-right-color: #3a3a3a !important;
             }
         }
 
@@ -13456,15 +13438,8 @@ async function doDeleteSubdomain() {
 <script>
 (function(){
 'use strict';
-const KEY   = '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';
-const API   = 'https://openrouter.ai/api/v1/chat/completions';
-const MODELS = [
-    'meta-llama/llama-3.3-70b-instruct:free',
-    'google/gemma-3-27b-it:free',
-    'deepseek/deepseek-chat-v3-0324:free',
-    'mistralai/mistral-7b-instruct:free',
-    'qwen/qwen3-8b:free',
-];
+const KEY   = 'AIzaSyAHViCHyxLaV82m1ZSTiUai1HcqeFQ86FI';
+const API   = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+KEY;
 const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png';
 
 const ANIMS = {
@@ -13606,41 +13581,52 @@ window.mwSend=async function(){
     const tid=addTyping();
 
     let full='', success=false;
-    for(let mi=0; mi<MODELS.length; mi++){
-        const model=MODELS[mi];
-        try{
-            const res=await fetch(API,{
-                method:'POST',
-                headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY,'HTTP-Referer':'https://mcearthproject.qzz.io','X-Title':'Revival Minecraft Earth'},
-                body:JSON.stringify({model:model,max_tokens:800,stream:true,
-                    messages:[{role:'system',content:SYS},...hist]})
+    try{
+        // Конвертируем историю в формат Gemini
+        const contents = [];
+        // Сначала добавляем все сообщения из истории
+        for(const m of hist){
+            contents.push({
+                role: m.role === 'assistant' ? 'model' : 'user',
+                parts: [{text: m.content}]
             });
-            if(!res.ok){const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||'HTTP '+res.status);}
-            const reader=res.body.getReader(), dec=new TextDecoder();
-            full='';
-            removeEl(tid);
-            const bub=addBot('');
-            while(true){
-                const {done,value}=await reader.read();
-                if(done) break;
-                for(const line of dec.decode(value,{stream:true}).split('\n')){
-                    if(!line.startsWith('data:')) continue;
-                    const j=line.slice(5).trim();
-                    if(j==='[DONE]') break;
-                    try{ const d=JSON.parse(j).choices?.[0]?.delta?.content; if(d){full+=d;bub.textContent=full;scrollFeed();} }catch(_){}
-                }
-            }
-            if(!full) throw new Error('empty response');
-            success=true;
-            break;
-        }catch(err){
-            if(mi<MODELS.length-1){ continue; } // пробуем следующую модель
-            removeEl(tid);
-            addBot('⚠ Все модели недоступны. Попробуй позже.', true);
-            setAnim('encourage');
-            setTimeout(startCyc,3000);
         }
+
+        const res = await fetch(API, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                system_instruction: {parts: [{text: SYS}]},
+                contents: contents,
+                generationConfig: {maxOutputTokens: 800, temperature: 0.7}
+            })
+        });
+
+        if(!res.ok){
+            const e = await res.json().catch(()=>({}));
+            throw new Error(e.error?.message || 'HTTP '+res.status);
+        }
+
+        const data = await res.json();
+        full = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        if(!full) throw new Error('empty response');
+
+        removeEl(tid);
+        const bub = addBot('');
+        // Имитируем стриминг — выводим текст по символам
+        for(let i=0; i<full.length; i++){
+            bub.textContent = full.slice(0, i+1);
+            scrollFeed();
+            if(i % 3 === 0) await new Promise(r=>setTimeout(r,8));
+        }
+        success = true;
+    }catch(err){
+        removeEl(tid);
+        addBot('⚠ Нейросеть недоступна. Попробуй позже. ('+err.message+')', true);
+        setAnim('encourage');
+        setTimeout(startCyc, 3000);
     }
+
     if(success){
         hist.push({role:'assistant',content:full});
         if(hist.length>20) hist=hist.slice(-20);
