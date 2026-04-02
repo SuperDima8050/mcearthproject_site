@@ -1375,6 +1375,8 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
             margin-top: 5px;
             font-weight: 600;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .news-author i {
@@ -3472,6 +3474,8 @@
             font-size: 0.78rem;
             color: #7a6340;
             font-weight: 600;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .bp-card-author i,
@@ -3678,6 +3682,14 @@
             text-decoration: underline dotted;
             text-underline-offset: 2px;
             transition: opacity 0.15s;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 160px;
+            flex-shrink: 1;
+            min-width: 0;
+            display: inline-block;
+            vertical-align: middle;
         }
         .player-author-link:hover { opacity: 0.7; }
 
@@ -7770,53 +7782,82 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             };
         }
 
-        // === MAINTENANCE MODE ===
-        // Reads `maintenance_mode` from Supabase table `site_settings` (key/value).
-        // SQL to create: CREATE TABLE site_settings (key TEXT PRIMARY KEY, value TEXT);
-        //                INSERT INTO site_settings VALUES ('maintenance_mode', 'false');
-        // To enable: UPDATE site_settings SET value='true' WHERE key='maintenance_mode';
-        // To disable: UPDATE site_settings SET value='false' WHERE key='maintenance_mode';
-        const MAINTENANCE_TABS = ['news', 'buildplates', 'gallery', 'reports', 'leaderboard'];
+        // === MAINTENANCE MODE (per-tab) ===
+        // SQL для Supabase:
+        // CREATE TABLE IF NOT EXISTS site_settings (key TEXT PRIMARY KEY, value TEXT);
+        // INSERT INTO site_settings (key, value) VALUES ('maintenance_tabs', '{}') ON CONFLICT (key) DO NOTHING;
+        //
+        // Управление вкладками:
+        // UPDATE site_settings SET value='{"news":true}' WHERE key='maintenance_tabs';           -- только news
+        // UPDATE site_settings SET value='{"news":true,"buildplates":true}' WHERE key='maintenance_tabs'; -- несколько
+        // UPDATE site_settings SET value='{}' WHERE key='maintenance_tabs';                     -- всё работает
+        //
+        // Доступные ключи: news, buildplates, gallery, leaderboard, reports, merl
+        //   true  = вкладка на тех. работах
+        //   false или отсутствует = вкладка работает
 
-        function applyMaintenanceMode(isActive) {
-            // Admins bypass maintenance mode completely
-            if (isActive && window._isNewsAdmin) return;
+        const TAB_NAMES = ['news', 'buildplates', 'gallery', 'leaderboard', 'reports', 'merl'];
 
+        // Маппинг: ключ → id вкладки в DOM
+        const TAB_ID_MAP = {
+            news:        'news-tab',
+            buildplates: 'buildplates-tab',
+            gallery:     'gallery-tab',
+            leaderboard: 'leaderboard-tab',
+            reports:     'reports-tab',
+            merl:        null // чат-бот, нет вкладки — отдельно скрываем
+        };
+
+        function applyMaintenanceMode(tabsDown) {
+            // tabsDown: объект { news: true, buildplates: false, ... }
+            if (window._isNewsAdmin) return; // Admins bypass
+
+            let anyDown = Object.values(tabsDown).some(v => v === true);
             const banner = document.getElementById('maintenance-banner');
-            if (banner) {
-                banner.classList.toggle('active', isActive);
-            }
+            if (banner) banner.classList.toggle('active', anyDown);
 
-            MAINTENANCE_TABS.forEach(tabName => {
-                // Find nav buttons for this tab
+            TAB_NAMES.forEach(tabKey => {
+                const isDown = tabsDown[tabKey] === true;
+
+                // Nav кнопки
                 document.querySelectorAll('.nav-tab').forEach(btn => {
                     const oc = btn.getAttribute('onclick') || '';
-                    if (oc.includes("'" + tabName + "'")) {
-                        if (isActive) {
-                            btn.classList.add('nav-tab-disabled');
-                            btn.setAttribute('data-maintenance', 'true');
-                            btn._origOnclick = btn.getAttribute('onclick');
-                            btn.setAttribute('onclick', 'return false;');
-                        } else {
-                            btn.classList.remove('nav-tab-disabled');
-                            if (btn._origOnclick) {
-                                btn.setAttribute('onclick', btn._origOnclick);
-                                delete btn._origOnclick;
-                            }
-                            btn.removeAttribute('data-maintenance');
+                    const matches = oc.includes("'" + tabKey + "'") ||
+                                    (tabKey === 'leaderboard' && oc.includes("'leaderboard'"));
+                    if (!matches) return;
+                    if (isDown) {
+                        btn.classList.add('nav-tab-disabled');
+                        btn.setAttribute('data-maintenance', 'true');
+                        if (!btn._origOnclick) btn._origOnclick = btn.getAttribute('onclick');
+                        btn.setAttribute('onclick', 'return false;');
+                    } else {
+                        btn.classList.remove('nav-tab-disabled');
+                        if (btn._origOnclick) {
+                            btn.setAttribute('onclick', btn._origOnclick);
+                            delete btn._origOnclick;
                         }
+                        btn.removeAttribute('data-maintenance');
                     }
                 });
+
+                // Merl chatbot widget
+                if (tabKey === 'merl') {
+                    const merlBtn = document.getElementById('mw-fab');
+                    const merlPanel = document.getElementById('mw-panel');
+                    if (merlBtn) merlBtn.style.display = isDown ? 'none' : '';
+                    if (merlPanel && isDown) {
+                        merlPanel.classList.remove('open');
+                        if (typeof stopCyc === 'function') stopCyc();
+                    }
+                }
             });
 
-            // If maintenance is active and we're on a disabled tab, go to home
-            if (isActive) {
-                const currentActiveTab = document.querySelector('.tab-content.active');
-                if (currentActiveTab) {
-                    const tabId = currentActiveTab.id.replace('-tab', '');
-                    if (MAINTENANCE_TABS.includes(tabId)) {
-                        if (typeof switchTab === 'function') switchTab('home');
-                    }
+            // Если текущая вкладка на тех. работах — переходим на главную
+            const currentActiveTab = document.querySelector('.tab-content.active');
+            if (currentActiveTab) {
+                const tabId = currentActiveTab.id.replace('-tab', '');
+                if (tabsDown[tabId] === true) {
+                    if (typeof switchTab === 'function') switchTab('home');
                 }
             }
         }
@@ -7827,31 +7868,44 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 const { data, error } = await sbClient
                     .from('site_settings')
                     .select('value')
-                    .eq('key', 'maintenance_mode')
+                    .eq('key', 'maintenance_tabs')
                     .single();
                 if (error) {
-                    // Table may not exist yet — silently skip
-                    console.warn('[Maintenance] Could not read site_settings:', error.message);
+                    // Fallback: пробуем старый ключ maintenance_mode
+                    const { data: oldData } = await sbClient
+                        .from('site_settings').select('value').eq('key', 'maintenance_mode').single();
+                    if (oldData && oldData.value === 'true') {
+                        const allDown = {};
+                        TAB_NAMES.forEach(k => allDown[k] = true);
+                        applyMaintenanceMode(allDown);
+                    }
                     return;
                 }
-                const isActive = data && data.value === 'true';
-                applyMaintenanceMode(isActive);
+                let tabsDown = {};
+                try { tabsDown = JSON.parse(data.value || '{}'); } catch(_) {}
+                // Поддержка all: true/false
+                if (tabsDown.all === true) TAB_NAMES.forEach(k => tabsDown[k] = true);
+                if (tabsDown.all === false) TAB_NAMES.forEach(k => tabsDown[k] = false);
+                applyMaintenanceMode(tabsDown);
 
-                // Subscribe to realtime changes for instant toggle
+                // Realtime обновление
                 sbClient
                     .channel('site_settings_maintenance')
                     .on('postgres_changes', {
-                        event: 'UPDATE',
+                        event: '*',
                         schema: 'public',
                         table: 'site_settings',
-                        filter: 'key=eq.maintenance_mode'
+                        filter: 'key=eq.maintenance_tabs'
                     }, (payload) => {
-                        const newValue = payload.new && payload.new.value === 'true';
-                        applyMaintenanceMode(newValue);
+                        let tabsDown = {};
+                        try { tabsDown = JSON.parse((payload.new && payload.new.value) || '{}'); } catch(_) {}
+                        if (tabsDown.all === true) TAB_NAMES.forEach(k => tabsDown[k] = true);
+                        if (tabsDown.all === false) TAB_NAMES.forEach(k => tabsDown[k] = false);
+                        applyMaintenanceMode(tabsDown);
                     })
                     .subscribe();
             } catch(e) {
-                console.warn('[Maintenance] checkMaintenanceMode error:', e);
+                console.warn('[Maintenance] error:', e);
             }
         }
 
@@ -7860,7 +7914,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             setTimeout(checkMaintenanceMode, 500);
             setTimeout(checkAnnouncement, 600);
         });
-        // Also run immediately if DOM already loaded
         if (document.readyState !== 'loading') {
             setTimeout(checkMaintenanceMode, 500);
             setTimeout(checkAnnouncement, 600);
