@@ -1119,9 +1119,35 @@
             #gallery-nav-tab {
                 display: none;
             }
-            /* Buildplates становится последним видимым — добавляем правую границу */
+            /* Убираем нижний бордер первого ряда */
+            .nav-tabs {
+                border-bottom: none;
+            }
+            /* Второй ряд — одна линия сверху как разделитель */
+            .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
+                border-top: 3px solid #8b7355;
+            }
+            body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
+                border-top: 3px solid #3a3a3a;
+                border-bottom-color: #3a3a3a;
+                border-left-color: #3a3a3a;
+                border-right-color: #3a3a3a;
+            }
+            /* Убираем отрицательный отступ активной вкладки */
+            .nav-tab.active {
+                margin-bottom: 0;
+                border-bottom: none;
+            }
+            /* Buildplates — правая граница */
             #buildplates-nav-tab {
                 border-right: 3px solid #8b7355 !important;
+            }
+            body.dark-theme #buildplates-nav-tab {
+                border-right: 3px solid #3a3a3a !important;
+            }
+            /* Внутренние разделители второго ряда в тёмной теме */
+            body.dark-theme .nav-tab-reports-mobile {
+                border-top-color: #3a3a3a !important;
             }
         }
 
