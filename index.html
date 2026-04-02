@@ -7842,9 +7842,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
                 // Merl chatbot widget
                 if (tabKey === 'merl') {
-                    const merlBtn = document.getElementById('mw-fab');
+                    const merlBtn = document.getElementById('mw-btn');
+                    const merlAnim = document.getElementById('mw-anim');
                     const merlPanel = document.getElementById('mw-panel');
                     if (merlBtn) merlBtn.style.display = isDown ? 'none' : '';
+                    if (merlAnim) merlAnim.style.display = isDown ? 'none' : '';
                     if (merlPanel && isDown) {
                         merlPanel.classList.remove('open');
                         if (typeof stopCyc === 'function') stopCyc();
