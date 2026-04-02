@@ -6481,15 +6481,10 @@
             const pageInfoEl = document.getElementById('news-page-info');
             const prevBtn = document.getElementById('news-prev-page');
             const nextBtn = document.getElementById('news-next-page');
-
-            if (!paginationEl || totalPages <= 1) {
-                if (paginationEl) paginationEl.style.display = 'none';
-                return;
-            }
-
+            if (!paginationEl) return;
+            if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
             paginationEl.style.display = 'flex';
             if (pageInfoEl) pageInfoEl.textContent = _newsCurrentPage + ' / ' + totalPages;
-            
             if (prevBtn) prevBtn.disabled = _newsCurrentPage === 1;
             if (nextBtn) nextBtn.disabled = _newsCurrentPage === totalPages;
         }
@@ -6497,14 +6492,12 @@
         // Функция смены страницы news
         window.newsChangePage = function(direction) {
             if (!_newsCache) return;
-
             const totalPages = Math.ceil(_newsCache.length / _newsItemsPerPage);
             const newPage = _newsCurrentPage + direction;
-
             if (newPage < 1 || newPage > totalPages) return;
-
             _newsCurrentPage = newPage;
             renderNews(_newsCache, _newsIsAdmin);
+            document.getElementById('news-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
         let _newsAvatarMap = {};
@@ -9671,15 +9664,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const pageInfoEl = document.getElementById('bp-page-info');
             const prevBtn = document.getElementById('bp-prev-page');
             const nextBtn = document.getElementById('bp-next-page');
-
-            if (!paginationEl || totalPages <= 1) {
-                if (paginationEl) paginationEl.style.display = 'none';
-                return;
-            }
-
+            if (!paginationEl) return;
+            if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
             paginationEl.style.display = 'flex';
             if (pageInfoEl) pageInfoEl.textContent = _bpCurrentPage + ' / ' + totalPages;
-            
             if (prevBtn) prevBtn.disabled = _bpCurrentPage === 1;
             if (nextBtn) nextBtn.disabled = _bpCurrentPage === totalPages;
         }
@@ -9719,6 +9707,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
             _bpCurrentPage = newPage;
             applyBpFilters();
+            document.getElementById('bp-gallery')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
         function renderBpCards(data, grid, myIds, myNicks) {
@@ -11185,15 +11174,10 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const pageInfoEl = document.getElementById('gallery-page-info');
             const prevBtn = document.getElementById('gallery-prev-page');
             const nextBtn = document.getElementById('gallery-next-page');
-
-            if (!paginationEl || totalPages <= 1) {
-                if (paginationEl) paginationEl.style.display = 'none';
-                return;
-            }
-
+            if (!paginationEl) return;
+            if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
             paginationEl.style.display = 'flex';
             if (pageInfoEl) pageInfoEl.textContent = _galleryCurrentPage + ' / ' + totalPages;
-            
             if (prevBtn) prevBtn.disabled = _galleryCurrentPage === 1;
             if (nextBtn) nextBtn.disabled = _galleryCurrentPage === totalPages;
         }
@@ -11231,6 +11215,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 
             _galleryCurrentPage = newPage;
             filterGallery();
+            document.getElementById('gallery-gallery')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
         function renderGalleryGrid(data) {
@@ -13237,6 +13222,7 @@ async function doDeleteSubdomain() {
 
         _lbCurrentPage = newPage;
         renderLb(_lbMode);
+        document.getElementById('lb-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     // Load when tab is opened
