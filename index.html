@@ -1076,7 +1076,6 @@
             border-bottom: 3px solid #8b7355;
             border-left: 3px solid #8b7355;
             border-right: 3px solid #8b7355;
-            border-top: none;
         }
         body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
             border-bottom-color: #3a3a3a;
@@ -1119,9 +1118,28 @@
             #gallery-nav-tab {
                 display: none;
             }
+            /* Убираем нижний бордер первого ряда — второй ряд даёт единственную линию */
+            .nav-tabs {
+                border-bottom: none;
+            }
+            /* Второй ряд — одна линия сверху как разделитель */
+            .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
+                border-top: 3px solid #8b7355;
+            }
+            body.dark-theme .nav-tabs-reports-row:not([style*="display:none"]):not([style*="display: none"]) {
+                border-top: 3px solid #3a3a3a;
+            }
+            /* Убираем отрицательный отступ активной вкладки (он компенсировал border-bottom) */
+            .nav-tab.active {
+                margin-bottom: 0;
+                border-bottom: none;
+            }
             /* Buildplates становится последним видимым — добавляем правую границу */
             #buildplates-nav-tab {
                 border-right: 3px solid #8b7355 !important;
+            }
+            body.dark-theme #buildplates-nav-tab {
+                border-right-color: #3a3a3a !important;
             }
         }
 
