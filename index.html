@@ -13759,7 +13759,15 @@ window.mwSend=async function(){
         success=true;
     }catch(err){
         removeEl(tid);
-        addBot('⚠ '+(currentLang==='ru'?'Сервис недоступен. Попробуй позже.':'Service unavailable. Try again later.'), true);
+        const is429 = err.message && (err.message.includes('429') || err.message.toLowerCase().includes('quota') || err.message.toLowerCase().includes('too many'));
+        const errMsg = is429
+            ? (currentLang==='ru'
+                ? '⚠ У владельца сайта превышена дневная квота запросов. Merl вернётся завтра 🌙'
+                : '⚠ The site owner has exceeded the daily request quota. Merl will be back tomorrow 🌙')
+            : (currentLang==='ru'
+                ? '⚠ Ошибка соединения с ИИ: ' + (err.message || 'неизвестная ошибка') + '. Попробуй позже.'
+                : '⚠ AI connection error: ' + (err.message || 'unknown error') + '. Try again later.');
+        addBot(errMsg, true);
         setAnim('encourage');
         setTimeout(startCyc,3000);
     }
