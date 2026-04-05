@@ -6746,7 +6746,7 @@
             const isDark = document.body.classList.contains('dark-theme');
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
-                <div class="bp-modal" style="max-width:520px;">
+                <div class="bp-modal" style="max-width:520px;max-height:88vh;overflow-y:auto;overflow-x:hidden;">
                     <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
                     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:rgba(107,142,35,0.1);border-radius:3px;border:2px solid ${isDark?'#555':'#8b7355'};">
                         <i class="fas fa-user" style="color:#6b8e23;"></i>
@@ -6787,19 +6787,23 @@
                         <div class="bp-file-name" id="nadmin-image-name"></div>
                     </div>
                     <div id="nadmin-status" style="font-size:0.85rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:20px;"></div>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;" onclick="submitNews(false)">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> ${ru ? 'Опубликовать' : 'Publish'}
-                        </button>
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#4a6a1a,#2e4a0a);border-color:#1e3a06;box-shadow:0 4px 0 #0e2a00;" onclick="submitNews(true)">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> ${ru ? 'Черновик' : 'Save Draft'}
-                        </button>
-                        <button class="bp-submit-btn" onclick="clearNewsForm()" style="margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;">
-                            <i class="fas fa-trash"></i> ${ru ? 'Очистить' : 'Clear'}
-                        </button>
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-admin-modal').remove()">
-                            ${ru ? 'Отмена' : 'Cancel'}
-                        </button>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <div style="display:flex;gap:8px;">
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.82rem;padding:10px;white-space:nowrap;" onclick="submitNews(false)">
+                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> ${ru ? 'Опубликовать' : 'Publish'}
+                            </button>
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.82rem;padding:10px;white-space:nowrap;background:linear-gradient(180deg,#4a6a1a,#2e4a0a);border-color:#1e3a06;box-shadow:0 4px 0 #0e2a00;" onclick="submitNews(true)">
+                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> ${ru ? 'Черновик' : 'Save Draft'}
+                            </button>
+                        </div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="bp-submit-btn" onclick="clearNewsForm()" style="flex:1;margin-top:0;font-size:0.82rem;padding:8px;white-space:nowrap;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;">
+                                <i class="fas fa-trash"></i> ${ru ? 'Очистить' : 'Clear'}
+                            </button>
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.82rem;padding:8px;white-space:nowrap;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-admin-modal').remove()">
+                                ${ru ? 'Отмена' : 'Cancel'}
+                            </button>
+                        </div>
                     </div>
                 </div>`;
             document.body.appendChild(overlay);
