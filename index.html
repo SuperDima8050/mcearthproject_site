@@ -5771,6 +5771,14 @@
                         <button id="news-add-btn" class="copy-btn" onclick="showNewsAdminPanel()" style="font-size:0.8rem;padding:8px 14px;white-space:nowrap;display:none;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;"> <span data-ru="Добавить новость" data-en="Add News">Добавить новость</span>
                         </button>
+                        <button id="news-drafts-btn" class="copy-btn" onclick="showDraftsPanel()" style="font-size:0.8rem;padding:8px 14px;white-space:nowrap;display:none;">
+                            <span style="display:inline-flex;flex-direction:column;justify-content:center;gap:2px;width:14px;height:14px;vertical-align:middle;margin-right:5px;flex-shrink:0;">
+                                <span style="display:block;height:2px;background:currentColor;border-radius:1px;"></span>
+                                <span style="display:block;height:2px;background:currentColor;border-radius:1px;width:70%;"></span>
+                                <span style="display:block;height:2px;background:currentColor;border-radius:1px;"></span>
+                            </span>
+                            <span data-ru="Черновики" data-en="Drafts">Черновики</span>
+                        </button>
                     </div>
                 </div>
 
@@ -6954,8 +6962,75 @@
         window.publishDraft = async function(newsId) {
             const ru = currentLang === 'ru';
             const { error } = await sbClient.from('news').update({is_draft: false}).eq('id', newsId);
-            if (!error) { showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (ru ? 'Новость опубликована!' : 'News published!'), 'success'); loadNews(); }
-            else showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + error.message, 'error');
+            if (!error) {
+                showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (ru ? 'Новость опубликована!' : 'News published!'), 'success');
+                document.getElementById('news-drafts-modal')?.remove();
+                loadNews();
+            } else showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + error.message, 'error');
+        };
+
+        window.showDraftsPanel = async function() {
+            if (!sbClient || !currentAccount) return;
+            const ru = currentLang === 'ru';
+            const isDark = document.body.classList.contains('dark-theme');
+            const bg = isDark ? '#2a2a2a' : '#f5eed9';
+            const bor = isDark ? '#3a3a3a' : '#8b7355';
+            const txt = isDark ? '#e0e0e0' : '#3e2723';
+
+            const ex = document.getElementById('news-drafts-modal'); if (ex) ex.remove();
+            const overlay = document.createElement('div');
+            overlay.className = 'bp-modal-overlay'; overlay.id = 'news-drafts-modal';
+
+            // Загружаем черновики
+            const { data: drafts } = await sbClient.from('news').select('*').eq('is_draft', true).order('created_at', { ascending: false });
+
+            const draftItems = (drafts || []).map(d => {
+                const date = new Date(d.created_at).toLocaleDateString(ru ? 'ru-RU' : 'en-US', {day:'2-digit',month:'short',year:'numeric'});
+                return `<div style="border:2px solid ${bor};border-radius:3px;padding:12px;margin-bottom:8px;background:${isDark?'#1e1e1e':'#fffbf0'};">
+                    <div style="font-family:Minecraft,sans-serif;font-size:0.88rem;font-weight:700;color:${txt};margin-bottom:4px;">${d.title || (ru?'Без названия':'Untitled')}</div>
+                    <div style="font-family:Minecraft,sans-serif;font-size:0.72rem;color:${isDark?'#777':'#8b7355'};margin-bottom:10px;">${date} · ${d.author || ''}</div>
+                    <div style="display:flex;gap:8px;">
+                        <button onclick="publishDraft(${d.id})" style="flex:1;font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;padding:7px;background:linear-gradient(180deg,#6b8e23,#4a6010);color:#fff;border:2px solid #3a5010;border-radius:2px;box-shadow:0 3px 0 #2a3a08;cursor:pointer;white-space:nowrap;">
+                            ${ru ? 'Опубликовать' : 'Publish'}
+                        </button>
+                        <button onclick="deleteDraftFromPanel(${d.id},this.closest('[data-draft-id]'))" data-draft-id="${d.id}" style="flex:1;font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;padding:7px;background:linear-gradient(180deg,#c62828,#8b1a1a);color:#fff;border:2px solid #7f0000;border-radius:2px;box-shadow:0 3px 0 #5a0000;cursor:pointer;white-space:nowrap;">
+                            ${ru ? 'Удалить' : 'Delete'}
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            overlay.innerHTML = `<div class="bp-modal" style="max-width:480px;max-height:88vh;overflow-y:auto;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;border-bottom:3px solid ${bor};padding-bottom:12px;cursor:move;" id="drafts-modal-handle">
+                    <span style="display:inline-flex;flex-direction:column;justify-content:center;gap:3px;width:16px;height:16px;flex-shrink:0;">
+                        <span style="display:block;height:2px;background:#6b8e23;border-radius:1px;"></span>
+                        <span style="display:block;height:2px;background:#6b8e23;border-radius:1px;width:65%;"></span>
+                        <span style="display:block;height:2px;background:#6b8e23;border-radius:1px;"></span>
+                    </span>
+                    <span style="font-family:Minecraft,sans-serif;font-size:0.95rem;font-weight:700;color:#4a5d23;text-transform:uppercase;letter-spacing:0.05em;">${ru ? 'Черновики' : 'Drafts'}</span>
+                    <span style="margin-left:auto;font-size:0.7rem;opacity:0.4;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span>
+                </div>
+                <div id="drafts-list">
+                    ${draftItems || `<div style="font-family:Minecraft,sans-serif;font-size:0.85rem;color:${isDark?'#777':'#8b7355'};text-align:center;padding:20px 0;">${ru ? 'Черновиков нет' : 'No drafts'}</div>`}
+                </div>
+                <button onclick="document.getElementById('news-drafts-modal').remove()" style="width:100%;margin-top:12px;font-family:Minecraft,sans-serif;font-size:0.82rem;font-weight:700;padding:9px;background:linear-gradient(180deg,#888,#555);color:#fff;border:2px solid #333;border-radius:2px;box-shadow:0 3px 0 #222;cursor:pointer;">
+                    ${ru ? 'Закрыть' : 'Close'}
+                </button>
+            </div>`;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            makeDraggable(overlay.querySelector('.bp-modal'), document.getElementById('drafts-modal-handle'));
+        };
+
+        window.deleteDraftFromPanel = async function(newsId, btn) {
+            const ru = currentLang === 'ru';
+            if (!confirm(ru ? 'Удалить черновик?' : 'Delete draft?')) return;
+            const { error } = await sbClient.from('news').delete().eq('id', newsId);
+            if (!error) {
+                const card = document.querySelector(`[data-draft-id="${newsId}"]`);
+                if (card) card.closest('div[style*="border:2px"]')?.remove();
+                loadNews();
+            } else showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + error.message, 'error');
         };
 
         async function downloadWorld(url, name, event, bpId) {
@@ -8919,6 +8994,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     // Show reports button in the row (mobile always, desktop in main nav)
                     const newsAddBtn = document.getElementById('news-add-btn');
                     if (newsAddBtn) newsAddBtn.style.display = '';
+                    const newsDraftsBtn = document.getElementById('news-drafts-btn');
+                    if (newsDraftsBtn) newsDraftsBtn.style.display = '';
                     if (isMobile) {
                         if (mobileRTab) mobileRTab.style.display = '';
                     const navSep = document.getElementById('nav-reports-sep');
@@ -9025,6 +9102,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (rTab) rTab.style.display = 'none';
             const newsAddBtnLo = document.getElementById('news-add-btn');
             if (newsAddBtnLo) newsAddBtnLo.style.display = 'none';
+            const newsDraftsBtnLo = document.getElementById('news-drafts-btn');
+            if (newsDraftsBtnLo) newsDraftsBtnLo.style.display = 'none';
             const mobileRow = document.getElementById('nav-reports-row');
             if (mobileRow) mobileRow.style.display = window.innerWidth <= 768 ? 'block' : 'none';
             const mobileRTabLo = document.getElementById('reports-nav-tab-mobile');
