@@ -5907,6 +5907,10 @@
                                     <i class="fas fa-network-wired"></i>
                                     <span data-ru="Поддомен" data-en="Subdomain">Поддомен</span>
                                 </button>
+                                <button class="bp-profile-btn" onclick="exportMyData()">
+                                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png" style="width:16px;height:16px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;">
+                                    <span data-ru="Экспорт" data-en="Export">Экспорт</span>
+                                </button>
                                 <button class="bp-profile-btn" onclick="doLogout()">
                                     <i class="fas fa-sign-out-alt"></i>
                                     <span data-ru="Выйти" data-en="Logout">Выйти</span>
@@ -6395,6 +6399,13 @@
                 const tagHTML = renderNewsTag(news.tag || '', ru);
                 newsItem.innerHTML = `
                     ${isNew ? `<img src="${NEW_ICON_URL}" class="news-new-badge" title="Новое" alt="new">` : ''}
+                    ${(news.is_draft && isAdmin) ? `<div style="position:absolute;top:8px;left:8px;z-index:10;display:flex;align-items:center;gap:5px;">
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:16px;height:16px;image-rendering:pixelated;">
+                        <span style="font-family:Minecraft,sans-serif;font-size:0.65rem;font-weight:700;color:#fff;background:#4a6a1a;border:2px solid #2e4a0a;border-radius:2px;padding:1px 6px;letter-spacing:0.05em;text-transform:uppercase;">DRAFT</span>
+                        <button onclick="publishDraft(${news.id})" style="font-family:Minecraft,sans-serif;font-size:0.65rem;font-weight:700;color:#fff;background:#6b8e23;border:2px solid #4a6010;border-radius:2px;padding:1px 6px;cursor:pointer;letter-spacing:0.03em;display:flex;align-items:center;gap:3px;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:10px;height:10px;image-rendering:pixelated;"> ${ru ? 'Опубликовать' : 'Publish'}
+                        </button>
+                    </div>` : ''}
                     <div class="news-content-wrapper">
                         <div class="news-header">
                             <h3 class="news-title">${ru ? (news.title || 'Без названия') : (news.title_en || news.title || 'Untitled')}</h3>
@@ -6510,6 +6521,8 @@
                 ]);
                 _newsCache = result[0].data || [];
                 _newsIsAdmin = result[1];
+                // Черновики видны только администраторам
+                if (!_newsIsAdmin) _newsCache = _newsCache.filter(n => !n.is_draft);
 
                 // Load avatars for news authors
                 const authors = [...new Set(_newsCache.map(n => n.author).filter(Boolean))];
@@ -6774,13 +6787,15 @@
                         <div class="bp-file-name" id="nadmin-image-name"></div>
                     </div>
                     <div id="nadmin-status" style="font-size:0.85rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:20px;"></div>
-                    <div style="display:flex;gap:10px;">
-                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;" onclick="submitNews()">
-                            <i class="fas fa-paper-plane"></i> ${ru ? 'Опубликовать' : 'Publish'}
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;" onclick="submitNews(false)">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> ${ru ? 'Опубликовать' : 'Publish'}
+                        </button>
+                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#4a6a1a,#2e4a0a);border-color:#1e3a06;box-shadow:0 4px 0 #0e2a00;" onclick="submitNews(true)">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> ${ru ? 'Черновик' : 'Save Draft'}
                         </button>
                         <button class="bp-submit-btn" onclick="clearNewsForm()" style="margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;">
-                            <i class="fas fa-trash"></i>
-                            ${ru ? 'Очистить' : 'Clear'}
+                            <i class="fas fa-trash"></i> ${ru ? 'Очистить' : 'Clear'}
                         </button>
                         <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-admin-modal').remove()">
                             ${ru ? 'Отмена' : 'Cancel'}
@@ -6792,7 +6807,8 @@
             makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
         }
 
-        async function submitNews() {
+        async function submitNews() { return _submitNewsImpl(false); }
+        async function _submitNewsImpl(isDraft) {
             const ru = currentLang === 'ru';
             const title = document.getElementById('nadmin-title').value.trim();
             const titleEn = document.getElementById('nadmin-title-en').value.trim();
@@ -6880,6 +6896,7 @@
                 image_url: imageUrl || null,
                 source_url: sourceUrl || null,
                 tag: newsTag || null,
+                is_draft: isDraft || false,
                 author: currentAccount.nick,
                 author_verified: currentAccount.verified || false,
                 likes: 0, dislikes: 0
@@ -6890,12 +6907,52 @@
                 return;
             }
 
-            showNewsStatus('success', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Новость опубликована!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> News published!');
+            const okMsg = isDraft
+                ? (ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Черновик сохранён!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Draft saved!')
+                : (ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Новость опубликована!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> News published!');
+            showNewsStatus('success', okMsg);
             setTimeout(() => { document.getElementById('news-admin-modal')?.remove(); loadNews(); }, 1200);
         }
 
         window.showNewsAdminPanel = showNewsAdminPanel;
-        window.submitNews = submitNews;
+        window.submitNews = function(isDraft) { return _submitNewsImpl(isDraft === true); };
+
+        // === ЭКСПОРТ ДАННЫХ ===
+        window.exportMyData = async function() {
+            if (!currentAccount || !sbClient) return;
+            const ru = currentLang === 'ru';
+            const nick = currentAccount.nick;
+            showInfoBanner('<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div> ' + (ru ? 'Собираем данные...' : 'Gathering data...'));
+            try {
+                const [bpRes, glRes] = await Promise.all([
+                    sbClient.from('buildplates').select('id,name,created_at,likes,dislikes,downloads,image_url,world_url').ilike('author', nick).order('created_at', {ascending:false}),
+                    sbClient.from('gallery').select('id,title,created_at,likes,dislikes,image_url').ilike('author', nick).order('created_at', {ascending:false})
+                ]);
+                const payload = {
+                    exported_at: new Date().toISOString(),
+                    account: { nick, verified: currentAccount.verified, join_date: currentAccount.join_date },
+                    buildplates: bpRes.data || [],
+                    gallery: glRes.data || []
+                };
+                const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `mce_export_${nick}_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+                showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (ru ? 'Данные экспортированы!' : 'Data exported!'), 'success');
+            } catch(e) {
+                showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + e.message, 'error');
+            }
+        };
+
+        // === ПУБЛИКАЦИЯ ЧЕРНОВИКА ===
+        window.publishDraft = async function(newsId) {
+            const ru = currentLang === 'ru';
+            const { error } = await sbClient.from('news').update({is_draft: false}).eq('id', newsId);
+            if (!error) { showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (ru ? 'Новость опубликована!' : 'News published!'), 'success'); loadNews(); }
+            else showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + error.message, 'error');
+        };
 
         async function downloadWorld(url, name, event, bpId) {
             const ru = currentLang === 'ru';
