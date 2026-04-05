@@ -13182,9 +13182,16 @@ async function doDeleteSubdomain() {
     box-shadow: 0 6px 24px rgba(0,0,0,0.8);
     transition: border-color .12s, transform .1s;
     image-rendering: pixelated;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 #mw-btn:hover { border-color: #e0b040; transform: scale(1.06); }
 #mw-btn:active { transform: scale(0.94); }
+@media (hover: none) {
+    #mw-btn:hover { border-color: #6b4f10; transform: none; }
+    #mw-btn:active { transform: scale(0.94); }
+}
 #mw-btn img {
     width: 52px; height: 52px;
     object-fit: contain;
@@ -13780,7 +13787,8 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
     let _myCaught = false;   // поймал ли текущий пользователь
     let _catchers  = new Set(); // ники всех кто поймал
     let _spawnTimer = null, _decoInterval = null;
-// stylesconst st = document.createElement('style');
+// styles
+const st = document.createElement('style');
     st.textContent = `
         @keyframes _ce_in  { from{opacity:0;transform:scale(0.4)} to{opacity:1;transform:scale(1)} }
         @keyframes _ce_out { to{opacity:0;transform:scale(0.3)} }
@@ -13800,7 +13808,8 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         }
     `;
     document.head.appendChild(st);
-// supabaseasync function getSb() {
+// supabase
+async function getSb() {
         for (let i = 0; i < 12; i++) {
             if (window.sbClient) return window.sbClient;
             await new Promise(r => setTimeout(r, 500));
@@ -13843,7 +13852,8 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
             })
             .subscribe();
     }
-// apply decorationswindow.applyDecorations = function applyDecorations() {
+// apply decorations
+window.applyDecorations = function applyDecorations() {
         if (_catchers.size === 0) return;
 
         function addBadge(el, size) {
@@ -13882,7 +13892,8 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         applyDecorations();
         if (!_decoInterval) _decoInterval = setInterval(applyDecorations, 2000);
     }
-// spawnfunction spawnCluck() {
+// spawn
+function spawnCluck() {
         if (_myCaught) return;
         document.getElementById('_ce_mob')?.remove();
 
@@ -13920,9 +13931,10 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
 
     function scheduleSpawn() {
         if (_myCaught) return;
-        _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, 15000 + Math.random() * 15000);
+        _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, 8000 + Math.random() * 10000);
     }
-// init(async () => {
+// init
+(async () => {
         subscribeRealtime();
         await loadCatchers();
 
@@ -13937,7 +13949,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         }
 
         if (!_myCaught) {
-            const first = 10000 + Math.random() * 10000;
+            const first = 5000 + Math.random() * 5000;
             _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, first);
         }
     })();
