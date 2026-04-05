@@ -7869,6 +7869,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 console.warn('Supabase: вставь ANON KEY!');
             } else {
                 sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                window.sbClient = sbClient;
             }
         } catch(e) {
             console.error('Supabase init error:', e);
