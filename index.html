@@ -5909,7 +5909,7 @@
                                     <span data-ru="Поддомен" data-en="Subdomain">Поддомен</span>
                                 </button>
                                 <button class="bp-profile-btn" onclick="exportMyData()">
-                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border:2px solid currentColor;border-radius:2px;font-size:9px;font-weight:900;vertical-align:middle;position:relative;flex-shrink:0;"><span style="position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:8px;height:2px;background:currentColor;"></span>↓</span>
+                                    <i class="fas fa-file-export"></i>
                                     <span data-ru="Экспорт" data-en="Export">Экспорт</span>
                                 </button>
                                 <button class="bp-profile-btn" onclick="doLogout()">
@@ -6383,11 +6383,10 @@
                     const avatar = _newsAvatarMap[authorLower];
                     const isVerified = _newsVerifiedMap[authorLower] || news.author_verified;
                     const verifiedBadge = isVerified ? '<span class="verified-badge" title="' + (currentLang==='ru'?'Верифицированный автор':'Verified author') + '"><i class="fas fa-check"></i></span>' : '';
-                    const secretBadge = _newsSecretMap[authorLower] ? `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/secret-badges/muddy_pig_mob.gif" width="14" height="14" style="image-rendering:pixelated;vertical-align:middle;margin-left:2px;" title="Muddy Pig 🐷">` : '';
                     const avatarHtml = avatar
                         ? `<img class="bp-card-avatar" src="${avatar}" alt="" loading="lazy" style="width:22px;height:22px;">`
                         : `<span class="bp-card-avatar-placeholder" style="width:22px;height:22px;min-width:22px;"><i class="fas fa-user" style="font-size:10px;"></i></span>`;
-                    authorHTML = `<div class="news-author" style="cursor:pointer;" onclick="openPlayerProfile('${escapeHtml(news.author)}','news')">${avatarHtml}<span class="player-author-link">${escapeHtml(news.author)}${verifiedBadge}${secretBadge}</span></div>`;
+                    authorHTML = `<div class="news-author" style="cursor:pointer;" onclick="openPlayerProfile('${escapeHtml(news.author)}','news')">${avatarHtml}<span class="player-author-link">${escapeHtml(news.author)}${verifiedBadge}</span></div>`;
                 }
                 let sourceHTML = '';
                 if (news.source_url) {
@@ -6503,7 +6502,6 @@
 
         let _newsAvatarMap = {};
         let _newsVerifiedMap = {};
-        let _newsSecretMap = {};
 
         window.loadNews = async function loadNews() {
             if (!sbClient) return;
@@ -6520,17 +6518,16 @@
 
                 // Load avatars for news authors
                 const authors = [...new Set(_newsCache.map(n => n.author).filter(Boolean))];
-                _newsAvatarMap = {}; _newsVerifiedMap = {}; _newsSecretMap = {};
+                _newsAvatarMap = {}; _newsVerifiedMap = {};
                 if (authors.length > 0) {
                     try {
                         const { data: accs } = await sbClient.from('accounts')
-                            .select('nick, avatar_url, verified, secret_badges')
+                            .select('nick, avatar_url, verified')
                             .in('nick', authors).limit(100);
                         (accs || []).forEach(a => {
                             const k = (a.nick||'').toLowerCase();
                             if (a.avatar_url) _newsAvatarMap[k] = a.avatar_url;
                             if (a.verified) _newsVerifiedMap[k] = true;
-                            if (a.secret_badges && a.secret_badges.includes('muddy_pig')) _newsSecretMap[k] = true;
                         });
                     } catch(e) {}
                 }
@@ -8851,6 +8848,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
             document.getElementById('bp-logged-in-name').innerHTML =
                 nick + (verified ? ' <span class="verified-badge" title="Верифицирован"><i class="fas fa-check"></i></span>' : '');
+            // Показываем cluckshroom в своём профиле если поймал
+            setTimeout(() => { if (window.applyDecorations) window.applyDecorations(); }, 300);
 
             const badge = document.getElementById('bp-email-verified-badge');
             if (email) {
@@ -9608,7 +9607,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         var _bpAllData = [];
         let _bpAvatarMap = {};
         let _bpVerifiedMap = {};
-        let _bpSecretMap = {};
         let _bpFilterMine = false;
         let _bpFilterFavorites = false;
         let _bpSearchTimer = null;
@@ -9785,7 +9783,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
-                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(bp.author||'')}','buildplates')">${escapeHtml(bp.author || (currentLang === 'ru' ? 'Неизвестно' : 'Unknown'))}${_bpVerifiedMap[authorLower] ? `<span class="verified-badge" title="${currentLang === 'ru' ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}${_bpSecretMap[authorLower] ? `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/secret-badges/muddy_pig_mob.gif" width="16" height="16" style="image-rendering:pixelated;vertical-align:middle;margin-left:2px;" title="Muddy Pig 🐷">` : ''}</span>
+                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(bp.author||'')}','buildplates')">${escapeHtml(bp.author || (currentLang === 'ru' ? 'Неизвестно' : 'Unknown'))}${_bpVerifiedMap[authorLower] ? `<span class="verified-badge" title="${currentLang === 'ru' ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
                             </div>
                             <div class="bp-card-date">
                                 <i class="fas fa-calendar-alt"></i>
@@ -9931,15 +9929,13 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 const authors = [...new Set(data.map(bp => bp.author).filter(Boolean))];
                 _bpAvatarMap = {};
                 _bpVerifiedMap = {};
-                _bpSecretMap = {};
                 if (authors.length > 0) {
                     try {
-                        const { data: accs } = await sbClient.from('accounts').select('nick, avatar_url, verified, secret_badges').in('nick', authors);
+                        const { data: accs } = await sbClient.from('accounts').select('nick, avatar_url, verified').in('nick', authors);
                         if (accs) accs.forEach(a => {
                             const key = a.nick.toLowerCase();
                             if (a.avatar_url) _bpAvatarMap[key] = a.avatar_url;
                             if (a.verified) _bpVerifiedMap[key] = true;
-                            if (a.secret_badges && a.secret_badges.includes('muddy_pig')) _bpSecretMap[key] = true;
                         });
                     } catch(e) {}
                 }
@@ -10813,7 +10809,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         let _galleryCache = null;
         let _galleryAvatarMap = {};
         let _galleryVerifiedMap = {};
-        let _gallerySecretMap = {};
         let _galleryFilterMine = false;
         let _galleryFilterFavorites = false;
         
@@ -11135,18 +11130,16 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 const authors = [...new Set(_galleryCache.map(p => p.author).filter(Boolean))];
                 _galleryAvatarMap = {};
                 _galleryVerifiedMap = {};
-                _gallerySecretMap = {};
                 if (authors.length > 0) {
                     try {
                         const { data: accs } = await sbClient.from('accounts')
-                            .select('nick, avatar_url, verified, secret_badges')
+                            .select('nick, avatar_url, verified')
                             .in('nick', authors)
                             .limit(100);
                         (accs || []).forEach(acc => {
                             const k = (acc.nick||'').toLowerCase();
                             if (acc.avatar_url) _galleryAvatarMap[k] = acc.avatar_url;
                             if (acc.verified) _galleryVerifiedMap[k] = true;
-                            if (acc.secret_badges && acc.secret_badges.includes('muddy_pig')) _gallerySecretMap[k] = true;
                         });
                     } catch(e) { console.warn('Gallery avatars:', e); }
                 }
@@ -11327,7 +11320,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
-                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(photo.author||'')}','gallery')">${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? `<span class="verified-badge" title="${ru ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}${_gallerySecretMap[authorLower] ? `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/secret-badges/muddy_pig_mob.gif" width="16" height="16" style="image-rendering:pixelated;vertical-align:middle;margin-left:2px;" title="Muddy Pig 🐷">` : ''}</span>
+                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(photo.author||'')}','gallery')">${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? `<span class="verified-badge" title="${ru ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
                             </div>
                             <div class="bp-card-date">
                                 <i class="fas fa-calendar-alt"></i>
@@ -12022,6 +12015,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 </div>
             </div>`;
             document.body.appendChild(overlay);
+            // Сразу показываем cluckshroom если у игрока он есть
+            setTimeout(() => { if (window.applyDecorations) window.applyDecorations(); }, 80);
             overlay.addEventListener('click', e => { if (e.target===overlay) overlay.remove(); });
             document.getElementById('pp-close').addEventListener('click', () => overlay.remove());
             const box = document.getElementById('pp-box');
@@ -12046,7 +12041,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             // Load everything in parallel
             try {
                 // 1. Account info (avatar, verified)
-                sbClient.from('accounts').select('nick,avatar_url,verified,secret_badges,created_at').ilike('nick', nick).limit(1).then(({data}) => {
+                sbClient.from('accounts').select('nick,avatar_url,verified,created_at').ilike('nick', nick).limit(1).then(({data}) => {
                     if (data && data[0]) {
                         const acc = data[0];
                         // Show joined date
@@ -12081,22 +12076,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                                 if (vb) vb.insertAdjacentHTML('afterend', getRefBadgeHTML(refCount));
                             }
                         }).catch(()=>{});
-                        // Secret muddy pig badge — show for anyone who has it
-                        try {
-                            const ru2 = currentLang === 'ru';
-                            const SECRET_BASE2 = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/secret-badges/';
-                            if (acc.secret_badges && acc.secret_badges.includes('muddy_pig')) {
-                                const vb2 = document.getElementById('pp-verified-badge');
-                                if (vb2) {
-                                    const img = document.createElement('img');
-                                    img.src = SECRET_BASE2 + 'muddy_pig_mob.gif';
-                                    img.width = 22; img.height = 22;
-                                    img.style.cssText = 'image-rendering:pixelated;vertical-align:middle;margin-left:4px;';
-                                    img.title = ru2 ? 'Секретный значок — Muddy Pig 🐷' : 'Secret badge — Muddy Pig 🐷';
-                                    vb2.parentNode.insertBefore(img, vb2.nextSibling);
-                                }
-                            }
-                        } catch(e) {}
                     }
                 }).catch(()=>{});
 
@@ -13977,21 +13956,30 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
             .subscribe();
     }
 
-    // ── Декорации — бейдж только рядом с никами поймавших ─────────────────
-    function applyDecorations() {
+    // ── Декорации — бейдж рядом со всеми никами поймавших ───────────────────
+    window.applyDecorations = function applyDecorations() {
         if (_catchers.size === 0) return;
-        document.querySelectorAll('.player-author-link').forEach(el => {
-            // Определяем ник из текста (первый текстовый узел)
+
+        function addBadge(el, size) {
+            if (!el || el.querySelector('.ce-badge')) return;
             const nickNode = [...el.childNodes].find(n => n.nodeType === Node.TEXT_NODE);
-            const nickText = (nickNode?.textContent || el.textContent || '').trim().toLowerCase();
+            const nickText = (nickNode?.textContent || '').trim().toLowerCase();
             if (!nickText || !_catchers.has(nickText)) return;
-            // Не добавлять дважды
-            if (el.querySelector('.ce-badge')) return;
             const img = new Image();
             img.src = CLUCK_URL; img.className = 'ce-badge';
-            img.alt = '🐔'; img.title = 'Cluckshroom';
+            img.alt = '\u{1F414}'; img.title = 'Cluckshroom';
+            img.style.cssText = `width:${size}px;height:${size}px;image-rendering:pixelated;vertical-align:middle;margin-left:4px;`;
             el.appendChild(img);
-        });
+        }
+
+        // 1. Карточки в новостях, билдплейтах, галерее
+        document.querySelectorAll('.player-author-link').forEach(el => addBadge(el, 16));
+
+        // 2. Свой профиль (имя в шапке профиля)
+        addBadge(document.getElementById('bp-logged-in-name'), 16);
+
+        // 3. Модалка профиля игрока (pp-nick)
+        addBadge(document.getElementById('pp-nick'), 22);
     }
 
     // ── Поймал (текущий пользователь) ─────────────────────────────────────
