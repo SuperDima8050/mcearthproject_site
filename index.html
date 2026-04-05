@@ -13887,75 +13887,61 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
 })();
 
 // ===== ПАСХАЛКА: КЛАКШРУМ =====
-// Supabase: CREATE TABLE IF NOT EXISTS easter_egg (season TEXT PRIMARY KEY, caught_at TIMESTAMPTZ DEFAULT now());
-// RLS: ALTER TABLE easter_egg ENABLE ROW LEVEL SECURITY;
-// Policy read: CREATE POLICY "read_all" ON easter_egg FOR SELECT USING (true);
-// Policy insert: CREATE POLICY "insert_all" ON easter_egg FOR INSERT WITH CHECK (true);
+// Supabase SQL (выполни один раз):
+// CREATE TABLE IF NOT EXISTS easter_egg (season TEXT PRIMARY KEY, caught_at TIMESTAMPTZ DEFAULT now());
+// ALTER TABLE easter_egg ENABLE ROW LEVEL SECURITY;
+// CREATE POLICY "read_all"   ON easter_egg FOR SELECT USING (true);
+// CREATE POLICY "insert_all" ON easter_egg FOR INSERT  WITH CHECK (true);
 (function() {
     const CLUCK_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/easter-badges/clukshroom_mob.gif';
 
+    // Период: 5 апреля — 20 мая
     function isEasterPeriod() {
-        const now = new Date();
-        const y = now.getFullYear();
+        const now = new Date(), y = now.getFullYear();
         return now >= new Date(y, 3, 5) && now <= new Date(y, 4, 20, 23, 59, 59);
     }
     if (!isEasterPeriod()) return;
 
-    const SEASON = new Date().getFullYear().toString();
-    let _caught = false;
-    let _spawnTimer = null;
-    let _decoInterval = null;
+    const SEASON = String(new Date().getFullYear());
+    let _caught = false, _spawnTimer = null, _decoInterval = null;
 
-    // ── Стили ──────────────────────────────────────────────────────────────
-    const styleEl = document.createElement('style');
-    styleEl.id = 'easter-cluck-style';
-    styleEl.textContent = `
-        @keyframes cluck-in   { from{transform:scale(0) rotate(-25deg);opacity:0} to{transform:scale(1) rotate(0);opacity:1} }
-        @keyframes cluck-out  { to{transform:scale(0) rotate(25deg);opacity:0} }
-        @keyframes cluck-hop  { 0%,100%{transform:translateY(0) scaleX(1)} 50%{transform:translateY(-8px) scaleX(-1)} }
-        @keyframes cluck-deco-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
-        #easter-cluck-mob {
-            position:fixed; z-index:99998; cursor:pointer; image-rendering:pixelated;
-            width:52px; height:52px;
-            filter:drop-shadow(0 3px 6px rgba(0,0,0,0.55));
-            animation: cluck-in 0.35s cubic-bezier(.34,1.56,.64,1) forwards,
-                       cluck-hop 1.1s ease-in-out infinite 0.35s;
-            transition:filter 0.15s;
-            touch-action:manipulation;
+    // ── Стили ─────────────────────────────────────────────────────────────
+    const st = document.createElement('style');
+    st.textContent = `
+        @keyframes _ce_in  { from{opacity:0;transform:scale(0.4)} to{opacity:1;transform:scale(1)} }
+        @keyframes _ce_out { to{opacity:0;transform:scale(0.3)} }
+        #_ce_mob {
+            position:fixed; z-index:99998; cursor:pointer;
+            image-rendering:pixelated; width:56px; height:56px;
+            filter:drop-shadow(0 2px 5px rgba(0,0,0,0.6));
+            animation:_ce_in 0.25s ease-out forwards;
+            touch-action:manipulation; user-select:none;
         }
-        #easter-cluck-mob:hover,
-        #easter-cluck-mob:active {
-            filter:drop-shadow(0 0 10px #ffe000) drop-shadow(0 3px 6px rgba(0,0,0,0.55)) !important;
-            transform:scale(1.15) !important;
+        #_ce_mob:hover, #_ce_mob:active {
+            filter:drop-shadow(0 0 8px #ffe000) drop-shadow(0 2px 5px rgba(0,0,0,0.6));
         }
-        #easter-cluck-hint {
-            position:fixed; z-index:99997; pointer-events:none;
-            font-family:'Minecraft',monospace; font-size:10px; color:#fff;
-            background:rgba(0,0,0,0.72); border:2px solid #6b8e23;
-            border-radius:2px; padding:3px 7px; white-space:nowrap;
-            image-rendering:pixelated; letter-spacing:0.04em;
-            transition:opacity 0.3s;
-        }
-        .easter-cluck-deco {
-            position:absolute; bottom:5px; right:5px;
-            width:26px; height:26px; image-rendering:pixelated;
-            z-index:6; pointer-events:none;
-            animation:cluck-deco-bounce 1.4s ease-in-out infinite;
+        .ce-deco {
+            position:absolute; bottom:4px; right:4px;
+            width:22px; height:22px; image-rendering:pixelated;
+            z-index:6; pointer-events:none; opacity:0.92;
         }
     `;
-    document.head.appendChild(styleEl);
+    document.head.appendChild(st);
 
-    // ── Supabase helpers ───────────────────────────────────────────────────
+    // ── Supabase ───────────────────────────────────────────────────────────
+    // Ждём sbClient максимум 6 сек
     async function getSb() {
-        let tries = 0;
-        while (!window.sbClient && tries++ < 30) await new Promise(r => setTimeout(r, 500));
-        return window.sbClient || null;
+        for (let i = 0; i < 12; i++) {
+            if (window.sbClient) return window.sbClient;
+            await new Promise(r => setTimeout(r, 500));
+        }
+        return null;
     }
     async function isCaught() {
         const sb = await getSb(); if (!sb) return false;
         try {
-            const { data } = await sb.from('easter_egg').select('season').eq('season', SEASON).maybeSingle();
-            return !!data;
+            const { data, error } = await sb.from('easter_egg').select('season').eq('season', SEASON).maybeSingle();
+            return !error && !!data;
         } catch(e) { return false; }
     }
     async function markCaught() {
@@ -13963,122 +13949,106 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         try { await sb.from('easter_egg').upsert({ season: SEASON }); } catch(e) {}
     }
 
-    // ── Realtime подписка ──────────────────────────────────────────────────
+    // ── Realtime — другие поймали ──────────────────────────────────────────
     async function subscribeRealtime() {
         const sb = await getSb(); if (!sb) return;
-        try { sb.channel('easter-watch-ch').unsubscribe(); } catch(e) {}
-        sb.channel('easter-watch-ch')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'easter_egg', filter: `season=eq.${SEASON}` }, () => {
-                if (!_caught) onCaught(false);
-            })
+        try { sb.channel('_ce_ch').unsubscribe(); } catch(e) {}
+        sb.channel('_ce_ch')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'easter_egg', filter: `season=eq.${SEASON}` },
+                () => { if (!_caught) onCaught(false); })
             .subscribe();
     }
 
-    // ── Декорации на всех карточках ────────────────────────────────────────
+    // ── Декорации ─────────────────────────────────────────────────────────
     function applyDecorations() {
-        document.querySelectorAll('.news-item:not(.easter-done), .bp-card:not(.easter-done)').forEach(el => {
-            el.classList.add('easter-done');
-            const pos = getComputedStyle(el).position;
-            if (pos === 'static') el.style.position = 'relative';
+        document.querySelectorAll('.news-item:not(.ce-done), .bp-card:not(.ce-done)').forEach(el => {
+            el.classList.add('ce-done');
+            if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
             const img = new Image();
-            img.src = CLUCK_URL; img.className = 'easter-cluck-deco'; img.alt = '';
+            img.src = CLUCK_URL; img.className = 'ce-deco'; img.alt = '';
             el.appendChild(img);
         });
     }
 
-    // ── Пойман ──────────────────────────────────────────────────────────────
+    // ── Пойман ────────────────────────────────────────────────────────────
     function onCaught(byMe) {
         _caught = true;
         stopSpawning();
-        const ru = (window.currentLang || 'ru') === 'ru';
+        // Баннер только тому кто поймал сам
         if (byMe && typeof window.showInfoBanner === 'function') {
+            const ru = (window.currentLang || 'ru') === 'ru';
             window.showInfoBanner(
                 `<img src="${CLUCK_URL}" style="width:18px;height:18px;image-rendering:pixelated;vertical-align:middle;margin-right:6px;">` +
-                (ru ? 'Клакшрум пойман! Теперь он везде 🐔' : 'Cluckshroom caught! It\'s everywhere now 🐔'),
+                (ru ? 'Клакшрум пойман! Теперь он везде!' : 'Cluckshroom caught! Now it\'s everywhere!'),
                 'success'
             );
         }
         applyDecorations();
-        _decoInterval = setInterval(applyDecorations, 2500);
+        if (!_decoInterval) _decoInterval = setInterval(applyDecorations, 2000);
     }
 
-    // ── Спавн ───────────────────────────────────────────────────────────────
+    // ── Спавн ─────────────────────────────────────────────────────────────
     function spawnCluck() {
         if (_caught) return;
-        document.getElementById('easter-cluck-mob')?.remove();
-        document.getElementById('easter-cluck-hint')?.remove();
+        document.getElementById('_ce_mob')?.remove();
 
-        const size = 52, pad = 24;
-        const x = pad + Math.random() * (window.innerWidth  - size - pad * 2);
-        const y = pad + Math.random() * (window.innerHeight - size - pad * 2);
-        const ru = (window.currentLang || 'ru') === 'ru';
+        const size = 56, pad = 20;
+        const maxX = window.innerWidth  - size - pad;
+        const maxY = window.innerHeight - size - pad;
+        const x = pad + Math.random() * Math.max(maxX - pad, 1);
+        const y = pad + Math.random() * Math.max(maxY - pad, 1);
 
         const mob = document.createElement('img');
-        mob.id = 'easter-cluck-mob'; mob.src = CLUCK_URL; mob.alt = 'Cluckshroom';
+        mob.id = '_ce_mob'; mob.src = CLUCK_URL; mob.alt = '';
         mob.style.left = x + 'px'; mob.style.top = y + 'px';
 
-        const hint = document.createElement('div');
-        hint.id = 'easter-cluck-hint';
-        hint.textContent = ru ? '🐔 Поймай меня!' : '🐔 Catch me!';
-        hint.style.left = Math.min(x, window.innerWidth - 150) + 'px';
-        hint.style.top  = Math.max(y - 28, 4) + 'px';
-
-        function dismiss() {
-            mob.style.animation = 'cluck-out 0.3s ease-in forwards';
-            hint.style.opacity = '0';
-            setTimeout(() => { mob.remove(); hint.remove(); }, 310);
+        async function catchIt(e) {
+            e.preventDefault(); e.stopPropagation();
+            mob.style.animation = '_ce_out 0.25s ease-in forwards';
+            setTimeout(() => mob.remove(), 260);
+            await markCaught();
+            onCaught(true);
         }
+        mob.addEventListener('click',      catchIt);
+        mob.addEventListener('touchstart', catchIt, { passive: false });
 
-        mob.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            // Визуальный фидбэк поимки
-            mob.style.animation = 'cluck-out 0.35s ease-in forwards';
-            hint.style.opacity = '0';
-            setTimeout(() => { mob.remove(); hint.remove(); }, 360);
-            await markCaught();
-            onCaught(true);
-        });
-        mob.addEventListener('touchstart', async (e) => {
-            e.preventDefault();
-            mob.style.animation = 'cluck-out 0.35s ease-in forwards';
-            hint.style.opacity = '0';
-            setTimeout(() => { mob.remove(); hint.remove(); }, 360);
-            await markCaught();
-            onCaught(true);
-        }, { passive: false });
-
-        document.body.appendChild(hint);
         document.body.appendChild(mob);
 
-        // Убегает через 6-10 сек если не поймали
-        const lifespan = 6000 + Math.random() * 4000;
-        setTimeout(() => { if (!_caught) dismiss(); }, lifespan);
-    }
-
-    function scheduleNext() {
-        if (_caught) return;
-        const delay = 12000 + Math.random() * 10000; // 12-22 сек между появлениями
-        _spawnTimer = setTimeout(() => { spawnCluck(); scheduleNext(); }, delay);
+        // Убегает через 5–9 сек
+        const life = 5000 + Math.random() * 4000;
+        setTimeout(() => {
+            if (!_caught && document.getElementById('_ce_mob') === mob) {
+                mob.style.animation = '_ce_out 0.25s ease-in forwards';
+                setTimeout(() => mob.remove(), 260);
+            }
+        }, life);
     }
 
     function stopSpawning() {
         if (_spawnTimer) { clearTimeout(_spawnTimer); _spawnTimer = null; }
-        document.getElementById('easter-cluck-mob')?.remove();
-        document.getElementById('easter-cluck-hint')?.remove();
+        document.getElementById('_ce_mob')?.remove();
     }
 
-    // ── Старт ──────────────────────────────────────────────────────────────
+    function scheduleSpawn() {
+        if (_caught) return;
+        // Появляется каждые 15–30 сек
+        const delay = 15000 + Math.random() * 15000;
+        _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, delay);
+    }
+
+    // ── Старт ─────────────────────────────────────────────────────────────
     (async () => {
-        await subscribeRealtime();
-        const alreadyCaught = await isCaught();
-        if (alreadyCaught) {
+        subscribeRealtime(); // не ждём
+        const already = await isCaught();
+        if (already) {
+            // Уже пойман кем-то — тихо ставим декорации, без баннера
             _caught = true;
             applyDecorations();
-            _decoInterval = setInterval(applyDecorations, 2500);
+            _decoInterval = setInterval(applyDecorations, 2000);
         } else {
-            // Первое появление через 8-20 сек после загрузки
-            const firstDelay = 8000 + Math.random() * 12000;
-            setTimeout(() => { spawnCluck(); scheduleNext(); }, firstDelay);
+            // Первый спавн через 10–20 сек после загрузки
+            const first = 10000 + Math.random() * 10000;
+            _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, first);
         }
     })();
 })();
