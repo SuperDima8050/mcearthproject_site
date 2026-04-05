@@ -13920,10 +13920,10 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         #_ce_mob:hover, #_ce_mob:active {
             filter:drop-shadow(0 0 8px #ffe000) drop-shadow(0 2px 5px rgba(0,0,0,0.6));
         }
-        .ce-deco {
-            position:absolute; bottom:4px; right:4px;
-            width:22px; height:22px; image-rendering:pixelated;
-            z-index:6; pointer-events:none; opacity:0.92;
+        .ce-badge {
+            width:16px; height:16px; image-rendering:pixelated;
+            vertical-align:middle; margin-left:3px;
+            display:inline-block;
         }
     `;
     document.head.appendChild(st);
@@ -13959,13 +13959,16 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
             .subscribe();
     }
 
-    // ── Декорации ─────────────────────────────────────────────────────────
+    // ── Декорации — клакшрум рядом с именем игрока ────────────────────────
     function applyDecorations() {
-        document.querySelectorAll('.news-item:not(.ce-done), .bp-card:not(.ce-done)').forEach(el => {
+        // news-author и bp-card-author содержат .player-author-link
+        document.querySelectorAll('.player-author-link:not(.ce-done)').forEach(el => {
             el.classList.add('ce-done');
-            if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
             const img = new Image();
-            img.src = CLUCK_URL; img.className = 'ce-deco'; img.alt = '';
+            img.src = CLUCK_URL;
+            img.className = 'ce-badge';
+            img.alt = '🐔';
+            img.title = 'Cluckshroom';
             el.appendChild(img);
         });
     }
