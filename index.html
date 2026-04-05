@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+  AI INSTRUCTIONS — READ BEFORE EDITING THIS FILE:
+  - Do NOT add decorative comments like: // ===, // ----, // ──, /* === */, // ***
+  - Do NOT add long explanatory comments in Russian or any language
+  - Short inline comments are OK, in English only, only when truly necessary
+  - Do NOT repeat what the code already says obviously
+  - Keep all edits minimal and clean
+-->
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -52,8 +60,7 @@
             font-weight: 400;
             font-style: normal;
         }
-        
-        /* ── Pixel Status Badges ── */
+/* pixel-status-badges */
         .px-badge-ok, .px-badge-err, .px-badge-lock {
             display: inline-flex; align-items: center; justify-content: center;
             width: 14px; height: 14px; border-radius: 1px;
@@ -1720,7 +1727,7 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        /* === Compass Sprite Loader === */
+/* compass-sprite-loader */
         .compass-loader {
             display: inline-block;
             width: 48px;
@@ -1811,8 +1818,7 @@
             color: #e0e0e0;
             background: #2a2a2a;
         }
-
-        /* === MAINTENANCE MODE: disabled tabs === */
+/* maintenance-mode */
         .nav-tab.nav-tab-disabled {
             opacity: 0.45;
             filter: grayscale(100%);
@@ -2255,8 +2261,7 @@
         body.dark-theme .ref-profile-title { color: #81c784; }
         body.dark-theme .ref-link-input { background: #1a1a1a; border-color: #3a3a3a; color: #e0e0e0; }
         body.dark-theme .ref-stats { color: #b0b0b0; }
-
-        /* === XP BAR === */
+/* xp-bar */
         .ref-xp-wrap {
             margin-top: 10px;
             background: rgba(0,0,0,0.82);
@@ -2466,7 +2471,6 @@
         }
         .ref-xp-tier-connector.filled { background: #50c000; box-shadow: 0 0 4px rgba(80,192,0,0.5); }
 
-        /* === ИДЕАЛЬНЫЕ УНИФИЦИРОВАННЫЕ СТИЛИ ДЛЯ ЗАГРУЗКИ ФАЙЛОВ === */
         .bp-file-label {
             display: flex;
             flex-direction: column;
@@ -3546,10 +3550,7 @@
             color: white;
             font-size: 9px;
         }
-
-
-
-        /* ── Leaderboard ── */
+/* leaderboard */
         .lb-section { margin-bottom: 28px; }
         .lb-tabs {
             display: flex;
@@ -3709,8 +3710,7 @@
             color: #8b7355;
         }
         .lb-loading { text-align:center; padding: 30px 0; }
-
-        /* ── Player Profile Modal ── */
+/* player-profile-modal */
         .player-author-link {
             cursor: pointer;
             text-decoration: underline dotted;
@@ -4603,8 +4603,7 @@
         .bp-profile-actions-delete {
             margin-top: 6px;
         }
-
-        /* ── GLOBAL MOBILE OVERFLOW FIXES ── */
+/* mobile-overflow-fixes */
         @media (max-width: 600px) {
             /* Modals with custom max-width still respect screen */
             .bp-modal[style*="max-width"] {
@@ -5074,8 +5073,7 @@
             border: 2px solid #8b7355;
         }
         .auth-locked:hover::after { opacity: 1; }
-
-        /* === GALLERY — swipeable lightbox === */
+/* gallery-lightbox */
         .gallery-lightbox {
             position: fixed;
             inset: 0;
@@ -5776,7 +5774,6 @@
                 </div>
 
 
-
                 <div id="news-container" class="news-container">
                     <div class="news-empty">
                         <i class="fas fa-newspaper"></i>
@@ -6353,7 +6350,6 @@
                 return;
             }
 
-            // Применяем пагинацию
             const totalPages = Math.ceil(newsArray.length / _newsItemsPerPage);
             const startIndex = (_newsCurrentPage - 1) * _newsItemsPerPage;
             const endIndex = startIndex + _newsItemsPerPage;
@@ -6471,7 +6467,6 @@
             // Mark all current news as seen
             localStorage.setItem('news_last_seen', Date.now().toString());
             
-            // Обновляем контролы пагинации
             updateNewsPaginationControls(totalPages);
         }
 
@@ -6909,7 +6904,6 @@
         window.showNewsAdminPanel = showNewsAdminPanel;
         window.submitNews = function() { return _submitNewsImpl(); };
 
-        // === ЭКСПОРТ ДАННЫХ ===
         window.exportMyData = async function() {
             if (!currentAccount || !sbClient) return;
             const ru = currentLang === 'ru';
@@ -7254,7 +7248,6 @@
 
         window.resolveReport = async function(reportId, postType, postId, imageUrlEnc, postAuthorEnc, action, banUser) {
             const ru = currentLang === 'ru';
-            // Проверка прав модератора
             const isAdm = await checkNewsAdmin();
             if (!isAdm) { showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Нет прав!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> No permission!', 'error'); return; }
             const imageUrl = decodeURIComponent(imageUrlEnc);
@@ -7368,7 +7361,6 @@
         }
 
         // Запрещаем Google Translate трогать элементы с data-ru/data-en.
-        // У нас есть свой переключатель языков, они не должны конфликтовать.
         function markNoTranslate() {
             document.querySelectorAll('[data-ru][data-en]').forEach(el => {
                 el.setAttribute('translate', 'no');
@@ -7411,7 +7403,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (ev && ev.target) {
                 ev.target.classList.add('active');
             } else {
-                // При вызове без события — активируем нужную кнопку
                 document.querySelectorAll('.lang-btn').forEach(btn => {
                     const onclick = btn.getAttribute('onclick') || '';
                     if (onclick.includes("'" + lang + "'")) btn.classList.add('active');
@@ -7465,7 +7456,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 span.textContent = lang === 'ru' ? 'Скачать' : 'Download';
             });
 
-            // Обновляем тултип для заблокированных кнопок
             const lockedTip = lang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Требуется вход' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login required';
             document.querySelectorAll('.auth-locked').forEach(el => {
                 el.setAttribute('data-locked-tip', lockedTip);
@@ -7618,7 +7608,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 }
             });
 
-            // Добавляем обработчики для полей загрузки фотографий
             for (let i = 1; i <= 3; i++) {
                 const input = document.getElementById(`gallery-image-input-${i}`);
                 const nameEl = document.getElementById(`gallery-image-name-${i}`);
@@ -7657,13 +7646,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 galleryContainer.addEventListener('dragleave', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    // Проверяем, покинул ли курсор область контейнера
                     if (!e.relatedTarget || !galleryContainer.contains(e.relatedTarget)) {
                         dragOverlay.classList.remove('active', 'drag-over');
                     }
                 });
 
-                // Обработка сброса файлов
                 galleryContainer.addEventListener('drop', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -7677,7 +7664,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         return isValidFormat && isValidSize;
                     });
 
-                    // Проверяем размеры файлов
                     const oversizedFiles = files.filter(file => file.size > 10 * 1024 * 1024);
                     if (oversizedFiles.length > 0) {
                         const ru = currentLang === 'ru';
@@ -7706,7 +7692,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         return;
                     }
 
-                    // Распределяем файлы по инпутам
                     for (let i = 0; i < Math.min(validFiles.length, 3); i++) {
                         const input = document.getElementById(`gallery-image-input-${i + 1}`);
                         const nameEl = document.getElementById(`gallery-image-name-${i + 1}`);
@@ -7717,7 +7702,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                             dt.items.add(validFiles[i]);
                             input.files = dt.files;
                             
-                            // Обновляем отображение имени файла
                             nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + validFiles[i].name;
                             nameEl.style.color = '#6b8e23';
                         }
@@ -7752,7 +7736,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                                 return;
                             }
                             
-                            // Валидация размера
                             if (file.size > 10 * 1024 * 1024) {
                                 nameEl.style.color = '#c62828';
                                 nameEl.innerHTML = currentLang === 'ru' ? 
@@ -7776,7 +7759,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         const SUPABASE_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co';
         window.SUPABASE_URL = SUPABASE_URL;
 
-        // === Модерация изображений через Edge Function ===
         async function moderateImage(file) {
             try {
                 const fd = new FormData();
@@ -7804,7 +7786,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 ? `🚫 Изображение не прошло модерацию (${labels}). Загрузка запрещена.`
                 : `🚫 Image failed moderation (${labels}). Upload blocked.`;
         }
-        // === /Модерация ===
 
         function iconUrl(filename) {
             return `${SUPABASE_URL}/storage/v1/object/public/icons/icon/${filename}`;
@@ -7889,13 +7870,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 news_likes: {} 
             };
         }
-
-        // === MAINTENANCE MODE (per-tab) ===
+// maintenance mode
         // SQL для Supabase:
         // CREATE TABLE IF NOT EXISTS site_settings (key TEXT PRIMARY KEY, value TEXT);
         // INSERT INTO site_settings (key, value) VALUES ('maintenance_tabs', '{}') ON CONFLICT (key) DO NOTHING;
         //
-        // Управление вкладками:
         // UPDATE site_settings SET value='{"news":true}' WHERE key='maintenance_tabs';           -- только news
         // UPDATE site_settings SET value='{"news":true,"buildplates":true}' WHERE key='maintenance_tabs'; -- несколько
         // UPDATE site_settings SET value='{}' WHERE key='maintenance_tabs';                     -- всё работает
@@ -7962,12 +7941,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         }
                     };
                     applyMerl();
-                    // Повторяем через 1с на случай если виджет ещё не отрисован
                     setTimeout(applyMerl, 1000);
                 }
             });
 
-            // Если текущая вкладка на тех. работах — переходим на главную
             const currentActiveTab = document.querySelector('.tab-content.active');
             if (currentActiveTab) {
                 const tabId = currentActiveTab.id.replace('-tab', '');
@@ -8037,9 +8014,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         } else {
             _runMaintenanceOnce();
         }
-        // === END MAINTENANCE MODE ===
-
-        // === ANNOUNCEMENT BANNER ===
+// announcement banner
         // SQL: INSERT INTO site_settings VALUES ('announcement', '') ON CONFLICT (key) DO NOTHING;
         // Чтобы показать плашку: UPDATE site_settings SET value='Текст сообщения' WHERE key='announcement';
         // Чтобы скрыть: UPDATE site_settings SET value='' WHERE key='announcement';
@@ -8080,7 +8055,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 textEl.innerHTML = '';
             }
         }
-        // === END ANNOUNCEMENT BANNER ===
 
 
         document.getElementById('bp-image-input').addEventListener('change', function() {
@@ -8122,7 +8096,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Unsupported format';
                     return;
                 }
-                // Валидация размера
                 if (file.size > 10 * 1024 * 1024) {
                     nameEl.style.color = '#c62828';
                     nameEl.innerHTML = currentLang === 'ru' ? 
@@ -8159,7 +8132,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Unsupported format'; }
                 return;
             }
-            // Валидация размера
             if (file.size > 10 * 1024 * 1024) {
                 if (nameEl) { nameEl.style.color = '#c62828'; nameEl.innerHTML = currentLang === 'ru' ? 
                     '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Слишком большой файл (макс. 10MB)' : 
@@ -8178,7 +8150,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const nameEl = document.getElementById('nadmin-image-name');
             if (!file) return;
             
-            // Валидация размера
             if (file.size > 10 * 1024 * 1024) {
                 if (nameEl) { 
                     nameEl.style.color = '#c62828'; 
@@ -8507,7 +8478,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         window.currentAccount = null;
         window.currentAccount = null; // exposed for applyProtectedBlur
         
-        // Инициализируем хранилище голосов
         window._sbVotes = {
             bp_likes: {},
             bp_dislikes: {},
@@ -8642,15 +8612,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const nick = document.getElementById('bp-auth-nick').value.trim();
             const pass = document.getElementById('bp-auth-pass').value;
 
-            // Проверяем, вводил ли пользователь ключ аутентификации сегодня
             const today = new Date().toDateString();
             const lastAuthDate = localStorage.getItem('auth_key_today');
             
             if (lastAuthDate === today && nick && pass) {
-                // Если уже вводили сегодня, пропускаем проверку и сразу входим
                 showAuthStatus('ok', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Вход выполнен!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Logged in!');
                 
-                // Загружаем данные пользователя и входим
                 try {
                     const { data, error } = await sbClient
                         .from('accounts')
@@ -8664,7 +8631,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         return;
                     }
                 } catch(e) {
-                    // Если ошибка, продолжаем обычную аутентификацию
                 }
             }
 
@@ -8836,7 +8802,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             window.currentAccount = currentAccount;
             window.currentAccount = currentAccount;
             
-            // Сохраняем ключ аутентификации на сегодня
             const today = new Date().toDateString();
             localStorage.setItem('auth_key_today', today);
             
@@ -8933,7 +8898,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
             // Realtime ban kick — подписываемся на изменения своего аккаунта
             if (sbClient) {
-                // Отписываемся от предыдущей подписки если была
                 try { sbClient.channel('ban-watch').unsubscribe(); } catch(e) {}
                 sbClient
                     .channel('ban-watch')
@@ -8944,7 +8908,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         filter: `nick=eq.${nick}`
                     }, (payload) => {
                         if (payload.new && payload.new.banned === true) {
-                            // Показываем экран бана и кикаем
                             const ru = currentLang === 'ru';
                             const overlay = document.createElement('div');
                             overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:999999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;';
@@ -9471,14 +9434,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             showBpStatus('', '');
             showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 10);
 
-            // === Модерация ===
             const bpModResult = await moderateImage(imageFile);
             if (!bpModResult.ok) {
                 submitBtn.disabled = false;
                 showBpStatus('error', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + moderationErrorMsg(bpModResult, ru));
                 return;
             }
-            // === /Модерация ===
 
             showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 25);
 
@@ -9568,7 +9529,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             el.className = 'bp-status' + (type ? ' ' + type : '');
             
             if (type === 'loading' && progress !== null) {
-                // Показываем прогресс-бар во время загрузки
                 el.innerHTML = `
                     <div>${message}</div>
                     <div class="upload-progress">
@@ -9578,7 +9538,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     </div>
                 `;
             } else if (type === 'error') {
-                // Показываем ошибку с красным прогресс-баром
                 el.innerHTML = `
                     <div>${message}</div>
                     <div class="upload-progress">
@@ -9588,7 +9547,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     </div>
                 `;
             } else if (type === 'success') {
-                // Показываем успех с зеленым прогресс-баром
                 el.innerHTML = `
                     <div>${message}</div>
                     <div class="upload-progress">
@@ -9636,7 +9594,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const gallery = document.getElementById('bp-gallery');
             const countEl = document.getElementById('bp-results-count');
 
-            // Сбрасываем страницу при изменении фильтров
             _bpCurrentPage = 1;
 
             const myPosts = JSON.parse(localStorage.getItem('bp_my_posts') || '[]');
@@ -9683,7 +9640,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 return;
             }
 
-            // Применяем пагинацию
             const totalPages = Math.ceil(filtered.length / _bpItemsPerPage);
             const startIndex = (_bpCurrentPage - 1) * _bpItemsPerPage;
             const endIndex = startIndex + _bpItemsPerPage;
@@ -9693,7 +9649,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const grid = gallery.querySelector('.bp-grid');
             renderBpCards(pageData, grid, myIds, myNicks);
             
-            // Обновляем контролы пагинации
             updateBpPaginationControls(totalPages);
         }
 
@@ -9715,7 +9670,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         window.bpChangePage = function(direction) {
             if (!_bpAllData) return;
 
-            // Сначала получаем отфильтрованные данные
             const searchVal = (document.getElementById('bp-search')?.value || '').toLowerCase().trim();
             const myPosts = JSON.parse(localStorage.getItem('bp_my_posts') || '[]');
             const myIds = myPosts.map(p => String(p.id));
@@ -10105,7 +10059,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             
-            // Перетаскивание
             const modal = document.getElementById('bp-edit-modal-content');
             const header = modal.querySelector('.modal-header');
             makeDraggable(modal, header);
@@ -10183,13 +10136,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'dislike');
                     }
                     console.log('Adding like to user_votes');
-                    // Сначала удаляем старый лайк если есть
                     await sbClient.from('user_votes').delete()
                         .eq('nick', currentAccount.nick)
                         .eq('item_type', 'bp')
                         .eq('item_id', String(id));
                     
-                    // Затем вставляем новый
                     const { error: insertError } = await sbClient.from('user_votes').insert([{ 
                         nick: currentAccount.nick, 
                         item_type: 'bp', 
@@ -10257,13 +10208,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         likeBtn.querySelector('.bp-like-count').textContent = newLikes;
                         await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'bp').eq('item_id', String(id)).eq('vote', 'like');
                     }
-                    // Сначала удаляем старый дизлайк если есть
                     await sbClient.from('user_votes').delete()
                         .eq('nick', currentAccount.nick)
                         .eq('item_type', 'bp')
                         .eq('item_id', String(id));
                     
-                    // Затем вставляем новый
                     await sbClient.from('user_votes').insert([{ 
                         nick: currentAccount.nick, 
                         item_type: 'bp', 
@@ -10545,9 +10494,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         const _lsSet = localStorage.setItem.bind(localStorage);
         const FUNCTIONAL_KEYS = ['bp_session', 'bp_my_posts', 'pending_referrer'];
         const ANALYTICS_KEYS = ['bp_likes', 'bp_dislikes', 'gallery_likes', 'gallery_dislikes', 'userLikes'];
-
-
-        // === SESSION ENCRYPTION (AES-GCM) ===
+// session encryption (AES-GCM)
         const _SESSION_KEY_NAME = 'mce_sk';
 
         async function _getSessionKey() {
@@ -10558,7 +10505,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     return await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt', 'decrypt']);
                 } catch(e) {}
             }
-            // Генерируем новый ключ
             const key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
             const raw = await crypto.subtle.exportKey('raw', key);
             localStorage.setItem(_SESSION_KEY_NAME, btoa(String.fromCharCode(...new Uint8Array(raw))));
@@ -10587,11 +10533,9 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, cipher);
                 return JSON.parse(new TextDecoder().decode(plain));
             } catch(e) {
-                // Фолбэк на старый незашифрованный формат
                 try { return JSON.parse(str); } catch(e2) { return null; }
             }
         }
-        // === END SESSION ENCRYPTION ===
 
         window._safeLocalSet = function(key, value) {
             if (FUNCTIONAL_KEYS.some(k => key.startsWith(k))) {
@@ -10802,9 +10746,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!consent) showCookieBanner();
         })();
 
-        // ============================================================
         //  GALLERY TAB  
-        // ============================================================
 
         let _galleryCache = null;
         let _galleryAvatarMap = {};
@@ -10884,7 +10826,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         }
 
         // Lightbox
-        // === Swipeable Lightbox ===
+// swipeable lightbox
         let _lbImages = [];
         let _lbIndex = 0;
 
@@ -11020,7 +10962,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 return;
             }
 
-            // Проверяем формат и целостность файла
             const ext = imageFile.name.split('.').pop().toLowerCase();
             if (!['png','jpg','jpeg','webp'].includes(ext)) {
                 showStatus('error', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Формат: PNG, JPG или WEBP' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Format: PNG, JPG or WEBP');
@@ -11036,14 +10977,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             submitBtn.disabled = true;
             showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 5);
 
-            // === Модерация ===
             const modResult = await moderateImage(imageFile);
             if (!modResult.ok) {
                 submitBtn.disabled = false;
                 showStatus('error', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + moderationErrorMsg(modResult, ru));
                 return;
             }
-            // === /Модерация ===
 
             showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 10);
 
@@ -11052,7 +10991,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 const safeName = (currentAccount.nick || 'user').replace(/[^a-zA-Z0-9_]/g, '_');
                 const uploadedImages = [];
 
-                // Загружаем фото
 const ext = imageFile.name.split('.').pop().toLowerCase();
 const imagePath = `gallery/${safeName}_${ts}.${ext}`;
 
@@ -11071,7 +11009,6 @@ uploadedImages.push({
 
                 showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем в базу данных...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving to database...'}`, 85);
 
-                // Создаем запись в базе данных для фото
 const { error: insertErr } = await sbClient.from('gallery').insert([{
     title,
     author: currentAccount.nick,
@@ -11087,7 +11024,6 @@ updateGalleryDailyLimitUI();
 updateDailyLimitUI();
 showStatus('success', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Фото опубликовано!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Photo published!');
                 
-                // Очищаем форму
 document.getElementById('gallery-title').value = '';
 document.getElementById('gallery-image-input-1').value = '';
 const nameEl = document.getElementById('gallery-image-name-1');
@@ -11157,7 +11093,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const sort = document.getElementById('gallery-sort')?.value || 'newest';
             const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
 
-            // Сбрасываем страницу при изменении фильтров
             _galleryCurrentPage = 1;
 
             let filtered = _galleryCache.filter(p => {
@@ -11189,7 +11124,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 return;
             }
 
-            // Применяем пагинацию
             const totalPages = Math.ceil(filtered.length / _galleryItemsPerPage);
             const startIndex = (_galleryCurrentPage - 1) * _galleryItemsPerPage;
             const endIndex = startIndex + _galleryItemsPerPage;
@@ -11198,7 +11132,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             gallery.innerHTML = '<div class="bp-grid"></div>';
             renderGalleryCards(pageData, gallery.querySelector('.bp-grid'));
             
-            // Обновляем контролы пагинации
             updateGalleryPaginationControls(totalPages);
         }
 
@@ -11220,7 +11153,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         window.galleryChangePage = function(direction) {
             if (!_galleryCache) return;
 
-            // Сначала получаем отфильтрованные данные
             const query = (document.getElementById('gallery-search')?.value || '').toLowerCase().trim();
             const sort = document.getElementById('gallery-sort')?.value || 'newest';
             const myNick = currentAccount ? currentAccount.nick.toLowerCase() : null;
@@ -11458,13 +11390,11 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 } else {
                     await sbClient.from('gallery').update({ likes: count }).eq('id', id);
                 }
-                // Сначала удаляем старый лайк если есть
                 await sbClient.from('user_votes').delete()
                     .eq('nick', currentAccount.nick)
                     .eq('item_type', 'gallery')
                     .eq('item_id', String(id));
                 
-                // Затем вставляем новый
                 await sbClient.from('user_votes').insert([{ 
                     nick: currentAccount.nick, 
                     item_type: 'gallery', 
@@ -11512,13 +11442,11 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 } else {
                     await sbClient.from('gallery').update({ dislikes: count }).eq('id', id);
                 }
-                // Сначала удаляем старый дизлайк если есть
                 await sbClient.from('user_votes').delete()
                     .eq('nick', currentAccount.nick)
                     .eq('item_type', 'gallery')
                     .eq('item_id', String(id));
                 
-                // Затем вставляем новый
                 await sbClient.from('user_votes').insert([{ 
                     nick: currentAccount.nick, 
                     item_type: 'gallery', 
@@ -11625,7 +11553,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             
-            // Перетаскивание
             const modal = document.getElementById('gl-edit-modal-content');
             const header = modal.querySelector('.modal-header');
             makeDraggable(modal, header);
@@ -11668,7 +11595,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         const ext = file.name.split('.').pop().toLowerCase();
                         
                         if (['png', 'jpg', 'jpeg', 'webp'].includes(ext)) {
-                            // Валидация размера
                             if (file.size > 10 * 1024 * 1024) {
                                 const ru = currentLang === 'ru';
                                 showInfoBanner(
@@ -11706,7 +11632,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 imageInput.addEventListener('change', function(e) {
                     const file = e.target.files[0];
                     if (file) {
-                        // Валидация размера
                         if (file.size > 10 * 1024 * 1024) {
                             const ru = currentLang === 'ru';
                             showInfoBanner(
@@ -11747,9 +11672,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             titleInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('gl-edit-save-btn').click(); });
         }
         window.editGalleryPhoto = editGalleryPhoto;
-
-        // ── Player Profile Modal ──
-        // ── TikTok-style Player Profile ──
+// player profile modal
         window._ppData = {}; // cache per nick
         
         // Player profile pagination variables
@@ -11841,7 +11764,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 return;
             }
 
-            // Применяем пагинацию
             const totalPages = Math.ceil(items.length / _ppItemsPerPage);
             const startIndex = (_ppCurrentPage - 1) * _ppItemsPerPage;
             const endIndex = startIndex + _ppItemsPerPage;
@@ -11902,7 +11824,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 gridEl.appendChild(div);
             });
             
-            // Обновляем контролы пагинации
             updatePpPaginationControls(totalPages);
         }
 
@@ -12126,7 +12047,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const labelSpan = document.getElementById('report-img-label');
             if (!file) return;
             
-            // Валидация размера
             if (file.size > 10 * 1024 * 1024) {
                 const ru = currentLang === 'ru';
                 showInfoBanner(
@@ -12230,9 +12150,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
     </script>
 
 
-
     <script>
-    // === Compass Sprite Animation ===
+// compass sprite animation
     (function() {
         const COMPASS_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png';
         const FRAME_COUNT = 32;
@@ -12302,7 +12221,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         </div>
 
 <script>
-// ── PROTECTED AUTHORS BLUR ──
+// protected authors blur
 function applyProtectedBlur() {
     const loggedIn = !!window.currentAccount;
     const ru = currentLang === 'ru';
@@ -12350,9 +12269,7 @@ setTimeout(applyProtectedBlur, 500);
     }
 })();
 
-// =============================================
 //  SUBDOMAIN MANAGEMENT
-// =============================================
 const SUBDOMAIN_FN      = 'https://sqlylxcnoqehorlgmztm.supabase.co/functions/v1/manage-subdomain';
 const SUBDOMAIN_DOMAIN  = 'mcearthproject.qzz.io';
 const SUBDOMAIN_SITEKEY = '0x4AAAAAACZyA1UOix1SiYwF';
@@ -12496,7 +12413,6 @@ async function showSubdomainModal() {
     await loadCurrentSubdomain();
 }
 
-// --- текущий поддомен для вспомогательных функций ---
 let _sdCurrentSub = null;
 
 function _sdFillView(sub) {
@@ -12518,7 +12434,6 @@ function _sdFillView(sub) {
     setTimeout(sdCheckDns, 400);
 }
 
-// ---- Копировать адрес ----
 function sdCopyAddress() {
     if (!_sdCurrentSub) return;
     const addr = _sdCurrentSub.subdomain + '.' + SUBDOMAIN_DOMAIN;
@@ -12534,13 +12449,11 @@ function sdCopyAddress() {
     }
 }
 
-// ---- Открыть в браузере ----
 function sdOpenInBrowser() {
     if (!_sdCurrentSub) return;
     window.open('http://' + _sdCurrentSub.subdomain + '.' + SUBDOMAIN_DOMAIN, '_blank');
 }
 
-// ---- Проверка DNS через DoH ----
 async function sdCheckDns() {
     if (!_sdCurrentSub) return;
     const el = document.getElementById('sd-dns-status');
@@ -12564,7 +12477,6 @@ async function sdCheckDns() {
     }
 }
 
-// ---- Блок продления ----
 const SD_RENEWAL_DAYS = 30;  // продление на 30 дней
 const SD_WARN_DAYS    = 7;   // предупреждать за 7 дней
 
@@ -12578,7 +12490,6 @@ function _sdUpdateRenewalUI(sub) {
 
     const expiresAt = sub.expires_at ? new Date(sub.expires_at) : null;
     if (!expiresAt) {
-        // Нет даты — показываем просто подсказку о продлении
         expiryInfo.style.display = 'block';
         if (expiryText) expiryText.textContent = ru ? 'Продли поддомен чтобы он не удалился' : 'Renew to keep your subdomain active';
         renewalBlock.style.display = 'none';
@@ -12590,21 +12501,18 @@ function _sdUpdateRenewalUI(sub) {
     const daysLeft = Math.ceil(msLeft / 86400000);
 
     if (daysLeft <= 0) {
-        // Просрочен
         renewalBlock.style.display = 'block';
         expiryInfo.style.display   = 'none';
         if (renewalText) renewalText.textContent = ru
             ? `Срок поддомена истёк! Продли его немедленно, иначе запись будет удалена из Cloudflare.`
             : `Your subdomain has expired! Renew immediately or it will be removed from Cloudflare.`;
     } else if (daysLeft <= SD_WARN_DAYS) {
-        // Скоро истечёт — оранжевое предупреждение
         renewalBlock.style.display = 'block';
         expiryInfo.style.display   = 'none';
         if (renewalText) renewalText.textContent = ru
             ? `Осталось ${daysLeft} дн. Продли поддомен, иначе он будет удалён.`
             : `${daysLeft} day(s) left. Renew now or it will be deleted.`;
     } else {
-        // Всё ок — зелёная строчка
         renewalBlock.style.display = 'none';
         expiryInfo.style.display   = 'block';
         if (expiryText) expiryText.textContent = ru
@@ -12674,9 +12582,7 @@ async function loadCurrentSubdomain(force = false) {
 }
 
 
-        // ═══════════════════════════════════════════════════════════════
         //  MFA / TOTP  —  pure WebCrypto implementation (no external lib)
-        // ═══════════════════════════════════════════════════════════════
 
         function _b32Decode(base32) {
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -12939,7 +12845,6 @@ async function doSaveSubdomain() {
     const statusEl = document.getElementById('sd-status-create');
     const saveBtn  = document.getElementById('sd-save-btn');
 
-    // Защита: если поддомен уже создан — не даём создать ещё один
     const viewEl = document.getElementById('sd-view');
     if (viewEl && viewEl.style.display !== 'none') {
         if (statusEl) { statusEl.innerHTML = ru?'⚠ Поддомен уже существует. Удали его перед созданием нового.':'⚠ Subdomain already exists. Delete it first.'; statusEl.style.color='#c62828'; }
@@ -13053,9 +12958,7 @@ async function doDeleteSubdomain() {
     }
 }
 
-// ══════════════════════════════════════════
 //   LEADERBOARD
-// ══════════════════════════════════════════
 (function(){
     var _lbMode = 'likes';
     var _lbCache = {};
@@ -13078,7 +12981,6 @@ async function doDeleteSubdomain() {
     };
 
     async function loadLb(mode) {
-        // Проверяем кэш с учётом времени
         var now = Date.now();
         if (_lbCache[mode] && _lbCacheTimestamp[mode] && (now - _lbCacheTimestamp[mode]) < _lbCacheExpiry) {
             return _lbCache[mode];
@@ -13152,10 +13054,8 @@ async function doDeleteSubdomain() {
                 return;
             }
 
-            // Сбрасываем страницу при смене режима
             _lbCurrentPage = 1;
 
-            // Вычисляем пагинацию
             var totalPages = Math.ceil(data.length / _lbItemsPerPage);
             var startIndex = (_lbCurrentPage - 1) * _lbItemsPerPage;
             var endIndex = startIndex + _lbItemsPerPage;
@@ -13204,14 +13104,12 @@ async function doDeleteSubdomain() {
                 listEl.appendChild(row);
             });
 
-            // Обновляем контролы пагинации
             updatePaginationControls(totalPages);
         } catch(e) {
             if (listEl) listEl.innerHTML = '<div class="lb-empty" style="color:#c62828;">' + (e.message||'Error') + '</div>';
         }
     }
 
-    // Функция обновления контролов пагинации
     function updatePaginationControls(totalPages) {
         var paginationEl = document.getElementById('lb-pagination');
         var pageInfoEl = document.getElementById('lb-page-info');
@@ -13230,7 +13128,6 @@ async function doDeleteSubdomain() {
         if (nextBtn) nextBtn.disabled = _lbCurrentPage === totalPages;
     }
 
-    // Функция смены страницы
     window.lbChangePage = function(direction) {
         var data = _lbCache[_lbMode];
         if (!data) return;
@@ -13254,7 +13151,6 @@ async function doDeleteSubdomain() {
         }
     };
 
-    // Глобальные функции для тестирования
     window.testPagination = function() {
         _lbItemsPerPage = 5;
         renderLb(_lbMode);
@@ -13865,7 +13761,6 @@ function stopCyc(){ if(timer){clearInterval(timer);timer=null;} }
 function esc(t){ const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
 })();
 
-// ===== ПАСХАЛКА: КЛАКШРУМ =====
 // Supabase SQL (выполни один раз):
 // DROP TABLE IF EXISTS easter_egg;
 // CREATE TABLE easter_egg (season TEXT, nick TEXT, caught_at TIMESTAMPTZ DEFAULT now(), PRIMARY KEY (season, nick));
@@ -13885,9 +13780,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
     let _myCaught = false;   // поймал ли текущий пользователь
     let _catchers  = new Set(); // ники всех кто поймал
     let _spawnTimer = null, _decoInterval = null;
-
-    // ── Стили ─────────────────────────────────────────────────────────────
-    const st = document.createElement('style');
+// stylesconst st = document.createElement('style');
     st.textContent = `
         @keyframes _ce_in  { from{opacity:0;transform:scale(0.4)} to{opacity:1;transform:scale(1)} }
         @keyframes _ce_out { to{opacity:0;transform:scale(0.3)} }
@@ -13907,9 +13800,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         }
     `;
     document.head.appendChild(st);
-
-    // ── Supabase ───────────────────────────────────────────────────────────
-    async function getSb() {
+// supabaseasync function getSb() {
         for (let i = 0; i < 12; i++) {
             if (window.sbClient) return window.sbClient;
             await new Promise(r => setTimeout(r, 500));
@@ -13917,7 +13808,6 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         return null;
     }
 
-    // Загружаем всех кто поймал в этом сезоне
     async function loadCatchers() {
         const sb = await getSb(); if (!sb) return;
         try {
@@ -13927,7 +13817,6 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         } catch(e) {}
     }
 
-    // Сохраняем ник текущего пользователя
     async function markCaught() {
         const sb = await getSb(); if (!sb) return;
         const nick = window.currentAccount?.nick;
@@ -13937,8 +13826,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
             _catchers.add(nick.toLowerCase());
         } catch(e) {}
     }
-
-    // ── Realtime — кто-то поймал ──────────────────────────────────────────
+// realtime-то поймал ──────────────────────────────────────────
     async function subscribeRealtime() {
         const sb = await getSb(); if (!sb) return;
         try { sb.channel('_ce_ch').unsubscribe(); } catch(e) {}
@@ -13955,9 +13843,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
             })
             .subscribe();
     }
-
-    // ── Декорации — бейдж рядом со всеми никами поймавших ───────────────────
-    window.applyDecorations = function applyDecorations() {
+// apply decorationswindow.applyDecorations = function applyDecorations() {
         if (_catchers.size === 0) return;
 
         function addBadge(el, size) {
@@ -13981,8 +13867,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         // 3. Модалка профиля игрока (pp-nick)
         addBadge(document.getElementById('pp-nick'), 22);
     }
-
-    // ── Поймал (текущий пользователь) ─────────────────────────────────────
+// on catch(текущий пользователь) ─────────────────────────────────────
     function onMyCatch() {
         _myCaught = true;
         stopSpawning();
@@ -13997,9 +13882,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         applyDecorations();
         if (!_decoInterval) _decoInterval = setInterval(applyDecorations, 2000);
     }
-
-    // ── Спавн ─────────────────────────────────────────────────────────────
-    function spawnCluck() {
+// spawnfunction spawnCluck() {
         if (_myCaught) return;
         document.getElementById('_ce_mob')?.remove();
 
@@ -14022,7 +13905,6 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         mob.addEventListener('touchstart', catchIt, { passive: false });
         document.body.appendChild(mob);
 
-        // Убегает через 5–9 сек
         setTimeout(() => {
             if (!_myCaught && document.getElementById('_ce_mob') === mob) {
                 mob.style.animation = '_ce_out 0.25s ease-in forwards';
@@ -14040,25 +13922,20 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         if (_myCaught) return;
         _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, 15000 + Math.random() * 15000);
     }
-
-    // ── Старт ─────────────────────────────────────────────────────────────
-    (async () => {
+// init(async () => {
         subscribeRealtime();
         await loadCatchers();
 
-        // Проверяем поймал ли текущий пользователь
         const myNick = window.currentAccount?.nick?.toLowerCase();
         if (myNick && _catchers.has(myNick)) {
             _myCaught = true;
         }
 
-        // Декорации для всех у кого есть бейдж
         if (_catchers.size > 0) {
             applyDecorations();
             _decoInterval = setInterval(applyDecorations, 2000);
         }
 
-        // Клакшрум спавнится для всех кто ещё не поймал
         if (!_myCaught) {
             const first = 10000 + Math.random() * 10000;
             _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, first);
