@@ -13888,14 +13888,14 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
 
 // ===== ПАСХАЛКА: КЛАКШРУМ =====
 // Supabase SQL (выполни один раз):
-// CREATE TABLE IF NOT EXISTS easter_egg (season TEXT PRIMARY KEY, caught_at TIMESTAMPTZ DEFAULT now());
+// DROP TABLE IF EXISTS easter_egg;
+// CREATE TABLE easter_egg (season TEXT, nick TEXT, caught_at TIMESTAMPTZ DEFAULT now(), PRIMARY KEY (season, nick));
 // ALTER TABLE easter_egg ENABLE ROW LEVEL SECURITY;
 // CREATE POLICY "read_all"   ON easter_egg FOR SELECT USING (true);
-// CREATE POLICY "insert_all" ON easter_egg FOR INSERT  WITH CHECK (true);
+// CREATE POLICY "insert_all" ON easter_egg FOR INSERT WITH CHECK (true);
 (function() {
     const CLUCK_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/easter-badges/clukshroom_mob.gif';
 
-    // Период: 5 апреля — 20 мая
     function isEasterPeriod() {
         const now = new Date(), y = now.getFullYear();
         return now >= new Date(y, 3, 5) && now <= new Date(y, 4, 20, 23, 59, 59);
@@ -13903,7 +13903,9 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
     if (!isEasterPeriod()) return;
 
     const SEASON = String(new Date().getFullYear());
-    let _caught = false, _spawnTimer = null, _decoInterval = null;
+    let _myCaught = false;   // поймал ли текущий пользователь
+    let _catchers  = new Set(); // ники всех кто поймал
+    let _spawnTimer = null, _decoInterval = null;
 
     // ── Стили ─────────────────────────────────────────────────────────────
     const st = document.createElement('style');
@@ -13922,14 +13924,12 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         }
         .ce-badge {
             width:16px; height:16px; image-rendering:pixelated;
-            vertical-align:middle; margin-left:3px;
-            display:inline-block;
+            vertical-align:middle; margin-left:3px; display:inline-block;
         }
     `;
     document.head.appendChild(st);
 
     // ── Supabase ───────────────────────────────────────────────────────────
-    // Ждём sbClient максимум 6 сек
     async function getSb() {
         for (let i = 0; i < 12; i++) {
             if (window.sbClient) return window.sbClient;
@@ -13937,52 +13937,72 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
         }
         return null;
     }
-    async function isCaught() {
-        const sb = await getSb(); if (!sb) return false;
-        try {
-            const { data, error } = await sb.from('easter_egg').select('season').eq('season', SEASON).maybeSingle();
-            return !error && !!data;
-        } catch(e) { return false; }
-    }
-    async function markCaught() {
+
+    // Загружаем всех кто поймал в этом сезоне
+    async function loadCatchers() {
         const sb = await getSb(); if (!sb) return;
-        try { await sb.from('easter_egg').upsert({ season: SEASON }); } catch(e) {}
+        try {
+            const { data, error } = await sb.from('easter_egg').select('nick').eq('season', SEASON);
+            if (error || !data) return;
+            data.forEach(row => { if (row.nick) _catchers.add(row.nick.toLowerCase()); });
+        } catch(e) {}
     }
 
-    // ── Realtime — другие поймали ──────────────────────────────────────────
+    // Сохраняем ник текущего пользователя
+    async function markCaught() {
+        const sb = await getSb(); if (!sb) return;
+        const nick = window.currentAccount?.nick;
+        if (!nick) return;
+        try {
+            await sb.from('easter_egg').upsert({ season: SEASON, nick });
+            _catchers.add(nick.toLowerCase());
+        } catch(e) {}
+    }
+
+    // ── Realtime — кто-то поймал ──────────────────────────────────────────
     async function subscribeRealtime() {
         const sb = await getSb(); if (!sb) return;
         try { sb.channel('_ce_ch').unsubscribe(); } catch(e) {}
         sb.channel('_ce_ch')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'easter_egg', filter: `season=eq.${SEASON}` },
-                () => { if (!_caught) onCaught(false); })
+            .on('postgres_changes', {
+                event: 'INSERT', schema: 'public', table: 'easter_egg',
+                filter: `season=eq.${SEASON}`
+            }, payload => {
+                const nick = payload.new?.nick;
+                if (nick) {
+                    _catchers.add(nick.toLowerCase());
+                    applyDecorations(); // сразу обновляем у всех
+                }
+            })
             .subscribe();
     }
 
-    // ── Декорации — клакшрум рядом с именем игрока ────────────────────────
+    // ── Декорации — бейдж только рядом с никами поймавших ─────────────────
     function applyDecorations() {
-        // news-author и bp-card-author содержат .player-author-link
-        document.querySelectorAll('.player-author-link:not(.ce-done)').forEach(el => {
-            el.classList.add('ce-done');
+        if (_catchers.size === 0) return;
+        document.querySelectorAll('.player-author-link').forEach(el => {
+            // Определяем ник из текста (первый текстовый узел)
+            const nickNode = [...el.childNodes].find(n => n.nodeType === Node.TEXT_NODE);
+            const nickText = (nickNode?.textContent || el.textContent || '').trim().toLowerCase();
+            if (!nickText || !_catchers.has(nickText)) return;
+            // Не добавлять дважды
+            if (el.querySelector('.ce-badge')) return;
             const img = new Image();
-            img.src = CLUCK_URL;
-            img.className = 'ce-badge';
-            img.alt = '🐔';
-            img.title = 'Cluckshroom';
+            img.src = CLUCK_URL; img.className = 'ce-badge';
+            img.alt = '🐔'; img.title = 'Cluckshroom';
             el.appendChild(img);
         });
     }
 
-    // ── Пойман ────────────────────────────────────────────────────────────
-    function onCaught(byMe) {
-        _caught = true;
+    // ── Поймал (текущий пользователь) ─────────────────────────────────────
+    function onMyCatch() {
+        _myCaught = true;
         stopSpawning();
-        // Баннер только тому кто поймал сам
-        if (byMe && typeof window.showInfoBanner === 'function') {
+        if (typeof window.showInfoBanner === 'function') {
             const ru = (window.currentLang || 'ru') === 'ru';
             window.showInfoBanner(
                 `<img src="${CLUCK_URL}" style="width:18px;height:18px;image-rendering:pixelated;vertical-align:middle;margin-right:6px;">` +
-                (ru ? 'Клакшрум пойман! Теперь он везде!' : 'Cluckshroom caught! Now it\'s everywhere!'),
+                (ru ? 'Клакшрум пойман! Теперь он у тебя везде!' : 'Cluckshroom caught! It\'s now next to your name!'),
                 'success'
             );
         }
@@ -13992,14 +14012,12 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
 
     // ── Спавн ─────────────────────────────────────────────────────────────
     function spawnCluck() {
-        if (_caught) return;
+        if (_myCaught) return;
         document.getElementById('_ce_mob')?.remove();
 
         const size = 56, pad = 20;
-        const maxX = window.innerWidth  - size - pad;
-        const maxY = window.innerHeight - size - pad;
-        const x = pad + Math.random() * Math.max(maxX - pad, 1);
-        const y = pad + Math.random() * Math.max(maxY - pad, 1);
+        const x = pad + Math.random() * Math.max(window.innerWidth  - size - pad * 2, 1);
+        const y = pad + Math.random() * Math.max(window.innerHeight - size - pad * 2, 1);
 
         const mob = document.createElement('img');
         mob.id = '_ce_mob'; mob.src = CLUCK_URL; mob.alt = '';
@@ -14010,21 +14028,19 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
             mob.style.animation = '_ce_out 0.25s ease-in forwards';
             setTimeout(() => mob.remove(), 260);
             await markCaught();
-            onCaught(true);
+            onMyCatch();
         }
         mob.addEventListener('click',      catchIt);
         mob.addEventListener('touchstart', catchIt, { passive: false });
-
         document.body.appendChild(mob);
 
         // Убегает через 5–9 сек
-        const life = 5000 + Math.random() * 4000;
         setTimeout(() => {
-            if (!_caught && document.getElementById('_ce_mob') === mob) {
+            if (!_myCaught && document.getElementById('_ce_mob') === mob) {
                 mob.style.animation = '_ce_out 0.25s ease-in forwards';
                 setTimeout(() => mob.remove(), 260);
             }
-        }, life);
+        }, 5000 + Math.random() * 4000);
     }
 
     function stopSpawning() {
@@ -14033,23 +14049,29 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
     }
 
     function scheduleSpawn() {
-        if (_caught) return;
-        // Появляется каждые 15–30 сек
-        const delay = 15000 + Math.random() * 15000;
-        _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, delay);
+        if (_myCaught) return;
+        _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, 15000 + Math.random() * 15000);
     }
 
     // ── Старт ─────────────────────────────────────────────────────────────
     (async () => {
-        subscribeRealtime(); // не ждём
-        const already = await isCaught();
-        if (already) {
-            // Уже пойман кем-то — тихо ставим декорации, без баннера
-            _caught = true;
+        subscribeRealtime();
+        await loadCatchers();
+
+        // Проверяем поймал ли текущий пользователь
+        const myNick = window.currentAccount?.nick?.toLowerCase();
+        if (myNick && _catchers.has(myNick)) {
+            _myCaught = true;
+        }
+
+        // Декорации для всех у кого есть бейдж
+        if (_catchers.size > 0) {
             applyDecorations();
             _decoInterval = setInterval(applyDecorations, 2000);
-        } else {
-            // Первый спавн через 10–20 сек после загрузки
+        }
+
+        // Клакшрум спавнится для всех кто ещё не поймал
+        if (!_myCaught) {
             const first = 10000 + Math.random() * 10000;
             _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, first);
         }
