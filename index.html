@@ -5435,7 +5435,7 @@
         </div>
 
         <div class="discord-banner">
-            <a href="https://discord.gg/MMN26TQNfM" target="_blank" class="discord-btn">
+            <a href="https://discord.gg/s6KsAe4Cn" target="_blank" class="discord-btn">
                 <i class="fab fa-discord"></i>
                 <span data-ru="Присоединяйся к нашему Discord!" data-en="Join our Discord!">
                     Присоединяйся к нашему Discord!
@@ -5728,8 +5728,8 @@
                 </p>
                 <p style="margin-bottom: 15px;">
                     <strong data-ru="Наш Discord:" data-en="Our Discord:">Наш Discord:</strong><br>
-                    <a href="https://discord.gg/MMN26TQNfM" target="_blank" style="color: #5865F2;">
-                        <i class="fab fa-discord"></i> discord.gg/MMN26TQNfM
+                    <a href="https://discord.gg/s6KsAe4Cn" target="_blank" style="color: #5865F2;">
+                        <i class="fab fa-discord"></i> discord.gg/s6KsAe4Cn
                     </a>
                 </p>
                 <p>
@@ -13582,17 +13582,10 @@ window.mwSend=async function(){
 
     let full='', success=false;
     try{
-        let session=window.sbClient?.auth ? (await window.sbClient.auth.getSession())?.data?.session : null;
-        if(!session?.access_token && window.sbClient?.auth){
-            const {data:rd}=await window.sbClient.auth.refreshSession().catch(()=>({data:null}));
-            session=rd?.session||null;
-        }
-        const token=session?.access_token;
-        if(!token) throw new Error('no session');
         const contents=hist.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
         const res=await fetch(MERL_FN,{
             method:'POST',
-            headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+            headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.SUPABASE_ANON_KEY||'')},
             body:JSON.stringify({contents,model:MODEL,generationConfig:{maxOutputTokens:800}})
         });
         if(!res.ok){const e=await res.json().catch(()=>({})); throw new Error(e.error||'HTTP '+res.status);}
