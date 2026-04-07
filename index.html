@@ -13614,7 +13614,11 @@ window.mwSend=async function(){
 
     let full='', success=false;
     try{
-        const session=window.sbClient?.auth ? (await window.sbClient.auth.getSession())?.data?.session : null;
+        let session=window.sbClient?.auth ? (await window.sbClient.auth.getSession())?.data?.session : null;
+        if(!session?.access_token && window.sbClient?.auth){
+            const {data:rd}=await window.sbClient.auth.refreshSession().catch(()=>({data:null}));
+            session=rd?.session||null;
+        }
         const token=session?.access_token;
         if(!token) throw new Error('no session');
         const contents=hist.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
