@@ -13585,7 +13585,7 @@ window.mwSend=async function(){
         const contents=hist.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
         const res=await fetch(MERL_FN,{
             method:'POST',
-            headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.SUPABASE_ANON_KEY||'')},
+            headers:{'Content-Type':'application/json','apikey':window.SUPABASE_ANON_KEY||'','Authorization':'Bearer '+(window.SUPABASE_ANON_KEY||'')},
             body:JSON.stringify({contents,model:MODEL,generationConfig:{maxOutputTokens:800}})
         });
         if(!res.ok){const e=await res.json().catch(()=>({})); throw new Error(e.error||'HTTP '+res.status);}
