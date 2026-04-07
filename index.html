@@ -1,12 +1,5 @@
 <!DOCTYPE html>
-<!--
-  AI INSTRUCTIONS — READ BEFORE EDITING THIS FILE:
-  - Do NOT add decorative comments like: // ===, // ----, // ──, /* === */, // ***
-  - Do NOT add long explanatory comments in Russian or any language
-  - Short inline comments are OK, in English only, only when truly necessary
-  - Do NOT repeat what the code already says obviously
-  - Keep all edits minimal and clean
--->
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +10,7 @@
     <title>Revival Minecraft Earth</title>
     <link rel="icon" type="image/png" href="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico">
     <style>
-        /* Minecraft Five — основной шрифт */
+        
         @font-face {
             font-family: 'Minecraft';
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftfive-regular.ttf') format('truetype');
@@ -32,35 +25,35 @@
             font-style: normal;
             font-display: block;
         }
-        /* MinecraftTen — крупные заголовки (h1) */
+        
         @font-face {
             font-family: 'MinecraftTen';
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftten.ttf') format('truetype');
             font-weight: 400;
             font-style: normal;
         }
-        /* MinecraftSeven — секционные заголовки */
+        
         @font-face {
             font-family: 'MinecraftSeven';
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/minecraftseven.ttf') format('truetype');
             font-weight: 400;
             font-style: normal;
         }
-        /* NotoSans — читаемый фолбэк для текста */
+        
         @font-face {
             font-family: 'NotoSans';
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/notosans-regular.ttf') format('truetype');
             font-weight: 400;
             font-style: normal;
         }
-        /* NotoSansCJK — поддержка CJK символов */
+        
         @font-face {
             font-family: 'NotoSansCJK';
             src: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/fonts/notosanscjk-regular.ttc') format('truetype');
             font-weight: 400;
             font-style: normal;
         }
-/* pixel-status-badges */
+
         .px-badge-ok, .px-badge-err, .px-badge-lock {
             display: inline-flex; align-items: center; justify-content: center;
             width: 14px; height: 14px; border-radius: 1px;
@@ -100,8 +93,8 @@
     <meta name="twitter:description" content="An AR project to revive Minecraft Earth using the Vienna Docker">
 
     
-    <!-- Google tag (gtag.js) -->
-    <!-- Consent Mode v2: default denied BEFORE gtag loads -->
+    
+    
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -160,26 +153,26 @@
             padding: 20px;
             position: relative;
             background: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/backgrounds/splash_screen.png') center center / cover no-repeat fixed;
-            /* Оптимизированный рендеринг для кириллицы на компьютерах */
+            
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
             text-rendering: optimizeSpeed;
             -webkit-font-smoothing: none;
             -moz-osx-font-smoothing: unset;
             font-smooth: never;
             letter-spacing: 0.01em;
-            /* Улучшения для мобильных устройств */
+            
             -webkit-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
             touch-action: manipulation;
             overscroll-behavior: contain;
         }
 
-        /* Специальные правила для мобильных устройств */
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
                 font-size: 14px;
-                /* Восстанавливаем мобильный рендеринг */
+                
                 text-rendering: optimizeLegibility;
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
@@ -187,7 +180,7 @@
                 letter-spacing: 0.01em;
             }
             
-            /* Сохраняем идеальный рендеринг на мобильных */
+            
             .container, .tab-content, .section,
             h1, h2, h3, h4, h5, h6,
             .nav-tab, .lang-btn, .theme-btn,
@@ -210,7 +203,7 @@
             }
         }
 
-        /* Правила только для десктопных браузеров */
+        
         @media (min-width: 769px) {
             body {
                 text-rendering: optimizeLegibility;
@@ -238,12 +231,12 @@
             }
         }
 
-        /* Специальные правила для кириллицы */
+        
         * {
             font-family: inherit;
         }
         
-        /* Улучшенный рендеринг для кириллических символов в Minecraft шрифтах */
+        
         .container, .tab-content, .section {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
@@ -258,7 +251,7 @@
             image-rendering: crisp-edges;
         }
         
-        /* Для заголовков с кириллицей */
+        
         h1, h2, h3, h4, h5, h6 {
             font-family: 'MinecraftTen', 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
@@ -273,7 +266,7 @@
             image-rendering: crisp-edges;
         }
         
-        /* Для вкладок и кнопок с кириллицей */
+        
         .nav-tab, .lang-btn, .theme-btn {
             font-family: 'MinecraftSeven', 'Minecraft', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
@@ -288,7 +281,7 @@
             image-rendering: crisp-edges;
         }
         
-        /* Специальная обработка для русских символов */
+        
         [data-ru], .ru-text {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
@@ -303,7 +296,7 @@
             image-rendering: crisp-edges;
         }
         
-        /* Улучшение для форм с кириллицей */
+        
         .bp-form-row label, .bp-form-row input, .bp-form-row textarea {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
@@ -318,7 +311,7 @@
             image-rendering: crisp-edges;
         }
         
-        /* Для кнопок с кириллицей */
+        
         .bp-submit-btn, .bp-download-btn, .bp-like-btn, .bp-dislike-btn {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
@@ -333,7 +326,7 @@
             image-rendering: crisp-edges;
         }
         
-        /* Для уведомлений с кириллицей */
+        
         .info-note span, .bp-status, .cookie-banner-title, .cookie-banner-desc {
             font-family: 'Minecraft', 'NotoSans', sans-serif !important;
             font-feature-settings: "kern" 0, "liga" 0, "calt" 0;
@@ -348,7 +341,7 @@
             image-rendering: crisp-edges;
         }
 
-        /* Общие правила для всего текста */
+        
         body {
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
@@ -356,7 +349,7 @@
             font-smooth: auto;
         }
 
-        /* Специальные правила для Firefox */
+        
         @-moz-document url-prefix() {
             .container, .tab-content, .section,
             h1, h2, h3, h4, h5, h6,
@@ -370,7 +363,7 @@
             }
         }
 
-        /* Специальные правила для Safari/Chrome */
+        
         @media screen and (-webkit-min-device-pixel-ratio:0) {
             .container, .tab-content, .section,
             h1, h2, h3, h4, h5, h6,
@@ -385,7 +378,7 @@
             }
         }
 
-        /* Убираем серую полоску (outline) со всех кнопок и инпутов */
+        
         input:focus, button:focus, select:focus, textarea:focus {
             outline: none !important;
             box-shadow: none !important;
@@ -747,7 +740,7 @@
             box-shadow: 0 10px 0 #5a4a3a, 0 12px 25px rgba(0,0,0,0.3);
         }
 
-        /* Blur for protected authors when not logged in */
+        
         .author-card.protected-blur .author-name,
         .author-card.protected-blur .author-links {
             filter: blur(6px);
@@ -1057,7 +1050,6 @@
             font-family: 'Minecraft', sans-serif;
         }
 
-
         .nav-tabs {
             display: flex;
             gap: 0;
@@ -1105,17 +1097,17 @@
             border-top-color: #3a3a3a !important;
         }
 
-        /* На десктопе — мобильная строка скрыта, Reports в основном ряду */
+        
         @media (min-width: 769px) {
             .nav-tabs-reports-row {
                 display: none;
             }
             .nav-tabs-reports-row.admin-visible {
-                display: none; /* на десктопе всегда скрыта */
+                display: none; 
             }
         }
 
-        /* На мобильном — Reports, Лидеры и Галерея из основного ряда скрыты */
+        
         @media (max-width: 768px) {
             #reports-nav-tab {
                 display: none;
@@ -1126,7 +1118,7 @@
             #gallery-nav-tab {
                 display: none;
             }
-            /* Buildplates становится последним видимым — добавляем правую границу */
+            
             #buildplates-nav-tab {
                 border-right: 3px solid #8b7355 !important;
             }
@@ -1727,14 +1719,14 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-/* compass-sprite-loader */
+
         .compass-loader {
             display: inline-block;
             width: 48px;
             height: 48px;
             background-image: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png');
             background-repeat: no-repeat;
-            background-size: 480px 192px; /* 10 cols * 48px, 4 rows * 48px */
+            background-size: 480px 192px; 
             image-rendering: pixelated;
             background-position: 0px 0px;
             margin-bottom: 12px;
@@ -1763,7 +1755,6 @@
         .news-loading .compass-loader {
             margin-bottom: 12px;
         }
-
 
         .news-empty {
             text-align: center;
@@ -1818,7 +1809,7 @@
             color: #e0e0e0;
             background: #2a2a2a;
         }
-/* maintenance-mode */
+
         .nav-tab.nav-tab-disabled {
             opacity: 0.45;
             filter: grayscale(100%);
@@ -1833,7 +1824,7 @@
         body.dark-theme .nav-tab.nav-tab-disabled:hover {
             background: #2a2a2a !important;
         }
-        /* Maintenance banner on home page */
+        
         #maintenance-banner {
             display: none;
             background: linear-gradient(135deg, #2d1b00 0%, #4a2c00 100%);
@@ -1862,7 +1853,7 @@
             font-size: 0.85rem;
             color: #ffa040;
         }
-        /* Announcement banner */
+        
         #announcement-banner {
             display: none;
             padding: 10px 16px;
@@ -2261,7 +2252,7 @@
         body.dark-theme .ref-profile-title { color: #81c784; }
         body.dark-theme .ref-link-input { background: #1a1a1a; border-color: #3a3a3a; color: #e0e0e0; }
         body.dark-theme .ref-stats { color: #b0b0b0; }
-/* xp-bar */
+
         .ref-xp-wrap {
             margin-top: 10px;
             background: rgba(0,0,0,0.82);
@@ -2355,7 +2346,7 @@
             position: relative;
             min-width: 2px;
         }
-        /* Minecraft XP bar scanlines */
+        
         .ref-xp-bar-fill::before {
             content: '';
             position: absolute;
@@ -2368,7 +2359,7 @@
                 rgba(0,0,0,0.08) 4px
             );
         }
-        /* Shine */
+        
         .ref-xp-bar-fill::after {
             content: '';
             position: absolute;
@@ -2394,14 +2385,14 @@
             0%, 100% { text-shadow: 0 0 6px rgba(255,215,0,0.4), 1px 1px 0 #000; }
             50% { text-shadow: 0 0 14px rgba(255,215,0,0.9), 0 0 28px rgba(255,215,0,0.4), 1px 1px 0 #000; }
         }
-        /* XP bar gain animation */
+        
         @keyframes xpPulse {
             0% { box-shadow: 0 0 10px rgba(112,224,0,0.7), 0 0 20px rgba(80,192,0,0.3); }
             50% { box-shadow: 0 0 20px rgba(160,255,32,1), 0 0 40px rgba(128,255,0,0.6); }
             100% { box-shadow: 0 0 10px rgba(112,224,0,0.7), 0 0 20px rgba(80,192,0,0.3); }
         }
         .ref-xp-bar-fill.animate { animation: xpPulse 0.6s ease-out; }
-        /* Arrow between mobs */
+        
         .ref-xp-arrow {
             font-family: 'Minecraft', sans-serif;
             font-size: 0.55rem;
@@ -2409,7 +2400,7 @@
             text-align: center;
             margin-top: 2px;
         }
-        /* All tiers row */
+        
         .ref-xp-tiers {
             display: flex;
             align-items: center;
@@ -2643,7 +2634,7 @@
             }
         }
 
-        /* Специальные стили для разных типов загрузчиков */
+        
         .bp-file-label.news-upload {
             background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
             border-color: #ff9800;
@@ -2698,7 +2689,7 @@
             color: #7b1fa2;
         }
 
-        /* Темная тема */
+        
         body.dark-theme .bp-file-label {
             background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
             border-color: #555;
@@ -2765,7 +2756,7 @@
             color: #a5d6a7;
         }
 
-        /* Мобильная адаптация */
+        
         @media (max-width: 768px) {
             .bp-file-label {
                 padding: 16px 12px;
@@ -2933,7 +2924,7 @@
             border-color: rgba(124, 179, 66, 0.3);
         }
 
-        /* Мобильная адаптация для кнопок загрузки */
+        
         @media (max-width: 768px) {
             .bp-file-label {
                 padding: 14px 16px;
@@ -2984,7 +2975,7 @@
             }
         }
 
-        /* Стили для множественной загрузки фотографий */
+        
         #gallery-photo-upload-container {
             display: flex;
             flex-direction: column;
@@ -3081,7 +3072,7 @@
             z-index: 5;
         }
 
-        /* Мобильная адаптация для drag & drop */
+        
         @media (max-width: 768px) {
             #gallery-photo-upload-container {
                 gap: 14px;
@@ -3156,7 +3147,7 @@
             }
         }
 
-        /* Темная тема для drag & drop */
+        
         body.dark-theme .drag-drop-overlay {
             background: linear-gradient(135deg, rgba(124, 179, 66, 0.12) 0%, rgba(124, 179, 66, 0.18) 100%);
             border-color: #8b7355;
@@ -3197,7 +3188,7 @@
             color: #8bc34a;
         }
 
-        /* Стили для перетаскиваемых модальных окон */
+        
         .draggable-modal {
             position: fixed;
             top: 50%;
@@ -3228,7 +3219,7 @@
             background: linear-gradient(180deg, #556b2f 0%, #4a5d23 100%) !important;
         }
 
-        /* Темная тема для перетаскиваемых модальных окон */
+        
         body.dark-theme .draggable-modal {
             box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
         }
@@ -3245,7 +3236,7 @@
             background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%) !important;
         }
 
-        /* Мобильная адаптация для перетаскиваемых окон */
+        
         @media (max-width: 768px) {
             .draggable-modal {
                 max-width: 90vw !important;
@@ -3369,7 +3360,7 @@
             display: block;
         }
 
-        /* Прогресс-бар для загрузки файлов */
+        
         .upload-progress {
             margin-top: 12px;
             background: #f5f5f5;
@@ -3550,7 +3541,7 @@
             color: white;
             font-size: 9px;
         }
-/* leaderboard */
+
         .lb-section { margin-bottom: 28px; }
         .lb-tabs {
             display: flex;
@@ -3710,7 +3701,7 @@
             color: #8b7355;
         }
         .lb-loading { text-align:center; padding: 30px 0; }
-/* player-profile-modal */
+
         .player-author-link {
             cursor: pointer;
             text-decoration: underline dotted;
@@ -3727,7 +3718,7 @@
         }
         .player-author-link:hover { opacity: 0.7; }
 
-        /* TikTok-style profile box */
+        
         .pp-modal-box {
             background: var(--pp-bg, #f5eed9);
             border: 4px solid #8b7355;
@@ -3743,7 +3734,7 @@
         }
         body.dark-theme .pp-modal-box { --pp-bg: #1e1e1e; --pp-accent: #7cb342; border-color: #3a3a3a; box-shadow: 0 10px 0 #0a0a0a, 0 16px 40px rgba(0,0,0,0.7); }
 
-        /* Banner */
+        
         .pp-banner {
             height: 90px;
             background: #8b7355;
@@ -3793,7 +3784,7 @@
             }
         }
 
-        /* Avatar */
+        
         .pp-avatar-wrap {
             position: absolute;
             bottom: -34px;
@@ -3811,7 +3802,7 @@
         .pp-avatar-ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; color:#8b7355; }
         body.dark-theme .pp-avatar-ph { color:#555; }
 
-        /* Header info */
+        
         .pp-header {
             padding: 44px 16px 14px;
             text-align: center;
@@ -3828,7 +3819,7 @@
         .pp-verified { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; background:#1da1f2; border-radius:50%; margin-left:5px; vertical-align:middle; }
         .pp-verified i { color:#fff; font-size:9px; }
 
-        /* Stats row */
+        
         .pp-stats {
             display: flex;
             justify-content: center;
@@ -3862,7 +3853,7 @@
         }
         body.dark-theme .pp-stat-label { color: #666; }
 
-        /* Mode toggle */
+        
         .pp-search-wrap {
             padding: 8px 10px 4px;
             border-bottom: 2px solid rgba(139,115,85,0.15);
@@ -3913,7 +3904,7 @@
         body.dark-theme .pp-tab.active { color: #81c784; border-bottom-color: #81c784; }
         .pp-tab:hover { background: rgba(107,142,35,0.07); }
 
-        /* Grid */
+        
         .pp-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -4031,7 +4022,7 @@
             font-weight: 700;
         }
 
-        /* player-profile-empty kept for loading spinner */
+        
         .player-profile-empty {
             text-align: center;
             padding: 30px 0;
@@ -4603,50 +4594,50 @@
         .bp-profile-actions-delete {
             margin-top: 6px;
         }
-/* mobile-overflow-fixes */
+
         @media (max-width: 600px) {
-            /* Modals with custom max-width still respect screen */
+            
             .bp-modal[style*="max-width"] {
                 max-width: calc(100vw - 24px) !important;
                 width: calc(100vw - 24px) !important;
             }
-            /* All modal button rows wrap */
+            
             .bp-modal-btns,
             [style*="display:flex"][style*="gap"] {
                 flex-wrap: wrap;
             }
-            /* Donation modal */
+            
             .donate-modal {
                 max-width: calc(100vw - 24px) !important;
                 width: calc(100vw - 24px) !important;
                 box-sizing: border-box;
                 padding: 16px 14px !important;
             }
-            /* Cookie modal */
+            
             .cookie-modal {
                 max-width: calc(100vw - 24px) !important;
                 width: calc(100vw - 24px) !important;
                 box-sizing: border-box;
                 padding: 16px 14px !important;
             }
-            /* Report modal */
+            
             #report-modal-box {
                 max-width: calc(100vw - 24px) !important;
                 width: calc(100vw - 24px) !important;
                 box-sizing: border-box !important;
             }
-            /* Nav tabs overflow scroll */
+            
             .nav-tabs {
                 overflow-x: hidden;
                 flex-wrap: nowrap;
                 scrollbar-width: none;
             }
             .nav-tabs::-webkit-scrollbar { display: none; }
-            /* Remove bottom shadow on mobile tabs to avoid double-thick line between rows */
+            
             .nav-tabs .nav-tab {
                 box-shadow: none;
             }
-            /* Leaderboard sub-tabs wrap on mobile */
+            
             .lb-tabs {
                 flex-wrap: wrap;
             }
@@ -4656,35 +4647,35 @@
                 text-align: center;
                 justify-content: center;
             }
-            /* Ref link input */
+            
             .ref-link-input {
                 min-width: 0;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-            /* Input fields in modals */
+            
             .bp-modal input,
             .bp-modal select,
             .bp-modal textarea {
                 font-size: 0.9rem !important;
                 box-sizing: border-box;
             }
-            /* Form rows */
+            
             .bp-form-row {
                 overflow: hidden;
             }
             .bp-form-row label {
                 font-size: 0.72rem;
             }
-            /* Pass wrap */
+            
             .pass-wrap {
                 overflow: hidden;
             }
-            /* Subdomain suffix shrink */
+            
             .bp-modal [style*=".mcearthproject"] {
                 font-size: 0.65rem !important;
             }
-            /* Status text */
+            
             #subdomain-status-create,
             #subdomain-status-view,
             #sd-status-create,
@@ -4696,7 +4687,6 @@
                 overflow-wrap: anywhere;
             }
         }
-
 
         .bp-card-avatar {
             width: 22px;
@@ -5073,7 +5063,7 @@
             border: 2px solid #8b7355;
         }
         .auth-locked:hover::after { opacity: 1; }
-/* gallery-lightbox */
+
         .gallery-lightbox {
             position: fixed;
             inset: 0;
@@ -5158,7 +5148,7 @@
             letter-spacing: 1px;
             white-space: nowrap;
         }
-        /* bp-card-img clickable cursor for gallery */
+        
         .gallery-tab-img { cursor: zoom-in; }
         body.dark-theme #gallery-daily-limit { background: #1a1a1a; border-color: #3a3a3a; }
         body.dark-theme #gallery-limit-title,
@@ -5232,7 +5222,7 @@
                 text-overflow: ellipsis;
             }
             
-            /* Оптимизация иконок для мобильных устройств */
+            
             img[style*="width:13px"], img[style*="width:14px"] {
                 width: 16px !important;
                 height: 16px !important;
@@ -5272,9 +5262,9 @@
             }
         }
         
-        /* Планшеты */
+        
         @media (min-width: 769px) and (max-width: 1024px) {
-            /* Средние иконки для планшетов */
+            
             img[style*="width:13px"], img[style*="width:14px"] {
                 width: 15px !important;
                 height: 15px !important;
@@ -5290,9 +5280,9 @@
             }
         }
         
-        /* Компьютеры и большие экраны */
+        
         @media (min-width: 1025px) {
-            /* Четкие иконки на десктопе */
+            
             img[style*="width:13px"], img[style*="width:14px"] {
                 width: 14px !important;
                 height: 14px !important;
@@ -5301,7 +5291,7 @@
                 image-rendering: crisp-edges;
             }
             
-            /* Улучшаем качество изображений на больших экранах */
+            
             .bp-card-img, .news-tab-img, .gallery-tab-img {
                 image-rendering: auto;
                 image-rendering: -webkit-optimize-contrast;
@@ -5318,14 +5308,14 @@
             }
         }
         
-        /* Высокое DPI экраны */
+        
         @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
             img[style*="image-rendering:pixelated"] {
                 image-rendering: -webkit-optimize-contrast;
                 image-rendering: crisp-edges;
             }
             
-            /* Улучшаем четкость иконок на Retina экранах */
+            
             .bp-card-actions img, .news-item-actions img, .gallery-tab-actions img {
                 image-rendering: -webkit-optimize-contrast;
                 transform: scale(1.1);
@@ -5333,7 +5323,7 @@
             }
         }
         
-        /* Очень большие экраны (4K и выше) */
+        
         @media (min-width: 1440px) {
             .container {
                 max-width: 1400px;
@@ -5344,7 +5334,7 @@
                 gap: 20px;
             }
             
-            /* Увеличиваем иконки на больших экранах */
+            
             img[style*="width:13px"], img[style*="width:14px"] {
                 width: 16px !important;
                 height: 16px !important;
@@ -5428,13 +5418,13 @@
 
         
         <div id="home-tab" class="tab-content active">
-        <!-- Announcement Banner -->
+        
         <div id="announcement-banner">
             <img class="ann-icon" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" alt="">
             <span class="ann-text" id="announcement-text"></span>
         </div>
 
-        <!-- Maintenance Mode Banner -->
+        
         <div id="maintenance-banner">
             <div class="maintenance-title">
                 <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" style="width:16px;height:16px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:6px;"> <span data-ru="Технические работы" data-en="Maintenance in progress">Технические работы</span>
@@ -5465,7 +5455,7 @@
             </div>
         </div>
 
-        <!-- === SCREENSHOTS SECTION === -->
+        
 
         <div class="section">
             <h2 class="section-title" data-icon="scan_code_icon.png">
@@ -5773,14 +5763,13 @@
                     </div>
                 </div>
 
-
                 <div id="news-container" class="news-container">
                     <div class="news-empty">
                         <i class="fas fa-newspaper"></i>
                         <p data-ru="Нет новостей" data-en="No news">Нет новостей</p>
                     </div>
                 </div>
-                <!-- Pagination controls for news -->
+                
                 <div id="news-pagination" class="news-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
                     <button class="copy-btn" id="news-prev-page" onclick="newsChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
                         <i class="fas fa-chevron-left"></i>
@@ -6036,7 +6025,7 @@
                         <p data-ru="Загрузка..." data-en="Loading...">Загрузка...</p>
                     </div>
                 </div>
-                <!-- Pagination controls for buildplates -->
+                
                 <div id="bp-pagination" class="bp-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
                     <button class="copy-btn" id="bp-prev-page" onclick="bpChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
                         <i class="fas fa-chevron-left"></i>
@@ -6073,7 +6062,7 @@
                 <div id="lb-list" class="lb-list">
                     <div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div><p data-ru="Загрузка..." data-en="Loading..." style="margin-top:8px;font-size:0.75rem;opacity:0.6;">Загрузка...</p></div>
                 </div>
-                <!-- Pagination controls -->
+                
                 <div id="lb-pagination" class="lb-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
                     <button class="copy-btn" id="lb-prev-page" onclick="lbChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
                         <i class="fas fa-chevron-left"></i>
@@ -6105,19 +6094,19 @@
             </div>
         </div>
         
-        <!-- Разделитель между секциями -->
+        
         <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(139,115,85,0.3),transparent);margin:20px 0;"></div>
 
-        <!-- GALLERY TAB -->
+        
         <div id="gallery-tab" class="tab-content">
             <div class="section">
                 <h2 class="section-title" data-icon="paint_item.png">
                     <span data-ru="Галерея" data-en="Gallery">Галерея</span>
                 </h2>
 
-                <!-- Upload card -->
+                
                 <div class="bp-upload-card" id="gallery-upload-section">
-                    <!-- Not logged in message -->
+                    
                     <div id="gallery-not-logged" style="text-align:center;padding:20px 10px;">
                         <span style="display:flex;align-items:center;justify-content:center;width:2.4rem;height:2.4rem;background:#8b7355;border:3px solid #5a4a3a;border-radius:3px;margin:0 auto 12px;box-shadow:0 3px 0 #3e2723;"><i class="fas fa-lock" style="font-size:1.1rem;color:#fff;"></i></span>
                         <p style="font-family:Minecraft,sans-serif;font-size:0.85rem;color:#5a4a3a;font-weight:700;line-height:1.6;"
@@ -6127,7 +6116,7 @@
                         </p>
                     </div>
 
-                    <!-- Upload form (shown when logged in) -->
+                    
                     <div id="gallery-upload-form" style="display:none;">
                         <div class="bp-form-row">
                             <label data-ru="Название" data-en="Title">Название</label>
@@ -6147,7 +6136,7 @@
                             <div class="bp-file-name" id="gallery-image-name-1"></div>
                         </div>
 
-                        <!-- Daily limit shared with buildplates -->
+                        
                         <div id="gallery-daily-limit" style="margin:12px 0;background:#f0ede0;border:2px solid #8b7355;border-radius:2px;padding:12px;display:flex;align-items:center;gap:12px;">
                             <img src="" id="gallery-limit-icon" style="width:22px;height:22px;image-rendering:pixelated;object-fit:contain;flex-shrink:0;">
                             <div style="flex:1;">
@@ -6187,7 +6176,7 @@
                     </div>
                 </div>
 
-                <!-- Filters -->
+                
                 <div class="bp-filters" id="gallery-filters" style="display:none;">
                     <div class="bp-search-wrap">
                         <i class="fas fa-search"></i>
@@ -6213,9 +6202,9 @@
                     <span class="bp-results-count" id="gallery-count"></span>
                 </div>
 
-                <!-- Photo grid -->
+                
                 <div id="gallery-gallery"></div>
-                <!-- Pagination controls for gallery -->
+                
                 <div id="gallery-pagination" class="gallery-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
                     <button class="copy-btn" id="gallery-prev-page" onclick="galleryChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
                         <i class="fas fa-chevron-left"></i>
@@ -6236,7 +6225,7 @@
             </span>
         </div>
 
-        <!-- FOOTER -->
+        
         <div style="text-align:center;padding:20px 0 8px;border-top:2px solid #8b7355;margin-top:24px;">
             <span style="font-family:'Minecraft',sans-serif;font-size:0.72rem;color:#8b7355;">
                 © 2026 Project Earth &nbsp;·&nbsp;
@@ -6247,7 +6236,7 @@
         </div>
     </div>
 
-    <!-- PRIVACY POLICY MODAL -->
+    
     <div id="privacy-modal-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;" onclick="if(event.target===this)hidePrivacyModal()">
         <div class="privacy-modal-inner" style="background:#f5eed9;border:4px solid #8b7355;border-radius:4px;box-shadow:0 8px 0 #3e2723;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;padding:28px 24px;font-family:'Minecraft','NotoSans',sans-serif;position:relative;">
             <button onclick="hidePrivacyModal()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#8b7355;line-height:1;">✕</button>
@@ -6337,9 +6326,9 @@
         let _newsIsAdmin = false;
         let _lastRefCount = 0;
         
-        // News pagination variables
+        
         let _newsCurrentPage = 1;
-        let _newsItemsPerPage = 5; // По 5 новостей на странице
+        let _newsItemsPerPage = 5; 
 
         function renderNews(newsArray, isAdmin) {
             const newsContainer = document.getElementById('news-container');
@@ -6464,13 +6453,13 @@
                 newsContainer.appendChild(newsItem);
             });
             setTimeout(attachRefBadges, 100);
-            // Mark all current news as seen
+            
             localStorage.setItem('news_last_seen', Date.now().toString());
             
             updateNewsPaginationControls(totalPages);
         }
 
-        // Функция обновления контролов пагинации news
+        
         function updateNewsPaginationControls(totalPages) {
             const paginationEl = document.getElementById('news-pagination');
             const pageInfoEl = document.getElementById('news-page-info');
@@ -6484,7 +6473,7 @@
             if (nextBtn) nextBtn.disabled = _newsCurrentPage === totalPages;
         }
 
-        // Функция смены страницы news
+        
         window.newsChangePage = function(direction) {
             if (!_newsCache) return;
             const totalPages = Math.ceil(_newsCache.length / _newsItemsPerPage);
@@ -6508,10 +6497,10 @@
                 ]);
                 _newsCache = result[0].data || [];
                 _newsIsAdmin = result[1];
-                // Фильтруем черновики для всех пользователей (обратная совместимость)
+                
                 _newsCache = _newsCache.filter(n => !n.is_draft);
 
-                // Load avatars for news authors
+                
                 const authors = [...new Set(_newsCache.map(n => n.author).filter(Boolean))];
                 _newsAvatarMap = {}; _newsVerifiedMap = {};
                 if (authors.length > 0) {
@@ -6632,7 +6621,7 @@
                     if (error) throw error;
                     if (_newsCache) { const idx = _newsCache.findIndex(n => String(n.id) === String(news.id)); if (idx !== -1) { _newsCache[idx].title = title; _newsCache[idx].title_en = titleEn||title; _newsCache[idx].content = content; _newsCache[idx].content_en = contentEn||content; } }
                     overlay.remove();
-                    // Update the news item in DOM
+                    
                     const titleEl = newsItemEl.querySelector('.news-title');
                     if (titleEl) titleEl.textContent = ru ? title : (titleEn||title);
                     const contentEl = newsItemEl.querySelector('.news-content');
@@ -6676,7 +6665,7 @@
 
             window._sbVotes.news_likes = userLikes;
             window._safeLocalSet('userLikes', JSON.stringify(userLikes));
-            // Sync to Supabase
+            
             if (sbClient && currentAccount) {
                 try {
                     if (!userLikes[newsId]) {
@@ -6949,20 +6938,20 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(a.href);
-                // Increment download counter — direct update, no rpc
+                
                 if (bpId && sbClient) {
                     (async () => {
                         try {
                             const { data: cur } = await sbClient.from('buildplates').select('downloads').eq('id', bpId).single();
                             await sbClient.from('buildplates').update({ downloads: (cur?.downloads || 0) + 1 }).eq('id', bpId);
-                        } catch(e2) { /* silent */ }
+                        } catch(e2) {  }
                     })();
-                    // Update cache
+                    
                     if (typeof _bpAllData !== 'undefined') {
                         const idx = _bpAllData.findIndex(b => String(b.id) === String(bpId));
                         if (idx !== -1) _bpAllData[idx].downloads = (_bpAllData[idx].downloads || 0) + 1;
                     }
-                    // Update profile modal stat if open
+                    
                     if (window._ppCache && window._ppCache.buildplates) {
                         const pi = window._ppCache.buildplates.findIndex(b => String(b.id) === String(bpId));
                         if (pi !== -1) window._ppCache.buildplates[pi].downloads = (window._ppCache.buildplates[pi].downloads || 0) + 1;
@@ -6980,7 +6969,6 @@
             }
         }
         window.downloadWorld = downloadWorld;
-
 
         function clearBuildplateForm() {
             document.getElementById('bp-name').value = '';
@@ -7010,7 +6998,6 @@
             document.getElementById('nadmin-status').innerHTML = '';
         }
         window.addEventListener('languageChanged', () => { if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin); });
-
 
         function showReportModal(postType, postId, postTitle, postAuthor, imageUrl) {
             const ru = currentLang === 'ru';
@@ -7168,7 +7155,7 @@
             container.innerHTML = '<div class="news-loading"><div class="compass-loader"></div><p>' + (ru ? 'Загрузка...' : 'Loading...') + '</p></div>';
             const statusFilter = reportsCurrentFilter === 'pending' ? ['pending'] : ['approved', 'rejected'];
 
-            // Сначала проверяем — есть ли вообще хоть что-то в таблице (без фильтра по статусу)
+            
             const { count: totalCount, error: countErr } = await sbClient.from('reports')
                 .select('*', { count: 'exact', head: true });
 
@@ -7360,7 +7347,7 @@
             });
         }
 
-        // Запрещаем Google Translate трогать элементы с data-ru/data-en.
+        
         function markNoTranslate() {
             document.querySelectorAll('[data-ru][data-en]').forEach(el => {
                 el.setAttribute('translate', 'no');
@@ -7368,7 +7355,7 @@
             });
         }
         document.addEventListener('DOMContentLoaded', function(){
-    // Show the second nav row only on mobile
+    
     const row = document.getElementById('nav-reports-row');
     if (row && window.innerWidth <= 768) row.style.display = 'block';
 });
@@ -7382,13 +7369,13 @@
             }
         });
 document.addEventListener('DOMContentLoaded', markNoTranslate);
-        // Повторно помечаем после динамического рендера (карточки, новости и т.д.)
+        
         const _noTranslateObserver = new MutationObserver(() => markNoTranslate());
         document.addEventListener('DOMContentLoaded', () => {
             _noTranslateObserver.observe(document.body, { childList: true, subtree: true });
         });
 
-        // Очищает обёртки Google Translate (<font> теги) перед заменой текста.
+        
         function stripGoogleTranslate(el) {
             el.querySelectorAll('font').forEach(font => {
                 while (font.firstChild) font.parentNode.insertBefore(font.firstChild, font);
@@ -7415,7 +7402,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 const text = el.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
                 if (!text) return;
 
-                // Снимаем обёртки Google Translate перед манипуляцией с DOM
+                
                 stripGoogleTranslate(el);
 
                 const ownTextNodes = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== '');
@@ -7442,7 +7429,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 input.placeholder = input.getAttribute(lang === 'ru' ? 'data-placeholder-ru' : 'data-placeholder-en');
             });
 
-            // Переводим все select с опциями
+            
             document.querySelectorAll('select').forEach(select => {
                 select.querySelectorAll('option').forEach(opt => {
                     const label = opt.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
@@ -7460,7 +7447,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             document.querySelectorAll('.auth-locked').forEach(el => {
                 el.setAttribute('data-locked-tip', lockedTip);
             });
-            // Задаём дефолт через CSS переменную
+            
             document.documentElement.style.setProperty('--locked-tip', `"${lockedTip}"`);
 
             if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin);
@@ -7572,7 +7559,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         window.addEventListener('DOMContentLoaded', () => {
             let savedLang; try { savedLang = localStorage.getItem('preferred-language'); } catch(e) { savedLang = null; }
             const initLang = (savedLang === 'en') ? 'en' : 'ru';
-            // Всегда вызываем switchLanguage чтобы перевести все элементы
+            
             switchLanguage(initLang);
 
             const savedTheme = localStorage.getItem('theme');
@@ -7625,12 +7612,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 }
             }
 
-            // Добавляем функциональность drag & drop для галереи
+            
             const galleryContainer = document.getElementById('gallery-photo-upload-container');
             const dragOverlay = document.getElementById('gallery-drag-overlay');
             
             if (galleryContainer && dragOverlay) {
-                // Показываем overlay при наведении
+                
                 galleryContainer.addEventListener('dragenter', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -7660,7 +7647,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     const validFiles = files.filter(file => {
                         const ext = file.name.split('.').pop().toLowerCase();
                         const isValidFormat = ['png', 'jpg', 'jpeg', 'webp'].includes(ext);
-                        const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB
+                        const isValidSize = file.size <= 10 * 1024 * 1024; 
                         return isValidFormat && isValidSize;
                     });
 
@@ -7697,7 +7684,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         const nameEl = document.getElementById(`gallery-image-name-${i + 1}`);
                         
                         if (input && nameEl) {
-                            // Создаем DataTransfer для установки файлов
+                            
                             const dt = new DataTransfer();
                             dt.items.add(validFiles[i]);
                             input.files = dt.files;
@@ -7715,7 +7702,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     showInfoBanner(message, 'success');
                 });
 
-                // Клик на overlay для выбора файлов
+                
                 dragOverlay.addEventListener('click', function() {
                     const input = document.getElementById('gallery-image-input-1');
                     if (input) {
@@ -7723,7 +7710,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     }
                 });
 
-                // Обработчики change для каждого input
+                
                 for (let i = 1; i <= 3; i++) {
                     const input = document.getElementById(`gallery-image-input-${i}`);
                     const nameEl = document.getElementById(`gallery-image-name-${i}`);
@@ -7771,11 +7758,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         body: fd 
                     }
                 );
-                if (!res.ok) return { ok: true, skipped: true }; // при сетевой ошибке — не блокируем
+                if (!res.ok) return { ok: true, skipped: true }; 
                 return await res.json();
             } catch (e) {
                 console.warn('moderateImage error:', e);
-                return { ok: true, skipped: true }; // fail-open
+                return { ok: true, skipped: true }; 
             }
         }
 
@@ -7853,12 +7840,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             console.error('Supabase init error:', e);
         }
 
-        // loadNews вызывается после инициализации sbClient
+        
         setTimeout(() => { if (typeof window.loadNews === 'function') window.loadNews(); }, 100);
         
-        // checkAnnouncement вызывается через _runMaintenanceOnce
         
-        // Инициализируем window._sbVotes при загрузке страницы
+        
+        
         if (!window._sbVotes) {
             window._sbVotes = { 
                 bp_likes: {}, 
@@ -7870,34 +7857,34 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 news_likes: {} 
             };
         }
-// maintenance mode
-        // SQL для Supabase:
-        // CREATE TABLE IF NOT EXISTS site_settings (key TEXT PRIMARY KEY, value TEXT);
-        // INSERT INTO site_settings (key, value) VALUES ('maintenance_tabs', '{}') ON CONFLICT (key) DO NOTHING;
-        //
-        // UPDATE site_settings SET value='{"news":true}' WHERE key='maintenance_tabs';           -- только news
-        // UPDATE site_settings SET value='{"news":true,"buildplates":true}' WHERE key='maintenance_tabs'; -- несколько
-        // UPDATE site_settings SET value='{}' WHERE key='maintenance_tabs';                     -- всё работает
-        //
-        // Доступные ключи: news, buildplates, gallery, leaderboard, reports, merl
-        //   true  = вкладка на тех. работах
-        //   false или отсутствует = вкладка работает
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         const TAB_NAMES = ['news', 'buildplates', 'gallery', 'leaderboard', 'reports', 'merl'];
 
-        // Маппинг: ключ → id вкладки в DOM
+        
         const TAB_ID_MAP = {
             news:        'news-tab',
             buildplates: 'buildplates-tab',
             gallery:     'gallery-tab',
             leaderboard: 'leaderboard-tab',
             reports:     'reports-tab',
-            merl:        null // чат-бот, нет вкладки — отдельно скрываем
+            merl:        null 
         };
 
         function applyMaintenanceMode(tabsDown) {
-            // tabsDown: объект { news: true, buildplates: false, ... }
-            if (window._isNewsAdmin) return; // Admins bypass
+            
+            if (window._isNewsAdmin) return; 
 
             let anyDown = Object.values(tabsDown).some(v => v === true);
             const banner = document.getElementById('maintenance-banner');
@@ -7906,7 +7893,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             TAB_NAMES.forEach(tabKey => {
                 const isDown = tabsDown[tabKey] === true;
 
-                // Nav кнопки
+                
                 document.querySelectorAll('.nav-tab').forEach(btn => {
                     const oc = btn.getAttribute('onclick') || '';
                     const matches = oc.includes("'" + tabKey + "'") ||
@@ -7927,7 +7914,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     }
                 });
 
-                // Merl chatbot widget
+                
                 if (tabKey === 'merl') {
                     const applyMerl = () => {
                         const merlBtn = document.getElementById('mw-btn');
@@ -7963,7 +7950,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     .eq('key', 'maintenance_tabs')
                     .single();
                 if (error) {
-                    // Fallback: пробуем старый ключ maintenance_mode
+                    
                     const { data: oldData } = await sbClient
                         .from('site_settings').select('value').eq('key', 'maintenance_mode').single();
                     if (oldData && oldData.value === 'true') {
@@ -7975,12 +7962,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 }
                 let tabsDown = {};
                 try { tabsDown = JSON.parse(data.value || '{}'); } catch(_) {}
-                // Поддержка all: true/false
+                
                 if (tabsDown.all === true) TAB_NAMES.forEach(k => tabsDown[k] = true);
                 if (tabsDown.all === false) TAB_NAMES.forEach(k => tabsDown[k] = false);
                 applyMaintenanceMode(tabsDown);
 
-                // Realtime обновление
+                
                 sbClient
                     .channel('site_settings_maintenance')
                     .on('postgres_changes', {
@@ -8001,7 +7988,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
         }
 
-        // Run after sbClient is ready — только один раз
+        
         let _maintChecked = false;
         function _runMaintenanceOnce() {
             if (_maintChecked) return;
@@ -8014,10 +8001,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         } else {
             _runMaintenanceOnce();
         }
-// announcement banner
-        // SQL: INSERT INTO site_settings VALUES ('announcement', '') ON CONFLICT (key) DO NOTHING;
-        // Чтобы показать плашку: UPDATE site_settings SET value='Текст сообщения' WHERE key='announcement';
-        // Чтобы скрыть: UPDATE site_settings SET value='' WHERE key='announcement';
+
+        
+        
+        
         async function checkAnnouncement() {
             if (!sbClient) return;
             try {
@@ -8056,13 +8043,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
         }
 
-
         document.getElementById('bp-image-input').addEventListener('change', function() {
             const file = this.files[0];
             const labelSpan = document.getElementById('bp-image-label');
             const nameEl = document.getElementById('bp-image-name');
             if (file) {
-                // Валидация размера (макс 10MB)
+                
                 if (file.size > 10 * 1024 * 1024) {
                     nameEl.style.color = '#c62828';
                     nameEl.innerHTML = currentLang === 'ru' ? 
@@ -8474,9 +8460,9 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             } catch(e) {}
         }
 
-        let currentAccount = null; // { nick, email, verified, email_verified, avatar_url }
+        let currentAccount = null; 
         window.currentAccount = null;
-        window.currentAccount = null; // exposed for applyProtectedBlur
+        window.currentAccount = null; 
         
         window._sbVotes = {
             bp_likes: {},
@@ -8488,7 +8474,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             news_likes: {}
         };
         
-        let authMode = 'login'; // 'login' | 'register'
+        let authMode = 'login'; 
 
         function generateToken(len = 48) {
             const arr = new Uint8Array(len);
@@ -8498,7 +8484,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
         async function hashPassword(pass, nick) {
             const enc = new TextEncoder().encode(pass);
-            // Используем PBKDF2 с солью = nick (lowercase) для детерминированности
+            
             const saltStr = (nick || 'mcearthproject').toLowerCase();
             const salt = new TextEncoder().encode(saltStr);
             const keyMaterial = await crypto.subtle.importKey('raw', enc, 'PBKDF2', false, ['deriveBits']);
@@ -8778,7 +8764,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         showMfaVerifyModal(acc, ru);
                         return;
                     }
-                    // Проверяем 2FA отдельным запросом (колонки могут не существовать)
+                    
                     try {
                         const { data: mfaData } = await sbClient.from('accounts').select('mfa_enabled, mfa_secret').ilike('nick', nick).limit(1);
                         if (mfaData && mfaData[0] && mfaData[0].mfa_enabled && mfaData[0].mfa_secret) {
@@ -8786,7 +8772,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                             showMfaVerifyModal({ ...acc, mfa_enabled: mfaData[0].mfa_enabled, mfa_secret: mfaData[0].mfa_secret }, ru);
                             return;
                         }
-                    } catch(_mfaErr) { /* колонки ещё не созданы — пропускаем 2FA */ }
+                    } catch(_mfaErr) {  }
                     showAuthStatus('ok', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Вход выполнен!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Logged in!');
                     await recordReferral(acc.nick);
                     setLoggedIn(acc.nick, acc.verified, acc.avatar_url, acc.email, acc.email_verified, acc.created_at);
@@ -8813,7 +8799,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
             document.getElementById('bp-logged-in-name').innerHTML =
                 nick + (verified ? ' <span class="verified-badge" title="Верифицирован"><i class="fas fa-check"></i></span>' : '');
-            // Показываем cluckshroom в своём профиле если поймал
+            
             setTimeout(() => { if (window.applyDecorations) window.applyDecorations(); }, 300);
 
             const badge = document.getElementById('bp-email-verified-badge');
@@ -8853,18 +8839,18 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             _encryptSession({ nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null }).then(enc => window._safeLocalSet('bp_session', enc));
 
             checkNewsAdmin().then(isAdm => {
-                window._isNewsAdmin = !!isAdm; // used by maintenance bypass
+                window._isNewsAdmin = !!isAdm; 
                 const rTab = document.getElementById('reports-nav-tab');
                 const gTab = document.getElementById('gallery-nav-tab');
                 const mobileRow = document.getElementById('nav-reports-row');
                 const mobileRTab = document.getElementById('reports-nav-tab-mobile');
                 const isMobile = window.innerWidth <= 768;
 
-                // Leaderboard row is ALWAYS visible on mobile only
+                
                 if (mobileRow) mobileRow.style.display = isMobile ? 'block' : 'none';
 
                 if (isAdm) {
-                    // Show reports button in the row (mobile always, desktop in main nav)
+                    
                     const newsAddBtn = document.getElementById('news-add-btn');
                     if (newsAddBtn) newsAddBtn.style.display = '';
                     if (isMobile) {
@@ -8896,7 +8882,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const limitPanel = document.getElementById('bp-daily-limit');
             if (limitPanel) { limitPanel.style.display = 'flex'; updateDailyLimitUI(); startLimitTimer(); }
 
-            // Realtime ban kick — подписываемся на изменения своего аккаунта
+            
             if (sbClient) {
                 try { sbClient.channel('ban-watch').unsubscribe(); } catch(e) {}
                 sbClient
@@ -8919,7 +8905,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                                     <button onclick="location.reload()" style="font-family:'Minecraft',sans-serif;font-size:0.82rem;padding:10px 24px;background:linear-gradient(180deg,#c62828,#8b1a1a);color:#fff;border:3px solid #7f0000;border-radius:2px;cursor:pointer;box-shadow:0 4px 0 #4a0000;">${ru ? 'ОК' : 'OK'}</button>
                                 </div>`;
                             document.body.appendChild(overlay);
-                            // Кикаем через 100мс чтобы overlay успел показаться
+                            
                             setTimeout(() => {
                                 doLogout();
                                 window._safeLocalSet('bp_session', '');
@@ -8929,7 +8915,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     .subscribe();
             }
         }
-
 
         function togglePass(inputId, btn) {
             const input = document.getElementById(inputId);
@@ -9106,7 +9091,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 const { data } = await sbClient.from('accounts').select('nick, email').ilike('email', email).limit(1);
                 if (data && data.length > 0) {
                     const resetToken = generateToken();
-                    const expires = Date.now() + 60 * 60 * 1000; // 1 час
+                    const expires = Date.now() + 60 * 60 * 1000; 
                     await sbClient.from('accounts').update({ reset_token: resetToken, reset_token_expires: expires }).ilike('email', email);
                     await sendEmail(EMAILJS_RESET_TPL, {
                         to_email: email, to_name: data[0].nick,
@@ -9165,7 +9150,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...';
             statusEl.style.color = '#f57f17';
             try {
-                // Используем nick из параметра (не currentAccount — при сбросе пользователь не залогинен)
+                
                 const hash = await hashPassword(pass, nick);
                 const { error } = await sbClient.from('accounts')
                     .update({ password_hash: hash, reset_token: null, reset_token_expires: null })
@@ -9241,7 +9226,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 showInfoBanner(ru?'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Пароль успешно изменён!':'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Password changed successfully!', 'success');
             } catch(e) { statusEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (e.message||e); statusEl.style.color='#c62828'; }
         }
-
 
         async function uploadAvatar(input) {
             const ru = currentLang === 'ru';
@@ -9327,14 +9311,14 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Восстанавливаем сессию после инициализации sbClient
+            
             (async () => {
                 try {
                     const raw = localStorage.getItem('bp_session');
                     if (raw) {
                         const s = (typeof _decryptSession === 'function') ? await _decryptSession(raw) : JSON.parse(raw);
                         if (s && s.nick) {
-                            // Инициализируем _sbVotes перед загрузкой
+                            
                             if (!window._sbVotes) {
                                 window._sbVotes = {
                                     bp_likes: {},
@@ -9569,9 +9553,9 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         let _bpFilterFavorites = false;
         let _bpSearchTimer = null;
         
-        // Buildplates pagination variables
+        
         let _bpCurrentPage = 1;
-        let _bpItemsPerPage = 12; // По 12 buildplates на странице (3x4 сетка)
+        let _bpItemsPerPage = 12; 
 
         function toggleFilterMine() {
             _bpFilterMine = !_bpFilterMine;
@@ -9652,7 +9636,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             updateBpPaginationControls(totalPages);
         }
 
-        // Функция обновления контролов пагинации buildplates
+        
         function updateBpPaginationControls(totalPages) {
             const paginationEl = document.getElementById('bp-pagination');
             const pageInfoEl = document.getElementById('bp-page-info');
@@ -9666,7 +9650,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (nextBtn) nextBtn.disabled = _bpCurrentPage === totalPages;
         }
 
-        // Функция смены страницы buildplates
+        
         window.bpChangePage = function(direction) {
             if (!_bpAllData) return;
 
@@ -10037,7 +10021,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             overlay.innerHTML = `
                 <div class="bp-modal draggable-modal" style="max-width:420px;" id="bp-edit-modal-content">
                     <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
-                        <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить buildplate' : 'Edit buildplate'}</h3>
+                        <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><img src="https:
                         <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;opacity:0.6;">⠿ ${ru ? 'тащи' : 'drag'}</span>
                     </div>
                     <div style="padding:16px;">
@@ -10048,7 +10032,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
                         <div style="display:flex;gap:10px;">
                             <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                                <img src="https:
                             </button>
                             <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-edit-modal').remove()">
                                 ${ru ? 'Отмена' : 'Cancel'}
@@ -10439,7 +10423,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         let _limitTimerInterval = null;
         function startLimitTimer() { if (!_limitTimerInterval) _limitTimerInterval = setInterval(updateDailyLimitUI, 1000); }
         function stopLimitTimer() { if (_limitTimerInterval) { clearInterval(_limitTimerInterval); _limitTimerInterval = null; } }
-
 
         // Save last_seen when opening each tab
         const _origTabSwitch = window.switchTab;
@@ -11542,7 +11525,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         <div id="gl-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
                         <div style="display:flex;gap:10px;">
                             <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                                <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+                                <img src="https:
                             </button>
                             <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
                                 ${ru ? 'Отмена' : 'Cancel'}
@@ -11924,7 +11907,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 <div class="pp-grid" id="pp-grid">
                     <div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>
                 </div>
-                <!-- Pagination controls for player profile -->
+                
                 <div id="pp-pagination" class="pp-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;padding:0 20px;">
                     <button class="copy-btn" id="pp-prev-page" onclick="ppChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
                         <i class="fas fa-chevron-left"></i>
@@ -12149,15 +12132,14 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
 
     </script>
 
-
     <script>
-// compass sprite animation
+
     (function() {
         const COMPASS_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png';
         const FRAME_COUNT = 32;
         const COLS = 10;
         const SIZE = 48;
-        const FPS = 16; // smooth rotation
+        const FPS = 16; 
 
         function animateCompass(el) {
             let frame = 0;
@@ -12175,7 +12157,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             el._compassIntervalId = id;
         }
 
-        // Observe DOM for new compass-loader elements
+        
         const observer = new MutationObserver(mutations => {
             mutations.forEach(m => {
                 m.addedNodes.forEach(node => {
@@ -12191,7 +12173,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         });
         observer.observe(document.body, { childList: true, subtree: true });
 
-        // Animate any already-in-DOM compasses on load
+        
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.compass-loader').forEach(el => {
                 if (!el._compassIntervalId) animateCompass(el);
@@ -12221,12 +12203,12 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         </div>
 
 <script>
-// protected authors blur
+
 function applyProtectedBlur() {
     const loggedIn = !!window.currentAccount;
     const ru = currentLang === 'ru';
 
-    // Author cards
+    
     document.querySelectorAll('[data-protected="true"]').forEach(card => {
         if (loggedIn) {
             card.classList.remove('protected-blur');
@@ -12244,14 +12226,12 @@ function applyProtectedBlur() {
         }
     });
 
-    // Tailscale paragraph — blur removed
+    
 }
 
-// Run on page load + on login/logout
 document.addEventListener('DOMContentLoaded', applyProtectedBlur);
 setTimeout(applyProtectedBlur, 500);
 
-// Hook into setLoggedIn and doLogout
 (function() {
     const _origSet = window.setLoggedIn;
     if (typeof _origSet === 'function') {
@@ -12269,12 +12249,11 @@ setTimeout(applyProtectedBlur, 500);
     }
 })();
 
-//  SUBDOMAIN MANAGEMENT
 const SUBDOMAIN_FN      = 'https://sqlylxcnoqehorlgmztm.supabase.co/functions/v1/manage-subdomain';
 const SUBDOMAIN_DOMAIN  = 'mcearthproject.qzz.io';
 const SUBDOMAIN_SITEKEY = '0x4AAAAAACZyA1UOix1SiYwF';
 let _sdTsId = null;
-let _sdModalLocked = false; // блокирует случайное закрытие при confirm()
+let _sdModalLocked = false; 
 
 async function callSubdomainApi(payload) {
     const anonKey = window.SUPABASE_ANON_KEY || 'sb_publishable_nhY94pR0kxA70QI__Zy_Hw_OD5nUm7F';
@@ -12307,7 +12286,7 @@ async function showSubdomainModal() {
             <div id="sd-loading" style="text-align:center;padding:18px 0;font-family:Minecraft,sans-serif;font-size:0.85rem;color:#f57f17;">
                 <div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>${ru?'Загружаем...':'Loading...'}
             </div>
-            <!-- VIEW MODE -->
+            
             <div id="sd-view" style="display:none;">
                 <div style="background:${sb};border:2px solid ${isDark?'#4a5d23':'#a8c05a'};border-radius:3px;padding:12px 14px;margin-bottom:8px;">
                     <div style="font-family:Minecraft,sans-serif;font-size:0.7rem;color:${isDark?'#888':'#8b7355'};margin-bottom:6px;letter-spacing:0.04em;">${ru?'АКТИВНЫЙ ПОДДОМЕН':'ACTIVE SUBDOMAIN'}</div>
@@ -12366,7 +12345,7 @@ async function showSubdomainModal() {
                     </button>
                 </div>
             </div>
-            <!-- CREATE MODE -->
+            
             <div id="sd-create" style="display:none;">
                 <div class="bp-form-row">
                     <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru?'Имя поддомена':'Subdomain name'}</label>
@@ -12477,8 +12456,8 @@ async function sdCheckDns() {
     }
 }
 
-const SD_RENEWAL_DAYS = 30;  // продление на 30 дней
-const SD_WARN_DAYS    = 7;   // предупреждать за 7 дней
+const SD_RENEWAL_DAYS = 30;  
+const SD_WARN_DAYS    = 7;   
 
 function _sdUpdateRenewalUI(sub) {
     const ru = currentLang === 'ru';
@@ -12560,7 +12539,7 @@ async function loadCurrentSubdomain(force = false) {
             if (createEl){ createEl.style.display = 'none'; }
             _sdFillView(sub);
         } else {
-            // guard: не переключаемся на create если view уже показан — кроме случая force=true (после удаления)
+            
             const viewAlreadyShown = !force && viewEl && viewEl.style.display !== 'none';
             if (viewAlreadyShown) return;
 
@@ -12581,8 +12560,7 @@ async function loadCurrentSubdomain(force = false) {
     }
 }
 
-
-        //  MFA / TOTP  —  pure WebCrypto implementation (no external lib)
+        
 
         function _b32Decode(base32) {
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -12870,8 +12848,8 @@ async function doSaveSubdomain() {
             statusEl.style.color = '#2e7d32';
             _sdTsId = null;
 
-            // Немедленно показываем view-панель с уже известными данными —
-            // не делаем re-fetch: API может ещё не вернуть запись, что вызовет мигание
+            
+            
             const createEl  = document.getElementById('sd-create');
             const viewEl    = document.getElementById('sd-view');
             const loadingEl = document.getElementById('sd-loading');
@@ -12920,7 +12898,7 @@ async function doUpdateSubdomain() {
 async function doDeleteSubdomain() {
     const ru = currentLang === 'ru';
 
-    // Блокируем backdrop-click на время confirm() — браузер может стрельнуть click по overlay
+    
     _sdModalLocked = true;
     const confirmed = confirm(ru?'Удалить поддомен? DNS-запись будет удалена из Cloudflare.':'Delete subdomain? The DNS record will be removed from Cloudflare.');
     setTimeout(() => { _sdModalLocked = false; }, 300);
@@ -12932,20 +12910,20 @@ async function doDeleteSubdomain() {
     try {
         const data = await callSubdomainApi({ action: 'delete', nick: currentAccount.nick });
 
-        // Считаем удаление успешным если: data.ok === true ИЛИ ошибка "не найден"
-        // (запись уже отсутствует — цель достигнута)
+        
+        
         const notFound = !data.ok && data.error && /не найден|not found|no record|does not exist/i.test(data.error);
         if (data.ok || notFound) {
             _sdTsId = null;
             _sdModalLocked = false;
-            // Принудительно скидываем guard и переключаемся на форму создания
+            
             const viewEl    = document.getElementById('sd-view');
             const createEl  = document.getElementById('sd-create');
             const loadingEl = document.getElementById('sd-loading');
             if (viewEl)    viewEl.style.display    = 'none';
             if (createEl)  createEl.style.display  = 'none';
             if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color='#f57f17'; loadingEl.innerHTML='<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>'+(ru?'Загружаем...':'Loading...'); }
-            await loadCurrentSubdomain(true); // force=true — игнорируем viewAlreadyShown guard
+            await loadCurrentSubdomain(true); 
             const createStatus = document.getElementById('sd-status-create');
             if (createStatus) { createStatus.innerHTML = ru?'✓ Поддомен удалён. Создай новый.':'✓ Deleted. Create a new one.'; createStatus.style.color='#2e7d32'; }
         } else {
@@ -12958,7 +12936,6 @@ async function doDeleteSubdomain() {
     }
 }
 
-//   LEADERBOARD
 (function(){
     var _lbMode = 'likes';
     var _lbCache = {};
@@ -12966,7 +12943,7 @@ async function doDeleteSubdomain() {
     var _lbCurrentPage = 1;
     var _lbItemsPerPage = 10;
     var _lbCacheTimestamp = {};
-    var _lbCacheExpiry = 5 * 60 * 1000; // 5 минут
+    var _lbCacheExpiry = 5 * 60 * 1000; 
 
     var RANK_ICONS = ['https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_rare_1_icon.png','https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_uncommon_2_icon.png','https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/leader-badges/adventure_crystal_oobe_3_icon.png'];
 
@@ -12990,7 +12967,7 @@ async function doDeleteSubdomain() {
         var data = [];
 
         if (mode === 'likes') {
-            // Sum likes from buildplates + gallery per author
+            
             var [bpRes, glRes] = await Promise.all([
                 sbClient.from('buildplates').select('author,likes'),
                 sbClient.from('gallery').select('author,likes')
@@ -13022,10 +12999,10 @@ async function doDeleteSubdomain() {
             data = Object.values(map).sort(function(a,b){return b.score-a.score;}).slice(0,20);
         }
 
-        // Filter out zero scores
+        
         data = data.filter(function(d){ return d.score > 0; });
 
-        // Load avatars + verified
+        
         if (data.length) {
             var nicks = data.map(function(d){ return d.nick; });
             var accRes = await sbClient.from('accounts').select('nick,avatar_url,verified').in('nick', nicks);
@@ -13036,7 +13013,7 @@ async function doDeleteSubdomain() {
         }
 
         _lbCache[mode] = data;
-        _lbCacheTimestamp[mode] = Date.now(); // Сохраняем время кэширования
+        _lbCacheTimestamp[mode] = Date.now(); 
         return data;
     }
 
@@ -13063,7 +13040,7 @@ async function doDeleteSubdomain() {
 
             listEl.innerHTML = '';
             pageData.forEach(function(entry, idx) {
-                var rankNum = startIndex + idx + 1; // Глобальный ранг
+                var rankNum = startIndex + idx + 1; 
                 var rankHtml;
                 if (rankNum <= 3) {
                     rankHtml = '<span class="lb-rank"><img src="' + RANK_ICONS[rankNum-1] + '" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;" title="#' + rankNum + '"></span>';
@@ -13084,7 +13061,7 @@ async function doDeleteSubdomain() {
                 else if (mode === 'downloads') scoreIcon = '<img src="' + 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png' + '" style="width:12px;height:12px;image-rendering:pixelated;">';
                 else scoreIcon = '<img src="' + 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/health_icon.png' + '" style="width:12px;height:12px;image-rendering:pixelated;">';
 
-                // Referral mob badge
+                
                 var refBadge = '';
                 if (mode === 'referrals' && typeof getRefBadgeHTML === 'function') {
                     refBadge = getRefBadgeHTML(entry.score);
@@ -13142,7 +13119,7 @@ async function doDeleteSubdomain() {
         document.getElementById('lb-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
-    // Load when tab is opened
+    
     var _origSwitch = window.switchTab;
     window.switchTab = function(tabName) {
         if (typeof _origSwitch === 'function') _origSwitch(tabName);
@@ -13165,9 +13142,8 @@ async function doDeleteSubdomain() {
 })();
 </script>
 
-<!-- ── MERL WIDGET ── -->
 <style>
-/* FAB */
+
 #mw-btn {
     position: fixed;
     bottom: 20px; right: 20px;
@@ -13208,7 +13184,6 @@ async function doDeleteSubdomain() {
 }
 @keyframes mw-pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* Panel */
 #mw-panel {
     position: fixed;
     bottom: 100px; right: 20px;
@@ -13241,7 +13216,6 @@ async function doDeleteSubdomain() {
     #mw-anim  { display: none !important; }
 }
 
-/* Header — character + name only */
 #mw-head {
     display: flex;
     align-items: flex-end;
@@ -13304,7 +13278,6 @@ async function doDeleteSubdomain() {
 }
 #mw-x:hover { color: #e8b830; }
 
-/* Messages */
 #mw-feed {
     flex: 1; min-height: 0;
     overflow-y: auto;
@@ -13378,7 +13351,6 @@ async function doDeleteSubdomain() {
 }
 .mw-bubble.err { border-color: #501010 !important; color: #e87070 !important; }
 
-/* Typing */
 .mw-dots {
     display: flex; gap: 4px; align-items: center;
     padding: 10px 14px;
@@ -13392,7 +13364,6 @@ async function doDeleteSubdomain() {
 .mw-dots span:nth-child(3) { animation-delay: .66s; }
 @keyframes mw-dot { 0%,100%{opacity:.15} 50%{opacity:1} }
 
-/* Input */
 #mw-bar {
     display: flex;
     border-top: 3px solid #2a1808;
@@ -13438,18 +13409,15 @@ async function doDeleteSubdomain() {
 #mw-go svg { transition: transform .14s cubic-bezier(.3,1.5,.5,1); display: block; }
 </style>
 
-<!-- Merl side animation (outside panel) -->
 <img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
 
-<!-- FAB -->
 <div id="mw-btn" onclick="mwToggle()" title="Merl">
     <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png" alt="Merl">
     <div id="mw-btn-dot"></div>
 </div>
 
-<!-- Panel -->
 <div id="mw-panel">
-    <!-- Header -->
+    
     <div id="mw-head">
         <div id="mw-char">
             <img id="mw-avatar-static" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
@@ -13464,16 +13432,16 @@ async function doDeleteSubdomain() {
         <button id="mw-x" onclick="mwToggle()">✕</button>
     </div>
 
-    <!-- Feed -->
+    
     <div id="mw-feed"></div>
 
-    <!-- Input -->
+    
     <div id="mw-bar">
         <input id="mw-inp" placeholder="Спроси что-нибудь..." maxlength="400"
             onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();mwSend();}">
         <button id="mw-go" onclick="mwSend()">
             <svg width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-                <!-- pixel right arrow -->
+                
                 <rect x="8"  y="4"  width="2" height="2" fill="#90e040"/>
                 <rect x="10" y="5"  width="2" height="2" fill="#a0f050"/>
                 <rect x="12" y="6"  width="2" height="2" fill="#b8ff60"/>
@@ -13481,7 +13449,7 @@ async function doDeleteSubdomain() {
                 <rect x="12" y="7"  width="2" height="2" fill="#d0ff80"/>
                 <rect x="10" y="9"  width="2" height="2" fill="#a0f050"/>
                 <rect x="8"  y="10" width="2" height="2" fill="#90e040"/>
-                <!-- highlight tip -->
+                
                 <rect x="13" y="7"  width="1" height="1" fill="#ffffff" opacity=".5"/>
             </svg>
         </button>
@@ -13533,7 +13501,7 @@ window.mwToggle=function(){
                     $('mw-inp').placeholder=currentLang==='ru'?'Нужен аккаунт...':'Sign in required...';
                 } else {
                     addBot(currentLang==='ru'?'Привет, '+window.currentAccount.nick+'! Я Merl 👋 Спроси меня всё о Revival Minecraft Earth!':'Hey, '+window.currentAccount.nick+'! I\'m Merl 👋 Ask me anything about Revival Minecraft Earth!');
-                    // Render random quick questions
+                    
                     (function(){
                         const ALL_Q_RU = [
                             'Как скачать Revival Minecraft Earth?',
@@ -13584,7 +13552,7 @@ window.mwToggle=function(){
                             btn.onclick = () => { const i=$('mw-inp'); if(i){i.value=q;} mwSend(); bar.remove(); };
                             bar.appendChild(btn);
                         });
-                        // Insert before feed
+                        
                         const feed = $('mw-feed');
                         if (feed) feed.parentNode.insertBefore(bar, feed);
                     })();
@@ -13733,12 +13701,6 @@ function stopCyc(){ if(timer){clearInterval(timer);timer=null;} }
 function esc(t){ const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
 })();
 
-// Supabase SQL (выполни один раз):
-// DROP TABLE IF EXISTS easter_egg;
-// CREATE TABLE easter_egg (season TEXT, nick TEXT, caught_at TIMESTAMPTZ DEFAULT now(), PRIMARY KEY (season, nick));
-// ALTER TABLE easter_egg ENABLE ROW LEVEL SECURITY;
-// CREATE POLICY "read_all"   ON easter_egg FOR SELECT USING (true);
-// CREATE POLICY "insert_all" ON easter_egg FOR INSERT WITH CHECK (true);
 (function() {
     const CLUCK_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/easter-badges/clukshroom_mob.gif';
 
@@ -13749,10 +13711,10 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
     if (!isEasterPeriod()) return;
 
     const SEASON = String(new Date().getFullYear());
-    let _myCaught = false;   // поймал ли текущий пользователь
-    let _catchers  = new Set(); // ники всех кто поймал
+    let _myCaught = false;   
+    let _catchers  = new Set(); 
     let _spawnTimer = null, _decoInterval = null;
-// styles
+
 const st = document.createElement('style');
     st.textContent = `
         @keyframes _ce_in  { from{opacity:0;transform:scale(0.4)} to{opacity:1;transform:scale(1)} }
@@ -13773,7 +13735,7 @@ const st = document.createElement('style');
         }
     `;
     document.head.appendChild(st);
-// supabase
+
 async function getSb() {
         for (let i = 0; i < 12; i++) {
             if (window.sbClient) return window.sbClient;
@@ -13800,7 +13762,7 @@ async function getSb() {
             _catchers.add(nick.toLowerCase());
         } catch(e) {}
     }
-// realtime-то поймал ──────────────────────────────────────────
+
     async function subscribeRealtime() {
         const sb = await getSb(); if (!sb) return;
         try { sb.channel('_ce_ch').unsubscribe(); } catch(e) {}
@@ -13812,12 +13774,12 @@ async function getSb() {
                 const nick = payload.new?.nick;
                 if (nick) {
                     _catchers.add(nick.toLowerCase());
-                    applyDecorations(); // сразу обновляем у всех
+                    applyDecorations(); 
                 }
             })
             .subscribe();
     }
-// apply decorations
+
 window.applyDecorations = function applyDecorations() {
         if (_catchers.size === 0) return;
 
@@ -13833,16 +13795,16 @@ window.applyDecorations = function applyDecorations() {
             el.appendChild(img);
         }
 
-        // 1. Карточки в новостях, билдплейтах, галерее
+        
         document.querySelectorAll('.player-author-link').forEach(el => addBadge(el, 16));
 
-        // 2. Свой профиль (имя в шапке профиля)
+        
         addBadge(document.getElementById('bp-logged-in-name'), 16);
 
-        // 3. Модалка профиля игрока (pp-nick)
+        
         addBadge(document.getElementById('pp-nick'), 22);
     }
-// on catch(текущий пользователь) ─────────────────────────────────────
+
     function onMyCatch() {
         _myCaught = true;
         stopSpawning();
@@ -13857,7 +13819,7 @@ window.applyDecorations = function applyDecorations() {
         applyDecorations();
         if (!_decoInterval) _decoInterval = setInterval(applyDecorations, 2000);
     }
-// spawn
+
 function spawnCluck() {
         if (_myCaught) return;
         document.getElementById('_ce_mob')?.remove();
@@ -13898,7 +13860,7 @@ function spawnCluck() {
         if (_myCaught) return;
         _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, 8000 + Math.random() * 10000);
     }
-// init
+
 (async () => {
         subscribeRealtime();
         await loadCatchers();
