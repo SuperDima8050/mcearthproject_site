@@ -13588,7 +13588,7 @@ window.mwSend=async function(){
             headers:{'Content-Type':'application/json','apikey':window.SUPABASE_ANON_KEY||'','Authorization':'Bearer '+(window.SUPABASE_ANON_KEY||'')},
             body:JSON.stringify({contents,model:MODEL,generationConfig:{maxOutputTokens:800}})
         });
-        if(!res.ok){const e=await res.json().catch(()=>({})); throw new Error(e.error||'HTTP '+res.status);}
+        if(!res.ok){const e=await res.json().catch(()=>({})); const msg=typeof e.error==='string'?e.error:(e.message||e.msg||JSON.stringify(e)||('HTTP '+res.status)); throw new Error(msg);}
         const reader=res.body.getReader(), dec=new TextDecoder();
         full='';
         removeEl(tid);
