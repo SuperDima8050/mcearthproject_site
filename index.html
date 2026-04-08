@@ -13459,7 +13459,7 @@ async function doDeleteSubdomain() {
 <script>
 (function(){
 'use strict';
-const MODEL = 'gemini-2.5-flash';
+const MODEL = 'llama-3.3-70b-versatile';
 const MERL_FN = 'https://sqlylxcnoqehorlgmztm.supabase.co/functions/v1/merl-chat';
 const AVATAR = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png';
 
@@ -13582,11 +13582,11 @@ window.mwSend=async function(){
 
     let full='', success=false;
     try{
-        const contents=hist.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
+        const messages=hist.map(m=>({role:m.role==='assistant'?'assistant':'user',content:m.content}));
         const res=await fetch(MERL_FN,{
             method:'POST',
             headers:{'Content-Type':'application/json','apikey':window.SUPABASE_ANON_KEY||'','Authorization':'Bearer '+(window.SUPABASE_ANON_KEY||'')},
-            body:JSON.stringify({contents,model:MODEL,generationConfig:{maxOutputTokens:800}})
+            body:JSON.stringify({messages,model:MODEL,max_tokens:800})
         });
         if(!res.ok){const e=await res.json().catch(()=>({})); const msg=typeof e.error==='string'?e.error:(typeof e.message==='string'?e.message:('HTTP '+res.status)); throw new Error(msg);}
         const reader=res.body.getReader(), dec=new TextDecoder();
@@ -13600,7 +13600,7 @@ window.mwSend=async function(){
                 if(!line.startsWith('data:')) continue;
                 const j=line.slice(5).trim();
                 if(j==='[DONE]') break;
-                try{ const d=JSON.parse(j); const txt=d.candidates?.[0]?.content?.parts?.[0]?.text; if(txt){full+=txt;bub.textContent=full;scrollFeed();} }catch(_){}
+                try{ const d=JSON.parse(j); const txt=d.choices?.[0]?.delta?.content; if(txt){full+=txt;bub.textContent=full;scrollFeed();} }catch(_){}
             }
         }
         if(!full) throw new Error('empty response');
