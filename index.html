@@ -13858,6 +13858,16 @@ function spawnCluck() {
         subscribeRealtime();
         await loadCatchers();
 
+        // Ждём загрузки аккаунта (он загружается асинхронно после старта страницы)
+        await new Promise(resolve => {
+            if (window.currentAccount !== undefined && window.currentAccount !== null) { resolve(); return; }
+            let tries = 0;
+            const poll = setInterval(() => {
+                tries++;
+                if (window.currentAccount || tries >= 30) { clearInterval(poll); resolve(); }
+            }, 200);
+        });
+
         const myNick = window.currentAccount?.nick?.toLowerCase();
         if (myNick && _catchers.has(myNick)) {
             _myCaught = true;
