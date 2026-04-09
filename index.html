@@ -6668,13 +6668,8 @@
             
             if (sbClient && currentAccount) {
                 try {
-                    if (!userLikes[newsId]) {
-                        await _setNick();
-                        await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'news').eq('item_id', String(newsId));
-                    } else {
-                        await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'news').eq('item_id', String(newsId));
-                        await _setNick();
-                        await _setNick();
+                    await sbClient.from('user_votes').delete().eq('nick', currentAccount.nick).eq('item_type', 'news').eq('item_id', String(newsId));
+                    if (userLikes[newsId]) {
                         await sbClient.from('user_votes').insert([{ nick: currentAccount.nick, item_type: 'news', item_id: String(newsId), vote: userLikes[newsId] }]);
                     }
                 } catch(e) { console.warn('news vote sync error', e); }
@@ -7106,7 +7101,6 @@
             const postTitle = decodeURIComponent(postTitleEnc);
             const postAuthor = decodeURIComponent(postAuthorEnc);
             const imageUrl = decodeURIComponent(imageUrlEnc);
-            await _setNick();
             const { error } = await sbClient.from('reports').insert([{
                 post_type: postType,
                 post_id: postId,
@@ -7273,7 +7267,6 @@
                     } catch(e) {}
                 }
                 if (banUser && postAuthor) {
-                    await _setNick();
                     await sbClient.from('accounts').update({ banned: true }).ilike('nick', postAuthor);
                 }
             }
@@ -8445,7 +8438,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     localStorage.removeItem('pending_referrer');
                     return;
                 }
-                await _setNick();
                 const { error: insErr } = await sbClient.from('referrals').insert({ referrer_nick: referrer, referred_nick: newNick });
                 if (!insErr) {
                     localStorage.removeItem('pending_referrer');
@@ -8690,7 +8682,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     }
 
                     const verifyToken = generateToken();
-                    await _setNick();
                     const { error: insErr } = await sbClient.from('accounts').insert({
                         nick, password_hash: passHash, verified: false,
                         avatar_url: null, email, email_verified: false,
@@ -9049,7 +9040,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!currentAccount || !currentAccount.email) return;
             try {
                 const token = generateToken();
-                await _setNick();
                 await sbClient.from('accounts').update({ email_verify_token: token, email_verified: false }).ilike('nick', currentAccount.nick);
                 await sendEmail(EMAILJS_VERIFY_TPL, {
                     to_email: currentAccount.email, to_name: currentAccount.nick,
@@ -9107,7 +9097,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 if (data && data.length > 0) {
                     const resetToken = generateToken();
                     const expires = Date.now() + 60 * 60 * 1000; 
-                    await _setNick();
                     await sbClient.from('accounts').update({ reset_token: resetToken, reset_token_expires: expires }).ilike('email', email);
                     await sendEmail(EMAILJS_RESET_TPL, {
                         to_email: email, to_name: data[0].nick,
@@ -9236,7 +9225,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     statusEl.innerHTML = ru?'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Неверный текущий пароль':'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Incorrect current password'; statusEl.style.color='#c62828'; return;
                 }
                 const newHash = await hashPassword(newPass, currentAccount.nick);
-                await _setNick();
                 const { error } = await sbClient.from('accounts').update({ password_hash: newHash }).ilike('nick', currentAccount.nick);
                 if (error) throw error;
                 document.getElementById('bp-chpass-modal').remove();
@@ -9257,7 +9245,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 if (upErr) throw upErr;
                 const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(path);
                 const avatarUrl = urlData.publicUrl;
-                await _setNick();
                 const { error: dbErr } = await sbClient.from('accounts').update({ avatar_url: avatarUrl }).ilike('nick', currentAccount.nick);
                 if (dbErr) throw dbErr;
                 currentAccount.avatar_url = avatarUrl;
@@ -9307,7 +9294,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             try {
                 const { data: ex } = await sbClient.from('accounts').select('nick').ilike('nick', newNick).limit(1);
                 if (ex && ex.length > 0) { statusEl.innerHTML = ru?'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Ник занят!':'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Nickname taken!'; statusEl.style.color='#c62828'; return; }
-                await _setNick();
                 const { error } = await sbClient.from('accounts').update({ nick: newNick }).ilike('nick', currentAccount.nick);
                 if (error) throw error;
                 currentAccount.nick = newNick;
@@ -9322,7 +9308,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!window.confirm(ru?`Удалить аккаунт "${currentAccount.nick}"? Это действие нельзя отменить!`:`Delete account "${currentAccount.nick}"? This cannot be undone!`)) return;
             if (!window.confirm(ru?'Вы уверены? Все ваши данные будут удалены.':'Are you sure? All your data will be deleted.')) return;
             try {
-                await _setNick();
                 const { error } = await sbClient.from('accounts').delete().ilike('nick', currentAccount.nick);
                 if (error) throw error;
                 doLogout();
@@ -9472,7 +9457,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 const { data: imgData } = sbClient.storage.from('buildplates').getPublicUrl(imagePath);
                 const { data: worldData } = sbClient.storage.from('buildplates').getPublicUrl(worldPath);
 
-                await _setNick();
                 const { data: inserted, error: dbError } = await sbClient.from('buildplates').insert([{
                     name: name,
                     author: author,
@@ -10146,7 +10130,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         .eq('item_type', 'bp')
                         .eq('item_id', String(id));
                     
-                    await _setNick();
                     const { error: insertError } = await sbClient.from('user_votes').insert([{ 
                         nick: currentAccount.nick, 
                         item_type: 'bp', 
@@ -11014,7 +10997,6 @@ uploadedImages.push({
 
                 showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем в базу данных...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving to database...'}`, 85);
 
-await _setNick();
 const { error: insertErr } = await sbClient.from('gallery').insert([{
     title,
     author: currentAccount.nick,
@@ -12095,7 +12077,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         async function loadUserVotes(nick) {
             if (!sbClient || !nick) return;
             try {
-                await _setNick();
                 const [votesRes, favsRes] = await Promise.all([
                     sbClient.from('user_votes').select('item_type,item_id,vote').eq('nick', nick),
                     sbClient.from('user_favorites').select('item_type,item_id').eq('nick', nick)
@@ -12736,7 +12717,6 @@ async function loadCurrentSubdomain(force = false) {
                 statusEl.innerHTML = `<span style="color:#c62828;">✗ ${ru?'Неверный код. Проверь время на устройстве.':'Wrong code. Check device time.'}</span>`;
                 if (actionBtn) actionBtn.disabled = false; return;
             }
-            await _setNick();
             const { error } = await sbClient.from('accounts').update({ mfa_enabled: true, mfa_secret: secret }).ilike('nick', currentAccount.nick);
             if (error) { statusEl.innerHTML = `<span style="color:#c62828;">${error.message}</span>`; if (actionBtn) actionBtn.disabled = false; return; }
             document.getElementById('bp-mfa-modal')?.remove();
@@ -12762,7 +12742,6 @@ async function loadCurrentSubdomain(force = false) {
                 if (!secret) { statusEl.innerHTML=`<span style="color:#c62828;">${ru?'Ошибка секрета':'Secret error'}</span>`; actionBtn.disabled=false; return; }
                 const ok = await _verifyTotp(secret, code);
                 if (!ok) { statusEl.innerHTML=`<span style="color:#c62828;">✗ ${ru?'Неверный код':'Wrong code'}</span>`; actionBtn.disabled=false; return; }
-                await _setNick();
                 const { error } = await sbClient.from('accounts').update({ mfa_enabled: false, mfa_secret: null }).ilike('nick', currentAccount.nick);
                 if (error) { statusEl.innerHTML=`<span style="color:#c62828;">${error.message}</span>`; actionBtn.disabled=false; return; }
                 document.getElementById('bp-mfa-modal')?.remove();
