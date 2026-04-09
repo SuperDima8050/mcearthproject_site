@@ -7189,14 +7189,14 @@
             overlay.className = 'bp-modal-overlay';
             overlay.id = 'verify-request-overlay';
             overlay.innerHTML = `
-                <div class="bp-modal draggable-modal" style="max-width:480px;padding:0;overflow:hidden;">
+                <div class="bp-modal draggable-modal" style="max-width:480px;padding:0;overflow:hidden;max-height:calc(100dvh - 32px);display:flex;flex-direction:column;">
                     <div id="vreq-drag-handle" style="display:flex;align-items:center;gap:10px;padding:14px 16px 12px;background:linear-gradient(135deg,#1877f2 0%,#1256b8 100%);cursor:move;user-select:none;border-bottom:3px solid #0a3d8a;">
-                        <span class="verified-badge" style="width:24px;height:24px;flex-shrink:0;filter:brightness(0) invert(1);"></span>
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#fff;border-radius:50%;flex-shrink:0;"><i class="fas fa-check" style="color:#000;font-size:13px;"></i></span>
                         <span style="font-family:Minecraft,sans-serif;font-size:1rem;font-weight:700;color:#fff;flex:1;">${ru ? 'Заявка на верификацию' : 'Verification Request'}</span>
                         <span style="font-family:Minecraft,sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.5);letter-spacing:1px;">⠿ ${ru?'ТАЩИ':'DRAG'}</span>
                         <button onclick="document.getElementById('verify-request-overlay').remove()" style="background:rgba(0,0,0,0.25);border:none;border-radius:2px;width:24px;height:24px;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
                     </div>
-                    <div style="padding:16px;">
+                    <div style="padding:16px;overflow-y:auto;flex:1;">
                         <p style="font-family:Minecraft,sans-serif;font-size:0.75rem;opacity:0.65;margin:0 0 14px;line-height:1.6;">${ru ? 'Верификация выдаётся активным участникам проекта. Расскажи о своём вкладе.' : 'Verification is granted to active contributors. Tell us about your contributions.'}</p>
                         <div style="margin-bottom:10px;">
                             <label style="font-family:Minecraft,sans-serif;font-size:0.75rem;opacity:0.75;display:block;margin-bottom:4px;">${ru ? 'Ник в игре' : 'In-game nick'}</label>
