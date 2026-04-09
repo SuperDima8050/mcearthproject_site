@@ -1440,11 +1440,12 @@
             justify-content: center;
             width: 18px;
             height: 18px;
-            background: #1da1f2;
+            background: #1877f2;
             border-radius: 50%;
             margin-left: 4px;
             flex-shrink: 0;
             vertical-align: middle;
+            box-shadow: 0 1px 3px rgba(24,119,242,0.4);
         }
 
         .verified-badge::before { display: none; }
@@ -1453,6 +1454,27 @@
             color: white;
             font-size: 10px;
         }
+
+        .verify-request-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(24,119,242,0.12);
+            border: 1.5px solid #1877f2;
+            color: #1877f2;
+            font-size: 10px;
+            cursor: pointer;
+            margin-left: 5px;
+            vertical-align: middle;
+            flex-shrink: 0;
+            transition: background .15s, transform .1s;
+            padding: 0;
+        }
+        .verify-request-btn:hover { background: rgba(24,119,242,0.22); transform: scale(1.1); }
+        .verify-request-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
 
         .news-footer {
             display: flex;
@@ -5407,12 +5429,14 @@
             <button class="nav-tab" id="gallery-nav-tab" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
             <button class="nav-tab" id="reports-nav-tab" onclick="switchTab('reports')" data-ru="Жалобы" data-en="Reports" style="display:none;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
             <button class="nav-tab" id="leaderboard-nav-tab" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
+            <button class="nav-tab" id="verifications-nav-tab" onclick="switchTab('verifications')" data-ru="Верификации" data-en="Verifications" style="display:none;"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/sign_icon.png" alt="Verifications"></span><span data-ru="Верификации" data-en="Verifications">Верификации</span></button>
         </div>
         <div class="nav-tabs-reports-row" id="nav-reports-row" style="display:none;">
             <div id="nav-reports-sep" class="nav-sep-line" style="display:none;height:4px;margin:0;"></div>
             <button class="nav-tab nav-tab-reports-mobile" id="gallery-nav-tab-mobile" onclick="switchTab('gallery')" data-ru="Галерея" data-en="Gallery"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" alt="Gallery"></span><span data-ru="Галерея" data-en="Gallery">Галерея</span></button>
             <button class="nav-tab nav-tab-reports-mobile" id="reports-nav-tab-mobile" onclick="switchTab('reports')" style="display:none;" data-ru="Жалобы" data-en="Reports"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" alt="Reports"></span><span data-ru="Жалобы" data-en="Reports">Жалобы</span></button>
             <button class="nav-tab nav-tab-reports-mobile" id="leaderboard-nav-tab-mobile" onclick="switchTab('leaderboard')" data-ru="Лидеры" data-en="Leaders"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="Leaders"></span><span data-ru="Лидеры" data-en="Leaders">Лидеры</span></button>
+            <button class="nav-tab nav-tab-reports-mobile" id="verifications-nav-tab-mobile" onclick="switchTab('verifications')" style="display:none;" data-ru="Верификации" data-en="Verifications"><span class="nav-icon"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/sign_icon.png" alt="Verifications"></span><span data-ru="Верификации" data-en="Verifications">Верификации</span></button>
         </div>
         </div>
 
@@ -5865,7 +5889,10 @@
                                     <img class="bp-avatar" id="bp-avatar-img" src="" alt="avatar" style="display:none;" />
                                 </div>
                                 <div style="flex:1;min-width:0;overflow:hidden;">
-                                    <div class="bp-logged-in-name" id="bp-logged-in-name"></div>
+                                    <div style="display:flex;align-items:center;gap:2px;flex-wrap:wrap;">
+                                        <div class="bp-logged-in-name" id="bp-logged-in-name" style="display:inline;"></div>
+                                        <button class="verify-request-btn" id="verify-request-btn" title="" onclick="showVerifyRequestModal()" style="display:none;"><i class="fas fa-check"></i></button>
+                                    </div>
                                     <div id="bp-profile-badges" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:4px;"></div>
                                     <div id="bp-email-verified-badge" style="display:none;margin-top:4px;" class="bp-email-text"></div>
                                     <div id="bp-join-date" style="display:none;font-size:0.72rem;font-weight:600;margin-top:3px;opacity:0.75;"></div>
@@ -6098,7 +6125,26 @@
         <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(139,115,85,0.3),transparent);margin:20px 0;"></div>
 
         
-        <div id="gallery-tab" class="tab-content">
+        <div id="verifications-tab" class="tab-content">
+            <div class="section">
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
+                    <h2 class="section-title" data-icon="sign_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;"><span data-ru="Заявки на верификацию" data-en="Verification Requests">Заявки на верификацию</span></h2>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#1565c0,#0d47a1);border-color:#0d47a1;box-shadow:0 4px 0 #063380;">
+                            <i class="fas fa-clock" style="margin-right:4px;"></i> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
+                        </button>
+                        <button class="copy-btn" id="verif-filter-resolved" onclick="window.filterVerifications('resolved')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
+                            <i class="fas fa-check" style="margin-right:4px;"></i> <span data-ru="Решённые" data-en="Resolved">Решённые</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="verifications-container">
+                    <div class="news-empty"><i class="fas fa-certificate"></i><p data-ru="Нет заявок" data-en="No requests">Нет заявок</p></div>
+                </div>
+            </div>
+        </div>
+
+                <div id="gallery-tab" class="tab-content">
             <div class="section">
                 <h2 class="section-title" data-icon="paint_item.png">
                     <span data-ru="Галерея" data-en="Gallery">Галерея</span>
@@ -7120,6 +7166,166 @@
 
         let reportsCurrentFilter = 'pending';
 
+        window.showVerifyRequestModal = async function() {
+            const ru = currentLang === 'ru';
+            if (!currentAccount || !sbClient) return;
+            const isDark = document.body.classList.contains('dark-theme');
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            const ex = document.getElementById('verify-request-overlay');
+            if (ex) ex.remove();
+            const overlay = document.createElement('div');
+            overlay.className = 'bp-modal-overlay';
+            overlay.id = 'verify-request-overlay';
+            overlay.innerHTML = `
+                <div class="bp-modal" style="max-width:480px;">
+                    <h3 style="font-family:Minecraft,sans-serif;color:#1877f2;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                        <span class="verified-badge" style="width:22px;height:22px;flex-shrink:0;"><i class="fas fa-check" style="font-size:11px;"></i></span>
+                        ${ru ? 'Заявка на верификацию' : 'Verification Request'}
+                    </h3>
+                    <p style="font-family:Minecraft,sans-serif;font-size:0.78rem;opacity:0.75;margin-bottom:14px;">${ru ? 'Расскажи о себе. Верификация выдаётся активным участникам проекта.' : 'Tell us about yourself. Verification is granted to active project contributors.'}</p>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label style="font-family:Minecraft,sans-serif;font-size:0.78rem;">${ru ? 'Ник в игре' : 'In-game nick'}</label>
+                        <input id="vreq-nick" style="${inputStyle}" value="${currentAccount.nick}" readonly />
+                    </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label style="font-family:Minecraft,sans-serif;font-size:0.78rem;">${ru ? 'Почему ты заслуживаешь верификацию?' : 'Why do you deserve verification?'}</label>
+                        <textarea id="vreq-reason" style="${inputStyle}height:90px;resize:vertical;" maxlength="600" placeholder="${ru ? 'Опиши свой вклад в проект...' : 'Describe your contribution to the project...'}"></textarea>
+                    </div>
+                    <div class="bp-form-row" style="margin-bottom:14px;">
+                        <label style="font-family:Minecraft,sans-serif;font-size:0.78rem;">${ru ? 'Ссылки (Discord, YouTube и т.д.) — необязательно' : 'Links (Discord, YouTube, etc.) — optional'}</label>
+                        <input id="vreq-links" style="${inputStyle}" maxlength="300" placeholder="https://..." />
+                    </div>
+                    <div id="vreq-status" style="min-height:20px;margin-bottom:10px;font-family:Minecraft,sans-serif;font-size:0.8rem;"></div>
+                    <div style="display:flex;gap:8px;justify-content:flex-end;">
+                        <button class="copy-btn" style="background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 3px 0 #222;" onclick="document.getElementById('verify-request-overlay').remove()">${ru ? 'Отмена' : 'Cancel'}</button>
+                        <button class="copy-btn" id="vreq-submit-btn" style="background:linear-gradient(180deg,#1877f2,#1256b8);border-color:#1256b8;box-shadow:0 3px 0 #0a3d8a;" onclick="submitVerifyRequest()">
+                            <i class="fas fa-paper-plane" style="margin-right:4px;"></i>${ru ? 'Отправить' : 'Submit'}
+                        </button>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+        };
+
+        window.submitVerifyRequest = async function() {
+            const ru = currentLang === 'ru';
+            const reason = document.getElementById('vreq-reason')?.value.trim();
+            const links = document.getElementById('vreq-links')?.value.trim();
+            const statusEl = document.getElementById('vreq-status');
+            const submitBtn = document.getElementById('vreq-submit-btn');
+            if (!reason || reason.length < 20) {
+                statusEl.style.color = '#c62828';
+                statusEl.textContent = ru ? 'Опиши причину (минимум 20 символов)' : 'Describe the reason (min 20 chars)';
+                return;
+            }
+            submitBtn.disabled = true;
+            statusEl.style.color = '#888';
+            statusEl.textContent = ru ? 'Отправляем...' : 'Sending...';
+            try {
+                const { error } = await sbClient.from('verify_requests').insert({
+                    nick: currentAccount.nick,
+                    reason,
+                    links: links || null,
+                    status: 'pending',
+                    created_at: new Date().toISOString()
+                });
+                if (error) throw error;
+                document.getElementById('verify-request-overlay')?.remove();
+                showInfoBanner(ru ? '<i class="fas fa-check" style="margin-right:5px;color:#1877f2;"></i> Заявка отправлена! Рассмотрим в течение 7 дней.' : '<i class="fas fa-check" style="margin-right:5px;color:#1877f2;"></i> Request sent! We will review it within 7 days.', 'success');
+                const vBtn = document.getElementById('verify-request-btn');
+                if (vBtn) {
+                    vBtn.disabled = true;
+                    vBtn.title = ru ? 'Заявка на рассмотрении (до 7 дней)' : 'Request under review (up to 7 days)';
+                }
+            } catch(e) {
+                submitBtn.disabled = false;
+                statusEl.style.color = '#c62828';
+                statusEl.textContent = (ru ? 'Ошибка: ' : 'Error: ') + (e.message || e);
+            }
+        };
+
+        let _verifCache = [], _verifFilter = 'pending';
+
+        window.loadVerifications = async function() {
+            if (!sbClient) return;
+            const isAdm = await checkNewsAdmin();
+            if (!isAdm) return;
+            const container = document.getElementById('verifications-container');
+            if (!container) return;
+            const ru = currentLang === 'ru';
+            container.innerHTML = '<div class="news-loading"><div class="compass-loader"></div><p>' + (ru ? 'Загрузка...' : 'Loading...') + '</p></div>';
+            try {
+                const { data, error } = await sbClient.from('verify_requests').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                _verifCache = data || [];
+                renderVerifications();
+            } catch(e) {
+                container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle"></i><p>' + (e.message || e) + '</p></div>';
+            }
+        };
+
+        window.filterVerifications = function(filter) {
+            _verifFilter = filter;
+            renderVerifications();
+        };
+
+        function renderVerifications() {
+            const container = document.getElementById('verifications-container');
+            if (!container) return;
+            const ru = currentLang === 'ru';
+            const isDark = document.body.classList.contains('dark-theme');
+            const filtered = _verifFilter === 'pending'
+                ? _verifCache.filter(r => r.status === 'pending')
+                : _verifCache.filter(r => r.status !== 'pending');
+            if (!filtered.length) {
+                container.innerHTML = '<div class="news-empty"><i class="fas fa-certificate"></i><p>' + (ru ? 'Нет заявок' : 'No requests') + '</p></div>';
+                return;
+            }
+            container.innerHTML = filtered.map(r => {
+                const date = new Date(r.created_at).toLocaleDateString(ru ? 'ru-RU' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+                const isPending = r.status === 'pending';
+                const statusColor = r.status === 'approved' ? '#1877f2' : r.status === 'rejected' ? '#c62828' : '#e8a020';
+                const statusLabel = r.status === 'approved' ? (ru ? 'Одобрено' : 'Approved') : r.status === 'rejected' ? (ru ? 'Отклонено' : 'Rejected') : (ru ? 'Ожидает' : 'Pending');
+                return `<div style="background:${isDark?'#1a1a1a':'#f5eed9'};border:2px solid ${isDark?'#444':'#c8b08a'};border-radius:3px;padding:14px;margin-bottom:12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="font-family:Minecraft,sans-serif;font-size:0.95rem;font-weight:700;color:${isDark?'#e0e0e0':'#3e2723'};">${r.nick}</span>
+                            <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;font-weight:700;color:${statusColor};background:${statusColor}22;padding:2px 7px;border-radius:2px;border:1px solid ${statusColor};">${statusLabel}</span>
+                        </div>
+                        <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;opacity:0.6;">${date}</span>
+                    </div>
+                    <p style="font-family:Minecraft,sans-serif;font-size:0.8rem;margin-bottom:6px;line-height:1.5;">${r.reason}</p>
+                    ${r.links ? `<p style="font-family:Minecraft,sans-serif;font-size:0.75rem;opacity:0.7;margin-bottom:10px;">${ru ? 'Ссылки' : 'Links'}: ${r.links}</p>` : ''}
+                    ${isPending ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                        <button class="copy-btn" style="font-size:0.78rem;padding:5px 12px;background:linear-gradient(180deg,#1877f2,#1256b8);border-color:#1256b8;box-shadow:0 3px 0 #0a3d8a;" onclick="handleVerification('${r.id}','${r.nick}','approved')">
+                            <i class="fas fa-check" style="margin-right:4px;"></i>${ru ? 'Одобрить' : 'Approve'}
+                        </button>
+                        <button class="copy-btn" style="font-size:0.78rem;padding:5px 12px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#8b1a1a;box-shadow:0 3px 0 #5a0d0d;" onclick="handleVerification('${r.id}','${r.nick}','rejected')">
+                            <i class="fas fa-times" style="margin-right:4px;"></i>${ru ? 'Отклонить' : 'Reject'}
+                        </button>
+                    </div>` : ''}
+                </div>`;
+            }).join('');
+        }
+
+        window.handleVerification = async function(id, nick, decision) {
+            const ru = currentLang === 'ru';
+            const isAdm = await checkNewsAdmin();
+            if (!isAdm) return;
+            try {
+                await sbClient.from('verify_requests').update({ status: decision, resolved_at: new Date().toISOString() }).eq('id', id);
+                if (decision === 'approved') {
+                    await sbClient.from('accounts').update({ verified: true }).ilike('nick', nick);
+                }
+                showInfoBanner(decision === 'approved'
+                    ? (ru ? '<i class="fas fa-check" style="margin-right:5px;color:#1877f2;"></i> Верификация выдана!' : '<i class="fas fa-check" style="margin-right:5px;color:#1877f2;"></i> Verified!')
+                    : (ru ? 'Заявка отклонена.' : 'Request rejected.'), 'success');
+                window.loadVerifications();
+            } catch(e) {
+                showInfoBanner((ru ? 'Ошибка: ' : 'Error: ') + e.message, 'error');
+            }
+        };
+
         window.filterReports = function(filter) {
             reportsCurrentFilter = filter;
             const pending = document.getElementById('reports-filter-pending');
@@ -7875,7 +8081,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         
         
 
-        const TAB_NAMES = ['news', 'buildplates', 'gallery', 'leaderboard', 'reports', 'merl'];
+        const TAB_NAMES = ['news', 'buildplates', 'gallery', 'leaderboard', 'reports', 'verifications', 'merl'];
 
         
         const TAB_ID_MAP = {
@@ -8804,8 +9010,30 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
             document.getElementById('bp-logged-in-name').innerHTML =
                 nick + (verified ? ' <span class="verified-badge" title="Верифицирован"><i class="fas fa-check"></i></span>' : '');
-            
+
             setTimeout(() => { if (window.applyDecorations) window.applyDecorations(); }, 300);
+
+            (async () => {
+                const vBtn = document.getElementById('verify-request-btn');
+                if (!vBtn) return;
+                if (verified) { vBtn.style.display = 'none'; return; }
+                try {
+                    const { data } = await sbClient.from('verify_requests').select('id,status').ilike('nick', nick).limit(1);
+                    const ru = currentLang === 'ru';
+                    if (data && data.length > 0) {
+                        vBtn.style.display = '';
+                        vBtn.disabled = true;
+                        vBtn.title = ru ? 'Заявка на рассмотрении (до 7 дней)' : 'Request under review (up to 7 days)';
+                    } else {
+                        vBtn.style.display = '';
+                        vBtn.disabled = false;
+                        vBtn.title = ru ? 'Подать заявку на верификацию' : 'Apply for verification';
+                    }
+                } catch(e) {
+                    vBtn.style.display = '';
+                    vBtn.disabled = false;
+                }
+            })();
 
             const badge = document.getElementById('bp-email-verified-badge');
             if (email) {
@@ -8854,22 +9082,30 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 
                 if (mobileRow) mobileRow.style.display = isMobile ? 'block' : 'none';
 
+                const vTab = document.getElementById('verifications-nav-tab');
+                const mobileVTab = document.getElementById('verifications-nav-tab-mobile');
+
                 if (isAdm) {
-                    
                     const newsAddBtn = document.getElementById('news-add-btn');
                     if (newsAddBtn) newsAddBtn.style.display = '';
                     if (isMobile) {
                         if (mobileRTab) mobileRTab.style.display = '';
-                    const navSep = document.getElementById('nav-reports-sep');
-                    if (navSep) navSep.style.display = 'none';
+                        if (mobileVTab) mobileVTab.style.display = '';
+                        const navSep = document.getElementById('nav-reports-sep');
+                        if (navSep) navSep.style.display = 'none';
                         if (rTab) rTab.style.display = 'none';
+                        if (vTab) vTab.style.display = 'none';
                     } else {
                         if (rTab) rTab.style.display = '';
+                        if (vTab) vTab.style.display = '';
                         if (mobileRTab) mobileRTab.style.display = 'none';
+                        if (mobileVTab) mobileVTab.style.display = 'none';
                     }
                 } else {
                     if (rTab) rTab.style.display = 'none';
                     if (mobileRTab) mobileRTab.style.display = 'none';
+                    if (vTab) vTab.style.display = 'none';
+                    if (mobileVTab) mobileVTab.style.display = 'none';
                     const navSep = document.getElementById('nav-reports-sep');
                     if (navSep) navSep.style.display = 'none';
                 }
@@ -8949,6 +9185,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         }
 
         function doLogout() {
+            const vBtn = document.getElementById('verify-request-btn');
+            if (vBtn) vBtn.style.display = 'none';
             currentAccount = null; window.currentAccount = null;
             document.getElementById('bp-author').value = '';
             document.getElementById('bp-auth-form').style.display = 'block';
@@ -10450,6 +10688,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
             if (tabName === 'news') { if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin); else loadNews(); }
             if (tabName === 'reports') { if (typeof window.loadReports === 'function') window.loadReports(); }
+            if (tabName === 'verifications') { if (typeof window.loadVerifications === 'function') window.loadVerifications(); }
             if (tabName === 'gallery') { 
                 loadGallery(); 
                 updateGalleryDailyLimitUI();
