@@ -1462,21 +1462,23 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             background: rgba(24,119,242,0.08);
             border: 1.5px dashed #1877f2;
             color: #1877f2;
-            font-size: 9px;
+            font-size: 7px;
             cursor: pointer;
             margin-left: 4px;
             vertical-align: middle;
             flex-shrink: 0;
             transition: background .15s, border-style .15s;
             padding: 0;
+            overflow: hidden;
             position: relative;
             top: -1px;
+            line-height: 1;
         }
         .verify-request-btn:hover { background: rgba(24,119,242,0.18); border-style: solid; }
         .verify-request-btn:disabled { opacity: 0.4; cursor: default; border-style: solid; }
