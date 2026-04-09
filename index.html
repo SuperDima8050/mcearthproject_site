@@ -12095,6 +12095,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         async function loadUserVotes(nick) {
             if (!sbClient || !nick) return;
             try {
+                await _setNick();
                 const [votesRes, favsRes] = await Promise.all([
                     sbClient.from('user_votes').select('item_type,item_id,vote').eq('nick', nick),
                     sbClient.from('user_favorites').select('item_type,item_id').eq('nick', nick)
