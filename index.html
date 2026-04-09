@@ -5845,9 +5845,14 @@
                                 <label data-ru="Повтори пароль" data-en="Confirm Password">Повтори пароль</label>
                                 <div class="pass-wrap"><input type="password" id="bp-auth-pass2" placeholder="••••••••" maxlength="100" style="width:100%;padding:12px 44px 12px 14px;border:3px solid #8b7355;border-radius:2px;background:#f5eed9;color:#3e2723;font-family:Minecraft,sans-serif;font-size:1rem;font-weight:600;outline:none;transition:border-color .15s;box-shadow:inset 0 2px 4px rgba(0,0,0,.1);" /><button type="button" class="pass-toggle" onclick="togglePass('bp-auth-pass2',this)" tabindex="-1"><i class="fas fa-eye"></i></button></div>
                             </div>
-                            <div id="bp-privacy-row" style="display:none;margin-bottom:10px;padding:8px 10px;background:rgba(139,115,85,0.08);border:2px solid #c8b090;border-radius:2px;">
-                                <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;">
-                                    <input type="checkbox" id="bp-privacy-check" style="width:15px;height:15px;margin-top:2px;flex-shrink:0;cursor:pointer;accent-color:#5a8a3a;">
+                            <div id="bp-privacy-row" style="display:none;margin-bottom:10px;padding:10px 12px;background:rgba(90,138,58,0.08);border:2px solid rgba(90,138,58,0.35);border-radius:2px;">
+                                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;">
+                                    <span style="position:relative;flex-shrink:0;width:22px;height:22px;">
+                                        <input type="checkbox" id="bp-privacy-check" style="position:absolute;opacity:0;width:0;height:0;" onclick="this.parentElement.nextElementSibling&&null;var b=document.getElementById('bp-privacy-box');b.style.background=this.checked?'#5a8a3a':'';b.style.borderColor=this.checked?'#3d6b27':'#8b7355';b.querySelector('i').style.display=this.checked?'block':'none';">
+                                        <span id="bp-privacy-box" style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;background:transparent;border:3px solid #8b7355;border-radius:2px;box-shadow:inset 0 2px 0 rgba(255,255,255,0.1),0 2px 0 rgba(0,0,0,0.3);transition:background 0.1s,border-color 0.1s;" onclick="var cb=document.getElementById('bp-privacy-check');cb.checked=!cb.checked;this.style.background=cb.checked?'#5a8a3a':'';this.style.borderColor=cb.checked?'#3d6b27':'#8b7355';this.querySelector('i').style.display=cb.checked?'block':'none';">
+                                            <i class="fas fa-check" style="display:none;color:#fff;font-size:11px;line-height:1;"></i>
+                                        </span>
+                                    </span>
                                     <span style="font-family:'Minecraft',sans-serif;font-size:0.72rem;line-height:1.5;color:#5a4a3a;">
                                         <span data-ru="Я принимаю" data-en="I accept the">Я принимаю</span>
                                         <a href="#" onclick="showPrivacyModal();return false;" style="color:#5a8a3a;text-decoration:underline;" data-ru="политику конфиденциальности" data-en="privacy policy">политику конфиденциальности</a>
@@ -6117,7 +6122,7 @@
                     </div>
                 </div>
                 <div id="reports-container">
-                    <div class="news-empty"><i class="fas fa-flag"></i><p data-ru="Нет жалоб" data-en="No reports">Нет жалоб</p></div>
+                    <div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.45;display:block;margin:0 auto 4px;"><p data-ru="Нет жалоб" data-en="No reports">Нет жалоб</p></div>
                 </div>
             </div>
         </div>
@@ -7171,41 +7176,57 @@
             const ru = currentLang === 'ru';
             if (!currentAccount || !sbClient) return;
             const isDark = document.body.classList.contains('dark-theme');
-            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;transition:border-color 0.15s;`;
             const ex = document.getElementById('verify-request-overlay');
             if (ex) ex.remove();
             const overlay = document.createElement('div');
             overlay.className = 'bp-modal-overlay';
             overlay.id = 'verify-request-overlay';
             overlay.innerHTML = `
-                <div class="bp-modal" style="max-width:480px;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#1877f2;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
-                        <span class="verified-badge" style="width:22px;height:22px;flex-shrink:0;"></span>
-                        ${ru ? 'Заявка на верификацию' : 'Verification Request'}
-                    </h3>
-                    <p style="font-family:Minecraft,sans-serif;font-size:0.78rem;opacity:0.75;margin-bottom:14px;">${ru ? 'Расскажи о себе. Верификация выдаётся активным участникам проекта.' : 'Tell us about yourself. Verification is granted to active project contributors.'}</p>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="font-family:Minecraft,sans-serif;font-size:0.78rem;">${ru ? 'Ник в игре' : 'In-game nick'}</label>
-                        <input id="vreq-nick" style="${inputStyle}" value="${currentAccount.nick}" readonly />
+                <div class="bp-modal draggable-modal" style="max-width:480px;padding:0;overflow:hidden;">
+                    <div id="vreq-drag-handle" style="display:flex;align-items:center;gap:10px;padding:14px 16px 12px;background:linear-gradient(135deg,#1877f2 0%,#1256b8 100%);cursor:move;user-select:none;border-bottom:3px solid #0a3d8a;">
+                        <span class="verified-badge" style="width:24px;height:24px;flex-shrink:0;filter:brightness(0) invert(1);"></span>
+                        <span style="font-family:Minecraft,sans-serif;font-size:1rem;font-weight:700;color:#fff;flex:1;">${ru ? 'Заявка на верификацию' : 'Verification Request'}</span>
+                        <span style="font-family:Minecraft,sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.5);letter-spacing:1px;">⠿ ${ru?'ТАЩИ':'DRAG'}</span>
+                        <button onclick="document.getElementById('verify-request-overlay').remove()" style="background:rgba(0,0,0,0.25);border:none;border-radius:2px;width:24px;height:24px;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
                     </div>
-                    <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="font-family:Minecraft,sans-serif;font-size:0.78rem;">${ru ? 'Почему ты заслуживаешь верификацию?' : 'Why do you deserve verification?'}</label>
-                        <textarea id="vreq-reason" style="${inputStyle}height:90px;resize:vertical;" maxlength="600" placeholder="${ru ? 'Опиши свой вклад в проект...' : 'Describe your contribution to the project...'}"></textarea>
-                    </div>
-                    <div class="bp-form-row" style="margin-bottom:14px;">
-                        <label style="font-family:Minecraft,sans-serif;font-size:0.78rem;">${ru ? 'Ссылки (Discord, YouTube и т.д.) — необязательно' : 'Links (Discord, YouTube, etc.) — optional'}</label>
-                        <input id="vreq-links" style="${inputStyle}" maxlength="300" placeholder="https://..." />
-                    </div>
-                    <div id="vreq-status" style="min-height:20px;margin-bottom:10px;font-family:Minecraft,sans-serif;font-size:0.8rem;"></div>
-                    <div style="display:flex;gap:8px;justify-content:flex-end;">
-                        <button class="copy-btn" style="background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 3px 0 #222;" onclick="document.getElementById('verify-request-overlay').remove()">${ru ? 'Отмена' : 'Cancel'}</button>
-                        <button class="copy-btn" id="vreq-submit-btn" style="background:linear-gradient(180deg,#1877f2,#1256b8);border-color:#1256b8;box-shadow:0 3px 0 #0a3d8a;" onclick="submitVerifyRequest()">
-                            <i class="fas fa-paper-plane" style="margin-right:4px;"></i>${ru ? 'Отправить' : 'Submit'}
-                        </button>
+                    <div style="padding:16px;">
+                        <p style="font-family:Minecraft,sans-serif;font-size:0.75rem;opacity:0.65;margin:0 0 14px;line-height:1.6;">${ru ? 'Верификация выдаётся активным участникам проекта. Расскажи о своём вкладе.' : 'Verification is granted to active contributors. Tell us about your contributions.'}</p>
+                        <div style="margin-bottom:10px;">
+                            <label style="font-family:Minecraft,sans-serif;font-size:0.75rem;opacity:0.75;display:block;margin-bottom:4px;">${ru ? 'Ник в игре' : 'In-game nick'}</label>
+                            <input id="vreq-nick" style="${inputStyle}opacity:0.6;cursor:not-allowed;" value="${currentAccount.nick}" readonly />
+                        </div>
+                        <div style="margin-bottom:10px;">
+                            <label style="font-family:Minecraft,sans-serif;font-size:0.75rem;opacity:0.75;display:block;margin-bottom:4px;">${ru ? 'Почему ты заслуживаешь верификацию?' : 'Why do you deserve verification?'} <span style="color:#c62828;">*</span></label>
+                            <textarea id="vreq-reason" style="${inputStyle}height:90px;resize:vertical;" maxlength="600" placeholder="${ru ? 'Опиши свой вклад в проект...' : 'Describe your contribution to the project...'}"></textarea>
+                        </div>
+                        <div style="margin-bottom:14px;">
+                            <label style="font-family:Minecraft,sans-serif;font-size:0.75rem;opacity:0.75;display:block;margin-bottom:4px;">${ru ? 'Ссылки (Discord, YouTube и т.д.) — необязательно' : 'Links (Discord, YouTube, etc.) — optional'}</label>
+                            <input id="vreq-links" style="${inputStyle}" maxlength="300" placeholder="https://..." />
+                        </div>
+                        <div id="vreq-captcha-wrap" style="margin-bottom:12px;display:flex;justify-content:center;"></div>
+                        <div id="vreq-status" style="min-height:18px;margin-bottom:10px;font-family:Minecraft,sans-serif;font-size:0.78rem;text-align:center;"></div>
+                        <div style="display:flex;gap:8px;justify-content:center;">
+                            <button class="copy-btn" style="background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 3px 0 #222;" onclick="document.getElementById('verify-request-overlay').remove()">${ru ? 'Отмена' : 'Cancel'}</button>
+                            <button class="copy-btn" id="vreq-submit-btn" style="background:linear-gradient(180deg,#1877f2,#1256b8);border-color:#1256b8;box-shadow:0 3px 0 #0a3d8a;" onclick="submitVerifyRequest()">
+                                <i class="fas fa-paper-plane" style="margin-right:4px;"></i>${ru ? 'Отправить' : 'Submit'}
+                            </button>
+                        </div>
                     </div>
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+            makeDraggable(overlay.querySelector('.bp-modal'), document.getElementById('vreq-drag-handle'));
+            // Turnstile
+            const captchaWrap = document.getElementById('vreq-captcha-wrap');
+            const div = document.createElement('div');
+            div.className = 'cf-turnstile';
+            div.id = 'vreq-turnstile';
+            div.setAttribute('data-sitekey', '0x4AAAAAACZyA1UOix1SiYwF');
+            div.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            div.setAttribute('data-size', window.innerWidth <= 480 ? 'compact' : 'normal');
+            captchaWrap.appendChild(div);
+            if (window.turnstile) window.turnstile.render(div);
         };
 
         window.submitVerifyRequest = async function() {
@@ -7217,6 +7238,13 @@
             if (!reason || reason.length < 20) {
                 statusEl.style.color = '#c62828';
                 statusEl.textContent = ru ? 'Опиши причину (минимум 20 символов)' : 'Describe the reason (min 20 chars)';
+                return;
+            }
+            const tsEl = document.getElementById('vreq-turnstile');
+            const tsToken = tsEl ? tsEl.querySelector('[name="cf-turnstile-response"]')?.value : null;
+            if (!tsToken) {
+                statusEl.style.color = '#c62828';
+                statusEl.textContent = ru ? 'Пройди капчу!' : 'Please complete the captcha!';
                 return;
             }
             submitBtn.disabled = true;
@@ -7385,7 +7413,7 @@
                 return;
             }
             if (!data || data.length === 0) {
-                container.innerHTML = '<div class="news-empty"><i class="fas fa-flag"></i><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
+                container.innerHTML = '<div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.45;display:block;margin:0 auto 4px;"><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
                 return;
             }
             container.innerHTML = '';
@@ -8742,7 +8770,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             document.getElementById('bp-pass2-row').style.display  = isReg ? 'block' : 'none';
             document.getElementById('bp-forgot-btn').style.display = isReg ? 'none'  : 'inline';
             document.getElementById('bp-privacy-row').style.display = isReg ? 'block' : 'none';
-            if (!isReg) document.getElementById('bp-privacy-check').checked = false;
+            if (!isReg) { document.getElementById('bp-privacy-check').checked = false; var box=document.getElementById('bp-privacy-box'); if(box){box.style.background='';box.style.borderColor='#8b7355';var ic=box.querySelector('i');if(ic)ic.style.display='none';} }
 
             document.getElementById('bp-auth-status').className = 'bp-auth-status';
             document.getElementById('bp-auth-status').textContent = '';
