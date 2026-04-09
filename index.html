@@ -8675,7 +8675,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         .join('').trim();
                     const count = counts[nick] || 0;
                     if (count >= 1 && !el.parentElement.querySelector('.ref-mob-badge')) {
-                        el.insertAdjacentHTML('afterend', getRefBadgeHTML(count));
+                        el.insertAdjacentHTML('beforeend', getRefBadgeHTML(count));
                     }
                 });
             } catch(e) {}
