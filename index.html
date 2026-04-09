@@ -1440,41 +1440,46 @@
             justify-content: center;
             width: 18px;
             height: 18px;
-            background: #1877f2;
-            border-radius: 50%;
-            margin-left: 4px;
+            margin-left: 5px;
             flex-shrink: 0;
             vertical-align: middle;
-            box-shadow: 0 1px 3px rgba(24,119,242,0.4);
+            position: relative;
+            top: -1px;
         }
-
         .verified-badge::before { display: none; }
-
-        .verified-badge i {
-            color: white;
-            font-size: 10px;
+        .verified-badge i { display: none; }
+        .verified-badge::after {
+            content: '';
+            display: block;
+            width: 18px;
+            height: 18px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231877f2' d='M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 3 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82 1.89 3.2L12 21l3.4 1.5 1.89-3.19 3.61-.82-.34-3.69z'/%3E%3Cpath fill='white' d='M10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
         }
 
         .verify-request-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            background: rgba(24,119,242,0.12);
-            border: 1.5px solid #1877f2;
+            background: rgba(24,119,242,0.08);
+            border: 1.5px dashed #1877f2;
             color: #1877f2;
-            font-size: 10px;
+            font-size: 9px;
             cursor: pointer;
-            margin-left: 5px;
+            margin-left: 4px;
             vertical-align: middle;
             flex-shrink: 0;
-            transition: background .15s, transform .1s;
+            transition: background .15s, border-style .15s;
             padding: 0;
+            position: relative;
+            top: -1px;
         }
-        .verify-request-btn:hover { background: rgba(24,119,242,0.22); transform: scale(1.1); }
-        .verify-request-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
+        .verify-request-btn:hover { background: rgba(24,119,242,0.18); border-style: solid; }
+        .verify-request-btn:disabled { opacity: 0.4; cursor: default; border-style: solid; }
 
         .news-footer {
             display: flex;
@@ -2168,7 +2173,7 @@
             display: inline-flex;
             align-items: center;
             gap: 3px;
-            background: linear-gradient(135deg, #1565c0, #0d47a1);
+            background: linear-gradient(135deg, #1877f2, #1256b8);
             color: white;
             font-size: 0.65rem;
             font-weight: 800;
@@ -6128,18 +6133,18 @@
         <div id="verifications-tab" class="tab-content">
             <div class="section">
                 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
-                    <h2 class="section-title" data-icon="sign_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;"><span data-ru="Заявки на верификацию" data-en="Verification Requests">Заявки на верификацию</span></h2>
+                    <h2 class="section-title" data-icon="sign_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;"><span data-ru="Верификации" data-en="Verifications">Верификации</span></h2>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#1565c0,#0d47a1);border-color:#0d47a1;box-shadow:0 4px 0 #063380;">
-                            <i class="fas fa-clock" style="margin-right:4px;"></i> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
+                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#1877f2,#1256b8);border-color:#1256b8;box-shadow:0 4px 0 #0a3d8a;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
                         </button>
                         <button class="copy-btn" id="verif-filter-resolved" onclick="window.filterVerifications('resolved')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
-                            <i class="fas fa-check" style="margin-right:4px;"></i> <span data-ru="Решённые" data-en="Resolved">Решённые</span>
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Решённые" data-en="Resolved">Решённые</span>
                         </button>
                     </div>
                 </div>
                 <div id="verifications-container">
-                    <div class="news-empty"><i class="fas fa-certificate"></i><p data-ru="Нет заявок" data-en="No requests">Нет заявок</p></div>
+                    <div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/sign_icon.png" style="width:40px;height:40px;image-rendering:pixelated;opacity:0.5;margin-bottom:8px;"><p data-ru="Нет заявок" data-en="No requests">Нет заявок</p></div>
                 </div>
             </div>
         </div>
@@ -7179,7 +7184,7 @@
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:480px;">
                     <h3 style="font-family:Minecraft,sans-serif;color:#1877f2;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
-                        <span class="verified-badge" style="width:22px;height:22px;flex-shrink:0;"><i class="fas fa-check" style="font-size:11px;"></i></span>
+                        <span class="verified-badge" style="width:22px;height:22px;flex-shrink:0;"></span>
                         ${ru ? 'Заявка на верификацию' : 'Verification Request'}
                     </h3>
                     <p style="font-family:Minecraft,sans-serif;font-size:0.78rem;opacity:0.75;margin-bottom:14px;">${ru ? 'Расскажи о себе. Верификация выдаётся активным участникам проекта.' : 'Tell us about yourself. Verification is granted to active project contributors.'}</p>
@@ -7266,6 +7271,15 @@
 
         window.filterVerifications = function(filter) {
             _verifFilter = filter;
+            const pending = document.getElementById('verif-filter-pending');
+            const resolved = document.getElementById('verif-filter-resolved');
+            if (filter === 'pending') {
+                if (pending) { pending.style.background = 'linear-gradient(180deg,#1877f2,#1256b8)'; pending.style.borderColor = '#1256b8'; pending.style.boxShadow = '0 4px 0 #0a3d8a'; }
+                if (resolved) { resolved.style.background = 'linear-gradient(180deg,#888,#555)'; resolved.style.borderColor = '#333'; resolved.style.boxShadow = '0 4px 0 #222'; }
+            } else {
+                if (resolved) { resolved.style.background = 'linear-gradient(180deg,#1877f2,#1256b8)'; resolved.style.borderColor = '#1256b8'; resolved.style.boxShadow = '0 4px 0 #0a3d8a'; }
+                if (pending) { pending.style.background = 'linear-gradient(180deg,#888,#555)'; pending.style.borderColor = '#333'; pending.style.boxShadow = '0 4px 0 #222'; }
+            }
             renderVerifications();
         };
 
@@ -7278,7 +7292,7 @@
                 ? _verifCache.filter(r => r.status === 'pending')
                 : _verifCache.filter(r => r.status !== 'pending');
             if (!filtered.length) {
-                container.innerHTML = '<div class="news-empty"><i class="fas fa-certificate"></i><p>' + (ru ? 'Нет заявок' : 'No requests') + '</p></div>';
+                container.innerHTML = '<div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/sign_icon.png" style="width:40px;height:40px;image-rendering:pixelated;opacity:0.5;margin-bottom:8px;"><p>' + (ru ? 'Нет заявок' : 'No requests') + '</p></div>';
                 return;
             }
             container.innerHTML = filtered.map(r => {
