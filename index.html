@@ -14118,7 +14118,15 @@ window.applyDecorations = function applyDecorations() {
         document.querySelectorAll('.player-author-link').forEach(el => addBadge(el, 16));
 
         
-        addBadge(document.getElementById('bp-logged-in-name'), 16);
+        const badgesEl = document.getElementById('bp-profile-badges');
+        const myNick = window.currentAccount?.nick?.toLowerCase();
+        if (badgesEl && myNick && _catchers.has(myNick) && !badgesEl.querySelector('.ce-badge')) {
+            const img = new Image();
+            img.src = CLUCK_URL; img.className = 'ce-badge';
+            img.alt = '\u{1F414}'; img.title = 'Cluckshroom';
+            img.style.cssText = `width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;`;
+            badgesEl.appendChild(img);
+        }
 
         
         addBadge(document.getElementById('pp-nick'), 22);
