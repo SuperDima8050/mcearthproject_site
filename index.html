@@ -7191,7 +7191,7 @@
             overlay.innerHTML = `
                 <div class="bp-modal draggable-modal" style="max-width:480px;padding:0;overflow:hidden;max-height:calc(100dvh - 32px);display:flex;flex-direction:column;">
                     <div id="vreq-drag-handle" style="display:flex;align-items:center;gap:10px;padding:14px 16px 12px;background:linear-gradient(135deg,#1877f2 0%,#1256b8 100%);cursor:move;user-select:none;border-bottom:3px solid #0a3d8a;">
-                        <span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:#fff;border-radius:50%;flex-shrink:0;"><i class="fas fa-check" style="color:#000;font-size:13px;"></i></span>
+                        <span style="display:inline-block;width:24px;height:24px;flex-shrink:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 3 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82 1.89 3.2L12 21l3.4 1.5 1.89-3.19 3.61-.82-.34-3.69z'/%3E%3Cpath fill='%231256b8' d='M10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9z'/%3E%3C/svg%3E&quot;);background-size:contain;background-repeat:no-repeat;"></span>
                         <span style="font-family:Minecraft,sans-serif;font-size:1rem;font-weight:700;color:#fff;flex:1;">${ru ? 'Заявка на верификацию' : 'Verification Request'}</span>
                         <span style="font-family:Minecraft,sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.5);letter-spacing:1px;">⠿ ${ru?'ТАЩИ':'DRAG'}</span>
                         <button onclick="document.getElementById('verify-request-overlay').remove()" style="background:rgba(0,0,0,0.25);border:none;border-radius:2px;width:24px;height:24px;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✕</button>
@@ -7212,8 +7212,9 @@
                         </div>
                         <div id="vreq-captcha-wrap" style="margin-bottom:12px;display:flex;justify-content:center;"></div>
                         <div id="vreq-status" style="min-height:18px;margin-bottom:10px;font-family:Minecraft,sans-serif;font-size:0.78rem;text-align:center;"></div>
-                        <div style="display:flex;gap:8px;justify-content:center;">
+                        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
                             <button class="copy-btn" style="background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 3px 0 #222;" onclick="document.getElementById('verify-request-overlay').remove()">${ru ? 'Отмена' : 'Cancel'}</button>
+                            <button class="copy-btn" style="background:linear-gradient(180deg,#c62828,#8b0000);border-color:#7f0000;box-shadow:0 3px 0 #5a0000;" onclick="document.getElementById('vreq-reason').value='';document.getElementById('vreq-links').value='';document.getElementById('vreq-status').textContent='';"><i class="fas fa-trash" style="margin-right:4px;"></i>${ru ? 'Очистить' : 'Clear'}</button>
                             <button class="copy-btn" id="vreq-submit-btn" style="background:linear-gradient(180deg,#1877f2,#1256b8);border-color:#1256b8;box-shadow:0 3px 0 #0a3d8a;" onclick="submitVerifyRequest()">
                                 <i class="fas fa-paper-plane" style="margin-right:4px;"></i>${ru ? 'Отправить' : 'Submit'}
                             </button>
