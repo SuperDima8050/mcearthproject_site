@@ -9037,6 +9037,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             window.currentAccount = currentAccount;
             window.currentAccount = currentAccount;
             
+            const merlBtnEl = document.getElementById('mw-btn');
+            const merlAnimEl = document.getElementById('mw-anim');
+            if (merlBtnEl) merlBtnEl.style.display = '';
+            if (merlAnimEl && window.innerWidth > 768) merlAnimEl.style.display = '';
+
             const today = new Date().toDateString();
             localStorage.setItem('auth_key_today', today);
             
@@ -9225,6 +9230,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         function doLogout() {
             const vBtn = document.getElementById('verify-request-btn');
             if (vBtn) vBtn.style.display = 'none';
+            const merlBtnEl = document.getElementById('mw-btn');
+            const merlAnimEl = document.getElementById('mw-anim');
+            if (merlBtnEl) merlBtnEl.style.display = 'none';
+            if (merlAnimEl) merlAnimEl.style.display = 'none';
             currentAccount = null; window.currentAccount = null;
             document.getElementById('bp-author').value = '';
             document.getElementById('bp-auth-form').style.display = 'block';
@@ -13695,9 +13704,9 @@ async function doDeleteSubdomain() {
 #mw-go svg { transition: transform .14s cubic-bezier(.3,1.5,.5,1); display: block; }
 </style>
 
-<img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="">
+<img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="" style="display:none;">
 
-<div id="mw-btn" onclick="mwToggle()" title="Merl">
+<div id="mw-btn" onclick="mwToggle()" title="Merl" style="display:none;">
     <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_avatar_widget.png" alt="Merl">
     <div id="mw-btn-dot"></div>
 </div>
