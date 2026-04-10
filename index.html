@@ -6558,7 +6558,6 @@
                 _newsCache = result[0].data || [];
                 _newsIsAdmin = result[1];
                 
-                _newsCache = _newsCache.filter(n => !n.is_draft);
 
                 
                 const authors = [...new Set(_newsCache.map(n => n.author).filter(Boolean))];
@@ -6934,7 +6933,6 @@
                         image_url: imageUrl || null,
                         source_url: sourceUrl || null,
                         tag: newsTag || null,
-                        is_draft: false,
                         author: currentAccount.nick,
                         author_verified: currentAccount.verified || false,
                         likes: 0, dislikes: 0
