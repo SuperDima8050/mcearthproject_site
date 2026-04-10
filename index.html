@@ -14210,7 +14210,7 @@ window.applyDecorations = function applyDecorations() {
     }
 
 function spawnCluck() {
-        if (_myCaught) return;
+        if (_myCaught || !window.currentAccount) return;
         document.getElementById('_ce_mob')?.remove();
 
         const size = 56, pad = 20;
@@ -14246,7 +14246,7 @@ function spawnCluck() {
     }
 
     function scheduleSpawn() {
-        if (_myCaught) return;
+        if (_myCaught || !window.currentAccount) return;
         _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, 8000 + Math.random() * 10000);
     }
 
@@ -14273,7 +14273,7 @@ function spawnCluck() {
             _decoInterval = setInterval(applyDecorations, 2000);
         }
 
-        if (!_myCaught) {
+        if (!_myCaught && window.currentAccount) {
             const first = 5000 + Math.random() * 5000;
             _spawnTimer = setTimeout(() => { spawnCluck(); scheduleSpawn(); }, first);
         }
