@@ -3257,7 +3257,7 @@
         .back-to-top {
             position: fixed;
             bottom: 92px;
-            right: 34px;
+            right: 31px;
             width: 40px;
             height: 40px;
             background: linear-gradient(180deg, #7cb342 0%, #558b2f 100%);
@@ -4751,11 +4751,12 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #fff !important;
             font-size: 0.65rem;
             flex-shrink: 0;
             border: 1px solid #4a5d23;
         }
+        .bp-card-avatar-placeholder i, .bp-card-avatar-placeholder .fas { color: #fff !important; }
         body.dark-theme .bp-card-avatar-placeholder {
             background: linear-gradient(135deg, #7cb342, #558b2f);
             border-color: #7cb342;
@@ -6459,7 +6460,7 @@
                     const verifiedBadge = isVerified ? '<span class="verified-badge" title="' + (currentLang==='ru'?'Верифицированный автор':'Verified author') + '"><i class="fas fa-check"></i></span>' : '';
                     const avatarHtml = avatar
                         ? `<img class="bp-card-avatar" src="${avatar}" alt="" loading="lazy" style="width:22px;height:22px;">`
-                        : `<span class="bp-card-avatar-placeholder" style="width:22px;height:22px;min-width:22px;"><i class="fas fa-user" style="font-size:10px;"></i></span>`;
+                        : `<span class="bp-card-avatar-placeholder" style="width:22px;height:22px;min-width:22px;"><i class="fas fa-user" style="font-size:10px;color:#fff;"></i></span>`;
                     authorHTML = `<div class="news-author" style="cursor:pointer;" onclick="openPlayerProfile('${escapeHtml(news.author)}','news')">${avatarHtml}<span class="player-author-link">${escapeHtml(news.author)}${verifiedBadge}</span></div>`;
                 }
                 let sourceHTML = '';
@@ -10090,7 +10091,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 const authorAvatar = _bpAvatarMap[authorLower];
                 const avatarHtml = authorAvatar
                     ? `<img class="bp-card-avatar" src="${authorAvatar}" alt="" loading="lazy">`
-                    : `<span class="bp-card-avatar-placeholder"><i class="fas fa-user"></i></span>`;
+                    : `<span class="bp-card-avatar-placeholder"><i class="fas fa-user" style="color:#fff;"></i></span>`;
 
                 card.innerHTML = `
                     ${isBpNew ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png" class="news-new-badge" style="position:absolute;top:8px;right:8px;z-index:10;width:28px;height:28px;image-rendering:pixelated;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));" title=\"Новое\" alt=\"new\">' : ''}
@@ -11602,7 +11603,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 // Same avatar html as buildplates
                 const avatarHtml = authorAvatar
                     ? `<img class="bp-card-avatar" src="${authorAvatar}" alt="" loading="lazy">`
-                    : `<span class="bp-card-avatar-placeholder"><i class="fas fa-user"></i></span>`;
+                    : `<span class="bp-card-avatar-placeholder"><i class="fas fa-user" style="color:#fff;"></i></span>`;
 
                 const dateStr = photo.created_at
                     ? new Date(photo.created_at).toLocaleDateString(ru ? 'ru-RU' : 'en-US', { day: '2-digit', month: 'long', year: 'numeric' }) + ', ' + new Date(photo.created_at).toLocaleTimeString(ru ? 'ru-RU' : 'en-US', { hour: '2-digit', minute: '2-digit' })
