@@ -6924,7 +6924,6 @@
             const sourceUrlRaw = (document.getElementById('nadmin-source')?.value || '').trim();
             const sourceUrl = sourceUrlRaw && (sourceUrlRaw.startsWith('http://') || sourceUrlRaw.startsWith('https://')) ? sourceUrlRaw : (sourceUrlRaw ? 'https://' + sourceUrlRaw : null);
             const newsTag = document.getElementById('nadmin-tag')?.value || '';
-            await _setNick();
             const _timeout15s = new Promise((_, reject) => setTimeout(() => reject(new Error(ru ? 'Превышено время ожидания. Проверь соединение.' : 'Request timed out. Check your connection.')), 15000));
             let insertError = null;
             try {
@@ -8083,11 +8082,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             console.error('Supabase init error:', e);
         }
 
-        async function _setNick() {
-            const nick = window.currentAccount?.nick || '';
-            await sbClient.rpc('set_config', { key: 'app.current_nick', value: nick, is_local: true }).catch(() => {});
-        }
-        window._setNick = _setNick;
 
         
         setTimeout(() => { if (typeof window.loadNews === 'function') window.loadNews(); }, 100);
