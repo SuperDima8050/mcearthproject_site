@@ -5813,10 +5813,7 @@
                 </div>
 
                 <div id="news-container" class="news-container">
-                    <div class="news-empty">
-                        <i class="fas fa-newspaper"></i>
-                        <p data-ru="Нет новостей" data-en="No news">Нет новостей</p>
-                    </div>
+                    <div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.5;display:block;margin:0 auto 8px;"><p data-ru="Нет новостей" data-en="No news">Нет новостей</p></div>
                 </div>
                 
                 <div id="news-pagination" class="news-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
@@ -6426,7 +6423,7 @@
             const newsContainer = document.getElementById('news-container');
             if (!newsContainer) return;
             if (!newsArray || newsArray.length === 0) {
-                newsContainer.innerHTML = `<div class="news-empty"><i class="fas fa-newspaper"></i><p>${currentLang === 'ru' ? 'Нет новостей' : 'No news'}</p></div>`;
+                newsContainer.innerHTML = `<div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.5;display:block;margin:0 auto 8px;"><p>${currentLang === 'ru' ? 'Нет новостей' : 'No news'}</p></div>`;
                 document.getElementById('news-pagination').style.display = 'none';
                 return;
             }
@@ -10243,8 +10240,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 if (!data || data.length === 0) {
                     gallery.innerHTML = `
                         <div class="bp-empty">
-                            <i class="fas fa-cubes"></i>
-                            <p>${currentLang === 'ru' ? 'Пока нет buildplates. Будь первым!' : 'No buildplates yet. Be the first!'}</p>
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.5;display:block;margin:0 auto 8px;"><p>${currentLang === 'ru' ? 'Пока нет buildplates. Будь первым!' : 'No buildplates yet. Be the first!'}</p>
                         </div>`;
                     return;
                 }
@@ -14284,15 +14280,19 @@ function spawnCluck() {
     })();
 })();
 </script>
-    <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Наверх">
-        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/challenges_icon.png" alt="^" onerror="this.style.display='none';this.parentElement.innerHTML+='<i class=\'fas fa-chevron-up\' style=\'color:#fff;font-size:1rem;\'></i>'">
+    <button class="back-to-top" id="back-to-top" title="Наверх">
+        <i class="fas fa-chevron-up" style="color:#fff;font-size:1.1rem;"></i>
     </button>
 <script>
         (function() {
-            const btn = document.getElementById('back-to-top');
-            if (!btn) return;
-            window.addEventListener('scroll', function() {
-                btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+            var btn = document.getElementById('back-to-top');
+            var cont = document.querySelector('.container');
+            if (!btn || !cont) return;
+            cont.addEventListener('scroll', function() {
+                btn.style.display = cont.scrollTop > 300 ? 'flex' : 'none';
+            });
+            btn.addEventListener('click', function() {
+                cont.scrollTo({ top: 0, behavior: 'smooth' });
             });
         })();
 </script>
