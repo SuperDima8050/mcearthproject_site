@@ -14288,9 +14288,11 @@ function spawnCluck() {
             var btn = document.getElementById('back-to-top');
             var cont = document.querySelector('.container');
             if (!btn || !cont) return;
-            cont.addEventListener('scroll', function() {
+            function updateBtn() {
                 btn.style.display = cont.scrollTop > 300 ? 'flex' : 'none';
-            });
+            }
+            cont.addEventListener('scroll', updateBtn);
+            updateBtn();
             btn.addEventListener('click', function() {
                 cont.scrollTo({ top: 0, behavior: 'smooth' });
             });
