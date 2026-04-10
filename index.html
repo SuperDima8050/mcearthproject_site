@@ -8016,33 +8016,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         const SUPABASE_URL = 'https://sqlylxcnoqehorlgmztm.supabase.co';
         window.SUPABASE_URL = SUPABASE_URL;
 
-        async function moderateImage(file) {
-            try {
-                const fd = new FormData();
-                fd.append('file', file);
-                const res = await fetch(
-                    `${SUPABASE_URL}/functions/v1/moderate-image`,
-                    { 
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
-                        body: fd 
-                    }
-                );
-                if (!res.ok) return { ok: true, skipped: true }; 
-                return await res.json();
-            } catch (e) {
-                console.warn('moderateImage error:', e);
-                return { ok: true, skipped: true }; 
-            }
-        }
-
-        function moderationErrorMsg(result, ru) {
-            const map = { adult: ru ? 'порно/18+' : 'adult content', violence: ru ? 'насилие' : 'violence', racy: ru ? 'непристойный контент' : 'racy content', medical: ru ? 'шокирующий медицинский контент' : 'graphic medical content' };
-            const labels = (result.violations || []).map(v => map[v] || v).join(', ');
-            return ru
-                ? `🚫 Изображение не прошло модерацию (${labels}). Загрузка запрещена.`
-                : `🚫 Image failed moderation (${labels}). Upload blocked.`;
-        }
 
         function iconUrl(filename) {
             return `${SUPABASE_URL}/storage/v1/object/public/icons/icon/${filename}`;
@@ -9737,14 +9710,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
             submitBtn.disabled = true;
             showBpStatus('', '');
-            showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 10);
-
-            const bpModResult = await moderateImage(imageFile);
-            if (!bpModResult.ok) {
-                submitBtn.disabled = false;
-                showBpStatus('error', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + moderationErrorMsg(bpModResult, ru));
-                return;
-            }
 
             showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 25);
 
@@ -11294,14 +11259,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
 
             submitBtn.disabled = true;
-            showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Проверяем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Checking image...'}`, 5);
-
-            const modResult = await moderateImage(imageFile);
-            if (!modResult.ok) {
-                submitBtn.disabled = false;
-                showStatus('error', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + moderationErrorMsg(modResult, ru));
-                return;
-            }
 
             showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 10);
 
