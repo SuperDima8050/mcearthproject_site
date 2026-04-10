@@ -6924,21 +6924,31 @@
             const sourceUrlRaw = (document.getElementById('nadmin-source')?.value || '').trim();
             const sourceUrl = sourceUrlRaw && (sourceUrlRaw.startsWith('http://') || sourceUrlRaw.startsWith('https://')) ? sourceUrlRaw : (sourceUrlRaw ? 'https://' + sourceUrlRaw : null);
             const newsTag = document.getElementById('nadmin-tag')?.value || '';
-            const { error } = await _setNick();
-            await sbClient.from('news').insert([{
-                title, title_en: titleEn || title,
-                content, content_en: contentEn || content,
-                image_url: imageUrl || null,
-                source_url: sourceUrl || null,
-                tag: newsTag || null,
-                is_draft: false,
-                author: currentAccount.nick,
-                author_verified: currentAccount.verified || false,
-                likes: 0, dislikes: 0
-            }]);
+            await _setNick();
+            const _timeout15s = new Promise((_, reject) => setTimeout(() => reject(new Error(ru ? 'Превышено время ожидания. Проверь соединение.' : 'Request timed out. Check your connection.')), 15000));
+            let insertError = null;
+            try {
+                const _res = await Promise.race([
+                    sbClient.from('news').insert([{
+                        title, title_en: titleEn || title,
+                        content, content_en: contentEn || content,
+                        image_url: imageUrl || null,
+                        source_url: sourceUrl || null,
+                        tag: newsTag || null,
+                        is_draft: false,
+                        author: currentAccount.nick,
+                        author_verified: currentAccount.verified || false,
+                        likes: 0, dislikes: 0
+                    }]),
+                    _timeout15s
+                ]);
+                insertError = _res.error;
+            } catch(e) {
+                insertError = e;
+            }
 
-            if (error) {
-                showNewsStatus('error', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (error.message || 'Error'));
+            if (insertError) {
+                showNewsStatus('error', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (insertError.message || 'Error'));
                 return;
             }
 
