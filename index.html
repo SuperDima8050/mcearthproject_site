@@ -657,22 +657,22 @@
         .discord-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 11px 22px;
+            gap: 10px;
+            padding: 15px 30px;
             background: #5865F2;
             color: white;
-            border: 2px solid #4752c4;
+            border: 3px solid #4752c4;
             border-radius: 2px;
-            font-size: 0.92rem;
-            font-weight: 700;
+            font-size: 1.05rem;
+            font-weight: 900;
             font-family: 'Minecraft', sans-serif;
             cursor: pointer;
             transition: all 0.15s;
             text-decoration: none;
-            box-shadow: 0 4px 0 #2e3799, 0 0 14px rgba(88,101,242,0.3);
+            box-shadow: 0 5px 0 #2e3799, 0 0 18px rgba(88,101,242,0.35);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+            text-shadow: 0 2px 0 rgba(0,0,0,0.4);
         }
 
         .discord-btn:hover {
@@ -5434,16 +5434,16 @@
                 <span class="theme-icon">🌙</span>
             </button>
             <button class="cookie-settings-btn" onclick="showCookieModal()" title="Cookie Settings">🍪</button>
-            <button class="donate-btn" onclick="showDonateModal()" data-ru="Пожертвовать" data-en="Donate" title="Пожертвовать">
+            <button class="donate-btn" onclick="showDonateModal()" data-ru="Поддержать" data-en="Support" title="Поддержать проект">
                 <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/minecoin_icon.png" alt="minecoin" style="width:18px;height:18px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;">
-                <span data-ru="Пожертвовать" data-en="Donate">Пожертвовать</span>
+                <span data-ru="Поддержать" data-en="Support">Поддержать</span>
             </button>
         </div>
 
         <h1>PROJECT EARTH</h1>
-        <p class="subtitle" data-ru="Сохраним Minecraft Earth после закрытия" 
-           data-en="Sustaining Minecraft Earth, beyond the closing">
-            Сохраним Minecraft Earth после закрытия
+        <p class="subtitle" data-ru="Сообщество фанатов Minecraft Earth" 
+           data-en="A Minecraft Earth fan community">
+            Сообщество фанатов Minecraft Earth
         </p>
 
         
@@ -5487,125 +5487,61 @@
         <div class="discord-banner">
             <a href="https://discord.gg/s8CsR4675S" target="_blank" class="discord-btn">
                 <i class="fab fa-discord"></i>
-                <span data-ru="Присоединяйся к нашему Discord!" data-en="Join our Discord!">
-                    Присоединяйся к нашему Discord!
+                <span data-ru="Присоединяйся к сообществу!" data-en="Join the community!">
+                    Присоединяйся к сообществу!
                 </span>
             </a>
         </div>
 
         <div class="section">
             <h2 class="section-title" data-icon="earth_icon.png">
-                <span data-ru="Что такое Project Earth?" data-en="What is Project Earth?">Что такое Project Earth?</span>
+                <span data-ru="О сообществе" data-en="About the Community">О сообществе</span>
             </h2>
             <div class="info-card">
-                <p data-ru="Minecraft Earth закрылась в 2021 — но мы её вернули. Project Earth это сервер, на котором игра снова работает. Бесплатно. Для всех."
-                   data-en="Minecraft Earth shut down in 2021 — but we brought it back. Project Earth is a server where the game works again. Free. For everyone.">
-                    Minecraft Earth закрылась в 2021 — но мы её вернули. Project Earth это сервер, на котором игра снова работает. Бесплатно. Для всех.
+                <p data-ru="Minecraft Earth — мобильная AR-игра от Mojang, закрытая в 2021 году. Мы — сообщество фанатов, которые не дали ей умереть. На этом сайте ты можешь делиться своими билдплейтами, скачивать чужие, загружать скриншоты в галерею, смотреть работы других игроков, читать новости проекта и общаться. Всё бесплатно." data-en="Minecraft Earth was a mobile AR game by Mojang, shut down in 2021. We are a community of fans who refused to let it die. On this site you can share your buildplates, download others', upload screenshots to the gallery, browse creations, read project news and connect with the community. All for free.">
+                    Minecraft Earth — мобильная AR-игра от Mojang, закрытая в 2021 году. Мы — сообщество фанатов, которые не дали ей умереть. На этом сайте ты можешь делиться своими билдплейтами, скачивать чужие, загружать скриншоты в галерею, смотреть работы других игроков, читать новости проекта и общаться. Всё бесплатно.
                 </p>
             </div>
         </div>
-
-        
 
         <div class="section">
             <h2 class="section-title" data-icon="scan_code_icon.png">
-                <span data-ru="Как это работает?" data-en="How Does It Work?">Как это работает?</span>
+                <span data-ru="Как играть?" data-en="How to Play?">Как играть?</span>
             </h2>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3 data-ru="Используем Vienna Docker" data-en="Using Vienna Docker">
-                            Используем Vienna Docker
-                        </h3>    
-                        <p data-ru="Запускаем открытый сервер Vienna — он воссоздаёт всю серверную часть игры."
-                           data-en="We run the open-source Vienna server — it recreates the full game backend.">
-                            Запускаем открытый сервер Vienna — он воссоздаёт всю серверную часть игры.
-                        </p>
+                        <h3 data-ru="Установи ZeroTier" data-en="Install ZeroTier">Установи ZeroTier</h3>
+                        <p data-ru="Скачай и установи ZeroTier на своё Android-устройство." data-en="Download and install ZeroTier on your Android device.">Скачай и установи ZeroTier на своё Android-устройство.</p>
                     </div>
                 </div>
-
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3 data-ru="Патчим клиент" data-en="Patch the Client">
-                            Патчим клиент
-                        </h3>
-                        <p data-ru="Патчим APK — игра подключается к нашему серверу вместо закрытого официального."
-                           data-en="We patch the APK — the game connects to our server instead of the closed official one.">
-                            Патчим APK — игра подключается к нашему серверу вместо закрытого официального.
-                        </p>
+                        <h3 data-ru="Введи ID сети" data-en="Enter Network ID">Введи ID сети</h3>
+                        <p id="tailscale-info" data-ru="Вступи в сеть ZeroTier, используя ID ниже:" data-en="Join the ZeroTier network using the ID below:">Вступи в сеть ZeroTier, используя ID ниже:</p>
+                        <div class="tailscale-code" style="margin-top:8px;">
+                            <p data-ru="ZeroTier Network ID:" data-en="ZeroTier Network ID:">ZeroTier Network ID:</p>
+                            <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:6px;">
+                                <code id="zerotier-id" style="font-family:monospace;font-size:0.9rem;letter-spacing:2px;text-align:center;">f3797ba7a8666aab</code>
+                                <button class="copy-btn" onclick="copyZeroTierId()" style="padding:6px 10px;font-size:0.75rem;justify-content:center;" data-ru="Скопировать" data-en="Copy"><i class="fas fa-copy"></i> <span data-ru="Скопировать" data-en="Copy">Скопировать</span></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h3 data-ru="Играйте!" data-en="Play!">
-                            Играйте!
-                        </h3>
-                        <p data-ru="Всё готово. Заходи и играй."
-                           data-en="All set. Jump in and play.">
-                            Всё готово. Заходи и играй.
-                        </p>
+                        <h3 data-ru="Скачай APK" data-en="Download APK">Скачай APK</h3>
+                        <p data-ru="Патченый APK Minecraft Earth доступен в нашем Discord-сообществе." data-en="The patched Minecraft Earth APK is available in our Discord community.">Патченый APK Minecraft Earth доступен в нашем Discord-сообществе.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title" data-icon="friend_icon.png">
-                <span data-ru="Как начать играть?" data-en="How to Start Playing?">Как начать играть?</span>
-            </h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3 data-ru="Установи Tailscale" data-en="Install Tailscale">
-                            Установи Tailscale
-                        </h3>
-                        <p data-ru="Скачай и установи Tailscale на своё устройство."
-                           data-en="Download and install Tailscale on your device.">
-                            Скачай и установи Tailscale на своё устройство.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3 data-ru="Получи приглашение" data-en="Get Invitation">
-                            Получи приглашение
-                        </h3>
-                        <p id="tailscale-info" data-ru="Напиши администратору @Kostyaniche или @Projech Earth в личные сообщения для получения приглашения в сеть Tailscale. После принятия приглашения ты сможешь подключиться к серверу."
-                           data-en="Send a private message to the administrator @Kostyaniche or @Project Earth to receive an invitation to the Tailscale network. Once you accept the invitation, you can connect to the server.">
-                            Напиши администратору @Kostyaniche или @Project Earth в личные сообщения для получения приглашения в сеть Tailscale. После принятия приглашения ты сможешь подключиться к 
-                </p>
-            </div>
-        </div>       
-                    <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3 data-ru="Скачай APK" data-en="Download APK">
-                            Скачай APK
-                        </h3>
-                        <p data-ru="Скачай наш патченый APK с Discord сервера."
-                           data-en="Download our patched APK from the Discord server.">
-                            Скачай наш патченый APK с Discord сервера.
-                        </p>
-                    </div>
-                </div>
-
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-content">
-                        <h3 data-ru="Запусти игру!" data-en="Launch the Game!">
-                            Запусти игру!
-                        </h3>
-                        <p data-ru="Установи APK и запускай. Добро пожаловать обратно! 😊"
-                           data-en="Install the APK and launch. Welcome back! 😊">
-                            Установи APK и запускай. Добро пожаловать обратно! 😊
-                        </p>
+                        <h3 data-ru="Заходи и играй!" data-en="Jump in and play!">Заходи и играй!</h3>
+                        <p data-ru="Установи APK, запусти игру — и добро пожаловать обратно! 😊" data-en="Install the APK, launch the game — and welcome back! 😊">Установи APK, запусти игру — и добро пожаловать обратно! 😊</p>
                     </div>
                 </div>
             </div>
@@ -5613,155 +5549,79 @@
 
         <div class="section">
             <h2 class="section-title" data-icon="mob_of_me_icon.png">
-                <span data-ru="Создатели" data-en="Creators">Создатели</span>
+                <span data-ru="Команда" data-en="Team">Команда</span>
             </h2>
             <div class="authors">
                 <div class="author-card" id="author-superdima">
                     <div class="author-name">SuperDima8050</div>
-                    <div class="author-role" data-ru="Модератор | Разработчик | Создатель сайта" 
-                         data-en="Moderator | Developer | Website Creator">
-                        Модератор | Разработчик | Создатель сайта
-                    </div>
+                    <div class="author-role" data-ru="Модератор | Разработчик | Создатель сайта" data-en="Moderator | Developer | Website Creator">Модератор | Разработчик | Создатель сайта</div>
                     <div class="author-links">
-                        <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@superdima8050</span>
-                        </a>
-                        <a href="https://github.com/SuperDima8050" class="link" target="_blank">
-                            <i class="fab fa-github"></i>
-                            <span>github.com/SuperDima8050</span>
-                        </a>
-                        <a href="https://mcearthproject.qzz.io" class="link" target="_blank">
-                            <i class="fas fa-globe"></i>
-                            <span>mcearthproject.qzz.io</span>
-                        </a>
+                        <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank"><i class="fab fa-discord"></i> @superdima8050</a>
+                        <a href="https://github.com/SuperDima8050" class="link" target="_blank"><i class="fab fa-github"></i> github.com/SuperDima8050</a>
+                        <a href="https://mcearthproject.qzz.io" class="link" target="_blank"><i class="fas fa-globe"></i> mcearthproject.qzz.io</a>
                     </div>
                 </div>
-
                 <div class="author-card" id="author-kostyaniche">
                     <div class="author-name">Kostyaniche</div>
-                    <div class="author-role" data-ru="Модератор | Гл. Разработчик | Хост" 
-                         data-en="Moderator | Lead Developer | Host">
-                        Модератор | Гл. Разработчик | Хост
-                    </div>
+                    <div class="author-role" data-ru="Модератор | Гл. Разработчик | Хост" data-en="Moderator | Lead Developer | Host">Модератор | Гл. Разработчик | Хост</div>
                     <div class="author-links">
-                        <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@kostyaniche</span>
-                        </a>
+                        <a href="https://discord.com/users/1285524289361154061" class="link" target="_blank"><i class="fab fa-discord"></i> @kostyaniche</a>
                     </div>
                 </div>
-
                 <div class="author-card">
                     <div class="author-name">Micheal65536</div>
-                    <div class="author-role" data-ru="Основатель" data-en="Founder">
-                        Основатель
-                    </div>
+                    <div class="author-role" data-ru="Основатель Vienna Docker" data-en="Vienna Docker Founder">Основатель Vienna Docker</div>
                     <div class="author-links">
-                        <a href="https://discord.com/users/864232575853658183" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@micheal65536</span>
-                        </a>
+                        <a href="https://discord.com/users/864232575853658183" class="link" target="_blank"><i class="fab fa-discord"></i> @micheal65536</a>
                     </div>
                 </div>
-
                 <div class="author-card">
                     <div class="author-name">Halolamemes</div>
-                    <div class="author-role" data-ru="Помощник" data-en="Assistant">
-                        Помощник
-                    </div>
+                    <div class="author-role" data-ru="Помощник" data-en="Assistant">Помощник</div>
                     <div class="author-links">
-                        <a href="https://discord.com/users/1122063385811496970" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@halolamemes</span>
-                        </a>
+                        <a href="https://discord.com/users/1122063385811496970" class="link" target="_blank"><i class="fab fa-discord"></i> @halolamemes</a>
                     </div>
                 </div>
-                
                 <div class="author-card">
                     <div class="author-name">Prostofanatdeltarune</div>
-                    <div class="author-role" data-ru="Модератор" data-en="Moderator">
-                        Модератор
-                    </div>
+                    <div class="author-role" data-ru="Модератор" data-en="Moderator">Модератор</div>
                     <div class="author-links">
-                        <a href="https://discord.com/users/1438966243276099664" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@prostofanatdeltarune</span>
-                        </a>
+                        <a href="https://discord.com/users/1438966243276099664" class="link" target="_blank"><i class="fab fa-discord"></i> @prostofanatdeltarune</a>
                     </div>
                 </div>
-
                 <div class="author-card">
                     <div class="author-name">begugla0097</div>
-                    <div class="author-role" data-ru="Модератор" data-en="Moderator">
-                        Модератор
-                    </div>
+                    <div class="author-role" data-ru="Модератор" data-en="Moderator">Модератор</div>
                     <div class="author-links">
-                        <a href="https://discord.com/users/1346180765020454947" class="link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>@begugla0097</span>
-                        </a>
+                        <a href="https://discord.com/users/1346180765020454947" class="link" target="_blank"><i class="fab fa-discord"></i> @begugla0097</a>
                     </div>
                 </div>
-
             </div>
         </div>
-            
+
         <div class="section">
             <h2 class="section-title" data-icon="journal_open_icon.png">
                 <span data-ru="Часто задаваемые вопросы" data-en="FAQ">Часто задаваемые вопросы</span>
             </h2>
-            
             <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-question-circle"></i>
-                    <span data-ru="Это бесплатно?" data-en="Is it free?">
-                        Это бесплатно?
-                    </span>
-                </div>
-                <div class="faq-answer" data-ru="Да! Project Earth полностью бесплатен для всех игроков." 
-                     data-en="Yes! Project Earth is completely free for all players.">
-                    Да! Project Earth полностью бесплатен для всех игроков.
-                </div>
+                <div class="faq-question"><i class="fas fa-question-circle"></i><span data-ru="Это бесплатно?" data-en="Is it free?">Это бесплатно?</span></div>
+                <div class="faq-answer" data-ru="Да! Сайт, сервер и всё сообщество — полностью бесплатны." data-en="Yes! The site, server and the whole community are completely free.">Да! Сайт, сервер и всё сообщество — полностью бесплатны.</div>
             </div>
-
             <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-question-circle"></i>
-                    <span data-ru="Что такое Project Genoa?" data-en="What is Project Genoa?">
-                        Что такое Project Genoa?
-                    </span>
-                </div>
-                <div class="faq-answer" data-ru="Project Genoa - это открытый проект для воссоздания серверной части Minecraft Earth. Мы используем Vienna Docker для работы нашего сервера." 
-                     data-en="Project Genoa is an open-source project to recreate the server-side of Minecraft Earth. We use their Vienna Docker to run our server">
-                    Project Genoa - это открытый проект для воссоздания серверной части Minecraft Earth. Мы используем их Vienna Docker для работы нашего сервера.
-                </div>
+                <div class="faq-question"><i class="fas fa-question-circle"></i><span data-ru="Что такое Project Genoa?" data-en="What is Project Genoa?">Что такое Project Genoa?</span></div>
+                <div class="faq-answer" data-ru="Project Genoa — открытый проект по воссозданию серверной части Minecraft Earth. Мы используем их Vienna Docker для запуска сервера." data-en="Project Genoa is an open-source project to recreate the Minecraft Earth backend. We use their Vienna Docker to run the server.">Project Genoa — открытый проект по воссозданию серверной части Minecraft Earth. Мы используем их Vienna Docker для запуска сервера.</div>
             </div>
-
             <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-question-circle"></i>
-                    <span data-ru="Где скачать APK?" data-en="Where to download APK?">
-                        Где скачать APK?
-                    </span>
-                </div>
-                <div class="faq-answer" data-ru="Модифицированный APK доступен на нашем Discord сервере. Присоединяйтесь и следуйте инструкциям!" 
-                     data-en="The modified APK is available on our Discord server. Join and follow the instructions!">
-                    Модифицированный APK доступен на нашем Discord сервере. Присоединяйтесь и следуйте инструкциям!
-                </div>
+                <div class="faq-question"><i class="fas fa-question-circle"></i><span data-ru="Где скачать APK?" data-en="Where to download APK?">Где скачать APK?</span></div>
+                <div class="faq-answer" data-ru="Патченый APK доступен в нашем Discord-сообществе. Вступай и следуй инструкциям!" data-en="The patched APK is available in our Discord community. Join and follow the instructions!">Патченый APK доступен в нашем Discord-сообществе. Вступай и следуй инструкциям!</div>
             </div>
-
             <div class="faq-item">
-                <div class="faq-question">
-                    <i class="fas fa-question-circle"></i>
-                    <span data-ru="Нужен ли мне Tailscale?" data-en="Do I need Tailscale?">
-                        Нужен ли мне Tailscale?
-                    </span>
-                </div>
-                <div class="faq-answer" data-ru="Да! Tailscale необходим для подключения к нашему серверу. Он создаёт безопасную виртуальную сеть для игры. Напишите администратору для получения приглашения." 
-                     data-en="Yes! Tailscale is required to connect to our server. It creates a secure virtual network for the game. Contact the administrator to get an invitation.">
-                    Да! Tailscale необходим для подключения к нашему серверу. Он создаёт безопасную виртуальную сеть для игры. Напишите администратору для получения приглашения.
-                </div>
+                <div class="faq-question"><i class="fas fa-question-circle"></i><span data-ru="Зачем нужен ZeroTier?" data-en="Why do I need ZeroTier?">Зачем нужен ZeroTier?</span></div>
+                <div class="faq-answer" data-ru="ZeroTier создаёт виртуальную сеть через которую игра подключается к серверу. Введи Network ID из раздела &quot;Как играть?&quot; и вступи в сеть." data-en="ZeroTier creates a virtual network through which the game connects to the server. Enter the Network ID from the &quot;How to Play?&quot; section and join the network.">ZeroTier создаёт виртуальную сеть через которую игра подключается к серверу. Введи Network ID из раздела «Как играть?» и вступи в сеть.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-question-circle"></i><span data-ru="Можно ли играть на iOS?" data-en="Can I play on iOS?">Можно ли играть на iOS?</span></div>
+                <div class="faq-answer" data-ru="Пока только Android. iOS не поддерживает установку сторонних APK." data-en="Android only for now. iOS does not support sideloading APKs.">Пока только Android. iOS не поддерживает установку сторонних APK.</div>
             </div>
         </div>
 
@@ -5770,33 +5630,14 @@
                 <span data-ru="Полезные ссылки" data-en="Useful Links">Полезные ссылки</span>
             </h2>
             <div class="info-card">
-                <p style="margin-bottom: 15px;">
-                    <strong>Project Genoa (API):</strong><br>
-                    <a href="https://github.com/Project-Genoa" target="_blank" style="color: #667eea;">
-                        <i class="fab fa-github"></i> github.com/Project-Genoa
-                    </a>
-                </p>
-                <p style="margin-bottom: 15px;">
-                    <strong data-ru="Наш Discord:" data-en="Our Discord:">Наш Discord:</strong><br>
-                    <a href="https://discord.gg/s8CsR4675S" target="_blank" style="color: #5865F2;">
-                        <i class="fab fa-discord"></i> discord.gg/s8CsR4675S
-                    </a>
-                </p>
-                <p>
-                    <strong data-ru="Reddit сообщество:" data-en="Reddit Community:">Reddit сообщество:</strong><br>
-                    <a href="https://reddit.com/r/ProjectEarth" target="_blank" style="color: #FF4500;">
-                        <i class="fab fa-reddit-alien"></i> r/ProjectEarth
-                    </a>
-                </p>
-                <p style="margin-top: 15px;">
-                    <strong data-ru="Наш YouTube:" data-en="Our YouTube:">Наш YouTube:</strong><br>
-                    <a href="https://www.youtube.com/@ProjectReviverminecraft" target="_blank" style="color: #FF0000;">
-                        <i class="fab fa-youtube"></i> @ProjectReviverminecraft
-                    </a>
-                </p>
+                <p style="margin-bottom:15px;"><strong>Project Genoa (Vienna Docker):</strong><br><a href="https://github.com/Project-Genoa" target="_blank" style="color:#667eea;"><i class="fab fa-github"></i> github.com/Project-Genoa</a></p>
+                <p style="margin-bottom:15px;"><strong data-ru="Наше Discord-сообщество:" data-en="Our Discord Community:">Наше Discord-сообщество:</strong><br><a href="https://discord.gg/s8CsR4675S" target="_blank" style="color:#5865F2;"><i class="fab fa-discord"></i> discord.gg/s8CsR4675S</a></p>
+                <p style="margin-bottom:15px;"><strong data-ru="Reddit:" data-en="Reddit:">Reddit:</strong><br><a href="https://reddit.com/r/ProjectEarth" target="_blank" style="color:#FF4500;"><i class="fab fa-reddit-alien"></i> r/ProjectEarth</a></p>
+                <p style="margin-bottom:15px;"><strong data-ru="YouTube:" data-en="YouTube:">YouTube:</strong><br><a href="https://www.youtube.com/@ProjectReviverminecraft" target="_blank" style="color:#FF0000;"><i class="fab fa-youtube"></i> @ProjectReviverminecraft</a></p>
+                <p><strong data-ru="Петиция Minecraft:" data-en="Minecraft Petition:">Петиция Minecraft:</strong><br><a href="https://feedback.minecraft.net/hc/en-us/community/posts/44621084883341-Bring-Back-Minecraft-Earth" target="_blank" style="color:#6b8e23;display:inline-flex;align-items:center;gap:6px;"><img src="https://www.google.com/s2/favicons?domain=feedback.minecraft.net&sz=16" alt="" style="width:16px;height:16px;vertical-align:middle;image-rendering:pixelated;"> <span data-ru="Проголосуй за возврат Minecraft Earth!" data-en="Vote to Bring Back Minecraft Earth!">Проголосуй за возврат Minecraft Earth!</span></a></p>
             </div>
         </div>
-        </div>
+                </div>
         
 
         
@@ -8740,6 +8581,16 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             _lastRefCount = count;
             renderRefXPBar(count);
         }
+
+        window.copyZeroTierId = function() {
+            const id = document.getElementById('zerotier-id')?.textContent || '';
+            navigator.clipboard.writeText(id).then(() => {
+                showInfoBanner((currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ZeroTier ID скопирован!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ZeroTier ID copied!'), 'success');
+            }).catch(() => {
+                const el = document.getElementById('zerotier-id');
+                if (el) { const r = document.createRange(); r.selectNode(el); window.getSelection().removeAllRanges(); window.getSelection().addRange(r); document.execCommand('copy'); }
+            });
+        };
 
         window.copyRefLink = function() {
             const input = document.getElementById('ref-link-input');
@@ -12578,13 +12429,13 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                     <span data-ru="Поддержать проект" data-en="Support the project">Поддержать проект</span>
                     <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;" data-ru="⠿ тащи" data-en="⠿ drag">⠿ тащи</span>
                 </div>
-                <div class="donate-modal-desc" data-ru="Пожертвования помогают нам поддерживать сервер и развивать проект. Спасибо! ❤️" data-en="Donations help us keep the server running and develop the project. Thank you! ❤️">
-                    Пожертвования помогают нам поддерживать сервер и развивать проект. Спасибо! ❤️
+                <div class="donate-modal-desc" data-ru="Поддержи разработку сайта и развитие сообщества. Любая сумма важна. Спасибо! ❤️" data-en="Support the website development and community growth. Every contribution matters. Thank you! ❤️">
+                    Поддержи разработку сайта и развитие сообщества. Любая сумма важна. Спасибо! ❤️
                 </div>
                 <div class="donate-modal-options">
                     <a class="donate-option" href="https://www.donationalerts.com/r/superdima8051" target="_blank" rel="noopener">
                         <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/minecoin_icon.png" style="width:20px;height:20px;image-rendering:pixelated;object-fit:contain;">
-                        <span data-ru="Пожертвовать через DonationAlerts" data-en="Donate via DonationAlerts">Пожертвовать через DonationAlerts</span>
+                        <span data-ru="Задонатить через DonationAlerts" data-en="Donate via DonationAlerts">Задонатить через DonationAlerts</span>
                     </a>
                 </div>
                 <button class="donate-modal-close" onclick="hideDonateModal()" data-ru="Закрыть" data-en="Close">Закрыть</button>
