@@ -4686,16 +4686,29 @@
             }
             
             .lb-tabs {
-                flex-wrap: wrap;
+                flex-direction: column;
+                border-bottom: none;
             }
             .lb-tab {
-                flex: 1 1 30%;
-                min-width: 0;
+                flex: none;
+                width: 100%;
                 text-align: center;
                 justify-content: center;
-                font-size: 0.68rem;
-                padding: 8px 6px;
+                font-size: 0.75rem;
+                padding: 9px 12px;
+                letter-spacing: 0;
+                white-space: nowrap;
+                overflow: visible;
+                border-right: 3px solid #8b7355;
+                border-bottom: none !important;
+                border-radius: 0 !important;
             }
+            .lb-tab:first-child { border-radius: 4px 4px 0 0 !important; }
+            .lb-tab:last-child  { border-radius: 0 0 4px 4px !important; border-bottom: 3px solid #8b7355 !important; }
+            .lb-tab i { display: inline; }
+            body.dark-theme .lb-tab { background: #2a2a2a; }
+            body.dark-theme .lb-tab:last-child { border-bottom-color: #444 !important; }
+            body.dark-theme .lb-tab { border-right-color: #444; }
             
             .ref-link-input {
                 min-width: 0;
