@@ -5523,8 +5523,8 @@
                         <p id="tailscale-info" data-ru="Вступи в сеть ZeroTier, используя ID ниже:" data-en="Join the ZeroTier network using the ID below:">Вступи в сеть ZeroTier, используя ID ниже:</p>
                         <div class="tailscale-code" style="margin-top:8px;">
                             <p data-ru="ZeroTier Network ID:" data-en="ZeroTier Network ID:">ZeroTier Network ID:</p>
-                            <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:6px;">
-                                <code id="zerotier-id" style="font-family:monospace;font-size:0.9rem;letter-spacing:2px;text-align:center;">3b19b3a716030d76</code>
+                            <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:6px;width:100%;">
+                                <code id="zerotier-id" style="font-family:'Minecraft',monospace;font-size:1rem;letter-spacing:3px;text-align:center;display:block;width:100%;">3b19b3a716030d76</code>
                                 <button class="copy-btn" onclick="copyZeroTierId()" style="padding:6px 10px;font-size:0.75rem;justify-content:center;" data-ru="Скопировать" data-en="Copy"><i class="fas fa-copy"></i> <span data-ru="Скопировать" data-en="Copy">Скопировать</span></button>
                             </div>
                         </div>
@@ -9536,7 +9536,17 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     if (raw) {
                         const s = (typeof _decryptSession === 'function') ? await _decryptSession(raw) : JSON.parse(raw);
                         if (s && s.nick) {
-                            
+                            // Проверяем email_verified из БД при восстановлении сессии
+                            let _dbEmailVerified = false;
+                            let _dbBanned = false;
+                            try {
+                                await new Promise(r => { let t=0; const i=setInterval(()=>{ t++; if(window.sbClient||t>20){clearInterval(i);r();} },200); });
+                                if (window.sbClient) {
+                                    const { data: _dbAcc } = await window.sbClient.from('accounts').select('email_verified,banned').ilike('nick', s.nick).limit(1);
+                                    if (_dbAcc && _dbAcc[0]) { _dbEmailVerified = !!_dbAcc[0].email_verified; _dbBanned = !!_dbAcc[0].banned; }
+                                }
+                            } catch(e) {}
+                            if (!_dbEmailVerified || _dbBanned) { localStorage.removeItem('bp_session'); return; }
                             if (!window._sbVotes) {
                                 window._sbVotes = {
                                     bp_likes: {},
@@ -9548,7 +9558,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                                     news_likes: {}
                                 };
                             }
-                            setLoggedIn(s.nick, s.verified, s.avatar_url || null, s.email || null, s.email_verified || false, s.join_date || null);
+                            setLoggedIn(s.nick, s.verified, s.avatar_url || null, s.email || null, _dbEmailVerified, s.join_date || null);
                         }
                     }
                 } catch(e) {}
@@ -13013,6 +13023,12 @@ async function loadCurrentSubdomain(force = false) {
                 return;
             }
             overlay.remove();
+            if (!acc.email_verified) {
+                showAuthStatus('err', ru
+                    ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Сначала подтверди email!'
+                    : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Please verify your email first!');
+                return;
+            }
             showAuthStatus('ok', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Вход выполнен!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Logged in!');
             await recordReferral(acc.nick);
             setLoggedIn(acc.nick, acc.verified, acc.avatar_url, acc.email, acc.email_verified, acc.created_at);
