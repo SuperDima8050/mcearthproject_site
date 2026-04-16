@@ -2701,21 +2701,21 @@
         }
 
         .bp-file-label.gallery-upload {
-            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-            border-color: #9c27b0;
+            background: linear-gradient(135deg, #f0ede0 0%, #e8e0c8 100%);
+            border-color: #8b7355;
         }
 
         .bp-file-label.gallery-upload:hover {
-            background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%);
-            border-color: #7b1fa2;
+            background: linear-gradient(135deg, #e8e0c8 0%, #d8d0b0 100%);
+            border-color: #6b8e23;
         }
 
         .bp-file-label.gallery-upload i {
-            color: #9c27b0;
+            color: #6b8e23;
         }
 
         .bp-file-label.gallery-upload:hover i {
-            color: #7b1fa2;
+            color: #4a5d23;
         }
 
         
@@ -10275,10 +10275,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
                         <div style="display:flex;gap:10px;">
                             <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                                <img src="https:
+                                <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
                             </button>
                             <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-edit-modal').remove()">
-                                ${ru ? 'Отмена' : 'Cancel'}
+                                <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
                             </button>
                         </div>
                     </div>
@@ -11773,12 +11773,15 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                             </div>
                         </div>
                         <div id="gl-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
-                        <div style="display:flex;gap:10px;">
-                            <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                                <img src="https:
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                            <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:2;margin-top:0;font-size:0.85rem;padding:10px;min-width:120px;">
+                                <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
                             </button>
-                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
-                                ${ru ? 'Отмена' : 'Cancel'}
+                            <button class="bp-submit-btn" id="gl-edit-clear-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;min-width:90px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#7f0000;box-shadow:0 5px 0 #4a0000;" title="${ru?'Убрать выбранное изображение':'Clear selected image'}">
+                                <i class="fas fa-trash-alt"></i> ${ru ? 'Очистить' : 'Clear'}
+                            </button>
+                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;min-width:90px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
+                                <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
                             </button>
                         </div>
                     </div>
@@ -11882,6 +11885,14 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             
             const titleInput = document.getElementById('gl-edit-title');
             titleInput.focus(); titleInput.select();
+            // Кнопка «Очистить» — сбрасывает выбранное изображение
+            document.getElementById('gl-edit-clear-btn').addEventListener('click', () => {
+                imageInput.value = '';
+                imageName.innerHTML = '';
+                imageName.style.color = '';
+                const ru = currentLang === 'ru';
+                showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Изображение сброшено' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Image cleared', 'info');
+            });
             document.getElementById('gl-edit-save-btn').addEventListener('click', async () => {
                 const newTitle = titleInput.value.trim();
                 const statusEl = document.getElementById('gl-edit-status');
