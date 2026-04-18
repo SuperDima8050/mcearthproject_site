@@ -13759,76 +13759,6 @@ async function doDeleteSubdomain() {
 #mw-go:active svg { transform: translateX(3px) translateY(-3px) scale(.9); }
 #mw-go:disabled { background: #121a08; cursor: default; opacity: .4; }
 #mw-go svg { transition: transform .14s cubic-bezier(.3,1.5,.5,1); display: block; }
-
-/* Image attach button */
-#mw-img-btn {
-    width: 40px;
-    background: #0a0602;
-    border: none;
-    border-left: 2px solid #1a0e04;
-    border-top: 2px solid #1a0e04;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: background .1s;
-    position: relative;
-}
-#mw-img-btn:hover { background: #15100a; }
-#mw-img-btn svg { transition: transform .1s; }
-#mw-img-btn:hover svg { transform: scale(1.15); }
-/* has-img style removed — button stays neutral */
-
-/* Image preview bar above input */
-#mw-img-preview {
-    display: none;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    background: #0e0a04;
-    border-top: 2px solid #2a1808;
-    border-bottom: 1px solid #1a0e04;
-    flex-shrink: 0;
-}
-#mw-img-preview.show { display: flex; }
-#mw-img-thumb {
-    width: 40px; height: 40px;
-    object-fit: cover;
-    border: 2px solid #3a2808;
-    border-radius: 1px;
-    image-rendering: pixelated;
-    flex-shrink: 0;
-}
-#mw-img-preview-name {
-    flex: 1;
-    font-family: 'Minecraft', monospace;
-    font-size: 7.5px;
-    color: #b08040;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    letter-spacing: .03em;
-}
-#mw-img-remove {
-    background: none; border: none;
-    color: #6a3a18; cursor: pointer;
-    font-size: 14px; line-height: 1;
-    padding: 2px 4px;
-    flex-shrink: 0;
-    transition: color .1s;
-}
-#mw-img-remove:hover { color: #e87040; }
-
-/* Image in chat bubble */
-.mw-chat-img {
-    max-width: 180px;
-    max-height: 150px;
-    border: 2px solid #3a2808;
-    border-radius: 2px;
-    display: block;
-    margin-bottom: 4px;
-    cursor: zoom-in;
-}
-.mw-row.user .mw-chat-img { border-color: #3a5018; }
 </style>
 
 <img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="" style="display:none;">
@@ -13858,27 +13788,7 @@ async function doDeleteSubdomain() {
     <div id="mw-feed"></div>
 
     
-    <input type="file" id="mw-img-input" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none;" onchange="mwImageSelected(this)">
-
-    <!-- Image preview strip (above bar) -->
-    <div id="mw-img-preview">
-        <img id="mw-img-thumb" src="" alt="preview">
-        <span id="mw-img-preview-name"></span>
-        <button id="mw-img-remove" onclick="mwRemoveImg()" title="Убрать">&#x2715;</button>
-    </div>
-
     <div id="mw-bar">
-        <!-- Attach image button -->
-        <button id="mw-img-btn" onclick="document.getElementById('mw-img-input').click()" title="Прикрепить изображение">
-            <svg width="18" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-                <rect x="1" y="2" width="14" height="10" rx="0" fill="none" stroke="#4a3010" stroke-width="1.5"/>
-                <rect x="2" y="3" width="12" height="8" fill="#1a1008"/>
-                <!-- mountain -->
-                <polygon points="2,10 5,6 8,9 10,7 14,11 2,11" fill="#2a4010"/>
-                <!-- sun -->
-                <rect x="11" y="4" width="2" height="2" fill="#e8b830"/>
-            </svg>
-        </button>
         <input id="mw-inp" placeholder="Спроси что-нибудь..." maxlength="400"
             onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();mwSend();}">
         <button id="mw-go" onclick="mwSend()">
@@ -13918,7 +13828,6 @@ const ANIM_MAP = {
 };
 
 let open=false, busy=false, first=true, hist=[], timer=null, idx=0, curAnim='greet', msgIdx=0;
-let _mwImgBase64=null, _mwImgMime='image/jpeg', _mwImgName='';
 const cyc=['greet','converse','encourage','celebrate'];
 const $=id=>document.getElementById(id);
 
@@ -14014,91 +13923,41 @@ window.mwSend=async function(){
     }
     const inp=$('mw-inp');
     const txt=inp.value.trim();
-    const hasImg = !!_mwImgBase64;
-    if(!txt && !hasImg) return;
+    if(!txt) return;
     inp.value='';
+    addUser(txt);
+    hist.push({role:'user',content:txt});
 
-    // Capture image before clearing
-    const imgB64 = _mwImgBase64;
-    const imgMime = _mwImgMime;
-    mwRemoveImg();
-
-    // Display user message (text + optional image)
-    addUser(txt, imgB64, imgMime);
-
-    // Build history entry
-    if(hasImg){
-        const contentArr = [];
-        if(txt) contentArr.push({type:'text',text:txt});
-        contentArr.push({type:'image_url',image_url:{url:'data:'+imgMime+';base64,'+imgB64}});
-        hist.push({role:'user',content:contentArr});
-    } else {
-        hist.push({role:'user',content:txt});
-    }
-
-    busy=true; $('mw-go').disabled=true; $('mw-img-btn').disabled=true;
+    busy=true; $('mw-go').disabled=true;
     stopCyc(); setAnim('converse'); setSt(currentLang==='ru'?'думает…':'thinking…',true);
     const tid=addTyping();
 
     let full='', success=false;
     try{
-        let res;
-        if(hasImg){
-            // Vision mode — Pollinations.ai, non-streaming (streaming breaks with base64 images)
-            // Build messages: for history entries that had images, keep only text to save tokens
-            const histForVision = hist.map(m => {
-                if(Array.isArray(m.content)){
-                    // Extract just the text parts from multimodal history entries
-                    const textParts = m.content.filter(c=>c.type==='text').map(c=>c.text).join(' ');
-                    return {role: m.role==='assistant'?'assistant':'user', content: textParts || '[image]'};
-                }
-                return {role: m.role==='assistant'?'assistant':'user', content: m.content};
-            });
-            res = await fetch('https://text.pollinations.ai/', {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({
-                    model:'openai',
-                    messages: histForVision,
-                    max_tokens:800,
-                    stream:false
-                })
-            });
-            if(!res.ok){const e=await res.json().catch(()=>({})); const msg=typeof e.error==='string'?e.error:(typeof e.message==='string'?e.message:('HTTP '+res.status)); throw new Error(msg);}
-            const data = await res.json();
-            full = data.choices?.[0]?.message?.content || '';
-            if(!full) throw new Error('empty response');
-            removeEl(tid);
-            const bub=addBot('');
-            if(typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(full);
-            else bub.textContent=full;
-            scrollFeed();
-            success=true;
-        } else {
-            const messages=hist.map(m=>({role:m.role==='assistant'?'assistant':'user',content:m.content}));
-            res=await fetch(MERL_FN,{
-                method:'POST',
-                headers:{'Content-Type':'application/json','apikey':window.SUPABASE_ANON_KEY||'','Authorization':'Bearer '+(window.SUPABASE_ANON_KEY||'')},
-                body:JSON.stringify({messages,model:MODEL,max_tokens:800})
-            });
-            if(!res.ok){const e=await res.json().catch(()=>({})); const msg=typeof e.error==='string'?e.error:(typeof e.message==='string'?e.message:('HTTP '+res.status)); throw new Error(msg);}
-            const reader=res.body.getReader(), dec=new TextDecoder();
-            full='';
-            removeEl(tid);
-            const bub=addBot('');
-            while(true){
-                const {done,value}=await reader.read();
-                if(done) break;
-                for(const line of dec.decode(value,{stream:true}).split('\n')){
-                    if(!line.startsWith('data:')) continue;
-                    const j=line.slice(5).trim();
-                    if(j==='[DONE]') break;
-                    try{ const d=JSON.parse(j); const t=d.choices?.[0]?.delta?.content; if(t){full+=t;bub.textContent=full;scrollFeed();} }catch(_){}
-                }
+        const messages=hist.map(m=>({role:m.role==='assistant'?'assistant':'user',content:m.content}));
+        const res=await fetch(MERL_FN,{
+            method:'POST',
+            headers:{'Content-Type':'application/json','apikey':window.SUPABASE_ANON_KEY||'','Authorization':'Bearer '+(window.SUPABASE_ANON_KEY||'')},
+            body:JSON.stringify({messages,model:MODEL,max_tokens:800})
+        });
+        if(!res.ok){const e=await res.json().catch(()=>({})); const msg=typeof e.error==='string'?e.error:(typeof e.message==='string'?e.message:('HTTP '+res.status)); throw new Error(msg);}
+        const reader=res.body.getReader(), dec=new TextDecoder();
+        full='';
+        removeEl(tid);
+        const bub=addBot('');
+        while(true){
+            const {done,value}=await reader.read();
+            if(done) break;
+            for(const line of dec.decode(value,{stream:true}).split('\n')){
+                if(!line.startsWith('data:')) continue;
+                const j=line.slice(5).trim();
+                if(j==='[DONE]') break;
+                try{ const d=JSON.parse(j); const txt=d.choices?.[0]?.delta?.content; if(txt){full+=txt;bub.textContent=full;scrollFeed();} }catch(_){}
             }
-            if(!full) throw new Error('empty response');
-            if(typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(bub.textContent);
-            success=true;
+        }
+        if(!full) throw new Error('empty response');
+        if(typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(bub.textContent);
+        success=true;
     }catch(err){
         removeEl(tid);
         const is429=err.message&&(err.message.includes('429')||err.message.toLowerCase().includes('quota')||err.message.toLowerCase().includes('too many'));
@@ -14115,14 +13974,6 @@ window.mwSend=async function(){
     }
     if(success){
         hist.push({role:'assistant',content:full});
-        // Strip base64 image data from history to keep payloads small
-        hist = hist.map(m => {
-            if(Array.isArray(m.content)){
-                const textParts = m.content.filter(c=>c.type==='text').map(c=>c.text).join(' ');
-                return {role:m.role, content: textParts || '[image sent]'};
-            }
-            return m;
-        });
         if(hist.length>20) hist=hist.slice(-20);
         const lc=full.toLowerCase();
         let an='converse';
@@ -14132,20 +13983,16 @@ window.mwSend=async function(){
         setAnim(an);
         setTimeout(()=>{ startCyc(); },2000);
     }
-    busy=false; $('mw-go').disabled=false; $('mw-img-btn').disabled=false; setSt(currentLang==='ru'?'онлайн':'online',false);
+    busy=false; $('mw-go').disabled=false; setSt(currentLang==='ru'?'онлайн':'online',false);
 };
 
-function addUser(txt, imgB64, imgMime){
+function addUser(txt){
     const row=document.createElement('div');
     row.className='mw-row user';
-    let imgHtml='';
-    if(imgB64){
-        imgHtml=`<img class="mw-chat-img" src="data:${imgMime};base64,${imgB64}" alt="image" onclick="mwZoomImg(this.src)">`;
-    }
     row.innerHTML=`
         <div class="mw-bubble-wrap">
             <div class="mw-sender">${currentLang==='ru'?'Вы':'You'}</div>
-            <div class="mw-bubble">${imgHtml}${txt?esc(txt):''}</div>
+            <div class="mw-bubble">${esc(txt)}</div>
         </div>`;
     $('mw-feed').appendChild(row);
     scrollFeed();
@@ -14197,66 +14044,6 @@ function startCyc(){
 }
 function stopCyc(){ if(timer){clearInterval(timer);timer=null;} }
 function esc(t){ const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
-
-// ── Image upload helpers ──────────────────────────────────────────────────────
-window.mwImageSelected = function(input) {
-    const file = input.files && input.files[0];
-    if (!file) return;
-    const maxMB = 8;
-    if (file.size > maxMB * 1024 * 1024) {
-        const ru = currentLang === 'ru';
-        addBot(ru ? '⚠ Изображение слишком большое (макс. ' + maxMB + ' МБ).' : '⚠ Image too large (max ' + maxMB + ' MB).', true);
-        input.value = '';
-        return;
-    }
-    _mwImgMime = file.type || 'image/jpeg';
-    _mwImgName = file.name;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const dataUrl = e.target.result;
-        _mwImgBase64 = dataUrl.split(',')[1];
-        // Show preview strip
-        const thumb = $('mw-img-thumb');
-        const name  = $('mw-img-preview-name');
-        const prev  = $('mw-img-preview');
-        const btn   = $('mw-img-btn');
-        if (thumb) thumb.src = dataUrl;
-        if (name)  name.textContent = file.name;
-        if (prev)  prev.classList.add('show');
-        /* button stays neutral */
-        // Focus text input
-        const inp = $('mw-inp');
-        if (inp && !inp.disabled) inp.focus();
-    };
-    reader.readAsDataURL(file);
-    input.value = '';
-};
-
-window.mwRemoveImg = function() {
-    _mwImgBase64 = null;
-    _mwImgMime = 'image/jpeg';
-    _mwImgName = '';
-    const prev = $('mw-img-preview');
-    const btn  = $('mw-img-btn');
-    const thumb= $('mw-img-thumb');
-    if (prev)  prev.classList.remove('show');
-    /* nothing */
-    if (thumb) thumb.src = '';
-};
-
-window.mwZoomImg = function(src) {
-    const ex = document.getElementById('mw-zoom-overlay');
-    if (ex) { ex.remove(); return; }
-    const ov = document.createElement('div');
-    ov.id = 'mw-zoom-overlay';
-    ov.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:999999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
-    const img = document.createElement('img');
-    img.src = src;
-    img.style.cssText = 'max-width:92vw;max-height:90vh;border:3px solid #3a2808;border-radius:2px;image-rendering:auto;';
-    ov.appendChild(img);
-    ov.onclick = () => ov.remove();
-    document.body.appendChild(ov);
-};
 })();
 
 (function() {
