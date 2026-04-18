@@ -13776,8 +13776,7 @@ async function doDeleteSubdomain() {
 #mw-img-btn:hover { background: #15100a; }
 #mw-img-btn svg { transition: transform .1s; }
 #mw-img-btn:hover svg { transform: scale(1.15); }
-#mw-img-btn.has-img { background: #0a1e04; }
-#mw-img-btn.has-img svg rect, #mw-img-btn.has-img svg polygon { fill: #7fd040; }
+/* has-img style removed — button stays neutral */
 
 /* Image preview bar above input */
 #mw-img-preview {
@@ -13859,16 +13858,9 @@ async function doDeleteSubdomain() {
     <div id="mw-feed"></div>
 
     
-    <!-- Image preview strip -->
-    <div id="mw-img-preview">
-        <img id="mw-img-thumb" src="" alt="preview">
-        <span id="mw-img-preview-name"></span>
-        <button id="mw-img-remove" onclick="mwRemoveImg()" title="Убрать">✕</button>
-    </div>
-
     <input type="file" id="mw-img-input" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none;" onchange="mwImageSelected(this)">
 
-    <!-- Image preview strip -->
+    <!-- Image preview strip (above bar) -->
     <div id="mw-img-preview">
         <img id="mw-img-thumb" src="" alt="preview">
         <span id="mw-img-preview-name"></span>
@@ -14052,18 +14044,36 @@ window.mwSend=async function(){
     try{
         let res;
         if(hasImg){
-            // Vision mode — Pollinations.ai with openai model (supports vision)
-            const messages = hist.map(m => ({role: m.role==='assistant'?'assistant':'user', content: m.content}));
+            // Vision mode — Pollinations.ai, non-streaming (streaming breaks with base64 images)
+            // Build messages: for history entries that had images, keep only text to save tokens
+            const histForVision = hist.map(m => {
+                if(Array.isArray(m.content)){
+                    // Extract just the text parts from multimodal history entries
+                    const textParts = m.content.filter(c=>c.type==='text').map(c=>c.text).join(' ');
+                    return {role: m.role==='assistant'?'assistant':'user', content: textParts || '[image]'};
+                }
+                return {role: m.role==='assistant'?'assistant':'user', content: m.content};
+            });
             res = await fetch('https://text.pollinations.ai/', {
                 method:'POST',
                 headers:{'Content-Type':'application/json'},
                 body:JSON.stringify({
                     model:'openai',
-                    messages,
+                    messages: histForVision,
                     max_tokens:800,
-                    stream:true
+                    stream:false
                 })
             });
+            if(!res.ok){const e=await res.json().catch(()=>({})); const msg=typeof e.error==='string'?e.error:(typeof e.message==='string'?e.message:('HTTP '+res.status)); throw new Error(msg);}
+            const data = await res.json();
+            full = data.choices?.[0]?.message?.content || '';
+            if(!full) throw new Error('empty response');
+            removeEl(tid);
+            const bub=addBot('');
+            if(typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(full);
+            else bub.textContent=full;
+            scrollFeed();
+            success=true;
         } else {
             const messages=hist.map(m=>({role:m.role==='assistant'?'assistant':'user',content:m.content}));
             res=await fetch(MERL_FN,{
@@ -14071,25 +14081,24 @@ window.mwSend=async function(){
                 headers:{'Content-Type':'application/json','apikey':window.SUPABASE_ANON_KEY||'','Authorization':'Bearer '+(window.SUPABASE_ANON_KEY||'')},
                 body:JSON.stringify({messages,model:MODEL,max_tokens:800})
             });
-        }
-        if(!res.ok){const e=await res.json().catch(()=>({})); const msg=typeof e.error==='string'?e.error:(typeof e.message==='string'?e.message:('HTTP '+res.status)); throw new Error(msg);}
-        const reader=res.body.getReader(), dec=new TextDecoder();
-        full='';
-        removeEl(tid);
-        const bub=addBot('');
-        while(true){
-            const {done,value}=await reader.read();
-            if(done) break;
-            for(const line of dec.decode(value,{stream:true}).split('\n')){
-                if(!line.startsWith('data:')) continue;
-                const j=line.slice(5).trim();
-                if(j==='[DONE]') break;
-                try{ const d=JSON.parse(j); const t=d.choices?.[0]?.delta?.content; if(t){full+=t;bub.textContent=full;scrollFeed();} }catch(_){}
+            if(!res.ok){const e=await res.json().catch(()=>({})); const msg=typeof e.error==='string'?e.error:(typeof e.message==='string'?e.message:('HTTP '+res.status)); throw new Error(msg);}
+            const reader=res.body.getReader(), dec=new TextDecoder();
+            full='';
+            removeEl(tid);
+            const bub=addBot('');
+            while(true){
+                const {done,value}=await reader.read();
+                if(done) break;
+                for(const line of dec.decode(value,{stream:true}).split('\n')){
+                    if(!line.startsWith('data:')) continue;
+                    const j=line.slice(5).trim();
+                    if(j==='[DONE]') break;
+                    try{ const d=JSON.parse(j); const t=d.choices?.[0]?.delta?.content; if(t){full+=t;bub.textContent=full;scrollFeed();} }catch(_){}
+                }
             }
-        }
-        if(!full) throw new Error('empty response');
-        if(typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(bub.textContent);
-        success=true;
+            if(!full) throw new Error('empty response');
+            if(typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(bub.textContent);
+            success=true;
     }catch(err){
         removeEl(tid);
         const is429=err.message&&(err.message.includes('429')||err.message.toLowerCase().includes('quota')||err.message.toLowerCase().includes('too many'));
@@ -14106,6 +14115,14 @@ window.mwSend=async function(){
     }
     if(success){
         hist.push({role:'assistant',content:full});
+        // Strip base64 image data from history to keep payloads small
+        hist = hist.map(m => {
+            if(Array.isArray(m.content)){
+                const textParts = m.content.filter(c=>c.type==='text').map(c=>c.text).join(' ');
+                return {role:m.role, content: textParts || '[image sent]'};
+            }
+            return m;
+        });
         if(hist.length>20) hist=hist.slice(-20);
         const lc=full.toLowerCase();
         let an='converse';
@@ -14206,7 +14223,7 @@ window.mwImageSelected = function(input) {
         if (thumb) thumb.src = dataUrl;
         if (name)  name.textContent = file.name;
         if (prev)  prev.classList.add('show');
-        if (btn)   btn.classList.add('has-img');
+        /* button stays neutral */
         // Focus text input
         const inp = $('mw-inp');
         if (inp && !inp.disabled) inp.focus();
@@ -14223,7 +14240,7 @@ window.mwRemoveImg = function() {
     const btn  = $('mw-img-btn');
     const thumb= $('mw-img-thumb');
     if (prev)  prev.classList.remove('show');
-    if (btn)   btn.classList.remove('has-img');
+    /* nothing */
     if (thumb) thumb.src = '';
 };
 
