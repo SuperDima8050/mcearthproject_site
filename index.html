@@ -6968,86 +6968,161 @@
             overlay.id = 'report-modal';
             overlay.className = 'bp-modal-overlay';
             const isDark = document.body.classList.contains('dark-theme');
-            const boxStyle = `
-                background: ${isDark ? '#2a2a2a' : '#f5eed9'};
-                border: 4px solid ${isDark ? '#3a3a3a' : '#8b7355'};
-                border-radius: 4px;
-                padding: 28px;
-                width: 100%;
-                max-width: 420px;
-                box-shadow: 0 8px 0 ${isDark ? '#0a0a0a' : '#5a4a3a'}, 0 12px 30px rgba(0,0,0,0.5);
-                box-sizing: border-box;
-                position: relative;
-                cursor: default;
-                user-select: none;
-            `;
+
+            const reasons = [
+                { value: 'spam',           icon: 'fas fa-ban',                  labelRu: 'Спам',                     labelEn: 'Spam' },
+                { value: 'inappropriate',  icon: 'fas fa-exclamation-triangle',  labelRu: 'Неприемлемый контент',     labelEn: 'Inappropriate content' },
+                { value: 'misinformation', icon: 'fas fa-times-circle',          labelRu: 'Ложная информация',        labelEn: 'Misinformation' },
+                { value: 'copyright',      icon: 'fas fa-copyright',             labelRu: 'Нарушение авторских прав', labelEn: 'Copyright violation' },
+                { value: 'other',          icon: 'fas fa-pen',                   labelRu: 'Другое',                   labelEn: 'Other' },
+            ];
+
+            const reasonBtnsHtml = reasons.map(r2 => `
+                <button type="button"
+                    class="report-reason-btn"
+                    data-value="${r2.value}"
+                    style="
+                        display:flex;align-items:center;gap:9px;
+                        width:100%;
+                        font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:700;
+                        cursor:pointer;padding:10px 13px;
+                        border:2px solid ${isDark ? '#444' : '#c4b49a'};
+                        border-radius:2px;
+                        background:${isDark ? '#222' : '#eee8d0'};
+                        color:${isDark ? '#ccc' : '#5a4a3a'};
+                        text-align:left;
+                        box-shadow:0 3px 0 ${isDark ? '#111' : '#b8a88a'};
+                        transition:all 0.12s;
+                        text-transform:uppercase;letter-spacing:0.5px;
+                        user-select:none;
+                    "
+                    onclick="window._selectReportReason(this,'${r2.value}')">
+                    <span style="
+                        display:inline-flex;align-items:center;justify-content:center;
+                        width:22px;height:22px;flex-shrink:0;border-radius:2px;
+                        background:${isDark ? '#333' : '#d4c5a0'};
+                        border:2px solid ${isDark ? '#555' : '#b8a88a'};
+                        transition:all 0.12s;
+                    " class="reason-icon-wrap">
+                        <i class="${r2.icon}" style="font-size:10px;color:${isDark ? '#aaa' : '#8b7355'};"></i>
+                    </span>
+                    ${ru ? r2.labelRu : r2.labelEn}
+                    <span style="margin-left:auto;display:none;flex-shrink:0;" class="reason-check"><i class="fas fa-check" style="font-size:10px;color:#fff;"></i></span>
+                </button>`).join('');
+
             overlay.innerHTML = `
-                <div id="report-modal-box" style="${boxStyle}">
+                <div id="report-modal-box" style="
+                    background:${isDark ? '#2a2a2a' : '#f5eed9'};
+                    border:4px solid ${isDark ? '#444' : '#8b7355'};
+                    border-radius:4px;padding:0;
+                    width:100%;max-width:400px;
+                    box-shadow:0 8px 0 ${isDark ? '#0a0a0a' : '#5a4a3a'},0 12px 30px rgba(0,0,0,0.5);
+                    box-sizing:border-box;position:relative;overflow:hidden;
+                ">
                     <div id="report-drag-handle" style="
-                        font-family: 'Minecraft', sans-serif;
-                        font-size: 1rem;
-                        font-weight: 700;
-                        text-transform: uppercase;
-                        letter-spacing: 1px;
-                        color: #c62828;
-                        margin-bottom: 16px;
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        border-bottom: 3px solid #c62828;
-                        padding-bottom: 12px;
-                        cursor: grab;
+                        display:flex;align-items:center;gap:10px;
+                        padding:14px 18px;
+                        background:linear-gradient(180deg,#c62828,#8b1a1a);
+                        border-bottom:3px solid #7f0000;
+                        cursor:grab;user-select:none;
                     ">
-                        <i class="fas fa-flag"></i> ${ru ? 'Пожаловаться' : 'Report'}
-                        <span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span>
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:rgba(0,0,0,0.25);border:2px solid rgba(255,255,255,0.15);border-radius:2px;flex-shrink:0;">
+                            <i class="fas fa-flag" style="color:#fff;font-size:12px;"></i>
+                        </span>
+                        <span style="font-family:'Minecraft',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:1px;">
+                            ${ru ? 'Пожаловаться' : 'Report'}
+                        </span>
+                        <span style="margin-left:auto;font-size:0.65rem;opacity:0.5;font-family:'Minecraft',sans-serif;color:#fff;">&#x2807; ${ru ? 'тащи' : 'drag'}</span>
                     </div>
-                    <div style="font-family:Minecraft,sans-serif;font-size:0.82rem;color:${isDark ? '#aaa' : '#8b7355'};margin-bottom:14px;font-weight:600;">
-                        ${ru ? 'Пост:' : 'Post:'} <b style="color:${isDark ? '#e0e0e0' : '#3e2723'};">${postTitle}</b>
-                    </div>
-                    <div style="font-family:Minecraft,sans-serif;font-size:0.84rem;font-weight:700;color:${isDark ? '#81c784' : '#4a5d23'};margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">
-                        ${ru ? 'Причина жалобы:' : 'Reason:'}
-                    </div>
-                    <div id="report-reasons" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
-                        ${['spam','inappropriate','misinformation','copyright','other'].map(r => {
-                            const labels = {
-                                spam: ru ? '📢 Спам' : '📢 Spam',
-                                inappropriate: ru ? '🔞 Неприемлемый контент' : '🔞 Inappropriate content',
-                                misinformation: ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Ложная информация' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Misinformation',
-                                copyright: ru ? '©️ Нарушение авторских прав' : '©️ Copyright violation',
-                                other: ru ? '✏️ Другое' : '✏️ Other'
-                            };
-                            return `<label style="display:flex;align-items:center;gap:10px;font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;padding:8px 10px;border:2px solid ${isDark ? '#3a3a3a' : '#d4c5a0'};border-radius:2px;background:${isDark ? '#1a1a1a' : '#fffbf0'};color:${isDark ? '#e0e0e0' : '#3e2723'};transition:border-color 0.15s;user-select:none;">
-                                <input type="radio" name="report-reason" value="${r}" style="accent-color:#c62828;width:16px;height:16px;flex-shrink:0;"> ${labels[r]}
-                            </label>`;
-                        }).join('')}
-                    </div>
-                    <textarea id="report-details" placeholder="${ru ? 'Дополнительные детали (необязательно)...' : 'Additional details (optional)...'}" rows="2" style="width:100%;box-sizing:border-box;font-family:Minecraft,sans-serif;font-size:0.82rem;font-weight:600;padding:10px;border:2px solid ${isDark ? '#3a3a3a' : '#8b7355'};border-radius:2px;background:${isDark ? '#1a1a1a' : '#fffbf0'};color:${isDark ? '#e0e0e0' : '#3e2723'};resize:vertical;margin-bottom:10px;cursor:text;user-select:text;"></textarea>
-                    <label class="bp-file-label news-upload" style="margin-bottom:14px;" id="report-img-label-wrap">
-                        <i class="fas fa-image" style="color:#6b8e23;font-size:1rem;"></i>
-                        <span id="report-img-label">${ru ? 'Выбери или перетащи фото...' : 'Choose or drag photo...'}</span>
-                        <span style="margin-left:auto;font-size:0.72rem;color:${isDark?'#666':'#8b7355'};font-weight:600;white-space:nowrap;">PNG · JPEG · GIF · WebP</span>
-                        <input type="file" id="report-img-input" accept="image/*" style="display:none;" onchange="window._reportImgChanged(this)">
-                    </label>
-                    <div style="display:flex;gap:10px;">
-                        <button class="bp-submit-btn" style="background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#7f0000;box-shadow:0 5px 0 #5a0000;margin-top:0;flex:1;" onclick="submitReport('${postType}','${postId}','${encodeURIComponent(postTitle)}','${encodeURIComponent(postAuthor||'')}','${encodeURIComponent(imageUrl||'')}')">
-                            <i class="fas fa-flag"></i> ${ru ? 'Отправить' : 'Send'}
-                        </button>
-                        <button class="bp-submit-btn" onclick="document.getElementById('report-modal').remove()" style="background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;margin-top:0;flex:1;">
-                            ${ru ? 'Отмена' : 'Cancel'}
-                        </button>
+
+                    <div style="padding:18px;">
+                        <div style="
+                            display:flex;align-items:flex-start;gap:8px;
+                            background:${isDark ? '#1e1e1e' : '#eee8d0'};
+                            border:2px solid ${isDark ? '#3a3a3a' : '#c4b49a'};
+                            border-radius:2px;padding:10px 12px;margin-bottom:16px;
+                        ">
+                            <i class="fas fa-file-alt" style="color:${isDark?'#888':'#8b7355'};margin-top:1px;font-size:0.85rem;flex-shrink:0;"></i>
+                            <div style="min-width:0;">
+                                <div style="font-family:'Minecraft',sans-serif;font-size:0.65rem;color:${isDark?'#777':'#8b7355'};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">${ru ? 'Пост' : 'Post'}</div>
+                                <div style="font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:700;color:${isDark?'#e0e0e0':'#3e2723'};word-break:break-word;line-height:1.4;">${postTitle}</div>
+                            </div>
+                        </div>
+
+                        <div style="font-family:'Minecraft',sans-serif;font-size:0.72rem;font-weight:700;color:${isDark?'#888':'#8b7355'};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">
+                            <i class="fas fa-list" style="margin-right:5px;"></i>${ru ? 'Причина жалобы' : 'Reason'}
+                        </div>
+
+                        <div id="report-reasons" style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
+                            ${reasonBtnsHtml}
+                        </div>
+
+                        <div id="report-details-wrap" style="display:none;margin-bottom:12px;">
+                            <div style="font-family:'Minecraft',sans-serif;font-size:0.72rem;font-weight:700;color:${isDark?'#888':'#8b7355'};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
+                                <i class="fas fa-pen" style="margin-right:5px;"></i>${ru ? 'Опишите проблему' : 'Describe the issue'}
+                            </div>
+                            <textarea id="report-details"
+                                placeholder="${ru ? 'Напишите подробности...' : 'Write details here...'}"
+                                rows="3"
+                                style="width:100%;box-sizing:border-box;font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:600;padding:10px 12px;border:2px solid ${isDark ? '#555' : '#8b7355'};border-radius:2px;background:${isDark ? '#1a1a1a' : '#fffbf0'};color:${isDark ? '#e0e0e0' : '#3e2723'};resize:vertical;cursor:text;user-select:text;outline:none;"></textarea>
+                        </div>
+
+                        <label class="bp-file-label news-upload" style="margin-bottom:14px;" id="report-img-label-wrap">
+                            <i class="fas fa-image" style="color:#6b8e23;font-size:1rem;"></i>
+                            <span id="report-img-label">${ru ? 'Скриншот (необязательно)' : 'Screenshot (optional)'}</span>
+                            <span style="margin-left:auto;font-size:0.68rem;color:${isDark?'#666':'#8b7355'};font-weight:600;white-space:nowrap;flex-shrink:0;">PNG · JPG · WebP</span>
+                            <input type="file" id="report-img-input" accept="image/*" style="display:none;" onchange="window._reportImgChanged(this)">
+                        </label>
+
+                        <div style="display:flex;gap:8px;">
+                            <button class="bp-submit-btn" style="background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;margin-top:0;flex:1;font-size:0.82rem;padding:10px;"
+                                onclick="submitReport('${postType}','${postId}','${encodeURIComponent(postTitle)}','${encodeURIComponent(postAuthor||'')}','${encodeURIComponent(imageUrl||'')}')">
+                                <i class="fas fa-paper-plane"></i> ${ru ? 'Отправить' : 'Send'}
+                            </button>
+                            <button class="bp-submit-btn" onclick="document.getElementById('report-modal').remove()"
+                                style="background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;margin-top:0;flex:1;font-size:0.82rem;padding:10px;">
+                                <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
+                            </button>
+                        </div>
                     </div>
                 </div>`;
+
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+            window._selectReportReason = function(btn, value) {
+                const dark = document.body.classList.contains('dark-theme');
+                document.querySelectorAll('.report-reason-btn').forEach(b => {
+                    const active = b === btn;
+                    b.style.background  = active ? 'linear-gradient(180deg,#c62828,#8b1a1a)' : (dark ? '#222' : '#eee8d0');
+                    b.style.borderColor = active ? '#7f0000' : (dark ? '#444' : '#c4b49a');
+                    b.style.color       = active ? '#fff'    : (dark ? '#ccc' : '#5a4a3a');
+                    b.style.boxShadow   = active ? '0 3px 0 #5a0000' : ('0 3px 0 ' + (dark ? '#111' : '#b8a88a'));
+                    b.style.transform   = active ? 'translateY(1px)' : '';
+                    const iw = b.querySelector('.reason-icon-wrap');
+                    iw.style.background  = active ? 'rgba(255,255,255,0.15)' : (dark ? '#333' : '#d4c5a0');
+                    iw.style.borderColor = active ? 'rgba(255,255,255,0.25)' : (dark ? '#555' : '#b8a88a');
+                    iw.querySelector('i').style.color = active ? '#fff' : (dark ? '#aaa' : '#8b7355');
+                    b.querySelector('.reason-check').style.display = active ? 'inline' : 'none';
+                });
+                const wrap = document.getElementById('report-details-wrap');
+                if (wrap) {
+                    wrap.style.display = value === 'other' ? 'block' : 'none';
+                    if (value === 'other') setTimeout(() => { const ta = document.getElementById('report-details'); if(ta) ta.focus(); }, 50);
+                }
+                window._reportSelectedReason = value;
+            };
 
             window._reportImgChanged = function(input) {
                 const label = document.getElementById('report-img-label');
                 if (input.files && input.files[0]) {
                     label.textContent = input.files[0].name;
                 } else {
-                    label.textContent = ru ? 'Выбери или перетащи фото...' : 'Choose or drag photo...';
+                    label.textContent = ru ? 'Скриншот (необязательно)' : 'Screenshot (optional)';
                 }
             };
+
+            window._reportSelectedReason = null;
 
             const box = document.getElementById('report-modal-box');
             const handle = document.getElementById('report-drag-handle');
@@ -7057,9 +7132,14 @@
 
         async function submitReport(postType, postId, postTitleEnc, postAuthorEnc, imageUrlEnc) {
             const ru = currentLang === 'ru';
-            const reasonEl = document.querySelector('input[name="report-reason"]:checked');
-            if (!reasonEl) { showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Выбери причину жалобы!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Please select a reason!', 'error'); return; }
-            const details = document.getElementById('report-details')?.value?.trim() || '';
+            const reason = window._reportSelectedReason;
+            if (!reason) {
+                showInfoBanner(
+                    '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' +
+                    (ru ? 'Выбери причину жалобы!' : 'Please select a reason!'), 'error');
+                return;
+            }
+            const details = reason === 'other' ? (document.getElementById('report-details')?.value?.trim() || '') : '';
             const postTitle = decodeURIComponent(postTitleEnc);
             const postAuthor = decodeURIComponent(postAuthorEnc);
             const imageUrl = decodeURIComponent(imageUrlEnc);
@@ -7070,13 +7150,18 @@
                 post_author: postAuthor,
                 image_url: imageUrl || null,
                 reporter_nick: currentAccount.nick,
-                reason: reasonEl.value,
+                reason: reason,
                 details: details || null,
                 status: 'pending'
             }]);
-            if (error) { showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + error.message, 'error'); return; }
+            if (error) {
+                showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + error.message, 'error');
+                return;
+            }
             document.getElementById('report-modal')?.remove();
-            showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Жалоба отправлена! Спасибо.' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Report sent! Thank you.', 'success');
+            showInfoBanner(
+                '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' +
+                (ru ? 'Жалоба отправлена! Спасибо.' : 'Report sent! Thank you.'), 'success');
         }
         window.submitReport = submitReport;
 
