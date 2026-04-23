@@ -6279,6 +6279,9 @@
 
         let _newsCache = null;
         let _newsIsAdmin = false;
+        // Expose to window so setLoggedIn can re-render news with correct admin state
+        Object.defineProperty(window, '_newsCache', { get: () => _newsCache, set: v => { _newsCache = v; } });
+        Object.defineProperty(window, '_newsIsAdmin', { get: () => _newsIsAdmin, set: v => { _newsIsAdmin = v; } });
         let _lastRefCount = 0;
         
         
@@ -9148,7 +9151,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             _encryptSession({ nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null }).then(enc => window._safeLocalSet('bp_session', enc));
 
             checkNewsAdmin().then(isAdm => {
-                window._isNewsAdmin = !!isAdm; 
+                window._isNewsAdmin = !!isAdm;
+                // Re-render news with correct admin status if already loaded
+                if (window._newsCache !== null && window._newsCache !== undefined) {
+                    window._newsIsAdmin = !!isAdm;
+                    if (typeof renderNews === 'function') renderNews(window._newsCache, !!isAdm);
+                }
                 const rTab = document.getElementById('reports-nav-tab');
                 const gTab = document.getElementById('gallery-nav-tab');
                 const mobileRow = document.getElementById('nav-reports-row');
