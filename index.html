@@ -14059,7 +14059,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
 
     function isEasterPeriod() {
         const now = new Date(), y = now.getFullYear();
-        return now >= new Date(y, 3, 5) && now <= new Date(y, 4, 5, 23, 59, 59);
+        return now >= new Date(y, 3, 4) && now <= new Date(y, 4, 8, 23, 59, 59);
     }
     if (!isEasterPeriod()) return;
 
