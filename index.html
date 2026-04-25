@@ -14059,7 +14059,7 @@ function esc(t){ const d=document.createElement('div'); d.textContent=t; return 
 
     function isEasterPeriod() {
         const now = new Date(), y = now.getFullYear();
-        return now >= new Date(y, 3, 5) && now <= new Date(y, 4, 20, 23, 59, 59);
+        return now >= new Date(y, 3, 5) && now <= new Date(y, 4, 5, 23, 59, 59);
     }
     if (!isEasterPeriod()) return;
 
@@ -14173,7 +14173,7 @@ window.applyDecorations = function applyDecorations() {
             const ru = (window.currentLang || 'ru') === 'ru';
             window.showInfoBanner(
                 `<img src="${CLUCK_URL}" style="width:18px;height:18px;image-rendering:pixelated;vertical-align:middle;margin-right:6px;">` +
-                (ru ? 'Клакшрум пойман! Теперь он у тебя везде!' : 'Cluckshroom caught! It\'s now next to your name!'),
+                (ru ? 'Клакшрум пойман!' : 'Cluckshroom caught!'),
                 'success'
             );
         }
