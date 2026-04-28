@@ -1490,6 +1490,110 @@
             margin-top: 10px;
         }
 
+        /* ── News Carousel ── */
+        .news-carousel {
+            margin: 12px 0 4px;
+            position: relative;
+        }
+        .news-carousel-track-wrap {
+            overflow: hidden;
+            border-radius: 3px;
+        }
+        .news-carousel-track {
+            display: flex;
+            gap: 6px;
+            transition: transform 0.25s ease;
+        }
+        .news-carousel-slide {
+            flex: 0 0 calc(33.333% - 4px);
+            aspect-ratio: 1/1;
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            background: rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.15);
+        }
+        .news-carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            image-rendering: auto;
+        }
+        .news-carousel-slide .carousel-more-overlay {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: flex; align-items: center; justify-content: center;
+            font-family: Minecraft, sans-serif;
+            font-size: 1.4rem; color: #fff; font-weight: 700;
+            pointer-events: none;
+        }
+        .news-carousel-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 28px; height: 28px;
+            background: rgba(0,0,0,0.55);
+            border: 2px solid rgba(255,255,255,0.35);
+            border-radius: 2px;
+            color: #fff; font-size: 13px;
+            cursor: pointer; z-index: 2;
+            display: flex; align-items: center; justify-content: center;
+            transition: background .15s;
+        }
+        .news-carousel-btn:hover { background: rgba(0,0,0,0.8); }
+        .news-carousel-btn.prev { left: 2px; }
+        .news-carousel-btn.next { right: 2px; }
+        .news-carousel-btn:disabled { opacity: 0.3; cursor: default; }
+        .news-carousel-dots {
+            display: flex; gap: 5px; justify-content: center; margin-top: 6px;
+        }
+        .news-carousel-dot {
+            width: 6px; height: 6px; border-radius: 1px;
+            background: rgba(255,255,255,0.3); border: none; cursor: pointer; padding: 0;
+            transition: background .15s;
+        }
+        .news-carousel-dot.active { background: rgba(255,255,255,0.85); }
+        /* Carousel lightbox */
+        .nc-lightbox {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nc-lightbox img {
+            max-width: 92vw; max-height: 88vh;
+            object-fit: contain; border-radius: 3px;
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+        .nc-lightbox-close {
+            position: absolute; top: 16px; right: 16px;
+            background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.3);
+            color: #fff; width: 32px; height: 32px; border-radius: 2px;
+            font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .nc-lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.55); border: 2px solid rgba(255,255,255,0.3);
+            color: #fff; width: 36px; height: 36px; border-radius: 2px;
+            font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .nc-lightbox-nav.prev { left: 12px; }
+        .nc-lightbox-nav.next { right: 12px; }
+        /* carousel upload preview */
+        .nc-upload-previews {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+        }
+        .nc-upload-thumb {
+            width: 52px; height: 52px; border-radius: 3px; overflow: hidden;
+            border: 2px solid rgba(107,142,35,0.5); position: relative; flex-shrink: 0;
+        }
+        .nc-upload-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .nc-upload-thumb .nc-rm {
+            position: absolute; top: 0; right: 0;
+            width: 16px; height: 16px; background: rgba(198,40,40,0.85);
+            border: none; color: #fff; font-size: 9px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
         .like-buttons {
             display: flex;
             gap: 15px;
@@ -2664,6 +2768,113 @@
         }
 
         
+        /* ── News Carousel ─────────────────────────── */
+        .news-carousel { margin: 10px 0 6px; position: relative; }
+        .news-carousel-track-wrap { overflow: hidden; }
+        .news-carousel-track {
+            display: flex;
+            gap: 6px;
+            transition: transform .28s cubic-bezier(.4,0,.2,1);
+        }
+        .news-carousel-item {
+            flex: 0 0 calc(25% - 5px);
+            aspect-ratio: 1;
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.25);
+        }
+        .news-carousel-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            image-rendering: auto;
+            display: block;
+            transition: transform .2s;
+        }
+        .news-carousel-item:hover img { transform: scale(1.06); }
+        .news-carousel-more {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: flex; align-items: center; justify-content: center;
+            font-family: Minecraft,sans-serif;
+            font-size: 1.1rem; color: #fff;
+            font-weight: 700;
+            pointer-events: none;
+        }
+        .news-carousel-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 26px; height: 26px;
+            background: rgba(0,0,0,0.55);
+            border: 2px solid rgba(255,255,255,0.25);
+            color: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; z-index: 2;
+            border-radius: 2px;
+            transition: background .15s;
+            padding: 0;
+        }
+        .news-carousel-arrow:hover { background: rgba(0,0,0,0.8); }
+        .news-carousel-arrow.prev { left: -13px; }
+        .news-carousel-arrow.next { right: -13px; }
+        .news-carousel-arrow:disabled { opacity: 0.25; cursor: default; }
+        /* Carousel lightbox */
+        .nc-lightbox {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.92);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .nc-lightbox-img {
+            max-width: 92vw; max-height: 78vh;
+            object-fit: contain; border-radius: 4px;
+            image-rendering: auto;
+        }
+        .nc-lightbox-dots {
+            display: flex; gap: 6px; margin-top: 12px;
+        }
+        .nc-lightbox-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(255,255,255,0.35); cursor: pointer;
+            transition: background .15s;
+        }
+        .nc-lightbox-dot.active { background: #fff; }
+        .nc-lightbox-close {
+            position: absolute; top: 16px; right: 16px;
+            background: rgba(0,0,0,0.5); border: 1.5px solid rgba(255,255,255,0.3);
+            color: #fff; width: 32px; height: 32px; border-radius: 2px;
+            font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .nc-lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.5); border: 1.5px solid rgba(255,255,255,0.25);
+            color: #fff; width: 36px; height: 36px; border-radius: 2px;
+            font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .nc-lightbox-nav.prev { left: 12px; }
+        .nc-lightbox-nav.next { right: 12px; }
+        /* Carousel upload preview */
+        .nadmin-carousel-previews {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+        }
+        .nadmin-carousel-thumb {
+            width: 60px; height: 60px; border-radius: 3px;
+            object-fit: cover; border: 2px solid rgba(255,255,255,0.2);
+            cursor: pointer; position: relative;
+        }
+        .nadmin-carousel-thumb-wrap {
+            position: relative; width: 60px; height: 60px;
+        }
+        .nadmin-carousel-thumb-rm {
+            position: absolute; top: -6px; right: -6px;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: #c62828; border: 1.5px solid #8b0000;
+            color: #fff; font-size: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2; padding: 0;
+        }
+        /* ───────────────────────────────────────────── */
         .bp-file-label.news-upload {
             background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
             border-color: #ff9800;
@@ -6351,6 +6562,26 @@
                             ${tagHTML}
                         </div>
                         <div class="news-content">${makeLinksClickable(ru ? (news.content || '') : (news.content_en || news.content || ''))}</div>
+                        ${(() => {
+                            let imgs = [];
+                            try { imgs = news.carousel_images ? JSON.parse(news.carousel_images) : []; } catch(e) {}
+                            if (!imgs.length) return '';
+                            const uid = 'nc_' + news.id;
+                            const visible = 3;
+                            const hasMore = imgs.length > visible;
+                            const slidesHtml = imgs.slice(0, visible).map((url, i) => {
+                                const isLast = hasMore && i === visible - 1;
+                                return `<div class="news-carousel-slide" data-nc-open="${uid}" data-nc-idx="${i}">
+                                    <img src="${url}" loading="lazy" alt="">
+                                    ${isLast ? `<div class="carousel-more-overlay">+${imgs.length - visible + 1}</div>` : ''}
+                                </div>`;
+                            }).join('');
+                            return `<div class="news-carousel" data-nc-id="${uid}" data-nc-imgs='${JSON.stringify(imgs).replace(/'/g,"&#39;")}'>
+                                <div class="news-carousel-track-wrap">
+                                    <div class="news-carousel-track">${slidesHtml}</div>
+                                </div>
+                            </div>`;
+                        })()}
                         <div class="news-footer">
                             <div class="like-buttons">
                                 <button class="like-btn ${userLiked ? 'active' : ''}" data-action="like"><i class="fas fa-thumbs-up"></i><span class="like-count">${likes}</span></button>
@@ -6411,6 +6642,33 @@
                 newsContainer.appendChild(newsItem);
             });
             setTimeout(attachRefBadges, 100);
+
+            // Carousel lightbox handler
+            newsContainer.querySelectorAll('[data-nc-open]').forEach(slide => {
+                slide.addEventListener('click', () => {
+                    const uid = slide.dataset.ncOpen;
+                    const carousel = newsContainer.querySelector(`[data-nc-id="${uid}"]`);
+                    if (!carousel) return;
+                    let imgs = [];
+                    try { imgs = JSON.parse(carousel.dataset.ncImgs); } catch(e) {}
+                    let idx = parseInt(slide.dataset.ncIdx) || 0;
+                    const lb = document.createElement('div');
+                    lb.className = 'nc-lightbox';
+                    function lbRender() {
+                        lb.innerHTML = `
+                            <button class="nc-lightbox-close">✕</button>
+                            <button class="nc-lightbox-nav prev" style="${idx===0?'opacity:0.3;pointer-events:none':''}">&#10094;</button>
+                            <img src="${imgs[idx]}" alt="">
+                            <button class="nc-lightbox-nav next" style="${idx===imgs.length-1?'opacity:0.3;pointer-events:none':''}">&#10095;</button>`;
+                        lb.querySelector('.nc-lightbox-close').onclick = () => lb.remove();
+                        lb.querySelector('.nc-lightbox-nav.prev').onclick = () => { if(idx>0){idx--;lbRender();} };
+                        lb.querySelector('.nc-lightbox-nav.next').onclick = () => { if(idx<imgs.length-1){idx++;lbRender();} };
+                    }
+                    lbRender();
+                    lb.addEventListener('click', e => { if (e.target === lb) lb.remove(); });
+                    document.body.appendChild(lb);
+                });
+            });
             
             localStorage.setItem('news_last_seen', Date.now().toString());
             
@@ -6716,6 +6974,16 @@
                         </label>
                         <div class="bp-file-name" id="nadmin-image-name"></div>
                     </div>
+                    <div class="bp-form-row" style="margin-bottom:10px;">
+                        <label>${ru ? '🎞️ Карусель изображений (до 8 шт, необязательно)' : '🎞️ Carousel images (up to 8, optional)'}</label>
+                        <label class="bp-file-label news-upload" id="nadmin-carousel-wrap" for="nadmin-carousel-input" style="cursor:pointer;">
+                            <i class="fas fa-images" style="color:#6b8e23;font-size:1.3rem;"></i>
+                            <span id="nadmin-carousel-label">${ru ? 'Выбери несколько фото...' : 'Choose multiple photos...'}</span>
+                            <span class="bp-formats">PNG · JPEG · WebP</span>
+                            <input type="file" id="nadmin-carousel-input" accept=".png,.jpg,.jpeg,.webp" multiple />
+                        </label>
+                        <div class="nc-upload-previews" id="nadmin-carousel-previews"></div>
+                    </div>
                     <div id="nadmin-status" style="font-size:0.85rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:20px;"></div>
                     <div style="display:flex;flex-direction:column;gap:8px;">
                         <div style="display:flex;gap:8px;">
@@ -6737,6 +7005,39 @@
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
+            // Carousel preview handler
+            window._ncCarouselFiles = [];
+            const carInput = document.getElementById('nadmin-carousel-input');
+            const carPreviews = document.getElementById('nadmin-carousel-previews');
+            if (carInput) {
+                carInput.addEventListener('change', () => {
+                    const newFiles = Array.from(carInput.files);
+                    const combined = [...window._ncCarouselFiles, ...newFiles];
+                    window._ncCarouselFiles = combined.slice(0, 8);
+                    carInput.value = '';
+                    renderCarouselPreviews(carPreviews);
+                });
+            }
+        }
+
+        function renderCarouselPreviews(container) {
+            if (!container) return;
+            container.innerHTML = '';
+            window._ncCarouselFiles.forEach((file, idx) => {
+                const url = URL.createObjectURL(file);
+                const div = document.createElement('div');
+                div.className = 'nc-upload-thumb';
+                div.innerHTML = `<img src="${url}"><button class="nc-rm" data-idx="${idx}">✕</button>`;
+                div.querySelector('.nc-rm').addEventListener('click', () => {
+                    window._ncCarouselFiles.splice(idx, 1);
+                    renderCarouselPreviews(container);
+                });
+                container.appendChild(div);
+            });
+            const label = document.getElementById('nadmin-carousel-label');
+            if (label) label.textContent = window._ncCarouselFiles.length > 0
+                ? `${window._ncCarouselFiles.length}/8 ${currentLang==='ru'?'фото выбрано':'photos selected'}`
+                : (currentLang==='ru' ? 'Выбери несколько фото...' : 'Choose multiple photos...');
         }
 
         async function _submitNewsImpl() {
@@ -6746,6 +7047,7 @@
             const content = document.getElementById('nadmin-content').value.trim();
             const contentEn = document.getElementById('nadmin-content-en').value.trim();
             const imageFile = document.getElementById('nadmin-image-input')?.files[0] || null;
+            const carouselFiles = window._ncCarouselFiles || [];
             const statusEl = document.getElementById('nadmin-status');
 
             function showNewsStatus(type, message, progress = null) {
@@ -6818,6 +7120,21 @@
                 showNewsStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'}`, 75);
             }
 
+            // Upload carousel images
+            let carouselUrls = [];
+            if (carouselFiles.length > 0) {
+                showNewsStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем карусель...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading carousel...'}`, 60);
+                for (let i = 0; i < carouselFiles.length; i++) {
+                    const cf = carouselFiles[i];
+                    const cExt = cf.name.split('.').pop().toLowerCase();
+                    const cPath = 'news/carousel/' + Date.now() + '_' + Math.random().toString(36).slice(2,8) + '.' + cExt;
+                    const { error: cErr } = await sbClient.storage.from('buildplates').upload(cPath, cf, { cacheControl: '3600', upsert: false });
+                    if (cErr) { showNewsStatus('error', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (cErr.message || 'Carousel upload error')); return; }
+                    const { data: cUrl } = sbClient.storage.from('buildplates').getPublicUrl(cPath);
+                    carouselUrls.push(cUrl.publicUrl);
+                }
+            }
+
             const sourceUrlRaw = (document.getElementById('nadmin-source')?.value || '').trim();
             const sourceUrl = sourceUrlRaw && (sourceUrlRaw.startsWith('http://') || sourceUrlRaw.startsWith('https://')) ? sourceUrlRaw : (sourceUrlRaw ? 'https://' + sourceUrlRaw : null);
             const newsTag = document.getElementById('nadmin-tag')?.value || '';
@@ -6833,7 +7150,8 @@
                         tag: newsTag || null,
                         author: currentAccount.nick,
                         author_verified: currentAccount.verified || false,
-                        likes: 0, dislikes: 0
+                        likes: 0, dislikes: 0,
+                        carousel_images: carouselUrls.length > 0 ? JSON.stringify(carouselUrls) : null
                     }]),
                     _timeout15s
                 ]);
@@ -6960,6 +7278,11 @@
             document.getElementById('nadmin-image-input').value = '';
             document.getElementById('nadmin-image-name').textContent = '';
             document.getElementById('nadmin-status').innerHTML = '';
+            window._ncCarouselFiles = [];
+            const prev = document.getElementById('nadmin-carousel-previews');
+            if (prev) prev.innerHTML = '';
+            const lbl = document.getElementById('nadmin-carousel-label');
+            if (lbl) lbl.textContent = currentLang === 'ru' ? 'Выбери несколько фото...' : 'Choose multiple photos...';
         }
         window.addEventListener('languageChanged', () => { if (_newsCache !== null) renderNews(_newsCache, _newsIsAdmin); });
 
