@@ -7007,6 +7007,7 @@
                         <div class="nc-upload-previews" id="nadmin-carousel-previews"></div>
                     </div>
                     <div id="nadmin-status" style="font-size:0.85rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:20px;"></div>
+                    <div class="bp-auth-captcha" id="nadmin-captcha-wrap" style="margin-bottom:10px;"></div>
                     <div style="display:flex;flex-direction:column;gap:8px;">
                         <div style="display:flex;gap:8px;">
                             <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.82rem;padding:10px;white-space:nowrap;" onclick="submitNews(false)">
@@ -7027,6 +7028,22 @@
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
+            // Render captcha for news form
+            (function() {
+                const wrap = document.getElementById('nadmin-captcha-wrap');
+                if (!wrap) return;
+                const isCompact = window.innerWidth <= 480;
+                const savedTheme = localStorage.getItem('theme');
+                const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                const div = document.createElement('div');
+                div.className = 'cf-turnstile';
+                div.id = 'nadmin-turnstile';
+                div.setAttribute('data-sitekey', '0x4AAAAAACZyA1UOix1SiYwF');
+                div.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                div.setAttribute('data-size', isCompact ? 'compact' : 'normal');
+                wrap.appendChild(div);
+                if (window.turnstile) window.turnstile.render(div);
+            })();
             // Carousel preview handler
             window._ncCarouselFiles = [];
             const carInput = document.getElementById('nadmin-carousel-input');
@@ -7123,6 +7140,11 @@
                 }
             }
 
+            const newsCaptchaToken = document.querySelector('#nadmin-turnstile [name="cf-turnstile-response"]')?.value || '';
+            if (!newsCaptchaToken) {
+                showNewsStatus('error', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Пройди капчу!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Please complete the captcha!');
+                return;
+            }
             showNewsStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Публикуем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Publishing...'}`, 25);
 
             let imageUrl = null;
@@ -7422,6 +7444,7 @@
                             <input type="file" id="report-img-input" accept="image/*" style="display:none;" onchange="window._reportImgChanged(this)">
                         </label>
 
+                        <div class="bp-auth-captcha" id="report-captcha-wrap" style="margin-bottom:10px;"></div>
                         <div style="display:flex;gap:8px;">
                             <button class="bp-submit-btn" style="background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;margin-top:0;flex:1;font-size:0.82rem;padding:10px;"
                                 onclick="submitReport('${postType}','${postId}','${encodeURIComponent(postTitle)}','${encodeURIComponent(postAuthor||'')}','${encodeURIComponent(imageUrl||'')}')">
@@ -7437,6 +7460,23 @@
 
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+
+            // Render captcha for report form
+            (function() {
+                const wrap = document.getElementById('report-captcha-wrap');
+                if (!wrap) return;
+                const isCompact = window.innerWidth <= 480;
+                const savedTheme = localStorage.getItem('theme');
+                const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                const div = document.createElement('div');
+                div.className = 'cf-turnstile';
+                div.id = 'report-turnstile';
+                div.setAttribute('data-sitekey', '0x4AAAAAACZyA1UOix1SiYwF');
+                div.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                div.setAttribute('data-size', isCompact ? 'compact' : 'normal');
+                wrap.appendChild(div);
+                if (window.turnstile) window.turnstile.render(div);
+            })();
 
             window._selectReportReason = function(btn, value) {
                 const dark = document.body.classList.contains('dark-theme');
@@ -7487,6 +7527,11 @@
                     (ru ? 'Выбери причину жалобы!' : 'Please select a reason!'), 'error');
                 return;
             }
+            const reportCaptchaToken = document.querySelector('#report-turnstile [name="cf-turnstile-response"]')?.value || '';
+            if (!reportCaptchaToken) {
+                showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (ru ? 'Пройди капчу!' : 'Please complete the captcha!'), 'error');
+                return;
+            }
             const details = reason === 'other' ? (document.getElementById('report-details')?.value?.trim() || '') : '';
             const postTitle = decodeURIComponent(postTitleEnc);
             const postAuthor = decodeURIComponent(postAuthorEnc);
@@ -7506,6 +7551,7 @@
                 showInfoBanner('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + error.message, 'error');
                 return;
             }
+            if (window.turnstile) window.turnstile.reset('#report-turnstile');
             document.getElementById('report-modal')?.remove();
             showInfoBanner(
                 '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' +
