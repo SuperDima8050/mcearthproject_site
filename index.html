@@ -1506,7 +1506,7 @@
         }
         .news-carousel-slide {
             flex: 0 0 calc(33.333% - 4px);
-            aspect-ratio: 1/1;
+            height: 72px;
             border-radius: 3px;
             overflow: hidden;
             cursor: pointer;
@@ -2755,6 +2755,7 @@
             box-shadow: 0 3px 8px rgba(139, 195, 74, 0.2);
             animation: slideIn 0.3s ease-out;
         }
+        .bp-file-name:empty { display: none; }
 
         @keyframes slideIn {
             from {
@@ -6652,21 +6653,42 @@
                     let imgs = [];
                     try { imgs = JSON.parse(carousel.dataset.ncImgs); } catch(e) {}
                     let idx = parseInt(slide.dataset.ncIdx) || 0;
-                    const lb = document.createElement('div');
-                    lb.className = 'nc-lightbox';
-                    function lbRender() {
+                    function ncLbRender() {
+                        document.querySelector('.nc-news-lightbox')?.remove();
+                        const total = imgs.length;
+                        const lb = document.createElement('div');
+                        lb.className = 'gallery-lightbox nc-news-lightbox';
                         lb.innerHTML = `
-                            <button class="nc-lightbox-close">✕</button>
-                            <button class="nc-lightbox-nav prev" style="${idx===0?'opacity:0.3;pointer-events:none':''}">&#10094;</button>
-                            <img src="${imgs[idx]}" alt="">
-                            <button class="nc-lightbox-nav next" style="${idx===imgs.length-1?'opacity:0.3;pointer-events:none':''}">&#10095;</button>`;
-                        lb.querySelector('.nc-lightbox-close').onclick = () => lb.remove();
-                        lb.querySelector('.nc-lightbox-nav.prev').onclick = () => { if(idx>0){idx--;lbRender();} };
-                        lb.querySelector('.nc-lightbox-nav.next').onclick = () => { if(idx<imgs.length-1){idx++;lbRender();} };
+                            <button class="gallery-lightbox-close" id="nc-lb-close">✕</button>
+                            <button class="gallery-lightbox-nav prev${idx===0?' hidden':''}" id="nc-lb-prev">&#8249;</button>
+                            <div class="gallery-lightbox-img-wrap">
+                                <img src="${imgs[idx]}" alt="" id="nc-lb-img">
+                            </div>
+                            <button class="gallery-lightbox-nav next${idx===total-1?' hidden':''}" id="nc-lb-next">&#8250;</button>
+                            ${total > 1 ? `<div class="gallery-lightbox-counter">${idx+1} / ${total}</div>` : ''}`;
+                        lb.addEventListener('click', e => { if (e.target === lb) lb.remove(); });
+                        lb.querySelector('#nc-lb-close').addEventListener('click', () => lb.remove());
+                        const prevBtn = lb.querySelector('#nc-lb-prev');
+                        const nextBtn = lb.querySelector('#nc-lb-next');
+                        if (prevBtn) prevBtn.addEventListener('click', e => { e.stopPropagation(); idx--; ncLbRender(); });
+                        if (nextBtn) nextBtn.addEventListener('click', e => { e.stopPropagation(); idx++; ncLbRender(); });
+                        const onKey = e => {
+                            if (e.key === 'ArrowLeft' && idx > 0) { idx--; ncLbRender(); }
+                            else if (e.key === 'ArrowRight' && idx < imgs.length-1) { idx++; ncLbRender(); }
+                            else if (e.key === 'Escape') { lb.remove(); document.removeEventListener('keydown', onKey); }
+                        };
+                        document.addEventListener('keydown', onKey);
+                        let touchStartX = 0;
+                        lb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+                        lb.addEventListener('touchend', e => {
+                            const dx = e.changedTouches[0].clientX - touchStartX;
+                            if (Math.abs(dx) < 40) return;
+                            if (dx < 0 && idx < imgs.length-1) { idx++; ncLbRender(); }
+                            else if (dx > 0 && idx > 0) { idx--; ncLbRender(); }
+                        }, { passive: true });
+                        document.body.appendChild(lb);
                     }
-                    lbRender();
-                    lb.addEventListener('click', e => { if (e.target === lb) lb.remove(); });
-                    document.body.appendChild(lb);
+                    ncLbRender();
                 });
             });
             
@@ -8679,7 +8701,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     this.value = '';
                     return;
                 }
-                labelSpan.innerHTML = '✓ <span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
+                labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
                 nameEl.textContent = '';
             }
         });
@@ -8712,7 +8734,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     return;
                 }
                 const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-                labelSpan.innerHTML = '✓ <span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
+                labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
                 nameEl.style.color = ''; nameEl.innerHTML = '';
             });
         })();
@@ -8748,7 +8770,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
             const input = document.getElementById('nadmin-image-input');
             if (input) { const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files; }
-            if (labelSpan) labelSpan.innerHTML = '✓ <span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
+            if (labelSpan) labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
             if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = ''; }
         });
         document.addEventListener('change', e => {
@@ -8769,7 +8791,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 return;
             }
             
-            if (labelSpan) labelSpan.innerHTML = '✓ <span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
+            if (labelSpan) labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
             if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = ''; }
         });
 
