@@ -5895,15 +5895,7 @@
                     <div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/journal_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.5;display:block;margin:0 auto 8px;"><p data-ru="Нет новостей" data-en="No news">Нет новостей</p></div>
                 </div>
                 
-                <div id="news-pagination" class="news-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
-                    <button class="copy-btn" id="news-prev-page" onclick="newsChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <span id="news-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
-                    <button class="copy-btn" id="news-next-page" onclick="newsChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+                <div id="news-pagination" class="pg-wrap" style="display:none;"></div>
             </div>
         </div>
         
@@ -6159,15 +6151,7 @@
                     </div>
                 </div>
                 
-                <div id="bp-pagination" class="bp-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
-                    <button class="copy-btn" id="bp-prev-page" onclick="bpChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <span id="bp-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
-                    <button class="copy-btn" id="bp-next-page" onclick="bpChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+                <div id="bp-pagination" class="pg-wrap" style="display:none;"></div>
             </div>
         </div>
         
@@ -6196,15 +6180,7 @@
                     <div class="lb-loading"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;margin:0 auto;"></div><p data-ru="Загрузка..." data-en="Loading..." style="margin-top:8px;font-size:0.75rem;opacity:0.6;">Загрузка...</p></div>
                 </div>
                 
-                <div id="lb-pagination" class="lb-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
-                    <button class="copy-btn" id="lb-prev-page" onclick="lbChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <span id="lb-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
-                    <button class="copy-btn" id="lb-next-page" onclick="lbChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+                <div id="lb-pagination" class="pg-wrap" style="display:none;"></div>
             </div>
         </div>
 
@@ -6221,11 +6197,7 @@
                         </button>
                     </div>
                 </div>
-                <div id="reports-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
-                    <button class="copy-btn" id="reports-prev-page" onclick="reportsChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;"><i class="fas fa-chevron-left"></i></button>
-                    <span id="reports-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
-                    <button class="copy-btn" id="reports-next-page" onclick="reportsChangePage(1)" style="font-size:0.75rem;padding:4px 8px;"><i class="fas fa-chevron-right"></i></button>
-                </div>
+                <div id="reports-pagination" class="pg-wrap" style="display:none;"></div>
                 <div id="reports-container">
                     <div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.45;display:block;margin:0 auto 4px;"><p data-ru="Нет жалоб" data-en="No reports">Нет жалоб</p></div>
                 </div>
@@ -6233,7 +6205,7 @@
         </div>
         
         
-        <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(139,115,85,0.3),transparent);margin:20px 0;"></div>
+        
 
         
         <div id="verifications-tab" class="tab-content">
@@ -6249,11 +6221,7 @@
                         </button>
                     </div>
                 </div>
-                <div id="verif-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
-                    <button class="copy-btn" id="verif-prev-page" onclick="verifChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;"><i class="fas fa-chevron-left"></i></button>
-                    <span id="verif-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
-                    <button class="copy-btn" id="verif-next-page" onclick="verifChangePage(1)" style="font-size:0.75rem;padding:4px 8px;"><i class="fas fa-chevron-right"></i></button>
-                </div>
+                <div id="verif-pagination" class="pg-wrap" style="display:none;"></div>
                 <div id="verifications-container">
                     <div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/sign_icon.png" style="width:40px;height:40px;image-rendering:pixelated;opacity:0.5;margin-bottom:8px;"><p data-ru="Нет заявок" data-en="No requests">Нет заявок</p></div>
                 </div>
@@ -6367,15 +6335,7 @@
                 
                 <div id="gallery-gallery"></div>
                 
-                <div id="gallery-pagination" class="gallery-pagination" style="display:none;justify-content:center;align-items:center;gap:8px;margin-top:16px;">
-                    <button class="copy-btn" id="gallery-prev-page" onclick="galleryChangePage(-1)" style="font-size:0.75rem;padding:4px 8px;">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <span id="gallery-page-info" style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#5a4a3a;">1 / 1</span>
-                    <button class="copy-btn" id="gallery-next-page" onclick="galleryChangePage(1)" style="font-size:0.75rem;padding:4px 8px;">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+                <div id="gallery-pagination" class="pg-wrap" style="display:none;"></div>
             </div>
         </div>
 
@@ -6705,11 +6665,7 @@
             const prevBtn = document.getElementById('news-prev-page');
             const nextBtn = document.getElementById('news-next-page');
             if (!paginationEl) return;
-            if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
-            paginationEl.style.display = 'flex';
-            if (pageInfoEl) pageInfoEl.textContent = _newsCurrentPage + ' / ' + totalPages;
-            if (prevBtn) prevBtn.disabled = _newsCurrentPage === 1;
-            if (nextBtn) nextBtn.disabled = _newsCurrentPage === totalPages;
+            buildPagination(paginationEl, _newsCurrentPage, totalPages, 'newsGoto');
         }
 
         
@@ -6725,6 +6681,75 @@
 
         let _newsAvatarMap = {};
         let _newsVerifiedMap = {};
+
+                // ── GitHub-style pagination helpers ──────────────────────────────────
+        function _pgRange(cur, total) {
+            if (total <= 7) return Array.from({length: total}, (_, i) => i + 1);
+            const p = [];
+            if (cur <= 4) {
+                for (let i = 1; i <= Math.min(5, total); i++) p.push(i);
+                if (total > 6) p.push('...');
+                if (total > 5) p.push(total - 1);
+                p.push(total);
+            } else if (cur >= total - 3) {
+                p.push(1); p.push(2);
+                if (total > 6) p.push('...');
+                for (let i = Math.max(3, total - 4); i <= total; i++) p.push(i);
+            } else {
+                p.push(1); p.push(2); p.push('...');
+                p.push(cur - 1); p.push(cur); p.push(cur + 1);
+                p.push('...'); p.push(total - 1); p.push(total);
+            }
+            return p;
+        }
+
+        function buildPagination(el, cur, total, gotoFn) {
+            if (!el) return;
+            if (total <= 1) { el.style.display = 'none'; return; }
+            el.style.display = 'flex';
+            const ru = currentLang === 'ru';
+            let html = '';
+            html += `<button class="pg-btn pg-nav" onclick="${gotoFn}(${cur - 1})" ${cur === 1 ? 'disabled' : ''}>&#8249; ${ru ? 'Назад' : 'Previous'}</button>`;
+            _pgRange(cur, total).forEach(p => {
+                if (p === '...') html += `<span class="pg-dots">…</span>`;
+                else html += `<button class="pg-btn${p === cur ? ' pg-active' : ''}" onclick="${gotoFn}(${p})">${p}</button>`;
+            });
+            html += `<button class="pg-btn pg-nav" onclick="${gotoFn}(${cur + 1})" ${cur === total ? 'disabled' : ''}>${ru ? 'Вперёд' : 'Next'} &#8250;</button>`;
+            el.innerHTML = html;
+        }
+
+        // goto-функции для каждого раздела
+        window.newsGoto = function(n) {
+            if (!_newsCache) return;
+            const total = Math.ceil(_newsCache.length / _newsItemsPerPage);
+            if (n < 1 || n > total) return;
+            _newsCurrentPage = n;
+            renderNews(_newsCache, _newsIsAdmin);
+            document.getElementById('news-container')?.scrollIntoView({behavior:'smooth',block:'start'});
+        };
+        window.bpGoto = function(n) {
+            if (!_bpAllData) return;
+            _bpCurrentPage = n;
+            applyBpFilters();
+            document.getElementById('bp-gallery')?.scrollIntoView({behavior:'smooth',block:'start'});
+        };
+        window.galleryGoto = function(n) {
+            _galleryCurrentPage = n;
+            applyGalleryFilters();
+            document.getElementById('gallery-grid')?.scrollIntoView({behavior:'smooth',block:'start'});
+        };
+        window.lbGoto = function(n) {
+            _lbCurrentPage = n;
+            if (typeof renderLbPage === 'function') renderLbPage();
+        };
+        window.reportsGoto = function(n) {
+            _reportsCurrentPage = n;
+            if (typeof renderReportsPage === 'function') renderReportsPage();
+        };
+        window.verifGoto = function(n) {
+            _verifCurrentPage = n;
+            if (typeof renderVerifPage === 'function') renderVerifPage();
+        };
 
         window.loadNews = async function loadNews() {
             if (!sbClient) return;
@@ -7731,15 +7756,11 @@
 
         function updateVerifPagination(filtered) {
             const totalPages = Math.max(1, Math.ceil(filtered.length / _verifItemsPerPage));
-            const pEl = document.getElementById('verif-pagination');
-            const piEl = document.getElementById('verif-page-info');
-            const prevBtn = document.getElementById('verif-prev-page');
-            const nextBtn = document.getElementById('verif-next-page');
-            if (pEl) pEl.style.display = totalPages > 1 ? 'flex' : 'none';
-            if (piEl) piEl.textContent = _verifCurrentPage + ' / ' + totalPages;
-            if (prevBtn) prevBtn.disabled = _verifCurrentPage === 1;
-            if (nextBtn) nextBtn.disabled = _verifCurrentPage === totalPages;
+            buildPagination(document.getElementById('verif-pagination'), _verifCurrentPage, totalPages, 'verifGoto');
         }
+        window.renderVerifPage = function() {
+            renderVerifications();
+        };
 
         window.verifChangePage = function(dir) {
             const filtered = _verifFilter === 'pending'
@@ -7845,15 +7866,15 @@
 
         function updateReportsPagination(total) {
             const totalPages = Math.max(1, Math.ceil(total / _reportsItemsPerPage));
-            const pEl = document.getElementById('reports-pagination');
-            const piEl = document.getElementById('reports-page-info');
-            const prevBtn = document.getElementById('reports-prev-page');
-            const nextBtn = document.getElementById('reports-next-page');
-            if (pEl) pEl.style.display = totalPages > 1 ? 'flex' : 'none';
-            if (piEl) piEl.textContent = _reportsCurrentPage + ' / ' + totalPages;
-            if (prevBtn) prevBtn.disabled = _reportsCurrentPage === 1;
-            if (nextBtn) nextBtn.disabled = _reportsCurrentPage === totalPages;
+            buildPagination(document.getElementById('reports-pagination'), _reportsCurrentPage, totalPages, 'reportsGoto');
         }
+        window.renderReportsPage = function() {
+            if (typeof _reportsCache === 'undefined') return;
+            const totalPages = Math.max(1, Math.ceil(_reportsCache.length / _reportsItemsPerPage));
+            if (_reportsCurrentPage < 1 || _reportsCurrentPage > totalPages) _reportsCurrentPage = 1;
+            renderReportsPageImpl();
+            updateReportsPagination(_reportsCache.length);
+        };
 
         window.reportsChangePage = function(dir) {
             const totalPages = Math.max(1, Math.ceil(_reportsCache.length / _reportsItemsPerPage));
@@ -10390,11 +10411,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const prevBtn = document.getElementById('bp-prev-page');
             const nextBtn = document.getElementById('bp-next-page');
             if (!paginationEl) return;
-            if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
-            paginationEl.style.display = 'flex';
-            if (pageInfoEl) pageInfoEl.textContent = _bpCurrentPage + ' / ' + totalPages;
-            if (prevBtn) prevBtn.disabled = _bpCurrentPage === 1;
-            if (nextBtn) nextBtn.disabled = _bpCurrentPage === totalPages;
+            buildPagination(paginationEl, _bpCurrentPage, totalPages, 'bpGoto');
         }
 
         
@@ -11878,11 +11895,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const prevBtn = document.getElementById('gallery-prev-page');
             const nextBtn = document.getElementById('gallery-next-page');
             if (!paginationEl) return;
-            if (totalPages <= 1) { paginationEl.style.display = 'none'; return; }
-            paginationEl.style.display = 'flex';
-            if (pageInfoEl) pageInfoEl.textContent = _galleryCurrentPage + ' / ' + totalPages;
-            if (prevBtn) prevBtn.disabled = _galleryCurrentPage === 1;
-            if (nextBtn) nextBtn.disabled = _galleryCurrentPage === totalPages;
+            buildPagination(paginationEl, _galleryCurrentPage, totalPages, 'galleryGoto');
         }
 
         // Функция смены страницы gallery
@@ -13859,21 +13872,40 @@ async function doDeleteSubdomain() {
 
     function updatePaginationControls(totalPages) {
         var paginationEl = document.getElementById('lb-pagination');
-        var pageInfoEl = document.getElementById('lb-page-info');
-        var prevBtn = document.getElementById('lb-prev-page');
-        var nextBtn = document.getElementById('lb-next-page');
-
-        if (!paginationEl || totalPages <= 1) {
-            if (paginationEl) paginationEl.style.display = 'none';
-            return;
-        }
-
-        paginationEl.style.display = 'flex';
-        if (pageInfoEl) pageInfoEl.textContent = _lbCurrentPage + ' / ' + totalPages;
-        
-        if (prevBtn) prevBtn.disabled = _lbCurrentPage === 1;
-        if (nextBtn) nextBtn.disabled = _lbCurrentPage === totalPages;
+        buildPagination(paginationEl, _lbCurrentPage, totalPages, 'lbGoto');
     }
+
+    window.renderLbPage = function() {
+        var data = _lbCache[_lbMode];
+        if (!data) return;
+        var totalPages = Math.ceil(data.length / _lbItemsPerPage);
+        if (_lbCurrentPage < 1 || _lbCurrentPage > totalPages) _lbCurrentPage = 1;
+        var startIndex = (_lbCurrentPage - 1) * _lbItemsPerPage;
+        var pageData = data.slice(startIndex, startIndex + _lbItemsPerPage);
+        var listEl = document.getElementById('lb-list');
+        if (!listEl) return;
+        listEl.innerHTML = '';
+        var rankIcons = typeof RANK_ICONS !== 'undefined' ? RANK_ICONS : [];
+        pageData.forEach(function(entry, idx) {
+            var rankNum = startIndex + idx + 1;
+            var rankHtml = rankNum <= 3
+                ? '<span class="lb-rank"><img src="' + rankIcons[rankNum-1] + '" style="width:28px;height:28px;image-rendering:pixelated;vertical-align:middle;" title="#' + rankNum + '"></span>'
+                : '<span class="lb-rank lb-rank-other">#' + rankNum + '</span>';
+            var accInfo = _lbAvatarCache[(entry.nick||'').toLowerCase()] || {};
+            var avatarHtml = accInfo.avatar ? '<img src="' + accInfo.avatar + '" alt="">' : '<i class="fas fa-user"></i>';
+            var verifiedHtml = accInfo.verified ? '<span class="verified-badge" style="width:14px;height:14px;margin-left:3px;"><i class="fas fa-check" style="font-size:8px;"></i></span>' : '';
+            var scoreIcon = _lbMode === 'likes' ? '<i class="fas fa-thumbs-up" style="font-size:0.7rem;opacity:0.7;"></i>'
+                : _lbMode === 'downloads' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png" style="width:12px;height:12px;image-rendering:pixelated;">'
+                : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/health_icon.png" style="width:12px;height:12px;image-rendering:pixelated;">';
+            var refBadge = (_lbMode === 'referrals' && typeof getRefBadgeHTML === 'function') ? getRefBadgeHTML(entry.score) : '';
+            var row = document.createElement('div');
+            row.className = 'lb-row';
+            row.innerHTML = rankHtml + '<div class="lb-avatar">' + avatarHtml + '</div>' + '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + '</span>' + '<span class="lb-score">' + scoreIcon + ' ' + fmtNum(entry.score) + '</span>';
+            row.addEventListener('click', function() { openPlayerProfile(entry.nick, 'buildplates'); });
+            listEl.appendChild(row);
+        });
+        updatePaginationControls(totalPages);
+    };
 
     window.lbChangePage = function(direction) {
         var data = _lbCache[_lbMode];
