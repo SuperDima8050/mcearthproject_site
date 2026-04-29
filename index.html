@@ -6108,7 +6108,7 @@
                         wrap.appendChild(div);
                     })();
                     </script>
-                    <div class="bp-btn-row" style="display:flex;gap:10px;">
+                    <div class="bp-btn-row" style="display:flex;gap:10px;margin-top:14px;">
                         <button class="bp-submit-btn" id="bp-submit-btn" onclick="uploadBuildplate()">
                             <i class="fas fa-upload"></i>
                             <span data-ru="Загрузить Buildplate" data-en="Upload Buildplate">Загрузить Buildplate</span>
@@ -6139,7 +6139,7 @@
                         <option value="newest" data-ru="🕐 Сначала новые" data-en="🕐 Newest first">🕐 Сначала новые</option>
                         <option value="oldest" data-ru="🕰️ Сначала старые" data-en="🕰️ Oldest first">🕰️ Сначала старые</option>
                         <option value="liked" data-ru="👍 По лайкам" data-en="👍 Most liked">👍 По лайкам</option>
-                        <option value="rating" data-ru="⭐ По рейтингу" data-en="⭐ By rating">⭐ По рейтингу</option>
+                        
                     </select>
                     <button class="bp-filter-mine-btn" id="bp-filter-mine"
                             data-ru="Мои" data-en="Mine"
@@ -6324,7 +6324,7 @@
                             wrap.appendChild(div);
                         })();
                         </script>
-                        <div class="bp-btn-row" style="display:flex;gap:10px;">
+                        <div class="bp-btn-row" style="display:flex;gap:10px;margin-top:14px;">
                         <button class="bp-submit-btn" id="gallery-submit-btn" onclick="uploadGalleryPhoto()">
                             <i class="fas fa-upload"></i>
                             <span data-ru="Опубликовать фото" data-en="Publish photo">Опубликовать фото</span>
@@ -6351,7 +6351,7 @@
                         <option value="newest" data-ru="🕐 Сначала новые" data-en="🕐 Newest first">🕐 Сначала новые</option>
                         <option value="oldest" data-ru="🕰️ Сначала старые" data-en="🕰️ Oldest first">🕰️ Сначала старые</option>
                         <option value="liked" data-ru="👍 По лайкам" data-en="👍 Most liked">👍 По лайкам</option>
-                        <option value="rating" data-ru="⭐ По рейтингу" data-en="⭐ By rating">⭐ По рейтингу</option>
+                        
                     </select>
                     <button class="bp-filter-mine-btn" id="gallery-filter-mine"
                             data-ru="Мои" data-en="Mine"
@@ -6829,6 +6829,7 @@
                         ${newsTagSelect('nedit-tag', news.tag||'', inputStyle)}
                     </div>
                     <div id="nedit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                    <div class="bp-auth-captcha" id="nedit-captcha-wrap" style="margin-bottom:10px;"></div>
                     <div style="display:flex;gap:10px;">
                         <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
@@ -6841,8 +6842,25 @@
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             makeDraggable(overlay.querySelector('.bp-modal'), overlay.querySelector('.bp-modal h3'));
+            (function() {
+                const wrap = document.getElementById('nedit-captcha-wrap');
+                if (!wrap) return;
+                const isCompact = window.innerWidth <= 480;
+                const savedTheme = localStorage.getItem('theme');
+                const isDarkC = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                const div = document.createElement('div');
+                div.className = 'cf-turnstile';
+                div.id = 'nedit-turnstile';
+                div.setAttribute('data-sitekey', '0x4AAAAAACZyA1UOix1SiYwF');
+                div.setAttribute('data-theme', isDarkC ? 'dark' : 'light');
+                div.setAttribute('data-size', isCompact ? 'compact' : 'normal');
+                wrap.appendChild(div);
+                if (window.turnstile) window.turnstile.render(div);
+            })();
             document.getElementById('nedit-save-btn').addEventListener('click', async () => {
                 const statusEl = document.getElementById('nedit-status');
+                const neditCaptchaToken = document.querySelector('#nedit-turnstile [name="cf-turnstile-response"]')?.value || '';
+                if (!neditCaptchaToken) { statusEl.innerHTML = ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Пройди капчу!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Please complete the captcha!'; statusEl.style.color='#c62828'; return; }
                 const title = document.getElementById('nedit-title').value.trim();
                 const titleEn = document.getElementById('nedit-title-en').value.trim();
                 const content = document.getElementById('nedit-content').value.trim();
