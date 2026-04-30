@@ -5013,6 +5013,8 @@
             padding: 12px;
             box-sizing: border-box;
             overflow-y: auto;
+            touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
         }
         .bp-modal {
             background: #f5eed9;
@@ -5023,6 +5025,8 @@
             max-width: 400px;
             width: calc(100vw - 32px);
             box-sizing: border-box;
+            touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
             box-shadow: 0 8px 0 #5a4a3a, 0 12px 30px rgba(0,0,0,0.5);
             overflow: hidden;
         }
@@ -6828,9 +6832,10 @@
             const overlay = document.createElement('div');
             overlay.id = 'news-edit-modal';
             overlay.className = 'bp-modal-overlay';
+            overlay.style.touchAction = 'pan-y';
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
-                <div class="bp-modal" style="max-width:520px;">
+                <div class="bp-modal" style="max-width:520px;max-height:88vh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;">
                     <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
                     <div class="bp-form-row" style="margin-bottom:10px;">
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
