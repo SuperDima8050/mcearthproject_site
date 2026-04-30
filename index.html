@@ -6865,7 +6865,7 @@
                     <div id="nedit-captcha-wrap" style="margin-bottom:10px;"></div>
                     <div style="display:flex;gap:10px;">
                         <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
+${ru ? 'Сохранить' : 'Save'}
                         </button>
                         <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-edit-modal').remove()">
                             ${ru ? 'Отмена' : 'Cancel'}
@@ -7030,7 +7030,7 @@
                         <textarea id="nadmin-content-en" style="${inputStyle}height:100px;resize:vertical;" maxlength="5000"></textarea>
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label>Источник (ссылка, необязательно)</label>
+                        <label>${ru ? 'Источник (ссылка, необязательно)' : 'Source (link, optional)'}</label>
                         <input id="nadmin-source" style="${inputStyle}" maxlength="500" placeholder="https://github.com/..." />
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
