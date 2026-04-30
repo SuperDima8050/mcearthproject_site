@@ -5046,7 +5046,8 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            overflow: hidden;
+            overflow: visible;
+            touch-action: pan-y;
         }
 
         .cookie-banner {
@@ -6848,7 +6849,7 @@
                         <textarea id="nedit-content-en" style="${inputStyle}height:90px;resize:vertical;" maxlength="5000">${(news.content_en||'').replace(/</g,'&lt;')}</textarea>
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
-                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">Источник (ссылка, необязательно)</label>
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Источник (ссылка, необязательно)' : 'Source (link, optional)'}</label>
                         <input id="nedit-source" style="${inputStyle}" maxlength="500" placeholder="https://..." value="${(news.source_url||'').replace(/"/g,'&quot;')}" />
                     </div>
                     <div class="bp-form-row" style="margin-bottom:10px;">
@@ -6856,7 +6857,7 @@
                         ${newsTagSelect('nedit-tag', news.tag||'', inputStyle)}
                     </div>
                     <div id="nedit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
-                    <div class="bp-auth-captcha" id="nedit-captcha-wrap" style="margin-bottom:10px;"></div>
+                    <div id="nedit-captcha-wrap" style="margin-bottom:10px;"></div>
                     <div style="display:flex;gap:10px;">
                         <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'"> ${ru ? 'Сохранить' : 'Save'}
