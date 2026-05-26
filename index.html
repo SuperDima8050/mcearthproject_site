@@ -4020,43 +4020,21 @@
 
         
         .pp-banner {
-            height: 140px;
-            background: linear-gradient(135deg, #3a5c1a 0%, #5a8a2a 30%, #8b6914 60%, #6b4c2a 100%);
+            height: 90px;
+            background: #8b7355;
             position: relative;
             cursor: move;
-            overflow: hidden;
-            border-radius: 6px 6px 0 0;
+            overflow: visible;
         }
-        /* Дефолтный паттерн поверх градиента */
-        .pp-banner::before {
-            content: '';
-            position: absolute; inset: 0;
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.06) 0%, transparent 50%),
-                radial-gradient(circle at 80% 30%, rgba(255,255,255,0.05) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        /* Реальный баннер (если есть) */
-        .pp-banner-real {
-            position: absolute; inset: 0;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center 50%;
-            z-index: 1;
-            transition: background-position 0.15s;
-        }
-        /* Старый размытый фон (аватар) — только если нет реального баннера */
         .pp-banner-bg {
             position: absolute; inset: 0;
             background-size: cover;
             background-position: center;
             filter: blur(18px) brightness(0.55) saturate(1.4);
-            transform: scale(1.25);
-            z-index: 1;
-            display: none;
+            transform: scale(1.2);
+            border-radius: 2px;
+            overflow: hidden;
         }
-        .pp-banner-bg.visible { display: block; }
         body.dark-theme .pp-banner { background: #2a2a2a; }
         .pp-drag-hint {
             position: absolute;
@@ -4093,16 +4071,15 @@
         
         .pp-avatar-wrap {
             position: absolute;
-            bottom: -38px;
+            bottom: -34px;
             left: 50%;
             transform: translateX(-50%);
-            width: 76px; height: 76px;
+            width: 68px; height: 68px;
             border-radius: 50%;
             border: 4px solid var(--pp-bg, #f5eed9);
             overflow: hidden;
             background: linear-gradient(135deg, #6b8e23, #4a5d23);
-            box-shadow: 0 4px 14px rgba(0,0,0,0.35);
-            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         body.dark-theme .pp-avatar-wrap { border-color: #1e1e1e; background: #2a2a2a; }
         .pp-avatar-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
@@ -4111,7 +4088,7 @@
 
         
         .pp-header {
-            padding: 50px 16px 14px;
+            padding: 44px 16px 14px;
             text-align: center;
             border-bottom: 2px solid rgba(139,115,85,0.2);
         }
@@ -6053,11 +6030,6 @@
                                     <i class="fas fa-image"></i>
                                     <span data-ru="Иконка" data-en="Avatar">Иконка</span>
                                     <input type="file" class="bp-profile-file-input" id="bp-avatar-upload" accept=".png,.jpg,.jpeg,.gif,.webp" onchange="uploadAvatar(this)" />
-                                </label>
-                                <label class="bp-profile-btn" style="cursor:pointer;">
-                                    <i class="fas fa-images"></i>
-                                    <span data-ru="Баннер" data-en="Banner">Баннер</span>
-                                    <input type="file" class="bp-profile-file-input" id="bp-banner-upload" accept=".png,.jpg,.jpeg,.gif,.webp" onchange="uploadBannerFile(this)" />
                                 </label>
                                 <button class="bp-profile-btn" onclick="showRenameModal()">
                                     <i class="fas fa-pencil-alt"></i>
@@ -10103,137 +10075,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             } catch(e) { alert('<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + (e.message || e)); }
         }
 
-        // ── Загрузка баннера ──────────────────────────────────────────────
-        function uploadBannerFile(input) {
-            const ru = currentLang === 'ru';
-            if (!currentAccount || !sbClient) return;
-            const file = input.files[0];
-            if (!file) return;
-            if (file.size > 5 * 1024 * 1024) {
-                showInfoBanner(ru ? '❌ Файл слишком большой (макс 5MB)' : '❌ File too large (max 5MB)', 'error');
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = e => showBannerPositionModal(e.target.result, file);
-            reader.readAsDataURL(file);
-            input.value = '';
-        }
-
-        function showBannerPositionModal(dataUrl, file) {
-            const ru = currentLang === 'ru';
-            const isDark = document.body.classList.contains('dark-theme');
-            const ex = document.getElementById('bp-banner-modal'); if (ex) ex.remove();
-            let posY = 50; // percent
-
-            const overlay = document.createElement('div');
-            overlay.className = 'bp-modal-overlay';
-            overlay.id = 'bp-banner-modal';
-            overlay.style.cssText = 'z-index:10100;';
-            overlay.innerHTML = `
-                <div class="bp-modal" style="max-width:480px;padding:0;overflow:hidden;border-radius:6px;">
-                    <!-- Превью баннера -->
-                    <div id="bm-preview" style="
-                        width:100%; height:140px;
-                        background: url('${dataUrl}') center 50%/cover no-repeat;
-                        position:relative; cursor:ns-resize; overflow:hidden;
-                        border-radius:6px 6px 0 0; user-select:none;
-                    ">
-                        <!-- Центральная линия-прицел -->
-                        <div style="position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,0.4);pointer-events:none;"></div>
-                        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.18) 0%,transparent 40%,transparent 60%,rgba(0,0,0,0.18) 100%);pointer-events:none;"></div>
-                        <div style="position:absolute;bottom:8px;right:10px;font-family:Minecraft,sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.75);pointer-events:none;">
-                            ↕ ${ru ? 'тащи чтобы позиционировать' : 'drag to reposition'}
-                        </div>
-                    </div>
-                    <!-- Слайдер -->
-                    <div style="padding:14px 18px 0;background:${isDark?'#2a2a2a':'#f5eed9'};">
-                        <div style="font-family:Minecraft,sans-serif;font-size:0.65rem;color:${isDark?'#aaa':'#8b7355'};margin-bottom:6px;letter-spacing:0.05em;">
-                            ${ru ? 'ПОЗИЦИЯ' : 'POSITION'}
-                        </div>
-                        <input type="range" id="bm-slider" min="0" max="100" value="50"
-                            style="width:100%;accent-color:#4a7c2f;height:6px;cursor:pointer;margin-bottom:4px;" />
-                        <div style="display:flex;justify-content:space-between;font-family:Minecraft,sans-serif;font-size:0.55rem;color:${isDark?'#666':'#aaa'};">
-                            <span>${ru?'ВЕРХ':'TOP'}</span><span>${ru?'ЦЕНТР':'CENTER'}</span><span>${ru?'НИЗ':'BOTTOM'}</span>
-                        </div>
-                    </div>
-                    <!-- Кнопки -->
-                    <div style="display:flex;gap:8px;padding:14px 18px 18px;background:${isDark?'#2a2a2a':'#f5eed9'};">
-                        <button id="bm-save" class="copy-btn" style="flex:1;justify-content:center;padding:10px;">
-                            <i class="fas fa-check"></i> ${ru?'Сохранить':'Save'}
-                        </button>
-                        <button id="bm-remove" class="copy-btn" style="flex:0 0 auto;justify-content:center;padding:10px 14px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#8b1a1a;box-shadow:0 4px 0 #5a0d0d;">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                        <button id="bm-cancel" class="copy-btn" style="flex:0 0 auto;justify-content:center;padding:10px 14px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(overlay);
-
-            const preview = document.getElementById('bm-preview');
-            const slider = document.getElementById('bm-slider');
-
-            // Слайдер → позиция
-            slider.addEventListener('input', () => {
-                posY = parseInt(slider.value);
-                preview.style.backgroundPosition = `center ${posY}%`;
-            });
-
-            // Drag превью вертикально
-            let dragY = null, startPos = null;
-            preview.addEventListener('pointerdown', e => {
-                dragY = e.clientY; startPos = posY;
-                preview.setPointerCapture(e.pointerId);
-            });
-            preview.addEventListener('pointermove', e => {
-                if (dragY === null) return;
-                const delta = e.clientY - dragY;
-                // При движении вниз — позиция уменьшается (верхняя часть видна), вверх — увеличивается
-                posY = Math.max(0, Math.min(100, startPos - delta * 0.5));
-                preview.style.backgroundPosition = `center ${posY}%`;
-                slider.value = Math.round(posY);
-            });
-            preview.addEventListener('pointerup', () => { dragY = null; });
-
-            // Сохранить
-            document.getElementById('bm-save').addEventListener('click', async () => {
-                document.getElementById('bm-save').innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${ru?'Загрузка...':'Uploading...'}`;
-                document.getElementById('bm-save').disabled = true;
-                try {
-                    const ext = file.name.split('.').pop().toLowerCase();
-                    const path = `banners/${currentAccount.nick.replace(/[^a-zA-Z0-9_]/g,'_')}_${Date.now()}.${ext}`;
-                    const { error: upErr } = await sbClient.storage.from('buildplates').upload(path, file, { cacheControl: '3600', upsert: true });
-                    if (upErr) throw upErr;
-                    const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(path);
-                    const bannerUrl = urlData.publicUrl;
-                    await sbClient.from('accounts').update({ banner_url: bannerUrl, banner_position: Math.round(posY) }).ilike('nick', currentAccount.nick);
-                    currentAccount.banner_url = bannerUrl;
-                    currentAccount.banner_position = Math.round(posY);
-                    overlay.remove();
-                    showInfoBanner(ru ? '✅ Баннер сохранён!' : '✅ Banner saved!', 'success');
-                } catch(e) {
-                    document.getElementById('bm-save').innerHTML = `<i class="fas fa-check"></i> ${ru?'Сохранить':'Save'}`;
-                    document.getElementById('bm-save').disabled = false;
-                    showInfoBanner('❌ ' + (e.message || e), 'error');
-                }
-            });
-
-            // Удалить баннер
-            document.getElementById('bm-remove').addEventListener('click', async () => {
-                try {
-                    await sbClient.from('accounts').update({ banner_url: null, banner_position: null }).ilike('nick', currentAccount.nick);
-                    currentAccount.banner_url = null;
-                    overlay.remove();
-                    showInfoBanner(ru ? '🗑 Баннер удалён' : '🗑 Banner removed', 'success');
-                } catch(e) { showInfoBanner('❌ ' + (e.message || e), 'error'); }
-            });
-
-            document.getElementById('bm-cancel').addEventListener('click', () => overlay.remove());
-            overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-        }
-
         function showRenameModal() {
             const ru = currentLang === 'ru';
             const ex = document.getElementById('bp-rename-modal'); if (ex) ex.remove();
@@ -12860,10 +12701,9 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             overlay.id = 'player-profile-modal';
             overlay.innerHTML = `<div class="pp-modal-box" id="pp-box">
                 <div class="pp-banner" id="pp-banner">
-                    <div class="pp-banner-real" id="pp-banner-real" style="display:none;"></div>
                     <div class="pp-banner-bg" id="pp-banner-bg"></div>
                     <button class="pp-close-btn" id="pp-close"><i class="fas fa-times"></i></button>
-                    <span class="pp-drag-hint" style="z-index:20;position:relative;">⠿ ${ru?'тащи':'drag'}</span>
+                    <span class="pp-drag-hint">⠿ ${ru?'тащи':'drag'}</span>
                     <div class="pp-avatar-wrap" id="pp-avatar">
                         <div class="pp-avatar-ph" id="pp-avatar-ph"><i class="fas fa-user"></i></div>
                     </div>
@@ -12939,7 +12779,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             // Load everything in parallel
             try {
                 // 1. Account info (avatar, verified)
-                sbClient.from('accounts').select('nick,avatar_url,banner_url,banner_position,verified,created_at,social_links').ilike('nick', nick).limit(1).then(({data}) => {
+                sbClient.from('accounts').select('nick,avatar_url,verified,created_at,social_links').ilike('nick', nick).limit(1).then(({data}) => {
                     if (data && data[0]) {
                         const acc = data[0];
                         // Show joined date
@@ -12979,20 +12819,9 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                             img.alt = nick;
                             const ph = document.getElementById('pp-avatar-ph');
                             if (ph) ph.replaceWith(img);
-                            // Set blurred avatar bg only if no real banner
-                            if (!acc.banner_url) {
-                                const bg = document.getElementById('pp-banner-bg');
-                                if (bg) { bg.style.backgroundImage = 'url(' + acc.avatar_url + ')'; bg.classList.add('visible'); }
-                            }
-                        }
-                        // Real banner
-                        if (acc.banner_url) {
-                            const real = document.getElementById('pp-banner-real');
-                            if (real) {
-                                real.style.backgroundImage = 'url(' + acc.banner_url + ')';
-                                real.style.backgroundPositionY = acc.banner_position ? acc.banner_position + '%' : '50%';
-                                real.style.display = 'block';
-                            }
+                            // Set banner bg as blurred avatar
+                            const bg = document.getElementById('pp-banner-bg');
+                            if (bg) bg.style.backgroundImage = 'url(' + acc.avatar_url + ')';
                         }
                         if (acc.verified) {
                             const vb = document.getElementById('pp-verified-badge');
