@@ -7819,8 +7819,8 @@ ${ru ? 'Сохранить' : 'Save'}
             picker.className = 'bp-emoji-picker open';
             picker.innerHTML = `
                 <div class="bp-emoji-picker-tabs">
-                    <button class="bp-emoji-tab active" id="ptab-emoji-${bpId}" onclick="switchPickerTab('${bpId}','emoji',event)">${ru ? 'Эмодзи' : 'Emoji'}</button>
-                    <button class="bp-emoji-tab" id="ptab-gif-${bpId}" onclick="switchPickerTab('${bpId}','gif',event)">${ru ? 'Медиа' : 'Media'}</button>
+                    <button class="bp-emoji-tab active" id="ptab-emoji-${bpId}" onclick="switchPickerTab('${bpId}','emoji',event)"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:5px;">${ru ? 'Эмодзи' : 'Emoji'}</button>
+                    <button class="bp-emoji-tab" id="ptab-gif-${bpId}" onclick="switchPickerTab('${bpId}','gif',event)"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:5px;">${ru ? 'Медиа' : 'Media'}</button>
                 </div>
                 <div id="pgrid-${bpId}" class="bp-emoji-grid">
                     ${REACTION_EMOJIS.map(em => `<span class="bp-emoji-cell" onclick="addReaction('${bpId}','emoji','${em}')">${em}</span>`).join('')}
@@ -14614,42 +14614,46 @@ async function doDeleteSubdomain() {
             bottom: calc(100% + 8px);
             left: 0;
             z-index: 9998;
-            background: #f5eed9;
-            border: 2px solid #8b7355;
-            border-radius: 8px;
-            padding: 12px;
-            width: 290px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.15);
+            background: #d4c5a0;
+            border: 3px solid #8b7355;
+            border-radius: 2px;
+            padding: 10px;
+            width: 292px;
+            box-shadow: 0 6px 0 #5a4a3a, 0 10px 24px rgba(0,0,0,0.35);
             display: none;
         }
         .bp-emoji-picker.open { display: block; }
-        body.dark-theme .bp-emoji-picker { background: #1a1a1a; border-color: #3a3a3a; box-shadow: 0 12px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4); }
+        body.dark-theme .bp-emoji-picker { background: #1a1a1a; border-color: #3a3a3a; box-shadow: 0 6px 0 #000, 0 10px 24px rgba(0,0,0,0.6); }
 
         .bp-emoji-picker-tabs {
             display: flex;
-            gap: 6px;
-            margin-bottom: 10px;
+            gap: 5px;
+            margin-bottom: 8px;
         }
         .bp-emoji-tab {
             flex: 1;
-            padding: 7px 10px;
-            background: linear-gradient(180deg, #6b5a40 0%, #4e3a28 100%);
-            border: 2px solid #3a2a1a;
-            box-shadow: 0 4px 0 #2a1a0a;
-            color: #c8b89a;
+            padding: 8px 10px;
+            background: linear-gradient(180deg, #b8a880 0%, #9a8a68 100%);
+            border: 2px solid #6b5a3a;
+            box-shadow: 0 4px 0 #4a3a20;
+            color: #3e2723;
             font-family: 'Minecraft', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             cursor: pointer;
             border-radius: 2px;
             text-align: center;
             transition: background .12s, color .12s, transform .12s, box-shadow .12s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
-        .bp-emoji-tab:hover { background: linear-gradient(180deg, #7a6a50 0%, #5e4a38 100%); color: #f0e8d0; transform: translateY(-2px); box-shadow: 0 6px 0 #2a1a0a; }
-        .bp-emoji-tab:active { transform: translateY(2px); box-shadow: 0 2px 0 #2a1a0a; }
-        .bp-emoji-tab.active { background: linear-gradient(180deg,#4caf50,#2e7d32); border-color: #1b5e20; color: #fff; box-shadow: 0 4px 0 #1b5e20; }
-        .bp-emoji-tab.active:hover { background: linear-gradient(180deg,#66bb6a,#388e3c); transform: translateY(-2px); box-shadow: 0 6px 0 #1b5e20; }
+        .bp-emoji-tab:hover { background: linear-gradient(180deg, #c8b890 0%, #aа9878 100%); transform: translateY(-2px); box-shadow: 0 6px 0 #4a3a20; }
+        .bp-emoji-tab:active { transform: translateY(2px); box-shadow: 0 2px 0 #4a3a20; }
+        .bp-emoji-tab.active { background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); border-color: #4a5d23; color: #fff; box-shadow: 0 4px 0 #3d4f1c; }
+        .bp-emoji-tab.active:hover { background: linear-gradient(180deg, #7cb342 0%, #689f38 100%); transform: translateY(-2px); box-shadow: 0 6px 0 #3d4f1c; }
         body.dark-theme .bp-emoji-tab { background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); border-color: #111; box-shadow: 0 4px 0 #000; color: #777; }
         body.dark-theme .bp-emoji-tab:hover { background: linear-gradient(180deg, #333 0%, #222 100%); color: #bbb; box-shadow: 0 6px 0 #000; }
 
@@ -14659,9 +14663,16 @@ async function doDeleteSubdomain() {
             gap: 2px;
             max-height: 168px;
             overflow-y: auto;
+            background: #c8b890;
+            border: 2px solid #8b7355;
+            border-radius: 2px;
+            padding: 4px;
         }
-        .bp-emoji-grid::-webkit-scrollbar { width: 4px; }
-        .bp-emoji-grid::-webkit-scrollbar-thumb { background: #a08060; border-radius: 2px; }
+        body.dark-theme .bp-emoji-grid { background: #111; border-color: #333; }
+        .bp-emoji-grid::-webkit-scrollbar { width: 5px; }
+        .bp-emoji-grid::-webkit-scrollbar-track { background: #b8a878; }
+        .bp-emoji-grid::-webkit-scrollbar-thumb { background: #6b5a3a; border-radius: 0; }
+        body.dark-theme .bp-emoji-grid::-webkit-scrollbar-track { background: #1a1a1a; }
         body.dark-theme .bp-emoji-grid::-webkit-scrollbar-thumb { background: #444; }
 
         .bp-emoji-cell {
@@ -14670,14 +14681,14 @@ async function doDeleteSubdomain() {
             justify-content: center;
             width: 30px;
             height: 30px;
-            border-radius: 4px;
+            border-radius: 2px;
             font-size: 1.15rem;
             cursor: pointer;
             transition: background .1s, transform .1s;
         }
-        .bp-emoji-cell:hover { background: #ddd0b0; transform: scale(1.2); }
-        .bp-emoji-cell:active { transform: scale(0.95); }
-        body.dark-theme .bp-emoji-cell:hover { background: #2e2e2e; }
+        .bp-emoji-cell:hover { background: #e0d0a8; transform: scale(1.25); box-shadow: inset 0 0 0 1px #8b7355; }
+        .bp-emoji-cell:active { transform: scale(0.9); }
+        body.dark-theme .bp-emoji-cell:hover { background: #2e2e2e; box-shadow: inset 0 0 0 1px #555; }
 
         .bp-gif-upload-area { display: none; }
         .bp-gif-upload-area.active { display: block; }
@@ -14685,10 +14696,11 @@ async function doDeleteSubdomain() {
         .bp-picker-limit {
             font-family: 'Minecraft', sans-serif;
             font-size: 0.65rem;
-            color: #666;
-            margin-top: 8px;
+            color: #5a4a3a;
+            margin-top: 7px;
             text-align: right;
         }
+        body.dark-theme .bp-picker-limit { color: #666; }
 </style>
 
 <img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="" style="display:none;">
