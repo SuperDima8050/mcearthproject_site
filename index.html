@@ -6650,7 +6650,7 @@
                     const avatarHtml = avatar
                         ? `<img class="bp-card-avatar" src="${avatar}" alt="" loading="lazy" style="width:22px;height:22px;">`
                         : `<span class="bp-card-avatar-placeholder" style="width:22px;height:22px;min-width:22px;"><i class="fas fa-user" style="font-size:10px;color:#fff;"></i></span>`;
-                    authorHTML = `<div class="news-author" style="cursor:pointer;" onclick="openPlayerProfile('${escapeHtml(news.author)}','news')">${avatarHtml}<span class="player-author-link">${escapeHtml(news.author)}${verifiedBadge}</span></div>`;
+                    authorHTML = `<div class="news-author" style="cursor:pointer;" onclick="openPlayerProfile('${escapeHtml(news.author)}','news')">${avatarHtml}<span class="player-author-link">${escapeHtml(news.author)}${verifiedBadge}</span>${_statusDotHTML(news.author)}</div>`;
                 }
                 let sourceHTML = '';
                 if (news.source_url) {
@@ -6914,12 +6914,13 @@
                 if (authors.length > 0) {
                     try {
                         const { data: accs } = await sbClient.from('accounts')
-                            .select('nick, avatar_url, verified')
+                            .select('nick, avatar_url, verified, last_seen')
                             .in('nick', authors).limit(100);
                         (accs || []).forEach(a => {
                             const k = (a.nick||'').toLowerCase();
                             if (a.avatar_url) _newsAvatarMap[k] = a.avatar_url;
                             if (a.verified) _newsVerifiedMap[k] = true;
+                            if (a.last_seen) window._lastSeenCache[k] = a.last_seen;
                         });
                     } catch(e) {}
                 }
@@ -10132,6 +10133,24 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             return { icon:'fas fa-link', color:'#6b8e23' };
         }
 
+        // ── Global last_seen cache + status helper ──────────────
+        window._lastSeenCache = window._lastSeenCache || {};
+
+        function _statusKeyFromLastSeen(lastSeen) {
+            if (!lastSeen) return 'offline';
+            const diff = (Date.now() - new Date(lastSeen).getTime()) / 1000 / 60;
+            if (diff < 3)  return 'online';
+            if (diff < 15) return 'idle';
+            return 'offline';
+        }
+
+        function _statusDotHTML(nick) {
+            const ls = window._lastSeenCache[(nick||'').toLowerCase()];
+            const key = _statusKeyFromLastSeen(ls);
+            return `<span class="pp-status-mini ${key}" title=""></span>`;
+        }
+        // ─────────────────────────────────────────────────────────
+
         function showChangePassModal() {
             const ru = currentLang === 'ru';
             const ex = document.getElementById('bp-chpass-modal'); if (ex) ex.remove();
@@ -10688,7 +10707,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
-                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(bp.author||'')}','buildplates')">${escapeHtml(bp.author || (currentLang === 'ru' ? 'Неизвестно' : 'Unknown'))}${_bpVerifiedMap[authorLower] ? `<span class="verified-badge" title="${currentLang === 'ru' ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
+                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(bp.author||'')}','buildplates')">${escapeHtml(bp.author || (currentLang === 'ru' ? 'Неизвестно' : 'Unknown'))}${_bpVerifiedMap[authorLower] ? `<span class="verified-badge" title="${currentLang === 'ru' ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>${_statusDotHTML(bp.author)}
                             </div>
                             <div class="bp-card-date">
                                 <i class="fas fa-calendar-alt"></i>
@@ -10835,11 +10854,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 _bpVerifiedMap = {};
                 if (authors.length > 0) {
                     try {
-                        const { data: accs } = await sbClient.from('accounts').select('nick, avatar_url, verified').in('nick', authors);
+                        const { data: accs } = await sbClient.from('accounts').select('nick, avatar_url, verified, last_seen').in('nick', authors);
                         if (accs) accs.forEach(a => {
                             const key = a.nick.toLowerCase();
                             if (a.avatar_url) _bpAvatarMap[key] = a.avatar_url;
                             if (a.verified) _bpVerifiedMap[key] = true;
+                            if (a.last_seen) window._lastSeenCache[key] = a.last_seen;
                         });
                     } catch(e) {}
                 }
@@ -12025,13 +12045,14 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 if (authors.length > 0) {
                     try {
                         const { data: accs } = await sbClient.from('accounts')
-                            .select('nick, avatar_url, verified')
+                            .select('nick, avatar_url, verified, last_seen')
                             .in('nick', authors)
                             .limit(100);
                         (accs || []).forEach(acc => {
                             const k = (acc.nick||'').toLowerCase();
                             if (acc.avatar_url) _galleryAvatarMap[k] = acc.avatar_url;
                             if (acc.verified) _galleryVerifiedMap[k] = true;
+                            if (acc.last_seen) window._lastSeenCache[k] = acc.last_seen;
                         });
                     } catch(e) { console.warn('Gallery avatars:', e); }
                 }
@@ -12204,7 +12225,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         <div class="bp-card-meta">
                             <div class="bp-card-author">
                                 ${avatarHtml}
-                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(photo.author||'')}','gallery')">${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? `<span class="verified-badge" title="${ru ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>
+                                <span class="player-author-link" onclick="openPlayerProfile('${escapeHtml(photo.author||'')}','gallery')">${escapeHtml(photo.author || (ru ? 'Неизвестно' : 'Unknown'))}${isVerified ? `<span class="verified-badge" title="${ru ? 'Верифицированный автор' : 'Verified author'}"><i class="fas fa-check"></i></span>` : ''}</span>${_statusDotHTML(photo.author)}
                             </div>
                             <div class="bp-card-date">
                                 <i class="fas fa-calendar-alt"></i>
@@ -14101,10 +14122,11 @@ async function doDeleteSubdomain() {
         
         if (data.length) {
             var nicks = data.map(function(d){ return d.nick; });
-            var accRes = await sbClient.from('accounts').select('nick,avatar_url,verified').in('nick', nicks);
+            var accRes = await sbClient.from('accounts').select('nick,avatar_url,verified,last_seen').in('nick', nicks);
             (accRes.data||[]).forEach(function(a){
                 var k = a.nick.toLowerCase();
-                _lbAvatarCache[k] = { avatar: a.avatar_url, verified: a.verified };
+                _lbAvatarCache[k] = { avatar: a.avatar_url, verified: a.verified, last_seen: a.last_seen || null };
+                if (a.last_seen) window._lastSeenCache[k] = a.last_seen;
             });
         }
 
@@ -14165,9 +14187,10 @@ async function doDeleteSubdomain() {
 
                 var row = document.createElement('div');
                 row.className = 'lb-row';
+                var statusDotLb = _statusDotHTML(entry.nick);
                 row.innerHTML = rankHtml +
                     '<div class="lb-avatar">' + avatarHtml + '</div>' +
-                    '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + '</span>' +
+                    '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + statusDotLb + '</span>' +
                     '<span class="lb-score">' + scoreIcon + ' ' + fmtNum(entry.score) + '</span>';
 
                 row.addEventListener('click', function(){
@@ -14213,7 +14236,8 @@ async function doDeleteSubdomain() {
             var refBadge = (_lbMode === 'referrals' && typeof getRefBadgeHTML === 'function') ? getRefBadgeHTML(entry.score) : '';
             var row = document.createElement('div');
             row.className = 'lb-row';
-            row.innerHTML = rankHtml + '<div class="lb-avatar">' + avatarHtml + '</div>' + '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + '</span>' + '<span class="lb-score">' + scoreIcon + ' ' + fmtNum(entry.score) + '</span>';
+            var statusDotLbP = _statusDotHTML(entry.nick);
+            row.innerHTML = rankHtml + '<div class="lb-avatar">' + avatarHtml + '</div>' + '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + statusDotLbP + '</span>' + '<span class="lb-score">' + scoreIcon + ' ' + fmtNum(entry.score) + '</span>';
             row.addEventListener('click', function() { openPlayerProfile(entry.nick, 'buildplates'); });
             listEl.appendChild(row);
         });
