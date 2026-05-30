@@ -4389,9 +4389,9 @@
         .bp-like-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 0 #5a4a3a;
-            background: #e0e8ff;
-            border-color: #3498db;
-            color: #3498db;
+            background: #ffe0e0;
+            border-color: #e74c3c;
+            color: #e74c3c;
         }
 
         .bp-like-btn.liked {
@@ -4441,9 +4441,9 @@
         .bp-dislike-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 0 #5a4a3a;
-            background: #ffe0e0;
-            border-color: #e74c3c;
-            color: #e74c3c;
+            background: #e0e8ff;
+            border-color: #3498db;
+            color: #3498db;
         }
 
         .bp-dislike-btn.disliked {
@@ -7728,7 +7728,7 @@ ${ru ? 'Сохранить' : 'Save'}
                 });
                 if (error) throw error;
                 document.getElementById('verify-request-overlay')?.remove();
-                showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Заявка отправлена! Рассмотрим в течение 7 дней.' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Request sent! We will review it within 7 days.', 'success');
+                showInfoBanner(ru ? '<i class="fas fa-check" style="margin-right:5px;color:#1877f2;"></i> Заявка отправлена! Рассмотрим в течение 7 дней.' : '<i class="fas fa-check" style="margin-right:5px;color:#1877f2;"></i> Request sent! We will review it within 7 days.', 'success');
                 const vBtn = document.getElementById('verify-request-btn');
                 if (vBtn) {
                     vBtn.disabled = true;
@@ -7760,263 +7760,6 @@ ${ru ? 'Сохранить' : 'Save'}
                 container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle"></i><p>' + (e.message || e) + '</p></div>';
             }
         };
-
-
-        // Reactions system (Beta) — buildplates only for now
-        const REACTION_EMOJIS = ['😀','😂','🥹','😍','🤩','😎','🥳','🤔','😅','😭','😡','🥺','🔥','❤️','💀','👍','👎','👏','🎉','✨','🌟','💫','⚡','🌈','🎮','🏆','💎','🧱','⛏️','🌍','🐷','🐔','🐰','🦊','🐺','🐻','🦁','🐸','🐉','🌸'];
-        let _activePicker = null;
-
-        function closeAllPickers() {
-            document.querySelectorAll('.bp-emoji-picker.open').forEach(p => {
-                p.classList.remove('open');
-                const btn = p.closest('.bp-add-reaction-btn') || p.parentElement;
-                if (btn) { const icon = btn.querySelector('[data-reaction-icon]'); if (icon) icon.textContent = '\uFF0B'; }
-            });
-            _activePicker = null;
-        }
-
-        // close picker on mouseleave
-        document.addEventListener('mouseover', e => {
-            if (!_activePicker) return;
-            const picker = _activePicker;
-            const btn = picker.closest('.bp-add-reaction-btn') || picker.parentElement;
-            const wrap = btn || picker;
-            if (!wrap.contains(e.target) && !picker.contains(e.target)) {
-                closeAllPickers();
-            }
-        });
-
-        // close picker on click outside (fix: меню не закрывалось по клику)
-        document.addEventListener('click', e => {
-            if (!_activePicker) return;
-            const picker = _activePicker;
-            const btn = picker.closest('.bp-add-reaction-btn') || picker.parentElement;
-            if (!picker.contains(e.target) && !(btn && btn.contains(e.target))) {
-                closeAllPickers();
-            }
-        }, true);
-
-        window.openReactionPicker = function(e, bpId) {
-            e.stopPropagation();
-            const btn = e.currentTarget;
-            const row = document.getElementById('bp-reactions-' + bpId);
-            if (!row) return;
-
-            const icon = btn.querySelector('[data-reaction-icon]');
-
-            // remove existing picker
-            const existing = row.querySelector('.bp-emoji-picker');
-            if (existing) {
-                const isOpen = existing.classList.contains('open');
-                existing.classList.toggle('open');
-                if (icon) icon.textContent = isOpen ? '\uFF0B' : '\uFF0D';
-                if (!isOpen) { _activePicker = existing; } else { _activePicker = null; }
-                return;
-            }
-
-            const ru = currentLang === 'ru';
-            const picker = document.createElement('div');
-            picker.className = 'bp-emoji-picker open';
-            picker.innerHTML = `
-                <div class="bp-emoji-picker-tabs">
-                    <button class="bp-emoji-tab active" id="ptab-emoji-${bpId}" onclick="switchPickerTab('${bpId}','emoji',event)"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mob_of_me_icon.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:5px;">${ru ? 'Эмодзи' : 'Emoji'}</button>
-                    <button class="bp-emoji-tab" id="ptab-gif-${bpId}" onclick="switchPickerTab('${bpId}','gif',event)"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;margin-right:5px;">${ru ? 'Медиа' : 'Media'}</button>
-                </div>
-                <div id="pgrid-${bpId}" class="bp-emoji-grid">
-                    ${REACTION_EMOJIS.map(em => `<span class="bp-emoji-cell" onclick="addReaction('${bpId}','emoji','${em}')">${em}</span>`).join('')}
-                </div>
-                <div id="pgif-${bpId}" class="bp-gif-upload-area">
-                    <label class="bp-file-label gallery-upload" style="width:100%;box-sizing:border-box;" onclick="document.getElementById('pgif-input-${bpId}').click()">
-                        <i class="fas fa-image"></i>
-                        <span>${ru ? 'Нажми, чтобы выбрать изображение' : 'Click to choose image'}</span>
-                        <span class="bp-formats">GIF · PNG · JPG · WEBP · ${ru ? 'Макс. 2 МБ' : 'Max 2 MB'}</span>
-                    </label>
-                    <input type="file" id="pgif-input-${bpId}" accept="image/gif,image/png,image/jpeg,image/webp" onchange="handleGifUpload(event,'${bpId}')" style="display:none;">
-                    <div id="pgif-status-${bpId}" style="font-family:Minecraft,sans-serif;font-size:0.7rem;color:#888;margin-top:5px;"></div>
-                </div>
-                <div class="bp-picker-limit" id="plimit-${bpId}"></div>`;
-
-            btn.style.position = 'relative';
-            btn.appendChild(picker);
-            if (icon) icon.textContent = '\uFF0D';
-            _activePicker = picker;
-            updatePickerLimit(bpId);
-        };
-
-        window.switchPickerTab = function(bpId, tab, e) {
-            if (e) e.stopPropagation();
-            const grid = document.getElementById('pgrid-' + bpId);
-            const gif = document.getElementById('pgif-' + bpId);
-            const tabEmoji = document.getElementById('ptab-emoji-' + bpId);
-            const tabGif = document.getElementById('ptab-gif-' + bpId);
-            if (tab === 'emoji') {
-                grid.style.display = 'grid'; gif.classList.remove('active');
-                tabEmoji.classList.add('active'); tabGif.classList.remove('active');
-            } else {
-                grid.style.display = 'none'; gif.classList.add('active');
-                tabEmoji.classList.remove('active'); tabGif.classList.add('active');
-            }
-        };
-
-        function updatePickerLimit(bpId) {
-            const row = document.getElementById('bp-reactions-' + bpId);
-            if (!row) return;
-            const count = row.querySelectorAll('.bp-reaction-chip').length;
-            const el = document.getElementById('plimit-' + bpId);
-            if (el) el.textContent = count + '/10';
-        }
-
-        window.addReaction = async function(bpId, type, value) {
-            const ru = currentLang === 'ru';
-            if (!currentAccount || !sbClient) {
-                showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Войди чтобы добавить реакцию' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Log in to add a reaction', 'error');
-                return;
-            }
-            const row = document.getElementById('bp-reactions-' + bpId);
-            if (!row) return;
-            const chips = row.querySelectorAll('.bp-reaction-chip');
-            if (chips.length >= 10) {
-                showInfoBanner(ru ? 'Максимум 10 реакций' : 'Max 10 reactions', 'error');
-                return;
-            }
-
-            // check if user already reacted with this value
-            const myNick = currentAccount.nick.toLowerCase();
-            const existingChip = [...chips].find(c => c.dataset.val === value);
-            if (existingChip) {
-                const myReacters = (existingChip.dataset.nicks || '').split(',');
-                if (myReacters.includes(myNick)) {
-                    // remove own reaction
-                    await sbClient.from('bp_reactions').delete()
-                        .eq('bp_id', bpId).eq('nick', currentAccount.nick).eq('value', value);
-                    await loadReactionsForCard(bpId);
-                    closeAllPickers();
-                    return;
-                }
-            }
-
-            try {
-                await sbClient.from('bp_reactions').upsert(
-                    { bp_id: bpId, nick: currentAccount.nick, type, value, created_at: new Date().toISOString() },
-                    { onConflict: 'bp_id,nick,value' }
-                );
-                await loadReactionsForCard(bpId);
-            } catch(err) {
-                showInfoBanner((ru ? 'Ошибка: ' : 'Error: ') + err.message, 'error');
-            }
-            closeAllPickers();
-        };
-
-        window.handleGifUpload = async function(e, bpId) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const ru = currentLang === 'ru';
-            const statusEl = document.getElementById('pgif-status-' + bpId);
-            if (file.size > 5 * 1024 * 1024) {
-                if (statusEl) statusEl.textContent = ru ? 'GIF слишком большой (макс. 2МБ)' : 'GIF too large (max 2MB)';
-                return;
-            }
-            if (statusEl) statusEl.textContent = ru ? 'Загружаем...' : 'Uploading...';
-            try {
-                const ext = file.name.split('.').pop().toLowerCase() || 'png';
-                const path = `reactions/${bpId}_${currentAccount.nick}_${Date.now()}.${ext}`;
-                const { error: upErr } = await sbClient.storage.from('buildplates').upload(path, file, { contentType: file.type, upsert: true });
-                if (upErr) throw upErr;
-                const { data: urlData } = sbClient.storage.from('buildplates').getPublicUrl(path);
-                const gifUrl = urlData.publicUrl;
-                await window.addReaction(bpId, 'gif', gifUrl);
-                if (statusEl) statusEl.textContent = '';
-            } catch(err) {
-                if (statusEl) statusEl.textContent = (ru ? 'Ошибка: ' : 'Error: ') + err.message;
-            }
-        };
-
-        async function loadReactionsForCard(bpId) {
-            if (!sbClient) return;
-            const row = document.getElementById('bp-reactions-' + bpId);
-            if (!row) return;
-            const ru = currentLang === 'ru';
-            const myNick = currentAccount?.nick?.toLowerCase() || null;
-
-            try {
-                const { data } = await sbClient.from('bp_reactions').select('nick,type,value').eq('bp_id', bpId);
-                if (!data) return;
-
-                // group by value
-                const groups = {};
-                data.forEach(r => {
-                    if (!groups[r.value]) groups[r.value] = { type: r.type, nicks: [] };
-                    groups[r.value].nicks.push(r.nick.toLowerCase());
-                });
-
-                // rebuild row: keep add button, replace chips
-                const addBtn = row.querySelector('.bp-add-reaction-btn');
-                row.innerHTML = '';
-
-                Object.entries(groups).forEach(([val, info]) => {
-                    const isMine = myNick && info.nicks.includes(myNick);
-                    const chip = document.createElement('button');
-                    chip.className = 'bp-reaction-chip' + (isMine ? ' mine' : '');
-                    chip.dataset.val = val;
-                    chip.dataset.nicks = info.nicks.join(',');
-                    chip.onclick = () => window.addReaction(bpId, info.type, val);
-                    if (info.type === 'gif') {
-                        chip.innerHTML = `<img class="rc-img" src="${val}"> <span class="rc-count">${info.nicks.length}</span>`;
-                    } else {
-                        chip.innerHTML = `<span>${val}</span><span class="rc-count">${info.nicks.length}</span>`;
-                    }
-                    row.appendChild(chip);
-                });
-
-                if (addBtn) row.appendChild(addBtn);
-            } catch(e) {}
-        }
-
-        async function loadAllReactionsForPage() {
-            if (!sbClient) return;
-            const rows = document.querySelectorAll('.bp-reactions-row[data-bpid]');
-            const ids = [...rows].map(r => r.dataset.bpid).filter(Boolean);
-            if (!ids.length) return;
-            try {
-                const { data } = await sbClient.from('bp_reactions').select('bp_id,nick,type,value').in('bp_id', ids);
-                if (!data) return;
-                const byCard = {};
-                data.forEach(r => {
-                    if (!byCard[r.bp_id]) byCard[r.bp_id] = [];
-                    byCard[r.bp_id].push(r);
-                });
-                ids.forEach(bpId => {
-                    if (byCard[bpId]) {
-                        const row = document.getElementById('bp-reactions-' + bpId);
-                        if (!row) return;
-                        const myNick = currentAccount?.nick?.toLowerCase() || null;
-                        const groups = {};
-                        byCard[bpId].forEach(r => {
-                            if (!groups[r.value]) groups[r.value] = { type: r.type, nicks: [] };
-                            groups[r.value].nicks.push(r.nick.toLowerCase());
-                        });
-                        const addBtn = row.querySelector('.bp-add-reaction-btn');
-                        row.innerHTML = '';
-                        Object.entries(groups).forEach(([val, info]) => {
-                            const isMine = myNick && info.nicks.includes(myNick);
-                            const chip = document.createElement('button');
-                            chip.className = 'bp-reaction-chip' + (isMine ? ' mine' : '');
-                            chip.dataset.val = val;
-                            chip.dataset.nicks = info.nicks.join(',');
-                            chip.onclick = () => window.addReaction(bpId, info.type, val);
-                            if (info.type === 'gif') {
-                                chip.innerHTML = `<img class="rc-img" src="${val}"> <span class="rc-count">${info.nicks.length}</span>`;
-                            } else {
-                                chip.innerHTML = `<span>${val}</span><span class="rc-count">${info.nicks.length}</span>`;
-                            }
-                            row.appendChild(chip);
-                        });
-                        if (addBtn) row.appendChild(addBtn);
-                    }
-                });
-            } catch(e) {}
-        }
-        window._loadAllReactions = loadAllReactionsForPage;
 
         window.filterVerifications = function(filter) {
             _verifFilter = filter;
@@ -8111,8 +7854,8 @@ ${ru ? 'Сохранить' : 'Save'}
                     await sbClient.from('accounts').update({ verified: true }).ilike('nick', nick);
                 }
                 showInfoBanner(decision === 'approved'
-                    ? (ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Верификация выдана!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Verified!')
-                    : (ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Заявка отклонена.' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Request rejected.'), 'success');
+                    ? (ru ? '<i class="fas fa-check" style="margin-right:5px;color:#1877f2;"></i> Верификация выдана!' : '<i class="fas fa-check" style="margin-right:5px;color:#1877f2;"></i> Verified!')
+                    : (ru ? 'Заявка отклонена.' : 'Request rejected.'), 'success');
                 window.loadVerifications();
             } catch(e) {
                 showInfoBanner((ru ? 'Ошибка: ' : 'Error: ') + e.message, 'error');
@@ -8735,8 +8478,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
                     const ru = currentLang === 'ru';
                     const message = validFiles.length === 1 
-                        ? (ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Файл добавлен' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> File added')
-                        : (ru ? `<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Добавлено ${validFiles.length} файла` : `<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ${validFiles.length} files added`);
+                        ? (ru ? '📎 Файл добавлен' : '📎 File added')
+                        : (ru ? `📎 Добавлено ${validFiles.length} файла` : `📎 ${validFiles.length} files added`);
                     
                     showInfoBanner(message, 'success');
                 });
@@ -10316,7 +10059,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!currentAccount || !sbClient) return;
             const file = input.files[0];
             if (!file) return;
-            if (file.size > 5 * 1024 * 1024) { alert(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Файл слишком большой (макс 2MB)' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> File too large (max 2MB)'); return; }
+            if (file.size > 2 * 1024 * 1024) { alert(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Файл слишком большой (макс 2MB)' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> File too large (max 2MB)'); return; }
             try {
                 const ext = file.name.split('.').pop().toLowerCase();
                 const path = `avatars/${currentAccount.nick.replace(/[^a-zA-Z0-9_]/g,'_')}_${Date.now()}.${ext}`;
@@ -10718,7 +10461,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             gallery.innerHTML = '<div class="bp-grid"></div>';
             const grid = gallery.querySelector('.bp-grid');
             renderBpCards(pageData, grid, myIds, myNicks);
-            setTimeout(() => { if (window._loadAllReactions) window._loadAllReactions(); }, 80);
             
             updateBpPaginationControls(totalPages);
         }
@@ -10847,11 +10589,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                                     </button>` : ''}
                                 </div>
                             </div>
-                        </div>
-                        <div class="bp-reactions-row" id="bp-reactions-${bp.id}" data-bpid="${bp.id}">
-                            <button class="bp-add-reaction-btn" onclick="openReactionPicker(event,'${bp.id}')" title="${currentLang === 'ru' ? 'Добавить реакцию' : 'Add reaction'}">
-                                <span data-reaction-icon style="font-size:1rem;line-height:1;">＋</span>
-                            </button>
                         </div>
                         ${isMine ? `
                         <button class="bp-delete-btn" onclick="deleteBuildplate('${bp.id}', this)">
@@ -12801,7 +12538,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             addItem(faIcon('fa-share-alt'), ru?'Поделиться':'Share', '', () => {
                 const url = window.location.href;
                 if (navigator.share) navigator.share({ title: name, url }).catch(()=>{});
-                else { navigator.clipboard.writeText(url).catch(()=>{}); showInfoBanner(ru?'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Ссылка скопирована!':'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Link copied!','success'); }
+                else { navigator.clipboard.writeText(url).catch(()=>{}); showInfoBanner(ru?'Ссылка скопирована!':'Link copied!','success'); }
             });
 
             // Favorite
@@ -14556,151 +14293,6 @@ async function doDeleteSubdomain() {
 #mw-go:active svg { transform: translateX(3px) translateY(-3px) scale(.9); }
 #mw-go:disabled { background: #121a08; cursor: default; opacity: .4; }
 #mw-go svg { transition: transform .14s cubic-bezier(.3,1.5,.5,1); display: block; }
-        .bp-reactions-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            align-items: center;
-            width: 100%;
-            margin-top: 8px;
-        }
-        .bp-reaction-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 3px 9px;
-            border: 1.5px solid #8b7355;
-            border-radius: 10px;
-            background: #f5eed9;
-            font-size: 0.85rem;
-            cursor: pointer;
-            font-family: 'Minecraft', sans-serif;
-            transition: background .12s, border-color .12s, transform .12s, box-shadow .12s;
-            user-select: none;
-            line-height: 1.3;
-        }
-        .bp-reaction-chip:hover { background: #ede0c0; transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
-        .bp-reaction-chip:active { transform: translateY(0); }
-        .bp-reaction-chip.mine { border-color: #1877f2; background: rgba(24,119,242,0.10); }
-        .bp-reaction-chip .rc-img { width: 18px; height: 18px; object-fit: contain; image-rendering: pixelated; vertical-align: middle; }
-        .bp-reaction-chip .rc-count { font-size: 0.72rem; opacity: 0.8; }
-        body.dark-theme .bp-reaction-chip { background: #2a2a2a; border-color: #555; color: #ddd; }
-        body.dark-theme .bp-reaction-chip:hover { background: #363636; }
-        body.dark-theme .bp-reaction-chip.mine { border-color: #1877f2; background: rgba(24,119,242,0.18); }
-
-        .bp-add-reaction-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            padding: 3px 10px;
-            border: 1.5px dashed #8b7355;
-            border-radius: 10px;
-            background: transparent;
-            color: #8b7355;
-            font-size: 0.85rem;
-            cursor: pointer;
-            font-family: 'Minecraft', sans-serif;
-            transition: border-color .12s, color .12s, background .12s, transform .12s;
-            position: relative;
-        }
-        .bp-add-reaction-btn:hover { border-color: #4caf50; color: #4caf50; background: rgba(76,175,80,0.07); border-style: solid; transform: translateY(-1px); }
-        .bp-add-reaction-btn:active { transform: translateY(0); }
-        body.dark-theme .bp-add-reaction-btn { border-color: #666; color: #aaa; }
-        body.dark-theme .bp-add-reaction-btn:hover { border-color: #4caf50; color: #4caf50; }
-
-        .bp-emoji-picker {
-            position: absolute;
-            bottom: calc(100% + 8px);
-            left: 0;
-            z-index: 9998;
-            background: #d4c5a0;
-            border: 3px solid #8b7355;
-            border-radius: 2px;
-            padding: 10px;
-            width: 292px;
-            box-shadow: 0 6px 0 #5a4a3a, 0 10px 24px rgba(0,0,0,0.35);
-            display: none;
-        }
-        .bp-emoji-picker.open { display: block; }
-        body.dark-theme .bp-emoji-picker { background: #1a1a1a; border-color: #3a3a3a; box-shadow: 0 6px 0 #000, 0 10px 24px rgba(0,0,0,0.6); }
-
-        .bp-emoji-picker-tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 8px;
-        }
-        .bp-emoji-tab {
-            flex: 1;
-            padding: 8px 10px;
-            background: linear-gradient(180deg, #b8a880 0%, #9a8a68 100%);
-            border: 2px solid #6b5a3a;
-            box-shadow: 0 4px 0 #4a3a20;
-            color: #3e2723;
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.72rem;
-            cursor: pointer;
-            border-radius: 2px;
-            text-align: center;
-            transition: background .12s, color .12s, transform .12s, box-shadow .12s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        .bp-emoji-tab:hover { background: linear-gradient(180deg, #c8b890 0%, #aа9878 100%); transform: translateY(-2px); box-shadow: 0 6px 0 #4a3a20; }
-        .bp-emoji-tab:active { transform: translateY(2px); box-shadow: 0 2px 0 #4a3a20; }
-        .bp-emoji-tab.active { background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); border-color: #4a5d23; color: #fff; box-shadow: 0 4px 0 #3d4f1c; }
-        .bp-emoji-tab.active:hover { background: linear-gradient(180deg, #7cb342 0%, #689f38 100%); transform: translateY(-2px); box-shadow: 0 6px 0 #3d4f1c; }
-        body.dark-theme .bp-emoji-tab { background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); border-color: #111; box-shadow: 0 4px 0 #000; color: #777; }
-        body.dark-theme .bp-emoji-tab:hover { background: linear-gradient(180deg, #333 0%, #222 100%); color: #bbb; box-shadow: 0 6px 0 #000; }
-
-        .bp-emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 2px;
-            max-height: 168px;
-            overflow-y: auto;
-            background: #c8b890;
-            border: 2px solid #8b7355;
-            border-radius: 2px;
-            padding: 4px;
-        }
-        body.dark-theme .bp-emoji-grid { background: #111; border-color: #333; }
-        .bp-emoji-grid::-webkit-scrollbar { width: 5px; }
-        .bp-emoji-grid::-webkit-scrollbar-track { background: #b8a878; }
-        .bp-emoji-grid::-webkit-scrollbar-thumb { background: #6b5a3a; border-radius: 0; }
-        body.dark-theme .bp-emoji-grid::-webkit-scrollbar-track { background: #1a1a1a; }
-        body.dark-theme .bp-emoji-grid::-webkit-scrollbar-thumb { background: #444; }
-
-        .bp-emoji-cell {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 2px;
-            font-size: 1.15rem;
-            cursor: pointer;
-            transition: background .1s, transform .1s;
-        }
-        .bp-emoji-cell:hover { background: #e0d0a8; transform: scale(1.25); box-shadow: inset 0 0 0 1px #8b7355; }
-        .bp-emoji-cell:active { transform: scale(0.9); }
-        body.dark-theme .bp-emoji-cell:hover { background: #2e2e2e; box-shadow: inset 0 0 0 1px #555; }
-
-        .bp-gif-upload-area { display: none; }
-        .bp-gif-upload-area.active { display: block; }
-
-        .bp-picker-limit {
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.65rem;
-            color: #5a4a3a;
-            margin-top: 7px;
-            text-align: right;
-        }
-        body.dark-theme .bp-picker-limit { color: #666; }
 </style>
 
 <img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="" style="display:none;">
@@ -15377,4 +14969,3 @@ function spawnCluck() {
 </script>
 </body>
 </html>
-
