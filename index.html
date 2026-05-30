@@ -14633,24 +14633,25 @@ async function doDeleteSubdomain() {
         .bp-emoji-tab {
             flex: 1;
             padding: 7px 10px;
-            background: #e8dfc8;
-            border: 1.5px solid #a08060;
-            color: #5a4a3a;
+            background: linear-gradient(180deg, #6b5a40 0%, #4e3a28 100%);
+            border: 2px solid #3a2a1a;
+            box-shadow: 0 4px 0 #2a1a0a;
+            color: #c8b89a;
             font-family: 'Minecraft', sans-serif;
             font-size: 0.75rem;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 2px;
             text-align: center;
             transition: background .12s, color .12s, transform .12s, box-shadow .12s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .bp-emoji-tab:hover { background: #ddd0b0; color: #3e2723; transform: translateY(-2px); box-shadow: 0 3px 0 #8b7355; }
-        .bp-emoji-tab:active { transform: translateY(1px); box-shadow: none; }
-        .bp-emoji-tab.active { background: linear-gradient(180deg,#4caf50,#388e3c); border-color: #388e3c; color: #fff; box-shadow: 0 4px 0 #1b5e20; }
-        .bp-emoji-tab.active:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #1b5e20; }
-        body.dark-theme .bp-emoji-tab { background: #2a2a2a; border-color: #444; color: #aaa; }
-        body.dark-theme .bp-emoji-tab:hover { background: #333; color: #ddd; box-shadow: 0 3px 0 #111; }
+        .bp-emoji-tab:hover { background: linear-gradient(180deg, #7a6a50 0%, #5e4a38 100%); color: #f0e8d0; transform: translateY(-2px); box-shadow: 0 6px 0 #2a1a0a; }
+        .bp-emoji-tab:active { transform: translateY(2px); box-shadow: 0 2px 0 #2a1a0a; }
+        .bp-emoji-tab.active { background: linear-gradient(180deg,#4caf50,#2e7d32); border-color: #1b5e20; color: #fff; box-shadow: 0 4px 0 #1b5e20; }
+        .bp-emoji-tab.active:hover { background: linear-gradient(180deg,#66bb6a,#388e3c); transform: translateY(-2px); box-shadow: 0 6px 0 #1b5e20; }
+        body.dark-theme .bp-emoji-tab { background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); border-color: #111; box-shadow: 0 4px 0 #000; color: #777; }
+        body.dark-theme .bp-emoji-tab:hover { background: linear-gradient(180deg, #333 0%, #222 100%); color: #bbb; box-shadow: 0 6px 0 #000; }
 
         .bp-emoji-grid {
             display: grid;
