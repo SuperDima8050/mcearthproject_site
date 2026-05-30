@@ -1913,13 +1913,17 @@
             font-size: 1.1rem;
         }
 
+        .pp-add-social-link { color: #4a5d23; border-bottom: 1px dotted #4a5d23; }
+        body.dark-theme .pp-add-social-link { color: #8bc34a; border-bottom-color: #8bc34a; }
+
         body.dark-theme #bp-daily-limit {
-            background: #1a1a1a;
-            border-color: #3a3a3a;
+            background: #1e1e1e !important;
+            border-color: #3a3a3a !important;
+            box-shadow: 0 4px 0 #0a0a0a !important;
         }
-        body.dark-theme #bp-limit-title { color: #8bc34a; }
-        body.dark-theme #bp-limit-text { color: #b0b0b0; }
-        body.dark-theme #bp-limit-reset { color: #666; }
+        body.dark-theme #bp-limit-title { color: #8bc34a !important; }
+        body.dark-theme #bp-limit-text { color: #c8b89a !important; }
+        body.dark-theme #bp-limit-reset { color: #666 !important; }
 
         body.dark-theme .nav-tabs {
             border-bottom-color: #3a3a3a;
@@ -5463,9 +5467,9 @@
         }
         
         .gallery-tab-img { cursor: zoom-in; }
-        body.dark-theme #gallery-daily-limit { background: #1a1a1a; border-color: #3a3a3a; }
+        body.dark-theme #gallery-daily-limit { background: #1e1e1e !important; border-color: #3a3a3a !important; }
         body.dark-theme #gallery-limit-title,
-        body.dark-theme #gallery-limit-text { color: #b0b0b0; }
+        body.dark-theme #gallery-limit-text { color: #c8b89a !important; }
 
         @media (max-width: 480px) {
             .code-text {
@@ -12724,7 +12728,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                         <i class="fas fa-calendar-alt" style="margin-right:4px;opacity:0.7;"></i>${ru?'С нами с':'Member since'} <span id="pp-joined" style="color:var(--pp-accent,#6b8e23);font-weight:700;">—</span>
                     </div>
                     <div style="text-align:center;padding:5px 12px 0;">
-                        <a href="https://discord.com/users/1203235739752595487" target="_blank" rel="noopener" style="font-family:Minecraft,sans-serif;font-size:0.55rem;color:#4a5d23;opacity:0.8;text-decoration:none;transition:opacity 0.15s;border-bottom:1px dotted #4a5d23;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">
+                        <a href="https://discord.com/users/1203235739752595487" target="_blank" rel="noopener" class="pp-add-social-link" style="font-family:Minecraft,sans-serif;font-size:0.55rem;opacity:0.8;text-decoration:none;transition:opacity 0.15s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">
                             ${ru?'Добавить или обновить ссылку на соцсеть':'Add or update social link'}
                         </a>
                     </div>
