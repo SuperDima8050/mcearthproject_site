@@ -5050,6 +5050,13 @@
                 width: calc(100vw - 24px) !important;
                 box-sizing: border-box !important;
             }
+            .report-reason-btn:hover:not([style*="translateY(1px)"]) {
+                transform: translateY(-2px) !important;
+                box-shadow: 0 5px 0 var(--shadow, #b8a88a) !important;
+            }
+            .report-reason-btn:active {
+                transform: translateY(1px) !important;
+            }
             
             .nav-tabs {
                 overflow-x: hidden;
@@ -7650,7 +7657,12 @@ ${ru ? 'Сохранить' : 'Save'}
                         text-transform:uppercase;letter-spacing:0.5px;
                         user-select:none;
                     "
-                    onclick="window._selectReportReason(this,'${r2.value}')">
+                    onclick="window._selectReportReason(this,'${r2.value}')"
+                    onmouseenter="if(!this.style.background.includes('c62828')){this.style.transform='translateY(-2px)';this.style.boxShadow='0 5px 0 '+(document.body.classList.contains('dark-theme')?'#111':'#b8a88a');}"
+                    onmouseleave="if(!this.style.background.includes('c62828')){this.style.transform='';this.style.boxShadow='0 3px 0 '+(document.body.classList.contains('dark-theme')?'#111':'#b8a88a');}"
+                    onmousedown="if(!this.style.background.includes('c62828')){this.style.transform='translateY(1px)';}"
+                    onmouseup="if(!this.style.background.includes('c62828')){this.style.transform='translateY(-2px)';}"
+                    >
                     <span style="
                         display:inline-flex;align-items:center;justify-content:center;
                         width:22px;height:22px;flex-shrink:0;border-radius:2px;
@@ -8112,7 +8124,7 @@ ${ru ? 'Сохранить' : 'Save'}
             if (typeof _reportsCache === 'undefined') return;
             const totalPages = Math.max(1, Math.ceil(_reportsCache.length / _reportsItemsPerPage));
             if (_reportsCurrentPage < 1 || _reportsCurrentPage > totalPages) _reportsCurrentPage = 1;
-            renderReportsPageImpl();
+            renderReportsPage();
             updateReportsPagination(_reportsCache.length);
         };
 
@@ -8139,35 +8151,40 @@ ${ru ? 'Сохранить' : 'Save'}
             const ru = currentLang === 'ru';
             const container = document.getElementById('reports-container');
             if (!container) return;
-            const isAdm = await checkNewsAdmin();
+            const isAdm = await Promise.race([
+                checkNewsAdmin(),
+                new Promise(resolve => setTimeout(() => resolve(false), 8000))
+            ]);
             if (!isAdm) {
                 container.innerHTML = '<div class="news-empty"><span style="display:flex;align-items:center;justify-content:center;width:2.4rem;height:2.4rem;background:#8b7355;border:3px solid #5a4a3a;border-radius:3px;margin:0 auto 12px;box-shadow:0 3px 0 #3e2723;"><i class="fas fa-lock" style="font-size:1.1rem;color:#fff;"></i></span><p>Access denied</p></div>';
                 return;
             }
             container.innerHTML = '<div class="news-loading"><div class="compass-loader"></div><p>' + (ru ? 'Загрузка...' : 'Loading...') + '</p></div>';
             const statusFilter = reportsCurrentFilter === 'pending' ? ['pending'] : ['approved', 'rejected'];
-
-            
-            const { count: totalCount, error: countErr } = await sbClient.from('reports')
-                .select('*', { count: 'exact', head: true });
-
-            const { data, error } = await sbClient.from('reports')
-                .select('*')
-                .in('status', statusFilter)
-                .order('created_at', { ascending: false })
-                .limit(100);
-
-            if (error) {
-                container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle" style="color:#c62828;font-size:2rem;display:block;margin-bottom:10px;"></i><p style="color:#c62828;">' + error.message + '</p></div>';
-                return;
+            try {
+                const fetchPromise = sbClient.from('reports')
+                    .select('*')
+                    .in('status', statusFilter)
+                    .order('created_at', { ascending: false })
+                    .limit(100);
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error(ru ? 'Превышено время ожидания' : 'Request timed out')), 10000)
+                );
+                const { data, error } = await Promise.race([fetchPromise, timeoutPromise]);
+                if (error) {
+                    container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle" style="color:#c62828;font-size:2rem;display:block;margin-bottom:10px;"></i><p style="color:#c62828;">' + error.message + '</p></div>';
+                    return;
+                }
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.45;display:block;margin:0 auto 4px;"><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
+                    return;
+                }
+                _reportsCache = data;
+                _reportsCurrentPage = 1;
+                renderReportsPage();
+            } catch(e) {
+                container.innerHTML = '<div class="news-empty"><i class="fas fa-exclamation-triangle" style="color:#c62828;font-size:2rem;display:block;margin-bottom:10px;"></i><p style="color:#c62828;">' + (e.message || String(e)) + '</p></div>';
             }
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/settings_icon.png" style="width:48px;height:48px;image-rendering:pixelated;opacity:0.45;display:block;margin:0 auto 4px;"><p>' + (ru ? 'Нет жалоб' : 'No reports') + '</p></div>';
-                return;
-            }
-            _reportsCache = data;
-            _reportsCurrentPage = 1;
-            renderReportsPage();
         };
 
         function renderReportCard(rep, container) {
@@ -13016,7 +13033,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                     <input class="pp-search" id="pp-search" type="text" placeholder="${ru?'Поиск...':'Search...'}" oninput="window._ppFilter(this.value)" autocomplete="off" />
                 </div>
                 <div class="pp-grid" id="pp-grid">
-                    <div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>
+                    <div class="pp-empty"><div class="compass-loader" style="margin:0 auto;"></div></div>
                 </div>
                 
                 <div id="pp-pagination" class="pg-wrap" style="display:none;"></div>
