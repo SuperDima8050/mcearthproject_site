@@ -4112,114 +4112,6 @@
             letter-spacing: 0.5px;
         }
         body.dark-theme .pp-nick { color: #e0e0e0; }
-
-        /* ── Online status indicator ── */
-
-        /* ── Status popup on dot click ── */
-        .pp-status-popup {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: calc(100% + 8px);
-            z-index: 9999;
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.6rem;
-            font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 2px;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.15s;
-            border-width: 2px;
-            border-style: solid;
-            box-shadow: 0 4px 0;
-            letter-spacing: 0.03em;
-        }
-        .pp-status-popup.visible { opacity: 1; }
-        .pp-status-popup.online {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border-color: #4caf50;
-            box-shadow: 0 4px 0 #2e7d32;
-        }
-        .pp-status-popup.idle {
-            background: #fff8e1;
-            color: #e65100;
-            border-color: #ffc107;
-            box-shadow: 0 4px 0 #f57f17;
-        }
-        .pp-status-popup.offline {
-            background: #ffebee;
-            color: #b71c1c;
-            border-color: #f44336;
-            box-shadow: 0 4px 0 #b71c1c;
-        }
-        body.dark-theme .pp-status-popup.online  { background: #1b2e1c; color: #81c784; }
-        body.dark-theme .pp-status-popup.idle    { background: #2e2512; color: #ffca28; }
-        body.dark-theme .pp-status-popup.offline { background: #2e1212; color: #ef9a9a; }
-        /* arrow pointing up */
-        .pp-status-popup::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 0 5px 6px 5px;
-            border-style: solid;
-            border-color: transparent transparent currentColor transparent;
-        }
-        .pp-status-dot-btn {
-            background: none;
-            border: none;
-            padding: 2px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .pp-status-dot {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 0;
-            flex-shrink: 0;
-            image-rendering: pixelated;
-        }
-        .pp-status-dot.online  { background: #4caf50; box-shadow: 0 0 0 2px #2e7d32; }
-        .pp-status-dot.idle    { background: #ffc107; box-shadow: 0 0 0 2px #f57f17; }
-        .pp-status-dot.offline { background: #f44336; box-shadow: 0 0 0 2px #b71c1c; }
-        .pp-status-wrap {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.7rem;
-            color: #8b7355;
-            margin-top: 5px;
-        }
-        body.dark-theme .pp-status-wrap { color: #888; }
-        .pp-status-wrap.online  .pp-status-label { color: #4caf50; }
-        .pp-status-wrap.idle    .pp-status-label { color: #ffc107; }
-        .pp-status-wrap.offline .pp-status-label { color: #f44336; }
-
-        /* Status dot in leaderboard / post cards */
-        .pp-status-mini {
-            display: inline-block;
-            width: 7px; height: 7px;
-            border-radius: 0;
-            flex-shrink: 0;
-            image-rendering: pixelated;
-            vertical-align: middle;
-            margin-left: 3px;
-        }
-        .pp-status-mini.online  { background: #4caf50; }
-        .pp-status-mini.idle    { background: #ffc107; }
-        .pp-status-mini.offline { background: #f44336; }
-
-
         .pp-verified { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; margin-left:5px; vertical-align:middle; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231877f2' d='M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 3 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82 1.89 3.2L12 21l3.4 1.5 1.89-3.19 3.61-.82-.34-3.69z'/%3E%3Cpath fill='white' d='M10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9z'/%3E%3C/svg%3E"); background-size:contain; background-repeat:no-repeat; }
         .pp-verified i { display:none; }
 
@@ -9648,31 +9540,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
         }
 
-        // ── Status heartbeat ──────────────────────────────────────
-        let _statusHeartbeatTimer = null;
-        async function _pingLastSeen() {
-            if (!window.currentAccount) return;
-            try {
-                await sbClient.from('accounts')
-                    .update({ last_seen: new Date().toISOString() })
-                    .ilike('nick', window.currentAccount.nick);
-            } catch(e) {}
-        }
-        function _startHeartbeat() {
-            _pingLastSeen(); // immediate ping on login
-            if (_statusHeartbeatTimer) clearInterval(_statusHeartbeatTimer);
-            _statusHeartbeatTimer = setInterval(_pingLastSeen, 60 * 1000); // every 60s
-        }
-        function _stopHeartbeat() {
-            if (_statusHeartbeatTimer) { clearInterval(_statusHeartbeatTimer); _statusHeartbeatTimer = null; }
-        }
-        // ─────────────────────────────────────────────────────────
-
         function setLoggedIn(nick, verified, avatarUrl, email, emailVerified, joinDate) {
             currentAccount = { nick, verified, avatar_url: avatarUrl || null, email: email || null, email_verified: !!emailVerified, join_date: joinDate || null };
             window.currentAccount = currentAccount;
             window.currentAccount = currentAccount;
-            _startHeartbeat();
             
             const merlBtnEl = document.getElementById('mw-btn');
             const merlAnimEl = document.getElementById('mw-anim');
@@ -9891,7 +9762,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const merlAnimEl = document.getElementById('mw-anim');
             if (merlBtnEl) merlBtnEl.style.display = 'none';
             if (merlAnimEl) merlAnimEl.style.display = 'none';
-            _stopHeartbeat();
             currentAccount = null; window.currentAccount = null;
             document.getElementById('bp-author').value = '';
             document.getElementById('bp-auth-form').style.display = 'block';
@@ -12853,13 +12723,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 <div class="pp-header">
                     <div class="pp-nick" id="pp-nick">${escapeHtml(nick)}<span id="pp-verified-badge"></span></div>
                     <div id="pp-easter-badges" style="display:flex;align-items:center;justify-content:center;gap:0;margin-top:3px;min-height:0;"></div>
-                    <div id="pp-status-wrap" class="pp-status-wrap offline" style="justify-content:center;margin-top:5px;">
-                        <button class="pp-status-dot-btn" id="pp-status-dot-btn" onclick="window._ppToggleStatusPopup(event)" title="">
-                            <span class="pp-status-dot offline" id="pp-status-dot"></span>
-                            <span class="pp-status-popup offline" id="pp-status-popup"></span>
-                        </button>
-                        <span class="pp-status-label" id="pp-status-label" data-ru="Офлайн" data-en="Offline">Офлайн</span>
-                    </div>
                     <div id="pp-social-links" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:5px;margin-top:6px;padding:0 8px;"></div>
                     <div style="text-align:center;padding:4px 0 0;font-family:Minecraft,sans-serif;font-size:0.7rem;color:#8b7355;letter-spacing:0.05em;">
                         <i class="fas fa-calendar-alt" style="margin-right:4px;opacity:0.7;"></i>${ru?'С нами с':'Member since'} <span id="pp-joined" style="color:var(--pp-accent,#6b8e23);font-weight:700;">—</span>
@@ -12928,7 +12791,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             // Load everything in parallel
             try {
                 // 1. Account info (avatar, verified)
-                sbClient.from('accounts').select('nick,avatar_url,verified,created_at,social_links,last_seen').ilike('nick', nick).limit(1).then(({data}) => {
+                sbClient.from('accounts').select('nick,avatar_url,verified,created_at,social_links').ilike('nick', nick).limit(1).then(({data}) => {
                     if (data && data[0]) {
                         const acc = data[0];
                         // Show joined date
@@ -12981,81 +12844,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                             const vb = document.getElementById('pp-verified-badge');
                             if (vb) vb.innerHTML = `<span class="pp-verified"><i class="fas fa-check"></i></span>`;
                         }
-                        // Show online status
-                        (function() {
-                            const wrap  = document.getElementById('pp-status-wrap');
-                            const dot   = document.getElementById('pp-status-dot');
-                            const label = document.getElementById('pp-status-label');
-                            const popup = document.getElementById('pp-status-popup');
-                            if (!wrap || !dot || !label) return;
-                            const ru = (currentLang || 'ru') === 'ru';
-                            let statusKey = 'offline';
-                            let labelRu = 'Офлайн', labelEn = 'Offline';
-                            let popupRu = 'Не было в сети', popupEn = 'Never online';
-
-                            if (acc.last_seen) {
-                                const diffMs = Date.now() - new Date(acc.last_seen).getTime();
-                                const diffSec = Math.floor(diffMs / 1000);
-                                const diffMin = Math.floor(diffSec / 60);
-                                const diffH   = Math.floor(diffMin / 60);
-                                const diffD   = Math.floor(diffH   / 24);
-
-                                function fmtRu(sec) {
-                                    if (sec < 60) return `${sec} сек. назад`;
-                                    if (sec < 3600) return `${Math.floor(sec/60)} мин. назад`;
-                                    if (sec < 86400) return `${Math.floor(sec/3600)} ч. назад`;
-                                    return `${Math.floor(sec/86400)} д. назад`;
-                                }
-                                function fmtEn(sec) {
-                                    if (sec < 60) return `${sec}s ago`;
-                                    if (sec < 3600) return `${Math.floor(sec/60)}m ago`;
-                                    if (sec < 86400) return `${Math.floor(sec/3600)}h ago`;
-                                    return `${Math.floor(sec/86400)}d ago`;
-                                }
-
-                                const diffMinF = diffMs / 1000 / 60;
-                                if (diffMinF < 3) {
-                                    statusKey = 'online';
-                                    labelRu = 'Онлайн'; labelEn = 'Online';
-                                    popupRu = 'Сейчас онлайн'; popupEn = 'Online now';
-                                } else if (diffMinF < 15) {
-                                    statusKey = 'idle';
-                                    labelRu = 'Неактивен'; labelEn = 'Idle';
-                                    popupRu = fmtRu(diffSec); popupEn = fmtEn(diffSec);
-                                } else {
-                                    popupRu = fmtRu(diffSec); popupEn = fmtEn(diffSec);
-                                }
-                            }
-
-                            wrap.className = 'pp-status-wrap ' + statusKey;
-                            dot.className  = 'pp-status-dot ' + statusKey;
-                            label.textContent = ru ? labelRu : labelEn;
-
-                            if (popup) {
-                                popup.className = 'pp-status-popup ' + statusKey;
-                                popup.textContent = ru ? popupRu : popupEn;
-                                // store for click toggle
-                                popup._statusKey = statusKey;
-                            }
-
-                            // Click handler on the dot button
-                            window._ppToggleStatusPopup = function(e) {
-                                e.stopPropagation();
-                                const p = document.getElementById('pp-status-popup');
-                                if (!p) return;
-                                const isVisible = p.classList.contains('visible');
-                                // close all others first
-                                document.querySelectorAll('.pp-status-popup.visible').forEach(x => x.classList.remove('visible'));
-                                if (!isVisible) p.classList.add('visible');
-                            };
-                            // Click outside closes
-                            document.addEventListener('click', function _closeStatusPop(ev) {
-                                const btn = document.getElementById('pp-status-dot-btn');
-                                if (btn && btn.contains(ev.target)) return;
-                                const p = document.getElementById('pp-status-popup');
-                                if (p) p.classList.remove('visible');
-                            });
-                        })();
                         // Fetch referral count and show badge
                         sbClient.from('referrals').select('id').eq('referrer_nick', acc.nick).then(({ data: refs }) => {
                             const refCount = (refs || []).length;
