@@ -5401,8 +5401,13 @@
             box-shadow: 0 8px 0 #0a0a0a !important;
             color: #c8b89a !important;
         }
-        body.dark-theme #privacy-modal-overlay .privacy-modal-inner button {
+        body.dark-theme #privacy-modal-overlay .privacy-modal-inner > button {
             color: #888 !important;
+        }
+        body.dark-theme #privacy-modal-overlay .privacy-modal-inner button[data-ru="Закрыть"] {
+            color: #fff !important;
+            background: linear-gradient(180deg, #a89060, #7a6040) !important;
+            border-color: #8b7355 !important;
         }
         body.dark-theme #privacy-modal-overlay .privacy-modal-inner [style*="color:#3e2723"],
         body.dark-theme #privacy-modal-overlay .privacy-modal-inner [style*="color: #3e2723"] {
@@ -5424,8 +5429,8 @@
         .privacy-modal-inner::-webkit-scrollbar-track { background: #d4c5a0; border-radius: 0px; border: 2px solid #8b7355; }
         .privacy-modal-inner::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); border-radius: 0px; border: 2px solid #4a5d23; }
         body.dark-theme .privacy-modal-inner { scrollbar-color: #7cb342 #1a1a1a; }
-        body.dark-theme .privacy-modal-inner::-webkit-scrollbar-track { background: #1a1a1a; border-color: #3a3a3a; }
-        body.dark-theme .privacy-modal-inner::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #7cb342 0%, #558b2f 100%); border-color: #33691e; }
+        body.dark-theme .privacy-modal-inner::-webkit-scrollbar-track { background: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 0px; }
+        body.dark-theme .privacy-modal-inner::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #7cb342 0%, #558b2f 100%); border: 2px solid #33691e; border-radius: 0px; }
         .cookie-modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
