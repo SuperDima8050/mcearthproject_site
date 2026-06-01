@@ -5130,16 +5130,13 @@
             height: 7px;
             border-radius: 0;
             image-rendering: pixelated;
-            border: 1.5px solid #8b7355;
+            border: 1.5px solid transparent;
             z-index: 2;
             pointer-events: none;
         }
-        body.dark-theme .av-wrap .av-status {
-            border-color: #8b7355;
-        }
-        .av-status.online  { background: #4caf50; }
-        .av-status.idle    { background: #ffc107; }
-        .av-status.offline { background: #f44336; }
+        .av-status.online  { background: #4caf50; border-color: #2e7d32; }
+        .av-status.idle    { background: #ffc107; border-color: #f57f17; }
+        .av-status.offline { background: #f44336; border-color: #b71c1c; }
         .bp-card-avatar-placeholder {
             width: 22px;
             height: 22px;
