@@ -3972,24 +3972,26 @@
         body.dark-theme .lb-avatar { border-color: #444; background: #333; }
         .lb-avatar img { width:100%; height:100%; object-fit:cover; }
         .lb-avatar i { font-size: 1rem; color: #8b7355; }
-        /* av-wrap inside lb-avatar must fill it exactly */
-        .lb-avatar .av-wrap {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* LB avatar outer wrapper — holds avatar + status dot outside overflow:hidden */
+        .lb-av-outer {
+            position: relative;
+            display: inline-flex;
+            flex-shrink: 0;
         }
-        .lb-avatar .av-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .lb-av-outer .av-status {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 9px;
+            height: 9px;
+            border-radius: 0;
+            image-rendering: pixelated;
+            z-index: 3;
+            pointer-events: none;
         }
-        .lb-avatar .av-wrap i { font-size: 1rem; color: #8b7355; }
-        .lb-avatar .av-wrap .av-status {
-            bottom: 0px;
-            right: 0px;
-        }
+        .lb-av-outer .av-status.online  { background: #4caf50; border: 2px solid #2e7d32; }
+        .lb-av-outer .av-status.idle    { background: #ffc107; border: 2px solid #f57f17; }
+        .lb-av-outer .av-status.offline { background: #f44336; border: 2px solid #b71c1c; }
         body.dark-theme .lb-avatar i { color: #555; }
         .lb-name {
             font-family: Minecraft, sans-serif;
@@ -14267,7 +14269,9 @@ async function doDeleteSubdomain() {
                 var _rawAvLb = accInfo.avatar
                     ? '<img src="' + accInfo.avatar + '" alt="">'
                     : '<i class="fas fa-user"></i>';
-                var avatarHtml = _wrapAvatar(_rawAvLb, entry.nick);
+                // For LB: put status dot on a wrapper OUTSIDE lb-avatar (overflow:hidden would clip it)
+                var _lbStatusKey = _statusKey(entry.nick);
+                var avatarHtml = _rawAvLb; // raw, no wrap — status goes on outer container
                 var verifiedHtml = accInfo.verified
                     ? '<span class="verified-badge" style="width:14px;height:14px;margin-left:3px;"><i class="fas fa-check" style="font-size:8px;"></i></span>'
                     : '';
@@ -14286,7 +14290,7 @@ async function doDeleteSubdomain() {
                 var row = document.createElement('div');
                 row.className = 'lb-row';
                 row.innerHTML = rankHtml +
-                    '<div class="lb-avatar">' + avatarHtml + '</div>' +
+                    '<span class="lb-av-outer"><div class="lb-avatar">' + avatarHtml + '</div><span class="av-status ' + _lbStatusKey + '"></span></span>' +
                     '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + '</span>' +
                     '<span class="lb-score">' + scoreIcon + ' ' + fmtNum(entry.score) + '</span>';
 
@@ -14326,6 +14330,7 @@ async function doDeleteSubdomain() {
                 : '<span class="lb-rank lb-rank-other">#' + rankNum + '</span>';
             var accInfo = _lbAvatarCache[(entry.nick||'').toLowerCase()] || {};
             var avatarHtml = accInfo.avatar ? '<img src="' + accInfo.avatar + '" alt="">' : '<i class="fas fa-user"></i>';
+            var _lbStatusKey2 = _statusKey(entry.nick);
             var verifiedHtml = accInfo.verified ? '<span class="verified-badge" style="width:14px;height:14px;margin-left:3px;"><i class="fas fa-check" style="font-size:8px;"></i></span>' : '';
             var scoreIcon = _lbMode === 'likes' ? '<i class="fas fa-thumbs-up" style="font-size:0.7rem;opacity:0.7;"></i>'
                 : _lbMode === 'downloads' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/map_icon.png" style="width:12px;height:12px;image-rendering:pixelated;">'
@@ -14333,7 +14338,7 @@ async function doDeleteSubdomain() {
             var refBadge = (_lbMode === 'referrals' && typeof getRefBadgeHTML === 'function') ? getRefBadgeHTML(entry.score) : '';
             var row = document.createElement('div');
             row.className = 'lb-row';
-            row.innerHTML = rankHtml + '<div class="lb-avatar">' + avatarHtml + '</div>' + '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + '</span>' + '<span class="lb-score">' + scoreIcon + ' ' + fmtNum(entry.score) + '</span>';
+            row.innerHTML = rankHtml + '<span class="lb-av-outer"><div class="lb-avatar">' + avatarHtml + '</div><span class="av-status ' + _lbStatusKey2 + '"></span></span>' + '<span class="lb-name">' + escapeHtml(entry.nick) + verifiedHtml + (refBadge?' '+refBadge:'') + '</span>' + '<span class="lb-score">' + scoreIcon + ' ' + fmtNum(entry.score) + '</span>';
             row.addEventListener('click', function() { openPlayerProfile(entry.nick, 'buildplates'); });
             listEl.appendChild(row);
         });
