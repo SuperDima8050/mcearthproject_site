@@ -5115,6 +5115,31 @@
             border: 1px solid #8b7355;
             flex-shrink: 0;
         }
+
+        /* ── Discord-style status dot on avatar ── */
+        .av-wrap {
+            position: relative;
+            display: inline-flex;
+            flex-shrink: 0;
+        }
+        .av-wrap .av-status {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 7px;
+            height: 7px;
+            border-radius: 0;
+            image-rendering: pixelated;
+            border: 1.5px solid #8b7355;
+            z-index: 2;
+            pointer-events: none;
+        }
+        body.dark-theme .av-wrap .av-status {
+            border-color: #8b7355;
+        }
+        .av-status.online  { background: #4caf50; }
+        .av-status.idle    { background: #ffc107; }
+        .av-status.offline { background: #f44336; }
         .bp-card-avatar-placeholder {
             width: 22px;
             height: 22px;
@@ -6650,7 +6675,7 @@
                     const avatarHtml = avatar
                         ? `<img class="bp-card-avatar" src="${avatar}" alt="" loading="lazy" style="width:22px;height:22px;">`
                         : `<span class="bp-card-avatar-placeholder" style="width:22px;height:22px;min-width:22px;"><i class="fas fa-user" style="font-size:10px;color:#fff;"></i></span>`;
-                    authorHTML = `<div class="news-author" style="cursor:pointer;" onclick="openPlayerProfile('${escapeHtml(news.author)}','news')">${avatarHtml}<span class="player-author-link">${escapeHtml(news.author)}${verifiedBadge}</span></div>`;
+                    authorHTML = `<div class="news-author" style="cursor:pointer;" onclick="openPlayerProfile('${escapeHtml(news.author)}','news')">${_wrapAvatar(avatarHtml, news.author)}<span class="player-author-link">${escapeHtml(news.author)}${verifiedBadge}</span></div>`;
                 }
                 let sourceHTML = '';
                 if (news.source_url) {
@@ -6914,12 +6939,13 @@
                 if (authors.length > 0) {
                     try {
                         const { data: accs } = await sbClient.from('accounts')
-                            .select('nick, avatar_url, verified')
+                            .select('nick, avatar_url, verified, last_seen')
                             .in('nick', authors).limit(100);
                         (accs || []).forEach(a => {
                             const k = (a.nick||'').toLowerCase();
                             if (a.avatar_url) _newsAvatarMap[k] = a.avatar_url;
                             if (a.verified) _newsVerifiedMap[k] = true;
+                            if (a.last_seen) window._lsCache[k] = a.last_seen;
                         });
                     } catch(e) {}
                 }
@@ -9653,9 +9679,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         async function _pingLastSeen() {
             if (!window.currentAccount) return;
             try {
+                const now = new Date().toISOString();
                 await sbClient.from('accounts')
-                    .update({ last_seen: new Date().toISOString() })
+                    .update({ last_seen: now })
                     .ilike('nick', window.currentAccount.nick);
+                // Also update local cache so own avatar shows green immediately
+                window._lsCache[(window.currentAccount.nick||'').toLowerCase()] = now;
             } catch(e) {}
         }
         function _startHeartbeat() {
@@ -10131,6 +10160,25 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (u.includes('boosty.to'))   return { icon:'fas fa-fire',      color:'#f5730a' };
             return { icon:'fas fa-link', color:'#6b8e23' };
         }
+
+        // ── last_seen cache + status helper ──────────────────────
+        window._lsCache = window._lsCache || {};
+
+        function _statusKey(nick) {
+            const ls = window._lsCache[(nick||'').toLowerCase()];
+            if (!ls) return 'offline';
+            const diff = (Date.now() - new Date(ls).getTime()) / 60000;
+            if (diff < 3)  return 'online';
+            if (diff < 15) return 'idle';
+            return 'offline';
+        }
+
+        // Wraps any avatar HTML with a status dot in bottom-right corner
+        function _wrapAvatar(avatarHtml, nick) {
+            const key = _statusKey(nick);
+            return `<span class="av-wrap">${avatarHtml}<span class="av-status ${key}"></span></span>`;
+        }
+        // ─────────────────────────────────────────────────────────
 
         function showChangePassModal() {
             const ru = currentLang === 'ru';
@@ -10673,9 +10721,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
                 const authorLower = (bp.author || '').toLowerCase();
                 const authorAvatar = _bpAvatarMap[authorLower];
-                const avatarHtml = authorAvatar
+                const _rawAvatarHtmlBp = authorAvatar
                     ? `<img class="bp-card-avatar" src="${authorAvatar}" alt="" loading="lazy">`
                     : `<span class="bp-card-avatar-placeholder"><i class="fas fa-user" style="color:#fff;"></i></span>`;
+                const avatarHtml = _wrapAvatar(_rawAvatarHtmlBp, bp.author);
 
                 card.innerHTML = `
                     ${isBpNew ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png" class="news-new-badge" style="position:absolute;top:8px;right:8px;z-index:10;width:28px;height:28px;image-rendering:pixelated;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));" title=\"Новое\" alt=\"new\">' : ''}
@@ -10835,11 +10884,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 _bpVerifiedMap = {};
                 if (authors.length > 0) {
                     try {
-                        const { data: accs } = await sbClient.from('accounts').select('nick, avatar_url, verified').in('nick', authors);
+                        const { data: accs } = await sbClient.from('accounts').select('nick, avatar_url, verified, last_seen').in('nick', authors);
                         if (accs) accs.forEach(a => {
                             const key = a.nick.toLowerCase();
                             if (a.avatar_url) _bpAvatarMap[key] = a.avatar_url;
                             if (a.verified) _bpVerifiedMap[key] = true;
+                            if (a.last_seen) window._lsCache[key] = a.last_seen;
                         });
                     } catch(e) {}
                 }
@@ -12025,13 +12075,14 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 if (authors.length > 0) {
                     try {
                         const { data: accs } = await sbClient.from('accounts')
-                            .select('nick, avatar_url, verified')
+                            .select('nick, avatar_url, verified, last_seen')
                             .in('nick', authors)
                             .limit(100);
                         (accs || []).forEach(acc => {
                             const k = (acc.nick||'').toLowerCase();
                             if (acc.avatar_url) _galleryAvatarMap[k] = acc.avatar_url;
                             if (acc.verified) _galleryVerifiedMap[k] = true;
+                            if (acc.last_seen) window._lsCache[k] = acc.last_seen;
                         });
                     } catch(e) { console.warn('Gallery avatars:', e); }
                 }
@@ -12181,9 +12232,10 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 const isGlNew = new Date(photo.created_at).getTime() > lastSeenGl;
 
                 // Same avatar html as buildplates
-                const avatarHtml = authorAvatar
+                const _rawAvGl = authorAvatar
                     ? `<img class="bp-card-avatar" src="${authorAvatar}" alt="" loading="lazy">`
                     : `<span class="bp-card-avatar-placeholder"><i class="fas fa-user" style="color:#fff;"></i></span>`;
+                const avatarHtml = _wrapAvatar(_rawAvGl, photo.author);
 
                 const dateStr = photo.created_at
                     ? new Date(photo.created_at).toLocaleDateString(ru ? 'ru-RU' : 'en-US', { day: '2-digit', month: 'long', year: 'numeric' }) + ', ' + new Date(photo.created_at).toLocaleTimeString(ru ? 'ru-RU' : 'en-US', { hour: '2-digit', minute: '2-digit' })
@@ -14101,10 +14153,11 @@ async function doDeleteSubdomain() {
         
         if (data.length) {
             var nicks = data.map(function(d){ return d.nick; });
-            var accRes = await sbClient.from('accounts').select('nick,avatar_url,verified').in('nick', nicks);
+            var accRes = await sbClient.from('accounts').select('nick,avatar_url,verified,last_seen').in('nick', nicks);
             (accRes.data||[]).forEach(function(a){
                 var k = a.nick.toLowerCase();
-                _lbAvatarCache[k] = { avatar: a.avatar_url, verified: a.verified };
+                _lbAvatarCache[k] = { avatar: a.avatar_url, verified: a.verified, last_seen: a.last_seen || null };
+                if (a.last_seen) window._lsCache[k] = a.last_seen;
             });
         }
 
@@ -14145,9 +14198,10 @@ async function doDeleteSubdomain() {
                 }
 
                 var accInfo = _lbAvatarCache[(entry.nick||'').toLowerCase()] || {};
-                var avatarHtml = accInfo.avatar
+                var _rawAvLb = accInfo.avatar
                     ? '<img src="' + accInfo.avatar + '" alt="">'
                     : '<i class="fas fa-user"></i>';
+                var avatarHtml = _wrapAvatar(_rawAvLb, entry.nick);
                 var verifiedHtml = accInfo.verified
                     ? '<span class="verified-badge" style="width:14px;height:14px;margin-left:3px;"><i class="fas fa-check" style="font-size:8px;"></i></span>'
                     : '';
