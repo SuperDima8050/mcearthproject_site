@@ -1058,6 +1058,13 @@
             justify-content: stretch;
             width: 100%;
             border-bottom: 3px solid #8b7355;
+            overscroll-behavior: none;
+            touch-action: pan-x;
+        }
+        .nav-tab {
+            touch-action: manipulation;
+            -webkit-user-drag: none;
+            user-select: none;
         }
 
         .nav-tabs-wrapper {
@@ -1632,12 +1639,12 @@
         }
 
         .like-btn.active {
-            background: rgba(76, 175, 80, 0.4);
-            border-color: #4caf50;
+            background: rgba(52, 152, 219, 0.4);
+            border-color: #3498db;
         }
 
         .like-btn.active i {
-            color: #4caf50;
+            color: #3498db;
         }
 
         .dislike-btn.active {
@@ -6454,7 +6461,7 @@
                 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
                     <h2 class="section-title" data-icon="sign_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;"><span data-ru="Верификации" data-en="Verifications">Верификации</span></h2>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#1877f2,#1256b8);border-color:#1256b8;box-shadow:0 4px 0 #0a3d8a;">
+                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#8b1a1a;box-shadow:0 4px 0 #5a0d0d;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
                         </button>
                         <button class="copy-btn" id="verif-filter-resolved" onclick="window.filterVerifications('resolved')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
