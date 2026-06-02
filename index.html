@@ -13016,7 +13016,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                     <input class="pp-search" id="pp-search" type="text" placeholder="${ru?'Поиск...':'Search...'}" oninput="window._ppFilter(this.value)" autocomplete="off" />
                 </div>
                 <div class="pp-grid" id="pp-grid">
-                    <div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>
+                    <div class="pp-empty" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 0;"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;"></div><span style="font-family:'Minecraft',sans-serif;font-size:0.7rem;opacity:0.6;">Загрузка...</span></div>
                 </div>
                 
                 <div id="pp-pagination" class="pg-wrap" style="display:none;"></div>
@@ -13041,7 +13041,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 document.getElementById('pp-tab-gl').classList.toggle('active', mode==='gallery');
                 const srch = document.getElementById('pp-search');
                 if (srch) srch.value = '';
-                gridEl.innerHTML = `<div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>`;
+                gridEl.innerHTML = `<div class="pp-empty" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 0;"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;"></div><span style="font-family:'Minecraft',sans-serif;font-size:0.7rem;opacity:0.6;">Загрузка...</span></div>`;
                 _ppLoadGrid(window._ppNick, mode, gridEl);
             };
 
@@ -13231,7 +13231,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 _ppRenderGrid(window._ppCache[mode]||[], mode, gridEl);
                 return;
             }
-            gridEl.innerHTML = `<div class="pp-empty"><i class="fas fa-spinner fa-spin"></i></div>`;
+            gridEl.innerHTML = `<div class="pp-empty" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 0;"><div class="compass-loader" style="width:32px;height:32px;background-size:320px 128px;"></div><span style="font-family:'Minecraft',sans-serif;font-size:0.7rem;opacity:0.6;">Загрузка...</span></div>`;
         }
 
         // Обработчик для report-img-input
@@ -14647,6 +14647,20 @@ async function doDeleteSubdomain() {
 #mw-go:active svg { transform: translateX(3px) translateY(-3px) scale(.9); }
 #mw-go:disabled { background: #121a08; cursor: default; opacity: .4; }
 #mw-go svg { transition: transform .14s cubic-bezier(.3,1.5,.5,1); display: block; }
+
+        .report-reason-btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 6px 0 #b8a88a !important;
+            filter: brightness(1.06);
+        }
+        body.dark-theme .report-reason-btn:hover {
+            box-shadow: 0 6px 0 #111 !important;
+            filter: brightness(1.2);
+        }
+        .report-reason-btn:active {
+            transform: translateY(2px) !important;
+            box-shadow: 0 1px 0 #b8a88a !important;
+        }
 </style>
 
 <img id="mw-anim" src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/merl/merl_greet_animation.png" alt="" style="display:none;">
