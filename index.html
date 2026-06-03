@@ -6461,7 +6461,7 @@
                 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
                     <h2 class="section-title" data-icon="sign_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;"><span data-ru="Верификации" data-en="Verifications">Верификации</span></h2>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
+                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#8b1a1a;box-shadow:0 4px 0 #5a0d0d;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
                         </button>
                         <button class="copy-btn" id="verif-filter-resolved" onclick="window.filterVerifications('resolved')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
@@ -7988,7 +7988,7 @@ ${ru ? 'Сохранить' : 'Save'}
             const pending = document.getElementById('verif-filter-pending');
             const resolved = document.getElementById('verif-filter-resolved');
             if (filter === 'pending') {
-                if (pending) { pending.style.background = 'linear-gradient(180deg,#c62828,#8b1a1a)'; pending.style.borderColor = '#8b1a1a'; pending.style.boxShadow = '0 4px 0 #5a0d0d'; }
+                if (pending) { pending.style.background = 'linear-gradient(180deg,#1877f2,#1256b8)'; pending.style.borderColor = '#1256b8'; pending.style.boxShadow = '0 4px 0 #0a3d8a'; }
                 if (resolved) { resolved.style.background = 'linear-gradient(180deg,#888,#555)'; resolved.style.borderColor = '#333'; resolved.style.boxShadow = '0 4px 0 #222'; }
             } else {
                 if (resolved) { resolved.style.background = 'linear-gradient(180deg,#1877f2,#1256b8)'; resolved.style.borderColor = '#1256b8'; resolved.style.boxShadow = '0 4px 0 #0a3d8a'; }
