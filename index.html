@@ -5038,14 +5038,6 @@
                 flex-wrap: wrap;
             }
 
-            .bp-modal-btns .bp-submit-btn {
-                font-size: 0.7rem !important;
-                padding: 9px 6px !important;
-                gap: 4px !important;
-            }
-            .bp-modal-btns .bp-submit-btn i {
-                font-size: 0.85em;
-            }
             
             .donate-modal {
                 max-width: calc(100vw - 24px) !important;
@@ -5245,8 +5237,8 @@
             overflow-wrap: anywhere;
         }
         body.dark-theme .bp-modal h3 { color: #81c784; }
-        .bp-modal-btns { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
-        .bp-modal-btns .bp-submit-btn { min-width: 80px; white-space: normal; text-align: center; line-height: 1.3; }
+        .bp-modal-btns { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; align-items: stretch; }
+        .bp-modal-btns .bp-submit-btn { min-width: 0; white-space: normal; text-align: center; line-height: 1.3; font-size: 0.8rem; padding: 10px 8px; }
 
         .bp-auth-captcha {
             margin-top: 10px;
@@ -7741,21 +7733,22 @@
                                 style="width:100%;box-sizing:border-box;font-family:'Minecraft',sans-serif;font-size:0.82rem;font-weight:600;padding:10px 12px;border:2px solid ${isDark ? '#555' : '#8b7355'};border-radius:2px;background:${isDark ? '#1a1a1a' : '#fffbf0'};color:${isDark ? '#e0e0e0' : '#3e2723'};resize:vertical;cursor:text;user-select:text;outline:none;"></textarea>
                         </div>
 
-                        <label class="bp-file-label news-upload" style="margin-bottom:14px;" id="report-img-label-wrap">
-                            <i class="fas fa-image" style="color:#6b8e23;font-size:1rem;"></i>
+                        <label class="bp-file-label news-upload" id="report-img-label-wrap" for="report-img-input" style="cursor:pointer;">
+                            <i class="fas fa-image" style="color:#6b8e23;font-size:1.3rem;"></i>
                             <span id="report-img-label">${ru ? 'Скриншот (необязательно)' : 'Screenshot (optional)'}</span>
-                            <span style="margin-left:auto;font-size:0.68rem;color:${isDark?'#666':'#8b7355'};font-weight:600;white-space:nowrap;flex-shrink:0;">PNG · JPG · WebP</span>
-                            <input type="file" id="report-img-input" accept="image/*" style="display:none;" onchange="window._reportImgChanged(this)">
+                            <span class="bp-formats">PNG · JPG · WebP</span>
+                            <input type="file" id="report-img-input" accept="image/*" onchange="window._reportImgChanged(this)">
                         </label>
+                        <div class="bp-file-name" id="report-img-name" style="margin-bottom:10px;"></div>
 
                         <div class="bp-auth-captcha" id="report-captcha-wrap" style="margin-bottom:10px;"></div>
-                        <div style="display:flex;gap:8px;">
-                            <button class="bp-submit-btn" style="background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#7f0000;box-shadow:0 4px 0 #5a0000;margin-top:0;flex:1;font-size:0.82rem;padding:10px;"
+                        <div class="bp-modal-btns" style="margin-top:0;">
+                            <button class="bp-submit-btn" style="background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#7f0000;box-shadow:0 5px 0 #5a0000;margin-top:0;flex:1;"
                                 onclick="submitReport('${postType}','${postId}','${encodeURIComponent(postTitle)}','${encodeURIComponent(postAuthor||'')}','${encodeURIComponent(imageUrl||'')}')">
                                 <i class="fas fa-paper-plane"></i> ${ru ? 'Отправить' : 'Send'}
                             </button>
                             <button class="bp-submit-btn" onclick="document.getElementById('report-modal').remove()"
-                                style="background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;margin-top:0;flex:1;font-size:0.82rem;padding:10px;">
+                                style="background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;margin-top:0;flex:1;">
                                 <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
                             </button>
                         </div>
@@ -7806,11 +7799,11 @@
             };
 
             window._reportImgChanged = function(input) {
-                const label = document.getElementById('report-img-label');
+                const nameEl = document.getElementById('report-img-name');
                 if (input.files && input.files[0]) {
-                    label.textContent = input.files[0].name;
+                    if (nameEl) nameEl.textContent = input.files[0].name;
                 } else {
-                    label.textContent = ru ? 'Скриншот (необязательно)' : 'Screenshot (optional)';
+                    if (nameEl) nameEl.textContent = '';
                 }
             };
 
@@ -13172,9 +13165,8 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                 return;
             }
             
-            if (labelSpan) {
-                labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
-            }
+            const nameEl = document.getElementById('report-img-name');
+            if (nameEl) nameEl.textContent = file.name;
         };
 
         // Hook into setLoggedIn/doLogout to update gallery auth state
