@@ -7078,7 +7078,7 @@
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:520px;max-height:88vh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
+                    <h3 style="font-family:Minecraft,sans-serif;color:${isDark?'#e0e0e0':'#4a5d23'};margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:13px;height:13px;image-rendering:pixelated;object-fit:contain;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'"> ${ru ? 'Изменить новость' : 'Edit news'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
                     <div class="bp-form-row" style="margin-bottom:10px;">
                         <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заголовок (RU)' : 'Title (RU)'}</label>
                         <input id="nedit-title" style="${inputStyle}" maxlength="200" value="${(news.title||'').replace(/"/g,'&quot;')}" />
@@ -7107,10 +7107,10 @@
                     <div id="nedit-captcha-wrap" style="margin-bottom:10px;"></div>
                     <div style="display:flex;gap:10px;">
                         <button class="bp-submit-btn" id="nedit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-${ru ? 'Сохранить' : 'Save'}
+                            <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
                         </button>
                         <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-edit-modal').remove()">
-                            ${ru ? 'Отмена' : 'Cancel'}
+                            <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
                         </button>
                     </div>
                 </div>`;
@@ -7250,7 +7250,7 @@ ${ru ? 'Сохранить' : 'Save'}
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal" style="max-width:520px;max-height:88vh;overflow-y:auto;overflow-x:hidden;">
-                    <h3 style="font-family:Minecraft,sans-serif;color:#4a5d23;margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
+                    <h3 style="font-family:Minecraft,sans-serif;color:${isDark?'#e0e0e0':'#4a5d23'};margin-bottom:16px;display:flex;align-items:center;cursor:move;"><img src="${iconUrl('journal_icon.png')}" alt="" style="width:20px;height:20px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:6px;"> ${ru ? 'Добавить новость' : 'Add News'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
                     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:rgba(107,142,35,0.1);border-radius:3px;border:2px solid ${isDark?'#555':'#8b7355'};">
                         <i class="fas fa-user" style="color:#6b8e23;"></i>
                         <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:${isDark?'#e0e0e0':'#3e2723'};">${currentAccount.nick}${currentAccount.verified ? ' <span class=\"verified-badge\" title=\"Верифицирован\"><i class=\"fas fa-check\"></i></span>' : ''}</span>
@@ -7304,7 +7304,7 @@ ${ru ? 'Сохранить' : 'Save'}
                     <div style="display:flex;flex-direction:column;gap:8px;">
                         <div style="display:flex;gap:8px;">
                             <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.82rem;padding:10px;white-space:nowrap;" onclick="submitNews(false)">
-                                ${ru ? 'Опубликовать' : 'Publish'}
+                                <i class="fas fa-check"></i> ${ru ? 'Опубликовать' : 'Publish'}
                             </button>
 
                         </div>
@@ -7313,7 +7313,7 @@ ${ru ? 'Сохранить' : 'Save'}
                                 <i class="fas fa-trash"></i> ${ru ? 'Очистить' : 'Clear'}
                             </button>
                             <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.82rem;padding:8px;white-space:nowrap;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('news-admin-modal').remove()">
-                                ${ru ? 'Отмена' : 'Cancel'}
+                                <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
                             </button>
                         </div>
                     </div>
@@ -11119,6 +11119,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <input id="bp-edit-name" style="${inputStyle}" maxlength="100" value="${currentName.replace(/"/g,'&quot;')}" />
                     </div>
                     <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                    <div id="bp-edit-captcha-wrap" style="margin-bottom:10px;"></div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;">
                         <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:2;margin-top:0;font-size:0.85rem;padding:10px;min-width:120px;">
                             <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
@@ -11134,12 +11135,31 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const modal = document.getElementById('bp-edit-modal-content');
             const header = modal.querySelector('h3');
             makeDraggable(modal, header);
+
+            // Рендерим капчу
+            (function() {
+                const wrap = document.getElementById('bp-edit-captcha-wrap');
+                if (!wrap) return;
+                const isCompact = window.innerWidth <= 480;
+                const savedTheme = localStorage.getItem('theme');
+                const isDarkC = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                const div = document.createElement('div');
+                div.className = 'cf-turnstile';
+                div.id = 'bp-edit-turnstile';
+                div.setAttribute('data-sitekey', '0x4AAAAAACZyA1UOix1SiYwF');
+                div.setAttribute('data-theme', isDarkC ? 'dark' : 'light');
+                div.setAttribute('data-size', isCompact ? 'compact' : 'normal');
+                wrap.appendChild(div);
+                if (window.turnstile) window.turnstile.render(div);
+            })();
             
             const nameInput = document.getElementById('bp-edit-name');
             nameInput.focus(); nameInput.select();
             document.getElementById('bp-edit-save-btn').addEventListener('click', async () => {
                 const newName = nameInput.value.trim();
                 const statusEl = document.getElementById('bp-edit-status');
+                const bpEditCaptchaToken = document.querySelector('#bp-edit-turnstile [name="cf-turnstile-response"]')?.value || '';
+                if (!bpEditCaptchaToken) { statusEl.innerHTML = ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Пройди капчу!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Please complete the captcha!'; statusEl.style.color='#c62828'; return; }
                 if (!newName) { statusEl.innerHTML = ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Введи название!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Enter a name!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(newName)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
