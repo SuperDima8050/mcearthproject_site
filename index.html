@@ -12591,159 +12591,53 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal draggable-modal" style="max-width:420px;" id="gl-edit-modal-content">
-                    <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
-                        <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><i class="fas fa-pen" style="margin-right:8px;"></i> ${ru ? 'Изменить фото' : 'Edit photo'}</h3>
-                        <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;opacity:0.6;">⠿ ${ru ? 'тащи' : 'drag'}</span>
+                    <h3 style="font-family:Minecraft,sans-serif;color:${isDark?'#e0e0e0':'#4a5d23'};margin-bottom:16px;display:flex;align-items:center;cursor:move;"><i class="fas fa-pen" style="margin-right:8px;"></i>${ru ? 'Изменить фото' : 'Edit photo'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
+                    <div class="bp-form-row" style="margin-bottom:14px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New title'}</label>
+                        <input id="gl-edit-title" style="${inputStyle}" maxlength="200" value="${(currentTitle||'').replace(/"/g,'&quot;')}" />
                     </div>
-                    <div style="padding:16px;">
-                        <div class="bp-form-row" style="margin-bottom:14px;">
-                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New title'}</label>
-                            <input id="gl-edit-title" style="${inputStyle}" maxlength="200" value="${(currentTitle||'').replace(/"/g,'&quot;')}" />
-                        </div>
-                        <div class="bp-form-row" style="margin-bottom:14px;">
-                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Заменить изображение (опционально)' : 'Replace image (optional)'}</label>
-                            <div class="drag-drop-container" style="min-height:120px; position:relative;">
-                                <div class="drag-drop-overlay" id="gl-edit-drag-overlay">
-                                    <div class="drag-drop-content">
-                                        <i class="fas fa-cloud-upload-alt" style="font-size:2rem;color:#6b8e23;margin-bottom:10px;"></i>
-                                        <p style="font-family:Minecraft,sans-serif;font-size:0.9rem;color:#5a4a3a;font-weight:700;margin-bottom:5px;" data-ru="Перетащи новое изображение" data-en="Drag new image">Перетащи новое изображение</p>
-                                        <p style="font-family:Minecraft,sans-serif;font-size:0.8rem;color:#8b7355;font-weight:600;" data-ru="или нажми для выбора" data-en="or click to select">или нажми для выбора</p>
-                                        <p style="font-family:Minecraft,sans-serif;font-size:0.7rem;color:#8b7355;margin-top:5px;">PNG · JPG · WEBP</p>
-                                    </div>
-                                </div>
-                                <label class="bp-file-label gallery-upload" for="gl-edit-image-input" style="width:100%; margin:0;">
-                                    <i class="fas fa-image"></i>
-                                    <span data-ru="Выбрать новое изображение" data-en="Choose new image">Выбрать новое изображение</span>
-                                    <span class="bp-formats">PNG · JPG · WEBP</span>
-                                </label>
-                                <input type="file" id="gl-edit-image-input" accept=".png,.jpg,.jpeg,.webp" style="position:absolute; opacity:0; width:100%; height:100%; cursor:pointer;">
-                                <div class="bp-file-name" id="gl-edit-image-name"></div>
-                            </div>
-                        </div>
-                        <div id="gl-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
-                        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                            <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:2;margin-top:0;font-size:0.85rem;padding:10px;min-width:120px;">
-                                <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
-                            </button>
-                            <button class="bp-submit-btn" id="gl-edit-clear-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;min-width:90px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#7f0000;box-shadow:0 5px 0 #4a0000;" title="${ru?'Убрать выбранное изображение':'Clear selected image'}">
-                                <i class="fas fa-trash-alt"></i> ${ru ? 'Очистить' : 'Clear'}
-                            </button>
-                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;min-width:90px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
-                                <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
-                            </button>
-                        </div>
+                    <div id="gl-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                    <div id="gl-edit-captcha-wrap" style="margin-bottom:10px;"></div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="bp-submit-btn" id="gl-edit-save-btn" style="flex:2;margin-top:0;font-size:0.85rem;padding:10px;min-width:120px;">
+                            <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
+                        </button>
+                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;min-width:90px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('gl-edit-modal').remove()">
+                            <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
+                        </button>
                     </div>
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             
             const modal = document.getElementById('gl-edit-modal-content');
-            const header = modal.querySelector('.modal-header');
+            const header = modal.querySelector('h3');
             makeDraggable(modal, header);
 
-            // Добавляем drag & drop для изображения
-            const dragContainer = modal.querySelector('.drag-drop-container');
-            const dragOverlay = modal.querySelector('#gl-edit-drag-overlay');
-            const imageInput = modal.querySelector('#gl-edit-image-input');
-            const imageName = modal.querySelector('#gl-edit-image-name');
-            
-            if (dragContainer && dragOverlay && imageInput && imageName) {
-                dragContainer.addEventListener('dragenter', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dragOverlay.classList.add('active');
-                });
-
-                dragContainer.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dragOverlay.classList.add('drag-over');
-                });
-
-                dragContainer.addEventListener('dragleave', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (!e.relatedTarget || !dragContainer.contains(e.relatedTarget)) {
-                        dragOverlay.classList.remove('active', 'drag-over');
-                    }
-                });
-
-                dragContainer.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dragOverlay.classList.remove('active', 'drag-over');
-
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        const file = files[0];
-                        const ext = file.name.split('.').pop().toLowerCase();
-                        
-                        if (['png', 'jpg', 'jpeg', 'webp'].includes(ext)) {
-                            if (file.size > 10 * 1024 * 1024) {
-                                const ru = currentLang === 'ru';
-                                showInfoBanner(
-                                    ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Слишком большой файл (макс. 10MB)' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> File too large (max 10MB)',
-                                    'error'
-                                );
-                                return;
-                            }
-                            
-                            const dt = new DataTransfer();
-                            dt.items.add(file);
-                            imageInput.files = dt.files;
-                            imageName.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
-                            imageName.style.color = '#6b8e23';
-                            
-                            const ru = currentLang === 'ru';
-                            showInfoBanner(
-                                ru ? '📎 Новое изображение добавлено' : '📎 New image added',
-                                'success'
-                            );
-                        } else {
-                            const ru = currentLang === 'ru';
-                            showInfoBanner(
-                                ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Поддерживаются только PNG, JPG и WEBP!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Only PNG, JPG and WEBP are supported!',
-                                'error'
-                            );
-                        }
-                    }
-                });
-
-                dragOverlay.addEventListener('click', function() {
-                    imageInput.click();
-                });
-
-                imageInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        if (file.size > 10 * 1024 * 1024) {
-                            const ru = currentLang === 'ru';
-                            showInfoBanner(
-                                ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Слишком большой файл (макс. 10MB)' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> File too large (max 10MB)',
-                                'error'
-                            );
-                            this.value = '';
-                            return;
-                        }
-                        imageName.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
-                        imageName.style.color = '#6b8e23';
-                    }
-                });
-            }
+            // Рендерим капчу
+            (function() {
+                const wrap = document.getElementById('gl-edit-captcha-wrap');
+                if (!wrap) return;
+                const isCompact = window.innerWidth <= 480;
+                const savedTheme = localStorage.getItem('theme');
+                const isDarkC = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                const div = document.createElement('div');
+                div.className = 'cf-turnstile';
+                div.id = 'gl-edit-turnstile';
+                div.setAttribute('data-sitekey', '0x4AAAAAACZyA1UOix1SiYwF');
+                div.setAttribute('data-theme', isDarkC ? 'dark' : 'light');
+                div.setAttribute('data-size', isCompact ? 'compact' : 'normal');
+                wrap.appendChild(div);
+                if (window.turnstile) window.turnstile.render(div);
+            })();
             
             const titleInput = document.getElementById('gl-edit-title');
             titleInput.focus(); titleInput.select();
-            // Кнопка «Очистить» — сбрасывает выбранное изображение
-            document.getElementById('gl-edit-clear-btn').addEventListener('click', () => {
-                imageInput.value = '';
-                imageName.innerHTML = '';
-                imageName.style.color = '';
-                const ru = currentLang === 'ru';
-                showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Изображение сброшено' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Image cleared', 'info');
-            });
             document.getElementById('gl-edit-save-btn').addEventListener('click', async () => {
                 const newTitle = titleInput.value.trim();
                 const statusEl = document.getElementById('gl-edit-status');
+                const glEditCaptchaToken = document.querySelector('#gl-edit-turnstile [name="cf-turnstile-response"]')?.value || '';
+                if (!glEditCaptchaToken) { statusEl.innerHTML = ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Пройди капчу!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Please complete the captcha!'; statusEl.style.color='#c62828'; return; }
                 if (!newTitle) { statusEl.innerHTML = ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Введи название!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Enter a title!'; statusEl.style.color='#c62828'; return; }
                 if (containsProfanity(newTitle)) { statusEl.innerHTML = profanityError(ru); statusEl.style.color='#c62828'; return; }
                 statusEl.innerHTML = ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Сохраняем...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Saving...'; statusEl.style.color='#f57f17';
