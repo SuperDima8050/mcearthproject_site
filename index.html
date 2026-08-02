@@ -5223,7 +5223,9 @@
             touch-action: pan-y;
             -webkit-overflow-scrolling: touch;
             box-shadow: 0 8px 0 #5a4a3a, 0 12px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: calc(100dvh - 32px);
         }
         body.dark-theme .bp-modal { background: #2a2a2a; border-color: #3a3a3a; color: #e0e0e0; }
         .bp-modal h3 {
@@ -7683,9 +7685,10 @@
                     border-radius:4px;padding:0;
                     width:100%;max-width:400px;
                     box-shadow:0 8px 0 ${isDark ? '#0a0a0a' : '#5a4a3a'},0 12px 30px rgba(0,0,0,0.5);
-                    box-sizing:border-box;position:relative;overflow:hidden;
+                    box-sizing:border-box;position:relative;
+                    max-height:calc(100dvh - 32px);display:flex;flex-direction:column;
                 ">
-                    <div id="report-drag-handle" style="
+                    <div id="report-drag-handle" style="flex-shrink:0;
                         display:flex;align-items:center;gap:10px;
                         padding:14px 18px;
                         background:linear-gradient(180deg,#c62828,#8b1a1a);
@@ -7701,7 +7704,7 @@
                         <span style="margin-left:auto;font-size:0.65rem;opacity:0.5;font-family:'Minecraft',sans-serif;color:#fff;">&#x2807; ${ru ? 'тащи' : 'drag'}</span>
                     </div>
 
-                    <div style="padding:18px;">
+                    <div style="padding:18px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;">
                         <div style="
                             display:flex;align-items:flex-start;gap:8px;
                             background:${isDark ? '#1e1e1e' : '#eee8d0'};
@@ -7801,7 +7804,7 @@
             window._reportImgChanged = function(input) {
                 const nameEl = document.getElementById('report-img-name');
                 if (input.files && input.files[0]) {
-                    if (nameEl) nameEl.textContent = input.files[0].name;
+                    if (nameEl) nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span>' + input.files[0].name;
                 } else {
                     if (nameEl) nameEl.textContent = '';
                 }
@@ -13166,7 +13169,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             }
             
             const nameEl = document.getElementById('report-img-name');
-            if (nameEl) nameEl.textContent = file.name;
+            if (nameEl) nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span>' + file.name;
         };
 
         // Hook into setLoggedIn/doLogout to update gallery auth state
