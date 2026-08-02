@@ -11113,31 +11113,26 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal draggable-modal" style="max-width:420px;" id="bp-edit-modal-content">
-                    <div class="modal-header" style="cursor:move; padding:12px 16px; background:linear-gradient(180deg, #6b8e23 0%, #556b2f 100%); color:white; border-radius:4px 4px 0 0; display:flex; align-items:center; justify-content:space-between;">
-                        <h3 style="font-family:Minecraft,sans-serif;margin:0; font-size:1rem;"><img src="https:
-                        <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;opacity:0.6;">⠿ ${ru ? 'тащи' : 'drag'}</span>
+                    <h3 style="font-family:Minecraft,sans-serif;color:${isDark?'#e0e0e0':'#4a5d23'};margin-bottom:16px;display:flex;align-items:center;cursor:move;"><i class="fas fa-pen" style="margin-right:8px;"></i>${ru ? 'Изменить название' : 'Edit name'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
+                    <div class="bp-form-row" style="margin-bottom:14px;">
+                        <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New name'}</label>
+                        <input id="bp-edit-name" style="${inputStyle}" maxlength="100" value="${currentName.replace(/"/g,'&quot;')}" />
                     </div>
-                    <div style="padding:16px;">
-                        <div class="bp-form-row" style="margin-bottom:14px;">
-                            <label style="color:${isDark?'#e0e0e0':'#3e2723'};">${ru ? 'Новое название' : 'New name'}</label>
-                            <input id="bp-edit-name" style="${inputStyle}" maxlength="100" value="${currentName.replace(/"/g,'&quot;')}" />
-                        </div>
-                        <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
-                        <div style="display:flex;gap:10px;">
-                            <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;">
-                                <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
-                            </button>
-                            <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-edit-modal').remove()">
-                                <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
-                            </button>
-                        </div>
+                    <div id="bp-edit-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:10px;min-height:18px;"></div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="bp-submit-btn" id="bp-edit-save-btn" style="flex:2;margin-top:0;font-size:0.85rem;padding:10px;min-width:120px;">
+                            <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
+                        </button>
+                        <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.85rem;padding:10px;min-width:90px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-edit-modal').remove()">
+                            <i class="fas fa-times"></i> ${ru ? 'Отмена' : 'Cancel'}
+                        </button>
                     </div>
                 </div>`;
             document.body.appendChild(overlay);
             overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
             
             const modal = document.getElementById('bp-edit-modal-content');
-            const header = modal.querySelector('.modal-header');
+            const header = modal.querySelector('h3');
             makeDraggable(modal, header);
             
             const nameInput = document.getElementById('bp-edit-name');
