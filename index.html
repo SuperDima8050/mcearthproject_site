@@ -8608,7 +8608,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     input.addEventListener('change', function(e) {
                         const file = e.target.files[0];
                         if (file) {
-                            nameEl.textContent = `📎 ${file.name}`;
+                            nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
                             nameEl.style.color = '#6b8e23';
                         } else {
                             nameEl.textContent = '';
@@ -8700,9 +8700,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     }
 
                     const ru = currentLang === 'ru';
+                    const checkBadge = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span>';
                     const message = validFiles.length === 1 
-                        ? (ru ? '📎 Файл добавлен' : '📎 File added')
-                        : (ru ? `📎 Добавлено ${validFiles.length} файла` : `📎 ${validFiles.length} files added`);
+                        ? (ru ? `${checkBadge} Файл добавлен` : `${checkBadge} File added`)
+                        : (ru ? `${checkBadge} Добавлено ${validFiles.length} файла` : `${checkBadge} ${validFiles.length} files added`);
                     
                     showInfoBanner(message, 'success');
                 });
@@ -9024,7 +9025,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
         document.getElementById('bp-image-input').addEventListener('change', function() {
             const file = this.files[0];
-            const labelSpan = document.getElementById('bp-image-label');
             const nameEl = document.getElementById('bp-image-name');
             if (file) {
                 
@@ -9036,8 +9036,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     this.value = '';
                     return;
                 }
-                labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
-                nameEl.textContent = '';
+                nameEl.style.color = '';
+                nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
             }
         });
 
@@ -9046,7 +9046,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!wrap) return;
             const input = document.getElementById('bp-image-input');
             const nameEl = document.getElementById('bp-image-name');
-            const labelSpan = document.getElementById('bp-image-label');
             const allowed = ['image/png','image/jpeg','image/gif','image/webp'];
             wrap.addEventListener('dragover', e => { e.preventDefault(); wrap.classList.add('drag-over'); });
             wrap.addEventListener('dragleave', e => { if (!wrap.contains(e.relatedTarget)) wrap.classList.remove('drag-over'); });
@@ -9069,8 +9068,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     return;
                 }
                 const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-                labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
-                nameEl.style.color = ''; nameEl.innerHTML = '';
+                nameEl.style.color = '';
+                nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
             });
         })();
 
@@ -9090,7 +9089,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!file) return;
             const allowed = ['image/png','image/jpeg','image/gif','image/webp'];
             const nameEl = document.getElementById('nadmin-image-name');
-            const labelSpan = document.getElementById('nadmin-image-label');
             if (!allowed.includes(file.type)) {
                 if (nameEl) { nameEl.style.color = '#c62828'; nameEl.innerHTML = currentLang === 'ru' ? 
                     '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Формат не поддерживается' : 
@@ -9105,13 +9103,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
             const input = document.getElementById('nadmin-image-input');
             if (input) { const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files; }
-            if (labelSpan) labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
-            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = ''; }
+            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name; }
         });
         document.addEventListener('change', e => {
             if (e.target.id !== 'nadmin-image-input') return;
             const file = e.target.files[0];
-            const labelSpan = document.getElementById('nadmin-image-label');
             const nameEl = document.getElementById('nadmin-image-name');
             if (!file) return;
             
@@ -9126,8 +9122,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 return;
             }
             
-            if (labelSpan) labelSpan.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name;
-            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = ''; }
+            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name; }
         });
 
         document.getElementById('bp-world-input').addEventListener('change', async function() {
@@ -9151,8 +9146,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 return;
             }
 
-            nameEl.style.color = '#2e7d32';
-            nameEl.innerHTML = '✓ ' + file.name + ' (' + formatSize(file.size) + ')';
+            nameEl.style.color = '';
+            nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name + ' (' + formatSize(file.size) + ')';
         });
 
         document.addEventListener('dragover', e => {
@@ -9197,7 +9192,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const file = e.dataTransfer.files[0];
             if (!file) return;
             const nameEl = document.getElementById('bp-world-name');
-            const labelSpan = document.getElementById('bp-world-label');
             const input = document.getElementById('bp-world-input');
             if (file.name.toLowerCase() !== 'world') {
                 nameEl.style.color = '#c62828';
@@ -9212,9 +9206,8 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 return;
             }
             const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
-            if (labelSpan) labelSpan.innerHTML = '✓ ' + file.name;
-            nameEl.style.color = '#2e7d32';
-            nameEl.innerHTML = '✓ ' + file.name + ' (' + formatSize(file.size) + ')';
+            nameEl.style.color = '';
+            nameEl.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border:1px solid #1b5e20;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> ' + file.name + ' (' + formatSize(file.size) + ')';
         });
 
         async function checkImageMagicBytes(file) {
