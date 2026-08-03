@@ -7057,7 +7057,7 @@
             }
             const { data: check } = await sbClient.from('news').select('id').eq('id', newsId).limit(1);
             if (check && check.length > 0) {
-                showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Не удалось удалить — добавь в Supabase SQL Editor:\nGRANT DELETE ON news TO anon;' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Delete failed — run in Supabase SQL Editor:\nGRANT DELETE ON news TO anon;', 'error');
+                showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Не удалось удалить — нет прав на удаление. Обратитесь к администратору.' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Delete failed — no delete permission. Contact the administrator.', 'error');
                 return;
             }
             if (_newsCache) _newsCache = _newsCache.filter(n => String(n.id) !== String(newsId));
@@ -8817,13 +8817,13 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         let sbClient = null;
         try {
             if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.startsWith('sb_publishable_')) {
-                console.warn('Supabase: вставь ANON KEY!');
+                console.warn('DB: вставь ANON KEY!');
             } else {
                 sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 window.sbClient = sbClient;
             }
         } catch(e) {
-            console.error('Supabase init error:', e);
+            console.error('DB init error:', e);
         }
 
 
@@ -9591,7 +9591,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (!nick) { showAuthStatus('err', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Введи никнейм!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Enter nickname!'); return; }
             if (containsProfanity(nick)) { showAuthStatus('err', profanityError(ru)); return; }
             if (!pass || pass.length < 4) { showAuthStatus('err', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Пароль минимум 4 символа!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Password min 4 chars!'); return; }
-            if (!sbClient) { showAuthStatus('err', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Supabase не подключён'); return; }
+            if (!sbClient) { showAuthStatus('err', '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Ошибка соединения с сервером'); return; }
 
             const captchaVal = document.querySelector('[name="cf-turnstile-response"]')?.value;
             if (!captchaVal) {
@@ -11011,21 +11011,21 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         function parseSbError(err, ru) {
             if (!err || (typeof err === 'object' && Object.keys(err).length === 0)) {
                 return ru
-                    ? 'Supabase: bucket "buildplates" не найден или нет прав. Проверь: 1) bucket создан 2) Storage политики разрешают INSERT 3) RLS таблицы разрешает INSERT'
-                    : 'Supabase: bucket "buildplates" not found or no permissions. Check: 1) bucket exists 2) Storage policies allow INSERT 3) Table RLS allows INSERT';
+                    ? 'Хранилище недоступно или нет прав на загрузку. Обратитесь к администратору.'
+                    : 'Storage unavailable or upload not permitted. Contact the administrator.';
             }
             const msg = err.message || err.error_description || err.error || JSON.stringify(err);
             if (msg.includes('Bucket not found') || msg.includes('bucket_not_found')) {
-                return ru ? 'Bucket "buildplates" не существует. Создай его в Supabase Dashboard → Storage' : 'Bucket "buildplates" does not exist. Create it in Supabase Dashboard → Storage';
+                return ru ? 'Хранилище для файлов не настроено. Обратитесь к администратору.' : 'File storage is not configured. Contact the administrator.';
             }
             if (msg.includes('row-level security') || msg.includes('violates row') || msg.includes('new row')) {
-                return ru ? 'RLS блокирует запись. Добавь политику INSERT для таблицы buildplates' : 'RLS is blocking insert. Add INSERT policy for buildplates table';
+                return ru ? 'Недостаточно прав для записи. Обратитесь к администратору.' : 'Insufficient write permissions. Contact the administrator.';
             }
             if (msg.includes('storage/unauthorized') || msg.includes('401') || msg.includes('403')) {
-                return ru ? 'Нет прав на загрузку. Добавь политику INSERT для Storage bucket buildplates' : 'No upload permission. Add INSERT policy for Storage bucket buildplates';
+                return ru ? 'Нет прав на загрузку файла. Обратитесь к администратору.' : 'No permission to upload. Contact the administrator.';
             }
             if (msg.includes('mime') || msg.includes('content-type') || msg.includes('type')) {
-                return ru ? 'Supabase отклонил тип файла. Убери ограничения MIME в настройках bucket' : 'Supabase rejected file type. Remove MIME restrictions in bucket settings';
+                return ru ? 'Недопустимый формат файла.' : 'Invalid file format.';
             }
             return (ru ? 'Ошибка: ' : 'Error: ') + msg;
         }
@@ -12049,7 +12049,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 statusEl.style.color = type === 'error' ? '#c62828' : (type === 'success' ? '#2e7d32' : '#f57f17');
             };
 
-            if (!sbClient) { showStatus('error', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Supabase не подключён!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Supabase not connected!'); return; }
+            if (!sbClient) { showStatus('error', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Ошибка соединения с сервером!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Server connection error!'); return; }
             if (!currentAccount) { showStatus('error', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Войди в аккаунт!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#c62828;border:1px solid #8b0000;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-times" style="font-size:8px;color:#fff;line-height:1;"></i></span> Log in first!'); return; }
 
             const galleryCaptchaToken = document.querySelector('#gallery-upload-turnstile [name="cf-turnstile-response"]')?.value
@@ -12143,7 +12143,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             updateGalleryAuthState();
 
             if (!sbClient) {
-                gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-exclamation-triangle"></i><p>${currentLang === 'ru' ? 'Supabase не подключён' : 'Supabase not connected'}</p></div>`;
+                gallery.innerHTML = `<div class="bp-empty"><i class="fas fa-exclamation-triangle"></i><p>${currentLang === 'ru' ? 'Ошибка соединения с сервером' : 'Server connection error'}</p></div>`;
                 return;
             }
 
