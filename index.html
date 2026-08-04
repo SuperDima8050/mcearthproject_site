@@ -13410,8 +13410,9 @@ async function showSubdomainModal() {
                 ${ru ? 'Мой поддомен' : 'My Subdomain'}
                 <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru?'⠿ тащи':'⠿ drag'}</span>
             </h3>
-            <div id="sd-loading" style="text-align:center;padding:18px 0;font-family:Minecraft,sans-serif;font-size:0.85rem;color:#f57f17;">
-                <div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>${ru?'Загружаем...':'Loading...'}
+            <div id="sd-loading" style="text-align:center;padding:16px 0 12px;font-family:Minecraft,sans-serif;">
+                <div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;"></div>
+                <div style="font-size:0.75rem;opacity:0.55;margin-top:6px;">${ru?'Загрузка...':'Loading...'}</div>
             </div>
             
             <div id="sd-view" style="display:none;">
@@ -13763,7 +13764,10 @@ async function loadCurrentSubdomain(force = false) {
                     <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;">${ru?'⠿ тащи':'⠿ drag'}</span>
                 </h3>
                 <div id="mfa-modal-body" style="text-align:center;padding:4px 0;">
-                    <div class="compass-loader" style="width:24px;height:24px;background-size:240px 96px;display:inline-block;margin:20px auto;"></div>
+                    <div style="padding:14px 0 4px;">
+                        <div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;"></div>
+                        <div style="font-size:0.75rem;opacity:0.55;font-family:Minecraft,sans-serif;margin-top:6px;">${ru?'Загрузка...':'Loading...'}</div>
+                    </div>
                 </div>
                 <div id="mfa-modal-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;text-align:center;"></div>
                 <div class="bp-modal-btns">
@@ -14055,7 +14059,7 @@ async function doDeleteSubdomain() {
             const loadingEl = document.getElementById('sd-loading');
             if (viewEl)    viewEl.style.display    = 'none';
             if (createEl)  createEl.style.display  = 'none';
-            if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color='#f57f17'; loadingEl.innerHTML='<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>'+(ru?'Загружаем...':'Loading...'); }
+            if (loadingEl) { loadingEl.style.display='block'; loadingEl.style.color=''; loadingEl.innerHTML='<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;"></div><div style="font-size:0.75rem;opacity:0.55;margin-top:6px;">'+(ru?'Загрузка...':'Loading...')+'</div>'; }
             await loadCurrentSubdomain(true); 
             const createStatus = document.getElementById('sd-status-create');
             if (createStatus) { createStatus.innerHTML = ru?'✓ Поддомен удалён. Создай новый.':'✓ Deleted. Create a new one.'; createStatus.style.color='#2e7d32'; }
