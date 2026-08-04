@@ -14938,6 +14938,36 @@ const st = document.createElement('style');
             width:16px; height:16px; image-rendering:pixelated;
             vertical-align:middle; margin-left:3px; display:inline-block;
         }
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            font-family: 'Minecraft', monospace;
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 2px 5px;
+            border-radius: 2px;
+            vertical-align: middle;
+            margin: 0 2px;
+            text-transform: uppercase;
+            line-height: 1;
+            border-bottom: 2px solid rgba(0,0,0,0.3);
+            cursor: default;
+        }
+        .role-badge-admin {
+            background: linear-gradient(180deg, #ff8c00, #e65c00);
+            color: #fff;
+            border-color: #a03d00;
+            box-shadow: 0 2px 0 #7a2e00;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        }
+        .role-badge-moder {
+            background: linear-gradient(180deg, #7b1fa2, #4a0072);
+            color: #fff;
+            border-color: #2e0047;
+            box-shadow: 0 2px 0 #1a0029;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+        }
     `;
     document.head.appendChild(st);
 
@@ -14953,7 +14983,7 @@ async function getSb() {
         const sb = await getSb(); if (!sb) return;
         try {
             const { data, error } = await sb.from('easter_egg')
-                .select('nick, cluckshroom_badge, badge_67')
+                .select('nick, cluckshroom_badge, badge_67, badge_admin, badge_moderator')
                 .eq('season', SEASON);
             if (error || !data) return;
             data.forEach(row => {
@@ -14961,7 +14991,9 @@ async function getSb() {
                     const nickLower = row.nick.toLowerCase();
                     _catchers.set(nickLower, {
                         cluckshroom: !!row.cluckshroom_badge,
-                        badge_67: !!row.badge_67
+                        badge_67: !!row.badge_67,
+                        admin: !!row.badge_admin,
+                        moderator: !!row.badge_moderator
                     });
                 }
             });
@@ -15058,7 +15090,7 @@ window.applyDecorations = function applyDecorations() {
             if (!nickText || !_catchers.has(nickText)) return;
             
             const badges = _catchers.get(nickText);
-            if (!badges.cluckshroom && !badges.badge_67) return;
+            if (!badges.cluckshroom && !badges.badge_67 && !badges.admin && !badges.moderator) return;
 
             el.style.whiteSpace = 'nowrap';
 
@@ -15076,6 +15108,22 @@ window.applyDecorations = function applyDecorations() {
                 img.alt = '🧠'; img.title = 'Brainrot 67';
                 img.style.cssText = `width:${size*2}px;height:${size}px;image-rendering:pixelated;vertical-align:middle;margin-left:3px;`;
                 el.appendChild(img);
+            }
+
+            if (badges.admin) {
+                const span = document.createElement('span');
+                span.className = 'role-badge role-badge-admin';
+                span.textContent = 'ADMIN';
+                span.title = 'Администратор проекта';
+                el.appendChild(span);
+            }
+
+            if (badges.moderator) {
+                const span = document.createElement('span');
+                span.className = 'role-badge role-badge-moder';
+                span.textContent = 'MODER';
+                span.title = 'Модератор проекта';
+                el.appendChild(span);
             }
         }
 
@@ -15130,10 +15178,23 @@ window.applyDecorations = function applyDecorations() {
                     img.src = BRAINROT_URL; img.className = 'ce-badge';
                     img.alt = '🧠'; img.title = 'Brainrot 67';
                     img.style.cssText = 'width:44px;height:22px;image-rendering:pixelated;margin:0 -4px 0 -4px;';
-                    // Insert after cluckshroom if exists, else prepend
                     ppEaster.appendChild(img);
                 }
-                ppEaster.style.minHeight = (badges.cluckshroom || badges.badge_67) ? '25px' : '0';
+                if (badges.admin) {
+                    const span = document.createElement('span');
+                    span.className = 'role-badge role-badge-admin';
+                    span.textContent = 'ADMIN';
+                    span.title = 'Администратор проекта';
+                    ppEaster.appendChild(span);
+                }
+                if (badges.moderator) {
+                    const span = document.createElement('span');
+                    span.className = 'role-badge role-badge-moder';
+                    span.textContent = 'MODER';
+                    span.title = 'Модератор проекта';
+                    ppEaster.appendChild(span);
+                }
+                ppEaster.style.minHeight = (badges.cluckshroom || badges.badge_67 || badges.admin || badges.moderator) ? '25px' : '0';
             }
         }
     }
