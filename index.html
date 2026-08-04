@@ -14228,6 +14228,7 @@ async function doDeleteSubdomain() {
             });
 
             updatePaginationControls(totalPages);
+            setTimeout(() => { if (window.applyDecorations) window.applyDecorations(); }, 80);
         } catch(e) {
             if (listEl) listEl.innerHTML = '<div class="lb-empty" style="color:#c62828;">' + (e.message||'Error') + '</div>';
         }
@@ -14269,6 +14270,7 @@ async function doDeleteSubdomain() {
             listEl.appendChild(row);
         });
         updatePaginationControls(totalPages);
+        setTimeout(() => { if (window.applyDecorations) window.applyDecorations(); }, 80);
     };
 
     window.lbChangePage = function(direction) {
@@ -15140,6 +15142,9 @@ window.applyDecorations = function applyDecorations() {
 
         // Значки на именах в постройках
         document.querySelectorAll('.player-author-link').forEach(el => addBadges(el, 16));
+
+        // Значки на именах в лидерборде
+        document.querySelectorAll('.lb-name').forEach(el => addBadges(el, 14));
 
         // Значок в профиле
         const badgesEl = document.getElementById('bp-profile-badges');
