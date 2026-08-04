@@ -8141,7 +8141,7 @@
             document.getElementById('reports-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
 
-        function renderReportsPage() {
+        function renderReportsPageImpl() {
             const container = document.getElementById('reports-container');
             if (!container) return;
             const startIdx = (_reportsCurrentPage - 1) * _reportsItemsPerPage;
@@ -15145,6 +15145,10 @@ window.applyDecorations = function applyDecorations() {
 
         // Значки на именах в лидерборде
         document.querySelectorAll('.lb-name').forEach(el => addBadges(el, 14));
+
+        // Значок на собственном нике в личном кабинете ("Ты вошёл как ...")
+        const loggedInNameEl = document.getElementById('bp-logged-in-name');
+        if (loggedInNameEl) addBadges(loggedInNameEl, 16);
 
         // Значок в профиле
         const badgesEl = document.getElementById('bp-profile-badges');
