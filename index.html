@@ -9248,11 +9248,16 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const ru = currentLang === 'ru';
             const refs = ru ? 'рефералов' : 'referrals';
             const size = large ? '40px' : '24px';
-            if (count >= 200) return `<img class="ref-mob-badge" src="${REF_MOB_BASE}jolly_llama_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Джолли Лама':'Jolly Llama'} 🦙✨" />`;
-            if (count >= 100) return `<img class="ref-mob-badge" src="${REF_MOB_BASE}furnace_golem_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Печной Голем':'Furnace Golem'} 🔥" />`;
-            if (count >= 10)  return `<img class="ref-mob-badge" src="${REF_MOB_BASE}horned_sheep_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Рогатая Овца':'Horned Sheep'} 🐑" />`;
-            if (count >= 1)   return `<img class="ref-mob-badge" src="${REF_MOB_BASE}rabbit_mob.gif" width="${size}" height="${size}" title="${count} ${refs} — ${ru?'Кролик':'Rabbit'} 🐰" />`;
-            return '';
+            const levels = [
+                { min: 1,   src: 'rabbit_mob.gif',       label: ru ? 'Кролик'       : 'Rabbit'       , emoji: '🐰' },
+                { min: 10,  src: 'horned_sheep_mob.gif',  label: ru ? 'Рогатая Овца' : 'Horned Sheep'  , emoji: '🐑' },
+                { min: 100, src: 'furnace_golem_mob.gif', label: ru ? 'Печной Голем' : 'Furnace Golem' , emoji: '🔥' },
+                { min: 200, src: 'jolly_llama_mob.gif',   label: ru ? 'Джолли Лама'  : 'Jolly Llama'   , emoji: '🦙✨' },
+            ];
+            return levels
+                .filter(l => count >= l.min)
+                .map(l => `<img class="ref-mob-badge" src="${REF_MOB_BASE}${l.src}" width="${size}" height="${size}" title="${count} ${refs} — ${l.label} ${l.emoji}" />`)
+                .join('');
         }
 
         async function loadRefData(nick) {
