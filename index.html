@@ -15082,7 +15082,7 @@ window.applyDecorations = function applyDecorations() {
 
         function addBadges(el, size) {
             if (!el) return;
-            el.querySelectorAll('.ce-badge, .ce-badge-wrap').forEach(b => b.remove());
+            el.querySelectorAll('.ce-badge, .ce-badge-wrap, .role-badge').forEach(b => b.remove());
             
             // Search through ALL child nodes for text (avatar-status-wrap may be first now)
             const nickNode = [...el.childNodes].find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim().length > 0);
