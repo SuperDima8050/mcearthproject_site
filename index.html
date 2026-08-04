@@ -15094,6 +15094,33 @@ window.applyDecorations = function applyDecorations() {
 
             el.style.whiteSpace = 'nowrap';
 
+            // ADMIN/MODER вставляем сразу после галочки верификации
+            let roleAnchor = el.querySelector('.verified-badge');
+            function insertRoleBadge(node) {
+                if (roleAnchor) {
+                    roleAnchor.insertAdjacentElement('afterend', node);
+                    roleAnchor = node;
+                } else {
+                    el.appendChild(node);
+                }
+            }
+
+            if (badges.admin) {
+                const span = document.createElement('span');
+                span.className = 'role-badge role-badge-admin';
+                span.textContent = 'ADMIN';
+                span.title = 'Администратор проекта';
+                insertRoleBadge(span);
+            }
+
+            if (badges.moderator) {
+                const span = document.createElement('span');
+                span.className = 'role-badge role-badge-moder';
+                span.textContent = 'MODER';
+                span.title = 'Модератор проекта';
+                insertRoleBadge(span);
+            }
+
             if (badges.cluckshroom) {
                 const img = new Image();
                 img.src = CLUCK_URL; img.className = 'ce-badge';
@@ -15108,22 +15135,6 @@ window.applyDecorations = function applyDecorations() {
                 img.alt = '🧠'; img.title = 'Brainrot 67';
                 img.style.cssText = `width:${size*2}px;height:${size}px;image-rendering:pixelated;vertical-align:middle;margin-left:3px;`;
                 el.appendChild(img);
-            }
-
-            if (badges.admin) {
-                const span = document.createElement('span');
-                span.className = 'role-badge role-badge-admin';
-                span.textContent = 'ADMIN';
-                span.title = 'Администратор проекта';
-                el.appendChild(span);
-            }
-
-            if (badges.moderator) {
-                const span = document.createElement('span');
-                span.className = 'role-badge role-badge-moder';
-                span.textContent = 'MODER';
-                span.title = 'Модератор проекта';
-                el.appendChild(span);
             }
         }
 
