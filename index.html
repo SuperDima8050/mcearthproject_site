@@ -15248,7 +15248,7 @@ window.applyDecorations = function applyDecorations() {
             );
         }
         applyDecorations();
-        if (!_decoInterval) _decoInterval = setInterval(applyDecorations, 2000);
+        
     }
 
 function spawnCluck() {
@@ -15323,7 +15323,6 @@ function spawnCluck() {
 
         if (_catchers.size > 0) {
             applyDecorations();
-            _decoInterval = setInterval(applyDecorations, 2000);
         }
 
         // Only spawn mob during active event period
