@@ -15084,8 +15084,6 @@ window.applyDecorations = function applyDecorations() {
 
         function addBadges(el, size) {
             if (!el) return;
-            el.querySelectorAll('.ce-badge, .ce-badge-wrap, .role-badge').forEach(b => b.remove());
-            el.removeAttribute('data-badges-done');
 
             const nickNode = [...el.childNodes].find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim().length > 0);
             const nickText = (nickNode?.textContent || '').trim().toLowerCase();
@@ -15093,6 +15091,8 @@ window.applyDecorations = function applyDecorations() {
 
             if (el.dataset.badgesDone === nickText) return;
             el.dataset.badgesDone = nickText;
+
+            el.querySelectorAll('.ce-badge, .ce-badge-wrap, .role-badge').forEach(b => b.remove());
             
             const badges = _catchers.get(nickText);
             if (!badges.cluckshroom && !badges.badge_67 && !badges.admin && !badges.moderator) return;
@@ -15182,13 +15182,12 @@ window.applyDecorations = function applyDecorations() {
         const ppNick = document.getElementById('pp-nick');
         const ppEaster = document.getElementById('pp-easter-badges');
         if (ppNick && ppEaster) {
-            ppNick.querySelectorAll('.ce-badge,.ce-badge-wrap,.role-badge').forEach(b=>b.remove());
-            ppEaster.querySelectorAll('.ce-badge,.ce-badge-wrap,.role-badge').forEach(b=>b.remove());
-
             const nickNode = [...ppNick.childNodes].find(n => n.nodeType === Node.TEXT_NODE);
             const nickText = (nickNode?.textContent || '').trim().toLowerCase();
             if (nickText && _catchers.has(nickText) && ppNick.dataset.badgesDone !== nickText) {
                 ppNick.dataset.badgesDone = nickText;
+                ppNick.querySelectorAll('.ce-badge,.ce-badge-wrap,.role-badge').forEach(b=>b.remove());
+                ppEaster.querySelectorAll('.ce-badge,.ce-badge-wrap,.role-badge').forEach(b=>b.remove());
                 const badges = _catchers.get(nickText);
                 const vbSpan = document.getElementById('pp-verified-badge');
                 if (badges.admin) {
