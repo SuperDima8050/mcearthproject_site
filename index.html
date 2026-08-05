@@ -15156,8 +15156,9 @@ window.applyDecorations = function applyDecorations() {
         // Значок в профиле
         const badgesEl = document.getElementById('bp-profile-badges');
         const myNick = window.currentAccount?.nick?.toLowerCase();
-        if (badgesEl && myNick && _catchers.has(myNick)) {
-            badgesEl.querySelectorAll('.ce-badge').forEach(b => b.remove());
+        if (badgesEl && myNick && _catchers.has(myNick) && badgesEl.dataset.badgesDone !== myNick) {
+            badgesEl.dataset.badgesDone = myNick;
+            badgesEl.querySelectorAll('.ce-badge, .role-badge').forEach(b => b.remove());
             
             const badges = _catchers.get(myNick);
             
