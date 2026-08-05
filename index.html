@@ -15084,15 +15084,12 @@ window.applyDecorations = function applyDecorations() {
 
         function addBadges(el, size) {
             if (!el) return;
-
+            el.querySelectorAll('.ce-badge, .ce-badge-wrap, .role-badge').forEach(b => b.remove());
+            
+            // Search through ALL child nodes for text (avatar-status-wrap may be first now)
             const nickNode = [...el.childNodes].find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim().length > 0);
             const nickText = (nickNode?.textContent || '').trim().toLowerCase();
             if (!nickText || !_catchers.has(nickText)) return;
-
-            if (el.dataset.badgesDone === nickText) return;
-            el.dataset.badgesDone = nickText;
-
-            el.querySelectorAll('.ce-badge, .ce-badge-wrap, .role-badge').forEach(b => b.remove());
             
             const badges = _catchers.get(nickText);
             if (!badges.cluckshroom && !badges.badge_67 && !badges.admin && !badges.moderator) return;
@@ -15156,9 +15153,8 @@ window.applyDecorations = function applyDecorations() {
         // Значок в профиле
         const badgesEl = document.getElementById('bp-profile-badges');
         const myNick = window.currentAccount?.nick?.toLowerCase();
-        if (badgesEl && myNick && _catchers.has(myNick) && badgesEl.dataset.badgesDone !== myNick) {
-            badgesEl.dataset.badgesDone = myNick;
-            badgesEl.querySelectorAll('.ce-badge, .role-badge').forEach(b => b.remove());
+        if (badgesEl && myNick && _catchers.has(myNick)) {
+            badgesEl.querySelectorAll('.ce-badge').forEach(b => b.remove());
             
             const badges = _catchers.get(myNick);
             
@@ -15183,14 +15179,21 @@ window.applyDecorations = function applyDecorations() {
         const ppNick = document.getElementById('pp-nick');
         const ppEaster = document.getElementById('pp-easter-badges');
         if (ppNick && ppEaster) {
+            // Убираем старые значки
+            ppNick.querySelectorAll('.ce-badge,.ce-badge-wrap').forEach(b=>b.remove());
+            ppEaster.querySelectorAll('.ce-badge,.ce-badge-wrap,.role-badge').forEach(b=>b.remove());
+            // Убираем role-badge из строки ника тоже
+            document.querySelectorAll('#pp-nick-row .role-badge').forEach(b=>b.remove());
+
             const nickNode = [...ppNick.childNodes].find(n => n.nodeType === Node.TEXT_NODE);
             const nickText = (nickNode?.textContent || '').trim().toLowerCase();
-            if (nickText && _catchers.has(nickText) && ppNick.dataset.badgesDone !== nickText) {
-                ppNick.dataset.badgesDone = nickText;
-                ppNick.querySelectorAll('.ce-badge,.ce-badge-wrap,.role-badge').forEach(b=>b.remove());
-                ppEaster.querySelectorAll('.ce-badge,.ce-badge-wrap,.role-badge').forEach(b=>b.remove());
+            if (nickText && _catchers.has(nickText)) {
                 const badges = _catchers.get(nickText);
+
+                // ADMIN / MODER — рядом с галочкой верификации
                 const vbSpan = document.getElementById('pp-verified-badge');
+                // Чистим старые
+                ppNick.querySelectorAll('.role-badge').forEach(b=>b.remove());
                 if (badges.admin) {
                     const span = document.createElement('span');
                     span.className = 'role-badge role-badge-admin';
@@ -15248,7 +15251,7 @@ window.applyDecorations = function applyDecorations() {
             );
         }
         applyDecorations();
-        
+        if (!_decoInterval) _decoInterval = setInterval(applyDecorations, 2000);
     }
 
 function spawnCluck() {
@@ -15323,6 +15326,7 @@ function spawnCluck() {
 
         if (_catchers.size > 0) {
             applyDecorations();
+            _decoInterval = setInterval(applyDecorations, 2000);
         }
 
         // Only spawn mob during active event period
