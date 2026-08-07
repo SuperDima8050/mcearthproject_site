@@ -14947,24 +14947,28 @@ const st = document.createElement('style');
             font-size: 0.55rem;
             font-weight: 700;
             letter-spacing: 0.5px;
-            padding: 2px 6px;
+            padding: 2px 5px;
             border-radius: 2px;
             vertical-align: middle;
             margin: 0 2px;
             text-transform: uppercase;
-            line-height: 1.4;
+            line-height: 1;
+            border-bottom: 2px solid rgba(0,0,0,0.3);
             cursor: default;
-            border: 1.5px solid;
         }
         .role-badge-admin {
-            background: #ff8c00;
+            background: linear-gradient(180deg, #ff8c00, #e65c00);
             color: #fff;
-            border-color: #c66a00;
+            border-color: #a03d00;
+            box-shadow: 0 2px 0 #7a2e00;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.4);
         }
         .role-badge-moder {
-            background: #6a1b9a;
+            background: linear-gradient(180deg, #7b1fa2, #4a0072);
             color: #fff;
-            border-color: #4a1070;
+            border-color: #2e0047;
+            box-shadow: 0 2px 0 #1a0029;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.4);
         }
     `;
     document.head.appendChild(st);
