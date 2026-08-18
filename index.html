@@ -13506,10 +13506,10 @@ async function showSubdomainModal() {
                 </div>
                 <div id="sd-status-create" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:8px;min-height:20px;"></div>
                 <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-                    <button class="bp-submit-btn" id="sd-save-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doSaveSubdomain()">
+                    <button class="bp-submit-btn" id="sd-save-btn" style="margin-top:0;font-size:0.72rem;padding:10px 6px;flex:1;" onclick="doSaveSubdomain()">
                         <i class="fas fa-save"></i> ${ru?'Создать поддомен':'Create subdomain'}
                     </button>
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.72rem;padding:10px 6px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
                         <i class="fas fa-times"></i> ${ru?'Отмена':'Cancel'}
                     </button>
                 </div>
@@ -13776,8 +13776,8 @@ async function loadCurrentSubdomain(force = false) {
                 </div>
                 <div id="mfa-modal-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;text-align:center;"></div>
                 <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
-                    <button class="bp-submit-btn" id="mfa-action-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;display:none;"></button>
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-mfa-modal').remove()">
+                    <button class="bp-submit-btn" id="mfa-action-btn" style="margin-top:0;font-size:0.72rem;padding:10px 6px;flex:1;display:none;"></button>
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.72rem;padding:10px 6px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-mfa-modal').remove()">
                         <i class="fas fa-times"></i> ${ru ? 'Закрыть' : 'Close'}
                     </button>
                 </div>
@@ -13898,10 +13898,10 @@ async function loadCurrentSubdomain(force = false) {
                     <input type="text" id="mfa-verify-code" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" style="${inputStyle}" oninput="this.value=this.value.replace(/[^0-9]/g,'')" onkeydown="if(event.key==='Enter')document.getElementById('mfa-verify-btn').click()" />
                     <div id="mfa-verify-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:8px;text-align:center;"></div>
                     <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
-                        <button id="mfa-verify-btn" class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doMfaVerifyLogin()">
+                        <button id="mfa-verify-btn" class="bp-submit-btn" style="margin-top:0;font-size:0.72rem;padding:10px 6px;flex:1;" onclick="doMfaVerifyLogin()">
                             <i class="fas fa-unlock-alt"></i> ${ru?'Войти':'Login'}
                         </button>
-                        <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-mfa-verify-modal').remove();showAuthStatus('','');">
+                        <button class="bp-submit-btn" style="margin-top:0;font-size:0.72rem;padding:10px 6px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-mfa-verify-modal').remove();showAuthStatus('','');">
                             ${ru?'Отмена':'Cancel'}
                         </button>
                     </div>
