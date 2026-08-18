@@ -6442,10 +6442,10 @@
                 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
                     <h2 class="section-title" data-icon="settings_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;"><span data-ru="Жалобы" data-en="Reports">Жалобы</span></h2>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                        <button class="copy-btn" id="reports-filter-pending" onclick="window.filterReports('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#8b1a1a;box-shadow:0 4px 0 #5a0d0d;">
+                        <button class="copy-btn" id="reports-filter-pending" onclick="window.filterReports('pending')" style="font-size:0.85rem;padding:11px 18px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#8b1a1a;box-shadow:0 4px 0 #5a0d0d;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:18px;height:18px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
                         </button>
-                        <button class="copy-btn" id="reports-filter-resolved" onclick="window.filterReports('resolved')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
+                        <button class="copy-btn" id="reports-filter-resolved" onclick="window.filterReports('resolved')" style="font-size:0.85rem;padding:11px 18px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
                             <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Решённые" data-en="Resolved">Решённые</span>
                         </button>
                     </div>
@@ -6466,11 +6466,11 @@
                 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
                     <h2 class="section-title" data-icon="sign_icon.png" style="margin-bottom:0;border-bottom:none;padding-bottom:0;"><span data-ru="Верификации" data-en="Verifications">Верификации</span></h2>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#8b1a1a;box-shadow:0 4px 0 #5a0d0d;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
+                        <button class="copy-btn" id="verif-filter-pending" onclick="window.filterVerifications('pending')" style="font-size:0.85rem;padding:11px 18px;background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#8b1a1a;box-shadow:0 4px 0 #5a0d0d;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/timer_icon.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Ожидают" data-en="Pending">Ожидают</span>
                         </button>
-                        <button class="copy-btn" id="verif-filter-resolved" onclick="window.filterVerifications('resolved')" style="font-size:0.78rem;padding:6px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Решённые" data-en="Resolved">Решённые</span>
+                        <button class="copy-btn" id="verif-filter-resolved" onclick="window.filterVerifications('resolved')" style="font-size:0.85rem;padding:11px 18px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 4px 0 #222;">
+                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:4px;"> <span data-ru="Решённые" data-en="Resolved">Решённые</span>
                         </button>
                     </div>
                 </div>
@@ -7745,7 +7745,7 @@
                         <div class="bp-file-name" id="report-img-name" style="margin-bottom:10px;"></div>
 
                         <div class="bp-auth-captcha" id="report-captcha-wrap" style="margin-bottom:10px;"></div>
-                        <div class="bp-modal-btns" style="margin-top:0;">
+                        <div style="display:flex;gap:10px;margin-top:0;flex-wrap:wrap;">
                             <button class="bp-submit-btn" style="background:linear-gradient(180deg,#c62828,#8b1a1a);border-color:#7f0000;box-shadow:0 5px 0 #5a0000;margin-top:0;flex:1;"
                                 onclick="submitReport('${postType}','${postId}','${encodeURIComponent(postTitle)}','${encodeURIComponent(postAuthor||'')}','${encodeURIComponent(imageUrl||'')}')">
                                 <i class="fas fa-paper-plane"></i> ${ru ? 'Отправить' : 'Send'}
@@ -10125,7 +10125,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <input type="email" id="forgot-email-input" placeholder="you@example.com" style="${inputStyle}" />
                     </div>
                     <div id="forgot-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;"></div>
-                    <div class="bp-modal-btns">
+                    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
                         <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doForgotPassword()">
                             <i class="fas fa-paper-plane"></i> ${ru ? 'Отправить' : 'Send'}
                         </button>
@@ -10193,7 +10193,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <div class="pass-wrap"><input type="password" id="reset-pass2-input" placeholder="••••••••" maxlength="100" style="${inputStyle}" /><button type="button" class="pass-toggle" onclick="togglePass('reset-pass2-input',this)" tabindex="-1"><i class="fas fa-eye"></i></button></div>
                     </div>
                     <div id="reset-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;"></div>
-                    <div class="bp-modal-btns">
+                    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
                         <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doResetPassword('${resetToken}', '${nick}')">
                             <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
                         </button>
@@ -10285,7 +10285,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <div class="pass-wrap"><input type="password" id="chpass-new2" placeholder="••••••••" maxlength="100" style="${inputStyle}" /><button type="button" class="pass-toggle" onclick="togglePass('chpass-new2',this)" tabindex="-1"><i class="fas fa-eye"></i></button></div>
                     </div>
                     <div id="chpass-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;"></div>
-                    <div class="bp-modal-btns">
+                    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
                         <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doChangePassword()">
                             <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
                         </button>
@@ -10362,7 +10362,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         <input type="text" id="rename-input" value="${currentAccount.nick}" maxlength="40" style="${inputStyle}" />
                     </div>
                     <div id="rename-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;"></div>
-                    <div class="bp-modal-btns">
+                    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
                         <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doRename()">
                             <i class="fas fa-check"></i> ${ru?'Сохранить':'Save'}
                         </button>
@@ -13466,7 +13466,7 @@ async function showSubdomainModal() {
                 </div>
                 <div id="sd-edit-preview" style="font-family:Minecraft,sans-serif;font-size:0.75rem;color:${sc};margin-bottom:6px;min-height:16px;opacity:0.8;"></div>
                 <div id="sd-status-view" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:8px;min-height:20px;"></div>
-                <div class="bp-modal-btns" style="margin-top:0;">
+                <div style="display:flex;gap:10px;margin-top:0;flex-wrap:wrap;">
                     <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doUpdateSubdomain()">
                         <i class="fas fa-save"></i> ${ru?'Сохранить':'Save'}
                     </button>
@@ -13505,7 +13505,7 @@ async function showSubdomainModal() {
                     <div id="sd-turnstile"></div>
                 </div>
                 <div id="sd-status-create" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:8px;min-height:20px;"></div>
-                <div class="bp-modal-btns" style="margin-top:10px;">
+                <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
                     <button class="bp-submit-btn" id="sd-save-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doSaveSubdomain()">
                         <i class="fas fa-save"></i> ${ru?'Создать поддомен':'Create subdomain'}
                     </button>
@@ -13775,7 +13775,7 @@ async function loadCurrentSubdomain(force = false) {
                     </div>
                 </div>
                 <div id="mfa-modal-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:6px;text-align:center;"></div>
-                <div class="bp-modal-btns">
+                <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
                     <button class="bp-submit-btn" id="mfa-action-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;display:none;"></button>
                     <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-mfa-modal').remove()">
                         <i class="fas fa-times"></i> ${ru ? 'Закрыть' : 'Close'}
@@ -13897,7 +13897,7 @@ async function loadCurrentSubdomain(force = false) {
                     <div style="font-size:0.82rem;opacity:0.75;margin-bottom:14px;">${ru?'Введи 6-значный код из Google Authenticator / Authy:':'Enter the 6-digit code from Google Authenticator / Authy:'}</div>
                     <input type="text" id="mfa-verify-code" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code" style="${inputStyle}" oninput="this.value=this.value.replace(/[^0-9]/g,'')" onkeydown="if(event.key==='Enter')document.getElementById('mfa-verify-btn').click()" />
                     <div id="mfa-verify-status" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:8px;text-align:center;"></div>
-                    <div class="bp-modal-btns">
+                    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
                         <button id="mfa-verify-btn" class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doMfaVerifyLogin()">
                             <i class="fas fa-unlock-alt"></i> ${ru?'Войти':'Login'}
                         </button>
