@@ -7997,10 +7997,10 @@
             const pending = document.getElementById('verif-filter-pending');
             const resolved = document.getElementById('verif-filter-resolved');
             if (filter === 'pending') {
-                if (pending) { pending.style.background = 'linear-gradient(180deg,#1877f2,#1256b8)'; pending.style.borderColor = '#1256b8'; pending.style.boxShadow = '0 4px 0 #0a3d8a'; }
+                if (pending) { pending.style.background = 'linear-gradient(180deg,#c62828,#8b1a1a)'; pending.style.borderColor = '#8b1a1a'; pending.style.boxShadow = '0 4px 0 #5a0d0d'; }
                 if (resolved) { resolved.style.background = 'linear-gradient(180deg,#888,#555)'; resolved.style.borderColor = '#333'; resolved.style.boxShadow = '0 4px 0 #222'; }
             } else {
-                if (resolved) { resolved.style.background = 'linear-gradient(180deg,#1877f2,#1256b8)'; resolved.style.borderColor = '#1256b8'; resolved.style.boxShadow = '0 4px 0 #0a3d8a'; }
+                if (resolved) { resolved.style.background = 'linear-gradient(180deg,#6b8e23,#556b2f)'; resolved.style.borderColor = '#4a5d23'; resolved.style.boxShadow = '0 4px 0 #3d4f1c'; }
                 if (pending) { pending.style.background = 'linear-gradient(180deg,#888,#555)'; pending.style.borderColor = '#333'; pending.style.boxShadow = '0 4px 0 #222'; }
             }
             renderVerifications();
@@ -13466,14 +13466,14 @@ async function showSubdomainModal() {
                 </div>
                 <div id="sd-edit-preview" style="font-family:Minecraft,sans-serif;font-size:0.75rem;color:${sc};margin-bottom:6px;min-height:16px;opacity:0.8;"></div>
                 <div id="sd-status-view" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:8px;min-height:20px;"></div>
-                <div style="display:flex;gap:8px;margin-top:0;flex-wrap:wrap;">
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.7rem;padding:9px 4px;flex:1;min-width:90px;" onclick="doUpdateSubdomain()">
+                <div style="display:flex;gap:6px;margin-top:0;flex-wrap:wrap;">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.66rem;padding:9px 3px;letter-spacing:0;flex:1;min-width:0;" onclick="doUpdateSubdomain()">
                         <i class="fas fa-save"></i> ${ru?'Сохранить':'Save'}
                     </button>
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.7rem;padding:9px 4px;flex:1;min-width:90px;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#5d0000;box-shadow:0 5px 0 #3b0000;" onclick="doDeleteSubdomain()">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.66rem;padding:9px 3px;letter-spacing:0;flex:1;min-width:0;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#5d0000;box-shadow:0 5px 0 #3b0000;" onclick="doDeleteSubdomain()">
                         <i class="fas fa-trash-alt"></i> ${ru?'Удалить':'Delete'}
                     </button>
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.7rem;padding:9px 4px;flex:1;min-width:90px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.66rem;padding:9px 3px;letter-spacing:0;flex:1;min-width:0;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
                         <i class="fas fa-times"></i> ${ru?'Закрыть':'Close'}
                     </button>
                 </div>
@@ -13505,11 +13505,11 @@ async function showSubdomainModal() {
                     <div id="sd-turnstile"></div>
                 </div>
                 <div id="sd-status-create" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-top:8px;min-height:20px;"></div>
-                <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-                    <button class="bp-submit-btn" id="sd-save-btn" style="margin-top:0;font-size:0.72rem;padding:10px 6px;flex:1;" onclick="doSaveSubdomain()">
+                <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+                    <button class="bp-submit-btn" id="sd-save-btn" style="margin-top:0;font-size:0.66rem;padding:10px 4px;letter-spacing:0;flex:1.6;min-width:0;" onclick="doSaveSubdomain()">
                         <i class="fas fa-save"></i> ${ru?'Создать поддомен':'Create subdomain'}
                     </button>
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.72rem;padding:10px 6px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.7rem;padding:10px 4px;flex:1;min-width:0;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
                         <i class="fas fa-times"></i> ${ru?'Отмена':'Cancel'}
                     </button>
                 </div>
