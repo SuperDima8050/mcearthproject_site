@@ -8198,52 +8198,39 @@
                 card.id = 'report-card-' + rep.id;
                 card.style.position = 'relative';
                 const isRepNew = new Date(rep.created_at).getTime() > lastSeenRep;
-                card.style.cssText = `background:${isDarkMode ? '#1e2a1e' : '#f0fff0'};border:2px solid ${isDarkMode ? '#3a5c3a' : '#6b8e23'};border-radius:6px;padding:14px;margin-bottom:12px;box-shadow:0 4px 0 ${isDarkMode ? '#0a1a0a' : '#4a5d23'};transition:opacity 0.5s ease,transform 0.5s ease,max-height 0.5s ease,padding 0.5s ease,margin 0.5s ease;overflow:hidden;`;
+                card.style.cssText = `background:${isDarkMode?'#1a1a1a':'#f5eed9'};border:2px solid ${isDarkMode?'#444':'#c8b08a'};border-radius:3px;padding:14px;margin-bottom:12px;transition:opacity 0.5s ease,transform 0.5s ease,max-height 0.5s ease,padding 0.5s ease,margin 0.5s ease;overflow:hidden;`;
                 const reasonLabels = { spam: ru ? 'Спам' : 'Spam', inappropriate: ru ? 'Неприемлемый контент' : 'Inappropriate', misinformation: ru ? 'Ложная информация' : 'Misinformation', copyright: ru ? 'Авторские права' : 'Copyright', other: ru ? 'Другое' : 'Other' };
-                const statusColors = { pending: '#c62828', approved: '#2e7d32', rejected: '#757575' };
-                const ICO = 'https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon';
-                const iStyle = 'width:16px;height:16px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;';
-                const iTimer    = `<img src="${ICO}/timer_icon.png" style="${iStyle}">`;
-                const iEmerald  = `<span class="px-badge-ok"><i class="fas fa-check"></i></span>`;
-                const iRedstone = `<span class="px-badge-err"><i class="fas fa-times"></i></span>`;
-                const iPost     = `<img src="${ICO}/journal_icon.png" style="${iStyle}">`;
-                const iAuthor   = `<img src="${ICO}/mob_of_me_icon.png" style="${iStyle}">`;
-                const iReporter = `<img src="${ICO}/settings_icon.png" style="${iStyle}">`;
-                const statusLabels = { pending: `${iTimer}${ru ? 'Ожидает' : 'Pending'}`, approved: `${iEmerald}${ru ? 'Одобрена' : 'Approved'}`, rejected: `${iRedstone}${ru ? 'Отклонена' : 'Rejected'}` };
+                const statusColors = { pending: '#e8a020', approved: '#2e7d32', rejected: '#c62828' };
+                const statusLabels = { pending: ru ? 'Ожидает' : 'Pending', approved: ru ? 'Одобрена' : 'Approved', rejected: ru ? 'Отклонена' : 'Rejected' };
                 const date = new Date(rep.created_at).toLocaleDateString(ru ? 'ru-RU' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-                const imgPreview = rep.image_url ? `<div style="margin:8px 0;"><img src="${rep.image_url}" style="max-width:100%;max-height:120px;border-radius:3px;border:1px solid #6b8e23;object-fit:cover;"></div>` : '';
+                const imgPreview = rep.image_url ? `<div style="margin:8px 0;"><img src="${rep.image_url}" style="max-width:100%;max-height:120px;border-radius:3px;border:1px solid ${isDarkMode?'#444':'#c8b08a'};object-fit:cover;"></div>` : '';
                 const actionBtns = rep.status === 'pending' ? `
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
-                        <button onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','approve',false)" style="font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;padding:7px 12px;background:linear-gradient(180deg,#2e7d32,#1b5e20);color:#fff;border:2px solid #1b5e20;border-radius:2px;cursor:pointer;box-shadow:0 3px 0 #0a3d0a;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/xp_single_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Одобрить (удалить пост)' : 'Approve (delete post)'}
+                        <button class="copy-btn" style="font-size:0.78rem;padding:5px 12px;background:linear-gradient(180deg,#2e7d32,#1b5e20);border-color:#1b5e20;box-shadow:0 3px 0 #0a3d0a;" onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','approve',false)">
+                            <i class="fas fa-check" style="margin-right:4px;"></i>${ru ? 'Одобрить' : 'Approve'}
                         </button>
-                        <button onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','approve',true)" style="font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;padding:7px 12px;background:linear-gradient(180deg,#b71c1c,#7f0000);color:#fff;border:2px solid #7f0000;border-radius:2px;cursor:pointer;box-shadow:0 3px 0 #4a0000;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Удалить + забанить' : 'Delete + ban'}
+                        <button class="copy-btn" style="font-size:0.78rem;padding:5px 12px;background:linear-gradient(180deg,#b71c1c,#7f0000);border-color:#7f0000;box-shadow:0 3px 0 #4a0000;" onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','approve',true)">
+                            <i class="fas fa-user-slash" style="margin-right:4px;"></i>${ru ? 'Удалить + бан' : 'Delete + ban'}
                         </button>
-                        <button onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','reject',false)" style="font-family:Minecraft,sans-serif;font-size:0.78rem;font-weight:700;padding:7px 12px;background:linear-gradient(180deg,#888,#555);color:#fff;border:2px solid #333;border-radius:2px;cursor:pointer;box-shadow:0 3px 0 #222;">
-                            <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/redstone_torch_0_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:3px;"> ${ru ? 'Отклонить' : 'Reject'}
+                        <button class="copy-btn" style="font-size:0.78rem;padding:5px 12px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 3px 0 #222;" onclick="resolveReport('${rep.id}','${rep.post_type}','${rep.post_id}','${encodeURIComponent(rep.image_url||'')}','${encodeURIComponent(rep.post_author||'')}','reject',false)">
+                            <i class="fas fa-times" style="margin-right:4px;"></i>${ru ? 'Отклонить' : 'Reject'}
                         </button>
-                    </div>` : `<div style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${statusColors[rep.status]};font-weight:700;margin-top:8px;">${statusLabels[rep.status]}</div>`;
-                const textColor = isDarkMode ? '#d0e8d0' : '#3e2723';
-                const subColor  = isDarkMode ? '#8ab08a' : '#5a4a3a';
-                const dateColor = isDarkMode ? '#6a8a6a' : '#8b7355';
+                    </div>` : '';
+                const textColor = isDarkMode ? '#e0e0e0' : '#3e2723';
+                const subColor  = isDarkMode ? '#aaa' : '#8b7355';
                 card.innerHTML = `
                     ${isRepNew ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/new_icon.png" class="news-new-badge" style="position:absolute;top:8px;right:8px;z-index:10;width:24px;height:24px;image-rendering:pixelated;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));" title=\"Новое\" alt=\"new\">' : ''}
-                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
-                        <div>
-                            <span style="font-family:Minecraft,sans-serif;font-size:0.85rem;font-weight:700;color:${isDarkMode ? '#8bc34a' : '#4a5d23'};">${reasonLabels[rep.reason] || escapeHtml(String(rep.reason || ""))}</span>
-                            <span style="font-family:Minecraft,sans-serif;font-size:0.72rem;color:${dateColor};margin-left:8px;">${date}</span>
+                    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="font-family:Minecraft,sans-serif;font-size:0.95rem;font-weight:700;color:${textColor};">${reasonLabels[rep.reason] || escapeHtml(String(rep.reason || ""))}</span>
+                            <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;font-weight:700;color:${statusColors[rep.status]};background:${statusColors[rep.status]}22;padding:2px 7px;border-radius:2px;border:1px solid ${statusColors[rep.status]};">${statusLabels[rep.status]}</span>
                         </div>
-                        <span style="font-family:Minecraft,sans-serif;font-size:0.75rem;font-weight:700;color:${statusColors[rep.status]};background:${isDarkMode ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'};padding:3px 9px;border-radius:10px;border:1px solid ${statusColors[rep.status]}44;display:inline-flex;align-items:center;gap:4px;">${statusLabels[rep.status]}</span>
+                        <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;opacity:0.6;">${date}</span>
                     </div>
-                    <div style="font-family:Minecraft,sans-serif;font-size:0.82rem;margin-bottom:5px;color:${textColor};display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-                        ${iPost} <b>${ru ? 'Пост:' : 'Post:'}</b>&nbsp;<span style="color:${subColor}">${escapeHtml(String(rep.post_title || rep.post_id || ""))}</span>
-                        ${rep.post_author ? `&nbsp;${iAuthor}&nbsp;<b>${ru ? 'Автор:' : 'Author:'}</b>&nbsp;<span style="color:${subColor}">${rep.post_author}</span>` : ''}
-                    </div>
-                    <div style="font-family:Minecraft,sans-serif;font-size:0.82rem;margin-bottom:6px;color:${textColor};display:flex;align-items:center;gap:6px;">
-                        ${iReporter} <b>${ru ? 'От:' : 'Reporter:'}</b>&nbsp;<span style="color:${subColor}">${escapeHtml(String(rep.reporter_nick || ""))}</span>
-                    </div>
-                    ${rep.details ? `<div style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${subColor};margin-bottom:6px;background:${isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'};padding:7px 10px;border-radius:4px;border-left:3px solid ${isDarkMode ? '#3a5c3a' : '#6b8e23'};">💬 ${escapeHtml(String(rep.details || ""))}</div>` : ''}
+                    <p style="font-family:Minecraft,sans-serif;font-size:0.8rem;margin-bottom:6px;line-height:1.6;color:${textColor};">
+                        <b>${ru ? 'Пост:' : 'Post:'}</b> <span style="color:${subColor}">${escapeHtml(String(rep.post_title || rep.post_id || ""))}</span>${rep.post_author ? `<br><b>${ru ? 'Автор:' : 'Author:'}</b> <span style="color:${subColor}">${escapeHtml(String(rep.post_author))}</span>` : ''}<br><b>${ru ? 'От:' : 'Reporter:'}</b> <span style="color:${subColor}">${escapeHtml(String(rep.reporter_nick || ""))}</span>
+                    </p>
+                    ${rep.details ? `<p style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${subColor};margin-bottom:6px;line-height:1.5;">${escapeHtml(String(rep.details || ""))}</p>` : ''}
                     ${imgPreview}
                     ${actionBtns}`;
                 container.appendChild(card);
