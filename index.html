@@ -11832,7 +11832,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                             <i class="fas fa-check"></i> ${ru ? 'Сохранить' : 'Save'}
                         </button>
                         <button class="bp-submit-btn" style="flex:1;margin-top:0;font-size:0.82rem;padding:11px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('cookie-modal-overlay').remove()">
-                            ${ru ? 'Закрыть' : 'Close'}
+                            <i class="fas fa-times"></i> ${ru ? 'Закрыть' : 'Close'}
                         </button>
                     </div>
                 </div>`;
@@ -13466,14 +13466,14 @@ async function showSubdomainModal() {
                 </div>
                 <div id="sd-edit-preview" style="font-family:Minecraft,sans-serif;font-size:0.75rem;color:${sc};margin-bottom:6px;min-height:16px;opacity:0.8;"></div>
                 <div id="sd-status-view" style="font-size:0.82rem;font-weight:600;font-family:Minecraft,sans-serif;margin-bottom:8px;min-height:20px;"></div>
-                <div style="display:flex;gap:10px;margin-top:0;flex-wrap:wrap;">
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;" onclick="doUpdateSubdomain()">
+                <div style="display:flex;gap:8px;margin-top:0;flex-wrap:wrap;">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.7rem;padding:9px 4px;flex:1;min-width:90px;" onclick="doUpdateSubdomain()">
                         <i class="fas fa-save"></i> ${ru?'Сохранить':'Save'}
                     </button>
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#5d0000;box-shadow:0 5px 0 #3b0000;" onclick="doDeleteSubdomain()">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.7rem;padding:9px 4px;flex:1;min-width:90px;background:linear-gradient(180deg,#c62828,#8b0000);border-color:#5d0000;box-shadow:0 5px 0 #3b0000;" onclick="doDeleteSubdomain()">
                         <i class="fas fa-trash-alt"></i> ${ru?'Удалить':'Delete'}
                     </button>
-                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.85rem;padding:10px;flex:1;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
+                    <button class="bp-submit-btn" style="margin-top:0;font-size:0.7rem;padding:9px 4px;flex:1;min-width:90px;background:linear-gradient(180deg,#888,#555);border-color:#333;box-shadow:0 5px 0 #222;" onclick="document.getElementById('bp-subdomain-modal').remove()">
                         <i class="fas fa-times"></i> ${ru?'Закрыть':'Close'}
                     </button>
                 </div>
