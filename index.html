@@ -8227,10 +8227,10 @@
                         </div>
                         <span style="font-family:Minecraft,sans-serif;font-size:0.7rem;opacity:0.6;">${date}</span>
                     </div>
-                    <p style="font-family:Minecraft,sans-serif;font-size:0.8rem;margin-bottom:6px;line-height:1.6;color:${textColor};">
-                        <b>${ru ? 'Пост:' : 'Post:'}</b> <span style="color:${subColor}">${escapeHtml(String(rep.post_title || rep.post_id || ""))}</span>${rep.post_author ? `<br><b>${ru ? 'Автор:' : 'Author:'}</b> <span style="color:${subColor}">${escapeHtml(String(rep.post_author))}</span>` : ''}<br><b>${ru ? 'От:' : 'Reporter:'}</b> <span style="color:${subColor}">${escapeHtml(String(rep.reporter_nick || ""))}</span>
+                    <p style="font-family:Minecraft,sans-serif;font-size:0.8rem;margin-bottom:6px;line-height:1.6;color:${subColor};">
+                        <b>${ru ? 'Пост:' : 'Post:'}</b> <span style="color:${textColor};font-weight:600;">${escapeHtml(String(rep.post_title || rep.post_id || ""))}</span>${rep.post_author ? `<br><b>${ru ? 'Автор:' : 'Author:'}</b> <span style="color:${textColor};font-weight:600;">${escapeHtml(String(rep.post_author))}</span>` : ''}<br><b>${ru ? 'От:' : 'Reporter:'}</b> <span style="color:${textColor};font-weight:600;">${escapeHtml(String(rep.reporter_nick || ""))}</span>
                     </p>
-                    ${rep.details ? `<p style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${subColor};margin-bottom:6px;line-height:1.5;">${escapeHtml(String(rep.details || ""))}</p>` : ''}
+                    ${rep.details ? `<p style="font-family:Minecraft,sans-serif;font-size:0.78rem;color:${textColor};margin-bottom:6px;line-height:1.5;">${escapeHtml(String(rep.details || ""))}</p>` : ''}
                     ${imgPreview}
                     ${actionBtns}`;
                 container.appendChild(card);
