@@ -10828,11 +10828,11 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                                 <i class="fas fa-download"></i>
                                 <span>${currentLang === 'ru' ? 'Скачать' : 'Download'}</span>
                             </button>
-                            <button class="bp-like-btn ${isLiked ? 'liked' : ''}" data-id="${bp.id}">
+                            <button class="bp-like-btn ${isLiked ? 'liked' : ''}" data-id="${bp.id}" data-bp-like="${bp.id}">
                                 <i class="fas fa-thumbs-up"></i>
                                 <span class="bp-like-count">${likeCount}</span>
                             </button>
-                            <button class="bp-dislike-btn ${isDisliked ? 'disliked' : ''}" data-id="${bp.id}">
+                            <button class="bp-dislike-btn ${isDisliked ? 'disliked' : ''}" data-id="${bp.id}" data-bp-dislike="${bp.id}">
                                 <i class="fas fa-thumbs-down"></i>
                                 <span class="bp-dislike-count">${dislikeCount}</span>
                             </button>
