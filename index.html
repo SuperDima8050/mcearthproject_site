@@ -11109,7 +11109,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const overlay = document.createElement('div');
             overlay.id = 'bp-edit-modal';
             overlay.className = 'bp-modal-overlay';
-            const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal draggable-modal" style="max-width:420px;" id="bp-edit-modal-content">
                     <h3 style="font-family:Minecraft,sans-serif;color:${isDark?'#e0e0e0':'#4a5d23'};margin-bottom:16px;display:flex;align-items:center;cursor:move;"><i class="fas fa-pen" style="margin-right:8px;"></i>${ru ? 'Изменить название' : 'Edit name'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
@@ -12602,7 +12602,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             const overlay = document.createElement('div');
             overlay.id = 'gl-edit-modal';
             overlay.className = 'bp-modal-overlay';
-            const inputStyle = `width:100%;padding:10px 12px;border:3px solid #8b7355;border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
+            const inputStyle = `width:100%;padding:10px 12px;border:3px solid ${isDark?'#555':'#8b7355'};border-radius:2px;background:${isDark?'#1a1a1a':'#f5eed9'};color:${isDark?'#e0e0e0':'#3e2723'};font-family:Minecraft,sans-serif;font-size:0.9rem;font-weight:600;outline:none;box-sizing:border-box;margin-top:4px;`;
             overlay.innerHTML = `
                 <div class="bp-modal draggable-modal" style="max-width:420px;" id="gl-edit-modal-content">
                     <h3 style="font-family:Minecraft,sans-serif;color:${isDark?'#e0e0e0':'#4a5d23'};margin-bottom:16px;display:flex;align-items:center;cursor:move;"><i class="fas fa-pen" style="margin-right:8px;"></i>${ru ? 'Изменить фото' : 'Edit photo'}<span style="margin-left:auto;font-size:0.7rem;opacity:0.5;font-family:Minecraft,sans-serif;">⠿ ${ru ? 'тащи' : 'drag'}</span></h3>
