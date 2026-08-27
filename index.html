@@ -1263,7 +1263,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: blur(5px);
+            filter: blur(8px);
             transform: scale(1.1);
             z-index: 1;
         }
@@ -1283,7 +1283,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.32);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 2;
         }
 
@@ -1293,7 +1293,7 @@
         }
 
         .news-item:hover::before {
-            filter: blur(4px);
+            filter: blur(6px);
         }
 
         .news-new-badge {
@@ -2092,7 +2092,7 @@
         }
 
         body.dark-theme .news-item::after {
-            background: rgba(0, 0, 0, 0.42);
+            background: rgba(0, 0, 0, 0.6);
         }
 
         body.dark-theme .news-loading,
@@ -14945,36 +14945,31 @@ const st = document.createElement('style');
             display: inline-flex;
             align-items: center;
             font-family: 'Minecraft', monospace;
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             font-weight: 700;
-            letter-spacing: 0.3px;
-            padding: 1px 4px;
+            letter-spacing: 0.5px;
+            padding: 2px 5px;
             border-radius: 2px;
             vertical-align: middle;
             margin: 0 2px;
             text-transform: uppercase;
-            line-height: 1.4;
+            line-height: 1;
+            border-bottom: 2px solid rgba(0,0,0,0.3);
             cursor: default;
         }
         .role-badge-admin {
-            background: rgba(230,92,0,0.15);
-            color: #e65c00;
-            border: 1px solid rgba(230,92,0,0.4);
-        }
-        body.dark-theme .role-badge-admin {
-            background: rgba(255,140,0,0.15);
-            color: #ffa040;
-            border-color: rgba(255,140,0,0.4);
+            background: linear-gradient(180deg, #ff8c00, #e65c00);
+            color: #fff;
+            border-color: #a03d00;
+            box-shadow: 0 2px 0 #7a2e00;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.4);
         }
         .role-badge-moder {
-            background: rgba(123,31,162,0.12);
-            color: #7b1fa2;
-            border: 1px solid rgba(123,31,162,0.35);
-        }
-        body.dark-theme .role-badge-moder {
-            background: rgba(186,104,200,0.15);
-            color: #ce93d8;
-            border-color: rgba(186,104,200,0.4);
+            background: linear-gradient(180deg, #7b1fa2, #4a0072);
+            color: #fff;
+            border-color: #2e0047;
+            box-shadow: 0 2px 0 #1a0029;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.4);
         }
     `;
     document.head.appendChild(st);
