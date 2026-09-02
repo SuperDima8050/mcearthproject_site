@@ -4298,12 +4298,12 @@
         
         .pp-search-wrap {
             padding: 8px 10px 4px;
-            border-bottom: 2px solid rgba(139,115,85,0.15);
+            border-bottom: 2px solid rgba(85,85,85,0.15);
         }
         .pp-search {
             width: 100%;
             padding: 7px 10px 7px 32px;
-            border: 2px solid #8b7355;
+            border: 2px solid #555;
             border-radius: 2px;
             background: #f5eed9;
             color: #3e2723;
@@ -4312,12 +4312,12 @@
             font-weight: 600;
             outline: none;
             box-sizing: border-box;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238b7355' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: 9px center;
             background-size: 14px;
         }
-        .pp-search::placeholder { color: #a89070; }
+        .pp-search::placeholder { color: #999; }
         .pp-search:focus { border-color: #6b8e23; }
         body.dark-theme .pp-search { background-color: #1a1a1a; border-color: #555; color: #e0e0e0; }
         body.dark-theme .pp-search::placeholder { color: #666; }
@@ -4744,7 +4744,7 @@
         .bp-search-wrap i {
             position: absolute;
             left: 12px;
-            color: #8b7355;
+            color: #555;
             font-size: 0.9rem;
             pointer-events: none;
         }
@@ -4752,7 +4752,7 @@
         .bp-search-wrap input {
             width: 100%;
             padding: 10px 12px 10px 34px;
-            border: 3px solid #8b7355;
+            border: 3px solid #555;
             border-radius: 2px;
             background: #fffbf0;
             color: #3e2723;
@@ -4760,16 +4760,16 @@
             font-size: 0.9rem;
             font-weight: 600;
             outline: none;
-            box-shadow: 0 4px 0 #5a4a3a, inset 0 2px 4px rgba(0,0,0,.08);
+            box-shadow: 0 4px 0 #0a0a0a, inset 0 2px 4px rgba(0,0,0,.08);
             transition: border-color .15s;
         }
 
-        .bp-search-wrap input::placeholder { color: #a0927c; font-weight: 500; }
+        .bp-search-wrap input::placeholder { color: #999; font-weight: 500; }
         .bp-search-wrap input:focus { border-color: #6b8e23; }
 
         .bp-sort-select {
             padding: 10px 14px;
-            border: 3px solid #8b7355;
+            border: 3px solid #555;
             border-radius: 2px;
             background: #fffbf0;
             color: #3e2723;
@@ -4777,11 +4777,11 @@
             font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 0 #5a4a3a;
+            box-shadow: 0 4px 0 #0a0a0a;
             outline: none;
             appearance: none;
             -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b7355'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23555'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 10px center;
             padding-right: 28px;
@@ -4791,7 +4791,7 @@
 
         .bp-filter-mine-btn {
             padding: 10px 16px;
-            border: 3px solid #8b7355;
+            border: 3px solid #555;
             border-radius: 2px;
             background: #fffbf0;
             color: #5a4a3a;
@@ -4799,14 +4799,14 @@
             font-size: 0.82rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 0 #5a4a3a;
+            box-shadow: 0 4px 0 #0a0a0a;
             transition: all .15s;
             white-space: nowrap;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .bp-filter-mine-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #5a4a3a; }
-        .bp-filter-mine-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #5a4a3a; }
+        .bp-filter-mine-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #0a0a0a; }
+        .bp-filter-mine-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #0a0a0a; }
         .bp-filter-mine-btn.active {
             background: linear-gradient(180deg, #6b8e23 0%, #556b2f 100%);
             color: white;
@@ -4817,7 +4817,7 @@
         .bp-results-count {
             font-size: 0.78rem;
             font-weight: 700;
-            color: #8b7355;
+            color: #555;
             padding: 0 2px;
             font-family: 'Minecraft', sans-serif;
             white-space: nowrap;
