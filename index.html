@@ -6185,7 +6185,7 @@
                     <div id="bp-auth-section">
                         
                         <div id="bp-auth-form" class="bp-auth-box">
-                            <div class="bp-auth-title"><span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#8b7355;border:2px solid #5a4a3a;border-radius:2px;vertical-align:middle;flex-shrink:0;"><i class="fas fa-lock" style="font-size:14px;color:#fff;"></i></span> <span id="bp-auth-mode-title" data-ru="Войти / Зарегистрироваться" data-en="Login / Register">Войти / Зарегистрироваться</span></div>
+                            <div class="bp-auth-title"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:28px;height:28px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;flex-shrink:0;"> <span id="bp-auth-mode-title" data-ru="Войти / Зарегистрироваться" data-en="Login / Register">Войти / Зарегистрироваться</span></div>
                             <div class="bp-form-row" style="margin-bottom:10px;">
                                 <label data-ru="Никнейм" data-en="Nickname">Никнейм</label>
                                 <input type="text" id="bp-auth-nick" placeholder="Halolamemes" maxlength="40" />
@@ -6505,7 +6505,7 @@
                 <div class="bp-upload-card" id="gallery-upload-section">
                     
                     <div id="gallery-not-logged" style="text-align:center;padding:20px 10px;">
-                        <span style="display:flex;align-items:center;justify-content:center;width:2.4rem;height:2.4rem;background:#8b7355;border:3px solid #5a4a3a;border-radius:3px;margin:0 auto 12px;box-shadow:0 3px 0 #3e2723;"><i class="fas fa-lock" style="font-size:1.1rem;color:#fff;"></i></span>
+                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:2.4rem;height:2.4rem;object-fit:contain;image-rendering:pixelated;margin:0 auto 12px;box-shadow:0 3px 0 #3e2723;">
                         <p style="font-family:Minecraft,sans-serif;font-size:0.85rem;color:#5a4a3a;font-weight:700;line-height:1.6;"
                            data-ru="Чтобы загружать фото, войди в аккаунт во вкладке &laquo;Buildplates&raquo;"
                            data-en="To upload photos, please log in from the &laquo;Buildplates&raquo; tab">
@@ -7184,7 +7184,7 @@
 
         async function handleNewsLike(newsId, action, likeBtn, dislikeBtn) {
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы ставить лайки!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to like news!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login to like news!', 'error');
                 return;
             }
 
@@ -8171,7 +8171,7 @@
             if (!container) return;
             const isAdm = await checkNewsAdmin();
             if (!isAdm) {
-                container.innerHTML = '<div class="news-empty"><span style="display:flex;align-items:center;justify-content:center;width:2.4rem;height:2.4rem;background:#8b7355;border:3px solid #5a4a3a;border-radius:3px;margin:0 auto 12px;box-shadow:0 3px 0 #3e2723;"><i class="fas fa-lock" style="font-size:1.1rem;color:#fff;"></i></span><p>Access denied</p></div>';
+                container.innerHTML = '<div class="news-empty"><img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:2.4rem;height:2.4rem;object-fit:contain;image-rendering:pixelated;margin:0 auto 12px;box-shadow:0 3px 0 #3e2723;"><p>Access denied</p></div>';
                 return;
             }
             container.innerHTML = '<div class="news-loading"><div class="compass-loader"></div><p>' + (ru ? 'Загрузка...' : 'Loading...') + '</p></div>';
@@ -8456,7 +8456,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 span.textContent = lang === 'ru' ? 'Скачать' : 'Download';
             });
 
-            const lockedTip = lang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Требуется вход' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login required';
+            const lockedTip = lang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Требуется вход' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login required';
             document.querySelectorAll('.auth-locked').forEach(el => {
                 el.setAttribute('data-locked-tip', lockedTip);
             });
@@ -10897,7 +10897,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 }
                 if (dlBtn) dlBtn.addEventListener('click', (event) => {
                     if (!currentAccount) {
-                        showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы скачивать!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to download!', 'error');
+                        showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Войди в аккаунт чтобы скачивать!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login to download!', 'error');
                         return;
                     }
                     downloadWorld(bp.world_url, bp.name, event, bp.id);
@@ -11191,7 +11191,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
         async function handleBpLike(id, likeBtn, dislikeBtn) {
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы ставить лайки!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to like buildplates!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login to like buildplates!', 'error');
                 return;
             }
             if (bpProcessing[id]) return;
@@ -11268,7 +11268,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
         async function handleBpDislike(id, dislikeBtn, likeBtn) {
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы ставить лайки!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to like buildplates!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login to like buildplates!', 'error');
                 return;
             }
             if (bpProcessing[id]) return;
@@ -11335,7 +11335,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
         async function handleBpFavorite(id, favoriteBtn) {
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы добавлять в избранное!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to add favorites!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Войди в аккаунт чтобы добавлять в избранное!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login to add favorites!', 'error');
                 return;
             }
             const votes = window._sbVotes || {};
@@ -11370,7 +11370,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
         async function handleGalleryFavorite(id, favoriteBtn) {
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы добавлять в избранное!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to add favorites!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Войди в аккаунт чтобы добавлять в избранное!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login to add favorites!', 'error');
                 return;
             }
             const votes = window._sbVotes || {};
@@ -12463,7 +12463,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         async function handleGalleryLike(id, likeBtn, dislikeBtn) {
             if (!sbClient) return;
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы ставить лайки!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to like!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login to like!', 'error');
                 return;
             }
             // Инициализируем window._sbVotes если он undefined
@@ -12515,7 +12515,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         async function handleGalleryDislike(id, dislikeBtn, likeBtn) {
             if (!sbClient) return;
             if (!currentAccount) {
-                showInfoBanner(currentLang === 'ru' ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Войди в аккаунт чтобы ставить лайки!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#8b7355;border:1px solid #5a4a3a;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-lock" style="font-size:7px;color:#fff;line-height:1;"></i></span> Login to like!', 'error');
+                showInfoBanner(currentLang === 'ru' ? '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Войди в аккаунт чтобы ставить лайки!' : '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> Login to like!', 'error');
                 return;
             }
             // Инициализируем window._sbVotes если он undefined
@@ -13353,7 +13353,7 @@ function applyProtectedBlur() {
             if (!card.querySelector('.author-protected-overlay')) {
                 const ov = document.createElement('div');
                 ov.className = 'author-protected-overlay';
-                ov.innerHTML = `<span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#8b7355;border:2px solid #5a4a3a;border-radius:2px;vertical-align:middle;flex-shrink:0;"><i class="fas fa-lock" style="font-size:14px;color:#fff;"></i></span><span>${ru ? 'Войди чтобы увидеть' : 'Login to view'}</span>`;
+                ov.innerHTML = `<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/locked_icon.png" style="width:28px;height:28px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;flex-shrink:0;"><span>${ru ? 'Войди чтобы увидеть' : 'Login to view'}</span>`;
                 card.appendChild(ov);
             }
         }
