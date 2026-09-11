@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/solace-discord",
+      "destination": "https://discord.gg/fF5PMavGhA",
+      "permanent": true
+    },
+    {
+      "source": "/apace-discord",
+      "destination": "https://discord.gg/rsBwddmfcB",
+      "permanent": true
+    }
+  ]
+}
