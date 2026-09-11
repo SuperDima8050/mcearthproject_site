@@ -77,14 +77,14 @@
     <meta name="keywords" content="minecraft earth, minecraft earth revival, minecraft earth server, minecraft earth download, minecraft ar, mobile ar game, sandbox ar, minecraft earth android, minecraft earth ios, geolocation game, docker, minecraft community, ar gaming, survival game, building game, crafting game, minecraft texture, block game">
     <meta name="author" content="Revival Minecraft Earth Team">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://mcearthproject.qzz.io/">
+    <link rel="canonical" href="https://mcearthproject.eu.org/">
     <meta http-equiv="Content-Security-Policy" content="default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; img-src * data: blob:; font-src * data:; connect-src *; frame-src *;">
     
     
     <meta property="og:title" content="Revival Minecraft Earth">
     <meta property="og:description" content="An AR project to revive Minecraft Earth using the Vienna Docker">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mcearthproject.qzz.io/">
+    <meta property="og:url" content="https://mcearthproject.eu.org/">
     <meta property="og:image" content="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/favicon.ico">
     
     
@@ -1879,6 +1879,17 @@
             background-image: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/compass_atlas_icon.png');
             background-repeat: no-repeat;
             background-size: 480px 192px; 
+            image-rendering: pixelated;
+            background-position: 0px 0px;
+            margin-bottom: 12px;
+        }
+        .mine-loader {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            background-image: url('https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/mine_chop_dig_animation.icon.png');
+            background-repeat: no-repeat;
+            background-size: 576px 384px;
             image-rendering: pixelated;
             background-position: 0px 0px;
             margin-bottom: 12px;
@@ -5938,7 +5949,7 @@
         const EMAILJS_SERVICE_ID  = 'service_2j4ldbe';           
         const EMAILJS_VERIFY_TPL  = 'template_htad8aq';   
         const EMAILJS_RESET_TPL   = 'template_rxtcd4f';    
-        const SITE_URL = 'https://mcearthproject.qzz.io';
+        const SITE_URL = 'https://mcearthproject.eu.org';
 
         (function() {
             if (EMAILJS_PUBLIC_KEY !== 'YOUR_EMAILJS_PUBLIC_KEY') {
@@ -6106,7 +6117,7 @@
                     <div class="author-links">
                         <a href="https://discord.com/users/1203235739752595487" class="link" target="_blank"><i class="fab fa-discord"></i> @superdima8050</a>
                         <a href="https://github.com/SuperDima8050" class="link" target="_blank"><i class="fab fa-github"></i> github.com/SuperDima8050</a>
-                        <a href="https://mcearthproject.qzz.io" class="link" target="_blank"><i class="fas fa-globe"></i> mcearthproject.qzz.io</a>
+                        <a href="https://mcearthproject.eu.org" class="link" target="_blank"><i class="fas fa-globe"></i> mcearthproject.eu.org</a>
                     </div>
                 </div>
                 <div class="author-card" id="author-kostyaniche">
@@ -7509,7 +7520,7 @@
 
             let imageUrl = null;
             if (imageFile) {
-                showNewsStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 50);
+                showNewsStatus('loading', `${ru ? '<div class="mine-loader" style="width:14px;height:14px;background-size:168px 112px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="mine-loader" style="width:14px;height:14px;background-size:168px 112px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 50);
                 const ext = imageFile.name.split('.').pop().toLowerCase();
                 const imagePath = 'news/' + Date.now() + '_' + Math.random().toString(36).slice(2,8) + '.' + ext;
                 const { error: imgError } = await sbClient.storage
@@ -10381,6 +10392,12 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             const file = input.files[0];
             if (!file) return;
             if (file.size > 2 * 1024 * 1024) { alert(ru ? '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Файл слишком большой (макс 2MB)' : '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> File too large (max 2MB)'); return; }
+            const avatarWrap = document.getElementById('bp-profile-avatar-wrap');
+            const loaderOverlay = document.createElement('div');
+            loaderOverlay.id = 'bp-avatar-upload-loader';
+            loaderOverlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);border-radius:50%;z-index:2;';
+            loaderOverlay.innerHTML = '<div class="mine-loader" style="width:28px;height:28px;background-size:336px 224px;margin-bottom:0;"></div>';
+            if (avatarWrap) { avatarWrap.style.position = 'relative'; avatarWrap.appendChild(loaderOverlay); }
             try {
                 const ext = file.name.split('.').pop().toLowerCase();
                 const path = `avatars/${currentAccount.nick.replace(/[^a-zA-Z0-9_]/g,'_')}_${Date.now()}.${ext}`;
@@ -10394,6 +10411,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 setLoggedIn(currentAccount.nick, currentAccount.verified, avatarUrl, currentAccount.email, currentAccount.email_verified);
                 showInfoBanner(ru?'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Иконка обновлена!':'<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Avatar updated!', 'success');
             } catch(e) { alert('<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> ' + (e.message || e)); }
+            finally { const el = document.getElementById('bp-avatar-upload-loader'); if (el) el.remove(); }
         }
 
         function showRenameModal() {
@@ -10575,7 +10593,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             submitBtn.disabled = true;
             showBpStatus('', '');
 
-            showBpStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 25);
+            showBpStatus('loading', `${ru ? '<div class="mine-loader" style="width:14px;height:14px;background-size:168px 112px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем изображение...' : '<div class="mine-loader" style="width:14px;height:14px;background-size:168px 112px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading image...'}`, 25);
 
             let imagePath, worldPath;
 
@@ -12136,7 +12154,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 
             submitBtn.disabled = true;
 
-            showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 10);
+            showStatus('loading', `${ru ? '<div class="mine-loader" style="width:14px;height:14px;background-size:168px 112px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="mine-loader" style="width:14px;height:14px;background-size:168px 112px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 10);
 
             try {
                 const ts = Date.now();
@@ -12146,7 +12164,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
 const ext = imageFile.name.split('.').pop().toLowerCase();
 const imagePath = `gallery/${safeName}_${ts}.${ext}`;
 
-showStatus('loading', `${ru ? '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="compass-loader" style="width:14px;height:14px;background-size:140px 56px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 50);
+showStatus('loading', `${ru ? '<div class="mine-loader" style="width:14px;height:14px;background-size:168px 112px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Загружаем фото...' : '<div class="mine-loader" style="width:14px;height:14px;background-size:168px 112px;display:inline-block;vertical-align:middle;margin-right:5px;flex-shrink:0;"></div>Uploading photo...'}`, 50);
 
 const { error: uploadErr } = await sbClient.storage
     .from('buildplates')
@@ -13338,6 +13356,26 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             el._compassIntervalId = id;
         }
 
+        const MINE_FRAME_COUNT = 96;
+        const MINE_COLS = 12;
+        const MINE_FPS = 20;
+
+        function animateMineLoader(el) {
+            let frame = 0;
+            const id = setInterval(() => {
+                if (!document.contains(el)) { clearInterval(id); return; }
+                const bgSize = el.style.backgroundSize || getComputedStyle(el).backgroundSize;
+                const sizeMatch = bgSize.match(/^([\d.]+)px/);
+                const totalWidth = sizeMatch ? parseFloat(sizeMatch[1]) : 576;
+                const frameSize = totalWidth / MINE_COLS;
+                const col = frame % MINE_COLS;
+                const row = Math.floor(frame / MINE_COLS);
+                el.style.backgroundPosition = (-col * frameSize) + 'px ' + (-row * frameSize) + 'px';
+                frame = (frame + 1) % MINE_FRAME_COUNT;
+            }, Math.round(1000 / MINE_FPS));
+            el._mineIntervalId = id;
+        }
+
         
         const observer = new MutationObserver(mutations => {
             mutations.forEach(m => {
@@ -13349,6 +13387,12 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
                     if (node.classList && node.classList.contains('compass-loader') && !node._compassIntervalId) {
                         animateCompass(node);
                     }
+                    node.querySelectorAll('.mine-loader').forEach(el => {
+                        if (!el._mineIntervalId) animateMineLoader(el);
+                    });
+                    if (node.classList && node.classList.contains('mine-loader') && !node._mineIntervalId) {
+                        animateMineLoader(node);
+                    }
                 });
             });
         });
@@ -13358,6 +13402,9 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.compass-loader').forEach(el => {
                 if (!el._compassIntervalId) animateCompass(el);
+            });
+            document.querySelectorAll('.mine-loader').forEach(el => {
+                if (!el._mineIntervalId) animateMineLoader(el);
             });
         });
     })();
@@ -13431,7 +13478,7 @@ setTimeout(applyProtectedBlur, 500);
 })();
 
 const SUBDOMAIN_FN      = 'https://sqlylxcnoqehorlgmztm.supabase.co/functions/v1/manage-subdomain';
-const SUBDOMAIN_DOMAIN  = 'mcearthproject.qzz.io';
+const SUBDOMAIN_DOMAIN  = 'mcearthproject.eu.org';
 const SUBDOMAIN_SITEKEY = '0x4AAAAAACZyA1UOix1SiYwF';
 let _sdTsId = null;
 let _sdModalLocked = false; 
