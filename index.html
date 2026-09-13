@@ -8133,7 +8133,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     input.addEventListener('change', function(e) {
                         const file = e.target.files[0];
                         if (file) {
-                            nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name;
+                            nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name;
                             nameEl.style.color = '#6b8e23';
                         } else {
                             nameEl.textContent = '';
@@ -8544,7 +8544,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
 
             nameEl.style.color = '';
-            nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name + ' (' + formatSize(file.size) + ')';
+            nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name + ' (' + formatSize(file.size) + ')';
         });
 
         document.addEventListener('dragover', e => {
@@ -8604,7 +8604,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
             const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
             nameEl.style.color = '';
-            nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name + ' (' + formatSize(file.size) + ')';
+            nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/buildplate_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name + ' (' + formatSize(file.size) + ')';
         });
 
         async function checkImageMagicBytes(file) {
