@@ -7386,7 +7386,7 @@
             window._reportImgChanged = function(input) {
                 const nameEl = document.getElementById('report-img-name');
                 if (input.files && input.files[0]) {
-                    if (nameEl) nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;">' + input.files[0].name;
+                    if (nameEl) nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;">' + input.files[0].name;
                 } else {
                     if (nameEl) nameEl.textContent = '';
                 }
@@ -8434,7 +8434,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                     return;
                 }
                 nameEl.style.color = '';
-                nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name;
+                nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name;
             }
         });
 
@@ -8466,7 +8466,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 }
                 const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
                 nameEl.style.color = '';
-                nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name;
+                nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name;
             });
         })();
 
@@ -8500,7 +8500,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
             const input = document.getElementById('nadmin-image-input');
             if (input) { const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files; }
-            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name; }
+            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name; }
         });
         document.addEventListener('change', e => {
             if (e.target.id !== 'nadmin-image-input') return;
@@ -8519,7 +8519,7 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                 return;
             }
             
-            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name; }
+            if (nameEl) { nameEl.style.color = ''; nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name; }
         });
 
         document.getElementById('bp-world-input').addEventListener('change', async function() {
@@ -12556,7 +12556,7 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
             }
             
             const nameEl = document.getElementById('report-img-name');
-            if (nameEl) nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;">' + file.name;
+            if (nameEl) nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/paint_item.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;">' + file.name;
         };
 
         // Hook into setLoggedIn/doLogout to update gallery auth state
