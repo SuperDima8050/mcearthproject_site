@@ -14250,18 +14250,26 @@ function renderMerlMarkdown(raw){
     const lines = esc(raw).split('\n');
     let html = '';
     let i = 0;
-    let listType = null; // 'ul' | 'ol' | null
+    let listOpen = false; // any <ul>-style wrapper open (used for both bullet and numbered lines)
     let inCode = false;
     let codeBuf = [];
 
     function closeList(){
-        if(listType){ html += listType==='ol' ? '</ol>' : '</ul>'; listType = null; }
+        if(listOpen){ html += '</ul>'; listOpen = false; }
     }
     function inline(t){
         t = t.replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,.08);padding:1px 4px;border-radius:2px;">$1</code>');
         t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
         t = t.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
         return linkify(t);
+    }
+    function isTableRow(l){ return /^\s*\|.*\|\s*$/.test(l); }
+    function isTableSep(l){ return /^\s*\|?[\s:-]+\|[\s:|-]+\|?\s*$/.test(l) && l.includes('-'); }
+    function splitRow(l){
+        let t = l.trim();
+        if(t.startsWith('|')) t = t.slice(1);
+        if(t.endsWith('|')) t = t.slice(0, -1);
+        return t.split('|').map(c => c.trim());
     }
 
     while(i < lines.length){
@@ -14278,6 +14286,23 @@ function renderMerlMarkdown(raw){
         }
         if(inCode){ codeBuf.push(line); i++; continue; }
 
+        // Markdown table: header row + separator row (| --- | --- |)
+        if(isTableRow(line) && i+1 < lines.length && isTableSep(lines[i+1])){
+            closeList();
+            const headCells = splitRow(line);
+            let tbl = '<table style="border-collapse:collapse;margin:6px 0;width:100%;font-size:8.5px;">';
+            tbl += '<tr>' + headCells.map(c => `<th style="border:1px solid rgba(255,255,255,.15);padding:4px 6px;background:rgba(255,255,255,.06);text-align:left;color:#ffd479;">${inline(c)}</th>`).join('') + '</tr>';
+            i += 2;
+            while(i < lines.length && isTableRow(lines[i])){
+                const cells = splitRow(lines[i]);
+                tbl += '<tr>' + cells.map(c => `<td style="border:1px solid rgba(255,255,255,.15);padding:4px 6px;">${inline(c)}</td>`).join('') + '</tr>';
+                i++;
+            }
+            tbl += '</table>';
+            html += tbl;
+            continue;
+        }
+
         if(/^\s*---+\s*$/.test(line)){
             closeList();
             html += '<hr style="border:none;border-top:1px solid rgba(255,255,255,.15);margin:6px 0;">';
@@ -14293,13 +14318,14 @@ function renderMerlMarkdown(raw){
             i++; continue;
         }
 
+        // Numbered line — show the exact digit the AI wrote, never re-numbered by the browser
         if((m = /^\s*(\d+)\.\s+(.*)$/.exec(line))){
-            if(listType !== 'ol'){ closeList(); html += '<ol style="margin:2px 0 2px 16px;padding:0;">'; listType = 'ol'; }
-            html += `<li style="margin-bottom:2px;">${inline(m[2])}</li>`;
+            if(!listOpen){ html += '<ul style="list-style:none;margin:2px 0 2px 0;padding:0;">'; listOpen = true; }
+            html += `<li style="display:flex;gap:6px;margin-bottom:2px;"><span style="flex-shrink:0;">${m[1]}.</span><span>${inline(m[2])}</span></li>`;
             i++; continue;
         }
         if((m = /^\s*[-*]\s+(.*)$/.exec(line))){
-            if(listType !== 'ul'){ closeList(); html += '<ul style="margin:2px 0 2px 16px;padding:0;">'; listType = 'ul'; }
+            if(!listOpen){ html += '<ul style="margin:2px 0 2px 16px;padding:0;">'; listOpen = true; }
             html += `<li style="margin-bottom:2px;">${inline(m[1])}</li>`;
             i++; continue;
         }
