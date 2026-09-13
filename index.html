@@ -14149,7 +14149,7 @@ window.mwSend=async function(){
             }
         }
         if(!full) throw new Error('empty response');
-        if(typeof makeLinksClickable==='function') bub.innerHTML=makeLinksClickable(bub.textContent);
+        if(typeof renderMerlMarkdown==='function') bub.innerHTML=renderMerlMarkdown(bub.textContent);
         success=true;
     }catch(err){
         removeEl(tid);
