@@ -53,21 +53,6 @@
             font-weight: 400;
             font-style: normal;
         }
-
-        .px-badge-ok, .px-badge-err, .px-badge-lock {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 14px; height: 14px; border-radius: 1px;
-            vertical-align: middle; margin-right: 5px; flex-shrink: 0;
-        }
-        .px-badge-ok   { background: #2e7d32; }
-        .px-badge-err  { background: #c62828; border: 1px solid #8b0000; }
-        .px-badge-lock { background: #8b7355; border: 1px solid #5a4a3a; }
-        .px-badge-ok i, .px-badge-err i, .px-badge-lock i {
-            font-size: 8px; color: #fff; line-height: 1;
-        }
-        body.dark-theme .px-badge-ok   { background: #388e3c; }
-        body.dark-theme .px-badge-err  { background: #d32f2f; border-color: #c62828; }
-        body.dark-theme .px-badge-lock { background: #6d5a46; border-color: #4a3b2e; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -564,8 +549,7 @@
             color: #aed581;
         }
 
-        body.dark-theme .tailscale-code,
-        body.dark-theme .code-text {
+        body.dark-theme .tailscale-code {
             background: #1a1a1a;
             color: #8bc34a;
             border-color: #3a3a3a;
@@ -952,26 +936,6 @@
             color: #5a4a3a;
             margin-bottom: 10px;
             font-weight: 700;
-        }
-
-        .code-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .code-text {
-            background: #fffbf0;
-            padding: 12px 20px;
-            border-radius: 2px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #3e2723;
-            border: 3px solid #8b7355;
-            letter-spacing: 2px;
         }
 
         .copy-btn {
@@ -1564,31 +1528,6 @@
             transition: background .15s;
         }
         .news-carousel-dot.active { background: rgba(255,255,255,0.85); }
-        /* Carousel lightbox */
-        .nc-lightbox {
-            position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.9);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .nc-lightbox img {
-            max-width: 92vw; max-height: 88vh;
-            object-fit: contain; border-radius: 3px;
-            border: 3px solid rgba(255,255,255,0.2);
-        }
-        .nc-lightbox-close {
-            position: absolute; top: 16px; right: 16px;
-            background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.3);
-            color: #fff; width: 32px; height: 32px; border-radius: 2px;
-            font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
-        .nc-lightbox-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.55); border: 2px solid rgba(255,255,255,0.3);
-            color: #fff; width: 36px; height: 36px; border-radius: 2px;
-            font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
-        .nc-lightbox-nav.prev { left: 12px; }
-        .nc-lightbox-nav.next { right: 12px; }
         /* carousel upload preview */
         .nc-upload-previews {
             display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
@@ -2302,46 +2241,6 @@
 
         body.dark-theme .bp-logout-btn { color: #a5d6a7; border-color: #4caf50; }
 
-        .bp-verified-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-            background: linear-gradient(135deg, #1877f2, #1256b8);
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 800;
-            font-family: 'Minecraft', sans-serif;
-            padding: 2px 6px;
-            border-radius: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: 4px;
-            vertical-align: middle;
-        }
-
-        .bp-verified-badge i { font-size: 0.65rem; }
-
-        .ref-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-left: 3px;
-            font-size: 11px;
-            font-weight: 900;
-            flex-shrink: 0;
-            vertical-align: middle;
-            cursor: help;
-            border: 2px solid rgba(0,0,0,0.15);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .ref-badge-bronze { background: linear-gradient(135deg, #cd7f32, #a0522d); color: #fff3e0; }
-        .ref-badge-silver { background: linear-gradient(135deg, #c0c0c0, #888); color: #fff; }
-        .ref-badge-gold   { background: linear-gradient(135deg, #ffd700, #ffa500); color: #5a3e00; }
-        .ref-badge-diamond{ background: linear-gradient(135deg, #a8edff, #5bc8e8); color: #003d5c; }
         .ref-mob-badge {
             display: inline-block;
             vertical-align: middle;
@@ -2848,61 +2747,6 @@
         .news-carousel-arrow.prev { left: -13px; }
         .news-carousel-arrow.next { right: -13px; }
         .news-carousel-arrow:disabled { opacity: 0.25; cursor: default; }
-        /* Carousel lightbox */
-        .nc-lightbox {
-            position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.92);
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-        }
-        .nc-lightbox-img {
-            max-width: 92vw; max-height: 78vh;
-            object-fit: contain; border-radius: 4px;
-            image-rendering: auto;
-        }
-        .nc-lightbox-dots {
-            display: flex; gap: 6px; margin-top: 12px;
-        }
-        .nc-lightbox-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: rgba(255,255,255,0.35); cursor: pointer;
-            transition: background .15s;
-        }
-        .nc-lightbox-dot.active { background: #fff; }
-        .nc-lightbox-close {
-            position: absolute; top: 16px; right: 16px;
-            background: rgba(0,0,0,0.5); border: 1.5px solid rgba(255,255,255,0.3);
-            color: #fff; width: 32px; height: 32px; border-radius: 2px;
-            font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
-        .nc-lightbox-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.5); border: 1.5px solid rgba(255,255,255,0.25);
-            color: #fff; width: 36px; height: 36px; border-radius: 2px;
-            font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
-        .nc-lightbox-nav.prev { left: 12px; }
-        .nc-lightbox-nav.next { right: 12px; }
-        /* Carousel upload preview */
-        .nadmin-carousel-previews {
-            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
-        }
-        .nadmin-carousel-thumb {
-            width: 60px; height: 60px; border-radius: 3px;
-            object-fit: cover; border: 2px solid rgba(255,255,255,0.2);
-            cursor: pointer; position: relative;
-        }
-        .nadmin-carousel-thumb-wrap {
-            position: relative; width: 60px; height: 60px;
-        }
-        .nadmin-carousel-thumb-rm {
-            position: absolute; top: -6px; right: -6px;
-            width: 16px; height: 16px; border-radius: 50%;
-            background: #c62828; border: 1.5px solid #8b0000;
-            color: #fff; font-size: 8px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 2; padding: 0;
-        }
         /* ───────────────────────────────────────────── */
         .bp-file-label.news-upload {
             background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
@@ -3242,219 +3086,6 @@
                 padding: 5px 8px;
                 margin-top: 5px;
             }
-        }
-
-        
-        #gallery-photo-upload-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            position: relative;
-        }
-
-        .drag-drop-container {
-            position: relative;
-            min-height: 220px;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .drag-drop-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(107, 142, 35, 0.08) 0%, rgba(107, 142, 35, 0.12) 100%);
-            border: 3px dashed #8b7355;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(2px);
-        }
-
-        .drag-drop-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-            background: linear-gradient(135deg, rgba(107, 142, 35, 0.12) 0%, rgba(107, 142, 35, 0.18) 100%);
-            border-color: #6b8e23;
-            border-style: solid;
-        }
-
-        .drag-drop-overlay.drag-over {
-            opacity: 1;
-            pointer-events: all;
-            background: linear-gradient(135deg, rgba(107, 142, 35, 0.18) 0%, rgba(107, 142, 35, 0.25) 100%);
-            border-color: #6b8e23;
-            border-style: solid;
-            transform: scale(1.02);
-            box-shadow: 0 12px 32px rgba(107, 142, 35, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-            animation: dropPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes dropPulse {
-            0%, 100% { 
-                box-shadow: 0 12px 32px rgba(107, 142, 35, 0.4);
-                border-color: #6b8e23;
-            }
-            50% { 
-                box-shadow: 0 16px 40px rgba(107, 142, 35, 0.6);
-                border-color: #7cb342;
-            }
-        }
-
-        .drag-drop-content {
-            text-align: center;
-            padding: 24px;
-            color: #5a4a3a;
-        }
-
-        .drag-drop-content i {
-            font-size: 3.5rem;
-            color: #6b8e23;
-            margin-bottom: 16px;
-            transition: transform 0.3s ease;
-        }
-
-        .drag-drop-overlay.drag-over .drag-drop-content i {
-            transform: scale(1.1);
-            color: #4a5d23;
-        }
-
-        .photo-upload-row {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            position: relative;
-            z-index: 5;
-        }
-
-        .gallery-photo-label {
-            width: 100%;
-            box-sizing: border-box;
-            position: relative;
-            z-index: 5;
-        }
-
-        
-        @media (max-width: 768px) {
-            #gallery-photo-upload-container {
-                gap: 14px;
-            }
-            
-            .drag-drop-container {
-                min-height: 180px;
-            }
-            
-            .drag-drop-content {
-                padding: 20px;
-            }
-            
-            .drag-drop-content i {
-                font-size: 3rem;
-                margin-bottom: 14px;
-            }
-            
-            .photo-upload-row {
-                gap: 6px;
-            }
-            
-            .gallery-photo-label {
-                padding: 14px 16px;
-                font-size: 0.9rem;
-            }
-            
-            .bp-formats {
-                font-size: 0.68rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #gallery-photo-upload-container {
-                gap: 12px;
-            }
-            
-            .drag-drop-container {
-                min-height: 160px;
-            }
-            
-            .drag-drop-content {
-                padding: 16px;
-            }
-            
-            .drag-drop-content i {
-                font-size: 2.5rem !important;
-                margin-bottom: 12px !important;
-            }
-            
-            .drag-drop-content p:first-of-type {
-                font-size: 0.9rem !important;
-                margin-bottom: 8px !important;
-            }
-            
-            .drag-drop-content p:nth-of-type(2) {
-                font-size: 0.8rem !important;
-            }
-            
-            .drag-drop-content p:last-of-type {
-                font-size: 0.7rem !important;
-                margin-top: 8px !important;
-            }
-            
-            .gallery-photo-label {
-                padding: 12px 14px;
-                font-size: 0.85rem;
-            }
-            
-            .bp-formats {
-                font-size: 0.65rem;
-            }
-        }
-
-        
-        body.dark-theme .drag-drop-overlay {
-            background: linear-gradient(135deg, rgba(124, 179, 66, 0.12) 0%, rgba(124, 179, 66, 0.18) 100%);
-            border-color: #8b7355;
-        }
-
-        body.dark-theme .drag-drop-overlay.active {
-            background: linear-gradient(135deg, rgba(124, 179, 66, 0.18) 0%, rgba(124, 179, 66, 0.25) 100%);
-            border-color: #7cb342;
-        }
-
-        body.dark-theme .drag-drop-overlay.drag-over {
-            background: linear-gradient(135deg, rgba(124, 179, 66, 0.25) 0%, rgba(124, 179, 66, 0.35) 100%);
-            border-color: #7cb342;
-            box-shadow: 0 12px 32px rgba(124, 179, 66, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-            animation: dropPulseDark 1.5s ease-in-out infinite;
-        }
-
-        @keyframes dropPulseDark {
-            0%, 100% { 
-                box-shadow: 0 12px 32px rgba(124, 179, 66, 0.5);
-                border-color: #7cb342;
-            }
-            50% { 
-                box-shadow: 0 16px 40px rgba(124, 179, 66, 0.7);
-                border-color: #8bc34a;
-            }
-        }
-
-        body.dark-theme .drag-drop-content {
-            color: #e0e0e0;
-        }
-
-        body.dark-theme .drag-drop-content i {
-            color: #7cb342;
-        }
-
-        body.dark-theme .drag-drop-overlay.drag-over .drag-drop-content i {
-            color: #8bc34a;
         }
 
         
@@ -3816,23 +3447,6 @@
             color: #fff !important;
         }
 
-        .bp-verified-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 16px;
-            height: 16px;
-            background: #1da1f2;
-            border-radius: 50%;
-            margin-left: 4px;
-            cursor: help;
-        }
-
-        .bp-verified-badge i {
-            color: white;
-            font-size: 9px;
-        }
-
         .lb-section { margin-bottom: 28px; }
         .lb-tabs {
             display: flex;
@@ -3973,9 +3587,6 @@
             min-width: 28px;
             text-align: center;
         }
-        .lb-rank-1 { color: #f4b400; }
-        .lb-rank-2 { color: #9e9e9e; }
-        .lb-rank-3 { color: #a0522d; }
         .lb-rank-other { color: #8b7355; font-size: 0.8rem; }
         body.dark-theme .lb-rank-other { color: #666; }
         .lb-avatar {
@@ -5058,13 +4669,6 @@
             }
 
             
-            .donate-modal {
-                max-width: calc(100vw - 24px) !important;
-                width: calc(100vw - 24px) !important;
-                box-sizing: border-box;
-                padding: 16px 14px !important;
-            }
-            
             .cookie-modal {
                 max-width: calc(100vw - 24px) !important;
                 width: calc(100vw - 24px) !important;
@@ -5380,68 +4984,6 @@
         .cookie-settings-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #3e2f1f; }
         body.dark-theme .cookie-settings-btn { color: #e0e0e0; background: #2a2a2a; border-color: #3a3a3a; box-shadow: 0 4px 0 #0a0a0a; }
 
-        .donate-btn {
-            font-family: 'Minecraft', sans-serif;
-            font-size: 0.78rem; font-weight: 700;
-            padding: 6px 8px; border-radius: 2px;
-            border: 3px solid #c17f24;
-            background: linear-gradient(180deg, #f9a825 0%, #c17f24 100%);
-            color: #3e2000; cursor: pointer;
-            box-shadow: 0 4px 0 #7f5200;
-            display: flex; align-items: center; gap: 5px;
-            transition: transform 0.1s, box-shadow 0.1s;
-            white-space: nowrap;
-        }
-        .donate-btn span { display: none; }
-        @media (min-width: 900px) {
-            .donate-btn { padding: 6px 12px; }
-            .donate-btn span { display: inline; }
-        }
-        .donate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #7f5200; }
-        .donate-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #7f5200; }
-        body.dark-theme .donate-btn { border-color: #f9a825; background: linear-gradient(180deg,#f9a825,#c17f24); color: #1a0a00; }
-
-        .donate-modal-overlay {
-            position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.7);
-            display: flex; align-items: center; justify-content: center;
-            padding: 20px; box-sizing: border-box;
-        }
-        .donate-modal {
-            background: #f5ede0; border: 4px solid #8b7355;
-            border-radius: 4px; box-shadow: 0 8px 0 #3e2723, 0 0 0 2px #3e2723;
-            padding: 28px 24px; max-width: 420px; width: 100%;
-            font-family: 'Minecraft', sans-serif; text-align: center;
-        }
-        body.dark-theme .donate-modal { background: #1e1e1e; border-color: #3a3a3a; }
-        .donate-modal-title {
-            font-size: 1.2rem; font-weight: 700; color: #3e2723;
-            margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        body.dark-theme .donate-modal-title { color: #e0e0e0; }
-        .donate-modal-desc {
-            font-size: 0.78rem; color: #5a4a3a; margin-bottom: 18px; line-height: 1.6;
-        }
-        body.dark-theme .donate-modal-desc { color: #aaa; }
-        .donate-modal-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-        .donate-option {
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px 14px; border-radius: 3px;
-            border: 2px solid #b09070; background: #fff8f0;
-            font-family: 'Minecraft', sans-serif; font-size: 0.78rem;
-            font-weight: 700; color: #3e2723; text-decoration: none;
-            transition: all 0.1s; cursor: pointer;
-        }
-        .donate-option:hover { background: #ffe0b2; border-color: #c17f24; transform: translateY(-1px); }
-        body.dark-theme .donate-option { background: #2a2a2a; border-color: #3a3a3a; color: #e0e0e0; }
-        body.dark-theme .donate-option:hover { background: #333; border-color: #f9a825; }
-        .donate-modal-close {
-            font-family: 'Minecraft', sans-serif; font-size: 0.78rem;
-            padding: 8px 20px; border: 2px solid #8b7355; border-radius: 2px;
-            background: none; color: #8b7355; cursor: pointer;
-        }
-        .donate-modal-close:hover { background: rgba(139,115,85,0.1); }
-
         /* Privacy modal dark theme */
         .privacy-modal-inner {
             scrollbar-width: thin;
@@ -5745,11 +5287,6 @@
         }
 
         @media (max-width: 480px) {
-            .code-text {
-                font-size: 0.78rem;
-                letter-spacing: 0.5px;
-                padding: 8px 6px;
-            }
             .step {
                 padding: 12px 10px;
                 gap: 10px;
@@ -5793,23 +5330,6 @@
                 width: 100%;
                 text-align: center;
                 padding: 12px;
-            }
-
-            .code-container {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-                width: 100%;
-            }
-
-            .code-text {
-                font-size: 0.85rem;
-                letter-spacing: 1px;
-                text-align: center;
-                word-break: keep-all;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
             
             
@@ -8566,57 +8086,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             if (window.turnstile) window.turnstile.render(div);
         }
 
-        
-        function copyToClipboard(text) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showSuccess();
-                }).catch(err => {
-                    fallbackCopy(text);
-                });
-            } else {
-                fallbackCopy(text);
-            }
-        }
-
-        function fallbackCopy(text) {
-            const tempInput = document.createElement('input');
-            tempInput.value = text;
-            tempInput.style.position = 'fixed';
-            tempInput.style.top = '0';
-            tempInput.style.left = '0';
-            tempInput.style.opacity = '0';
-            document.body.appendChild(tempInput);
-            tempInput.focus();
-            tempInput.select();
-            
-            try {
-                document.execCommand('copy');
-                showSuccess();
-            } catch (err) {
-                console.error('Copy failed:', err);
-            }
-            
-            document.body.removeChild(tempInput);
-        }
-
-        function showSuccess() {
-            const btn = document.querySelector('.copy-btn');
-            const originalHTML = btn.innerHTML;
-            
-            const copiedText = currentLang === 'ru' ? 
-                '<i class="fas fa-check"></i> <span>Скопировано!</span>' : 
-                '<i class="fas fa-check"></i> <span>Copied!</span>';
-            
-            btn.innerHTML = copiedText;
-            btn.style.background = '#28a745';
-            
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.style.background = '';
-            }, 2000);
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
             let savedLang; try { savedLang = localStorage.getItem('preferred-language'); } catch(e) { savedLang = null; }
             const initLang = (savedLang === 'en') ? 'en' : 'ru';
@@ -8670,134 +8139,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                             nameEl.textContent = '';
                         }
                     });
-                }
-            }
-
-            
-            const galleryContainer = document.getElementById('gallery-photo-upload-container');
-            const dragOverlay = document.getElementById('gallery-drag-overlay');
-            
-            if (galleryContainer && dragOverlay) {
-                
-                galleryContainer.addEventListener('dragenter', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dragOverlay.classList.add('active');
-                });
-
-                galleryContainer.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dragOverlay.classList.add('drag-over');
-                });
-
-                galleryContainer.addEventListener('dragleave', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (!e.relatedTarget || !galleryContainer.contains(e.relatedTarget)) {
-                        dragOverlay.classList.remove('active', 'drag-over');
-                    }
-                });
-
-                galleryContainer.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dragOverlay.classList.remove('active', 'drag-over');
-
-                    const files = Array.from(e.dataTransfer.files);
-                    const validFiles = files.filter(file => {
-                        const ext = file.name.split('.').pop().toLowerCase();
-                        const isValidFormat = ['png', 'jpg', 'jpeg', 'webp'].includes(ext);
-                        const isValidSize = file.size <= 10 * 1024 * 1024; 
-                        return isValidFormat && isValidSize;
-                    });
-
-                    const oversizedFiles = files.filter(file => file.size > 10 * 1024 * 1024);
-                    if (oversizedFiles.length > 0) {
-                        const ru = currentLang === 'ru';
-                        showInfoBanner(
-                            ru ? '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Максимальный размер файла - 10MB!' : '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Maximum file size is 10MB!',
-                            'error'
-                        );
-                        return;
-                    }
-
-                    if (validFiles.length === 0) {
-                        const ru = currentLang === 'ru';
-                        showInfoBanner(
-                            ru ? '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Поддерживаются только PNG, JPG и WEBP файлы!' : '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Only PNG, JPG and WEBP files are supported!',
-                            'error'
-                        );
-                        return;
-                    }
-
-                    if (validFiles.length > 3) {
-                        const ru = currentLang === 'ru';
-                        showInfoBanner(
-                            ru ? '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Можно загрузить максимум 3 файла!' : '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Maximum 3 files can be uploaded!',
-                            'error'
-                        );
-                        return;
-                    }
-
-                    for (let i = 0; i < Math.min(validFiles.length, 3); i++) {
-                        const input = document.getElementById(`gallery-image-input-${i + 1}`);
-                        const nameEl = document.getElementById(`gallery-image-name-${i + 1}`);
-                        
-                        if (input && nameEl) {
-                            
-                            const dt = new DataTransfer();
-                            dt.items.add(validFiles[i]);
-                            input.files = dt.files;
-                            
-                            nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + validFiles[i].name;
-                            nameEl.style.color = '#6b8e23';
-                        }
-                    }
-
-                    const ru = currentLang === 'ru';
-                    const checkBadge = '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span>';
-                    const message = validFiles.length === 1 
-                        ? (ru ? `${checkBadge} Файл добавлен` : `${checkBadge} File added`)
-                        : (ru ? `${checkBadge} Добавлено ${validFiles.length} файла` : `${checkBadge} ${validFiles.length} files added`);
-                    
-                    showInfoBanner(message, 'success');
-                });
-
-                
-                dragOverlay.addEventListener('click', function() {
-                    const input = document.getElementById('gallery-image-input-1');
-                    if (input) {
-                        input.click();
-                    }
-                });
-
-                
-                for (let i = 1; i <= 3; i++) {
-                    const input = document.getElementById(`gallery-image-input-${i}`);
-                    const nameEl = document.getElementById(`gallery-image-name-${i}`);
-                    
-                    if (input && nameEl) {
-                        input.addEventListener('change', function() {
-                            const file = this.files[0];
-                            if (!file) {
-                                nameEl.innerHTML = '';
-                                return;
-                            }
-                            
-                            if (file.size > 10 * 1024 * 1024) {
-                                nameEl.style.color = '#c62828';
-                                nameEl.innerHTML = currentLang === 'ru' ? 
-                                    '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Слишком большой файл (макс. 10MB)' : 
-                                    '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> File too large (max 10MB)';
-                                this.value = '';
-                                return;
-                            }
-                            
-                            nameEl.innerHTML = '<img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/writetable_book_icon.png" style="width:14px;height:14px;object-fit:contain;image-rendering:pixelated;vertical-align:middle;margin-right:5px;flex-shrink:0;"> ' + file.name;
-                            nameEl.style.color = '#6b8e23';
-                        });
-                    }
                 }
             }
         });
@@ -9776,9 +9117,10 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
                         return;
                     }
                     if (!acc.email_verified) {
+                        window._pendingVerifyResend = { nick: acc.nick, email: acc.email };
                         showAuthStatus('err', ru
-                            ? '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Сначала подтверди email! Проверь почту.'
-                            : '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Please verify your email first! Check your inbox.');
+                            ? '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Сначала подтверди email! Проверь почту. <a href="#" onclick="resendVerifyEmail(event); return false;" style="color:#f57f17;text-decoration:underline;font-weight:700;">Отправить письмо ещё раз</a>'
+                            : '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Please verify your email first! Check your inbox. <a href="#" onclick="resendVerifyEmail(event); return false;" style="color:#f57f17;text-decoration:underline;font-weight:700;">Resend email</a>');
                         return;
                     }
                     if (acc.mfa_enabled && acc.mfa_secret) {
@@ -10142,19 +9484,23 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
         }
 
         async function resendVerifyEmail(e) {
-            e.preventDefault();
+            if (e && e.preventDefault) e.preventDefault();
             const ru = currentLang === 'ru';
-            if (!currentAccount || !currentAccount.email) return;
+            const pending = window._pendingVerifyResend;
+            const nick = (currentAccount && currentAccount.nick) || (pending && pending.nick);
+            const email = (currentAccount && currentAccount.email) || (pending && pending.email);
+            if (!nick || !email) return;
             try {
                 const token = generateToken();
-                await sbClient.from('accounts').update({ email_verify_token: token, email_verified: false }).ilike('nick', currentAccount.nick);
+                await sbClient.from('accounts').update({ email_verify_token: token, email_verified: false }).ilike('nick', nick);
                 await sendEmail(EMAILJS_VERIFY_TPL, {
-                    to_email: currentAccount.email, to_name: currentAccount.nick,
+                    to_email: email, to_name: nick,
                     verify_link: `${SITE_URL}?verify=${token}`, site_url: SITE_URL
                 });
                 showInfoBanner(ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Письмо отправлено! Проверь почту' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Verification email sent!', 'success');
             } catch(err) { showInfoBanner('<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> ' + err.message, 'error'); }
         }
+        window.resendVerifyEmail = resendVerifyEmail;
 
         function showForgotModal() {
             const ru = currentLang === 'ru';
@@ -11815,19 +11161,6 @@ document.addEventListener('DOMContentLoaded', markNoTranslate);
             }
         }
 
-        function showDonateModal() {
-            document.getElementById('donate-modal-overlay').style.display = 'flex';
-            const modal = document.querySelector('.donate-modal');
-            const handle = document.getElementById('donate-modal-handle');
-            if (modal && handle && !modal._dragInit) {
-                modal._dragInit = true;
-                makeDraggable(modal, handle);
-            }
-        }
-        function hideDonateModal() {
-            document.getElementById('donate-modal-overlay').style.display = 'none';
-        }
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') hideDonateModal(); });
 
         function showCookieModal() {
             const ex = document.getElementById('cookie-modal-overlay'); if (ex) ex.remove();
@@ -13363,26 +12696,6 @@ if (nameEl) { nameEl.textContent = ''; nameEl.style.color = ''; }
     })();
     </script>
 
-        <div class="donate-modal-overlay" id="donate-modal-overlay" style="display:none;" onclick="if(event.target===this)hideDonateModal()">
-            <div class="donate-modal">
-                <div class="donate-modal-title" id="donate-modal-handle" style="cursor:move;user-select:none;">
-                    <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/minecoin_icon.png" style="width:24px;height:24px;image-rendering:pixelated;object-fit:contain;">
-                    <span data-ru="Поддержать проект" data-en="Support the project">Поддержать проект</span>
-                    <span style="margin-left:auto;font-size:0.65rem;opacity:0.4;font-family:Minecraft,sans-serif;" data-ru="⠿ тащи" data-en="⠿ drag">⠿ тащи</span>
-                </div>
-                <div class="donate-modal-desc" data-ru="Поддержи разработку сайта и развитие сообщества. Любая сумма важна. Спасибо! ❤️" data-en="Support the website development and community growth. Every contribution matters. Thank you! ❤️">
-                    Поддержи разработку сайта и развитие сообщества. Любая сумма важна. Спасибо! ❤️
-                </div>
-                <div class="donate-modal-options">
-                    <a class="donate-option" href="https://www.donationalerts.com/r/superdima8051" target="_blank" rel="noopener">
-                        <img src="https://sqlylxcnoqehorlgmztm.supabase.co/storage/v1/object/public/icons/icon/minecoin_icon.png" style="width:20px;height:20px;image-rendering:pixelated;object-fit:contain;">
-                        <span data-ru="Задонатить через DonationAlerts" data-en="Donate via DonationAlerts">Задонатить через DonationAlerts</span>
-                    </a>
-                </div>
-                <button class="donate-modal-close" onclick="hideDonateModal()" data-ru="Закрыть" data-en="Close">Закрыть</button>
-            </div>
-        </div>
-
 <script>
 
 function applyProtectedBlur() {
@@ -13983,9 +13296,10 @@ async function loadCurrentSubdomain(force = false) {
             }
             overlay.remove();
             if (!acc.email_verified) {
+                window._pendingVerifyResend = { nick: acc.nick, email: acc.email };
                 showAuthStatus('err', ru
-                    ? '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Сначала подтверди email!'
-                    : '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Please verify your email first!');
+                    ? '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Сначала подтверди email! <a href="#" onclick="resendVerifyEmail(event); return false;" style="color:#f57f17;text-decoration:underline;font-weight:700;">Отправить письмо ещё раз</a>'
+                    : '<span class="err-icon-x" style="width:17px;height:17px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><span class="bar bar1"></span><span class="bar bar2"></span></span> Please verify your email first! <a href="#" onclick="resendVerifyEmail(event); return false;" style="color:#f57f17;text-decoration:underline;font-weight:700;">Resend email</a>');
                 return;
             }
             showAuthStatus('ok', ru ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Вход выполнен!' : '<span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#2e7d32;border-radius:1px;vertical-align:middle;margin-right:5px;flex-shrink:0;"><i class="fas fa-check" style="font-size:8px;color:#fff;line-height:1;"></i></span> Logged in!');
